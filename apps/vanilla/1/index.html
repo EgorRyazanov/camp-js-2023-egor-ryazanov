@@ -14,8 +14,8 @@
 		</div>
 	</header>
 	<main class="main">
-		<section class="filtered-books">
-			<div class="container filtered-books__container">
+		<section class="filtered-books container">
+			<div class="filtered-books__container">
 				<ul class="filtered-books__list">
 					<li class="filtered-books__item filtered-books__item--by-year filtered_cards">
 						<h3 class="filtered-cards__subtitle subtitle">
@@ -141,7 +141,34 @@
 					</li>
 				</ul>
 			</div>
+      <div class="filtered-books__filter">
+        <form action="#" class="filter__form ">
+          <h3 class="filter__title subtitle">filters</h3>
+          <input class="form__element form__element--input" name="search" placeholder='e.g. "Refactoring"' type="search">
+          <select class="form__element form__element--select" name="selector">
+            <option selected value="none">Choose sort field</option>
+            <option value="something">Length</option>
+          </select>
+          <div class="form__element form__element--checkbox-container">
+            <input class="form__element--checkbox" name="comics" type="checkbox">
+            <label for="comics">Show comics</label>
+          </div>
+        </form>
+      </div>
 		</section>
 	</main>
+	<footer class="footer">
+		<div class="container footer__container">
+			<div class="footer__information-section">
+				<span class="information-section__license"><b>Books App</b> © 2023</span>
+				<a href="#" class="information-section__href">Github</a>
+			</div>
+			<div class="footer__navigate-section">
+				<a class="navigate-section__href" href="#">
+					Go to top ↑
+				</a>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>

@@ -1,130 +1,279 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
-	--surface: rgb(255 255 255 / 100%);
-	--surface-overlay: rgb(255 255 255 / 5%);
-	--on-surface: rgb(0 0 0 / 100%);
-	--on-surface-dim: rgb(0 0 0 / 50%);
-	--primay: rgb(241 89 36 / 100%);
-	--on-primary: rgb(255 255 255);
-	--border: rgb(0 0 0 / 15%);
+  --surface: rgb(255 255 255 / 100%);
+  --surface-overlay: rgb(0 0 0 / 10%);
+  --on-surface: rgb(0 0 0 / 100%);
+  --on-surface-dim: rgb(0 0 0 / 50%);
+  --primary: rgb(241 89 36 / 100%);
+  --on-primary: rgb(255 255 255);
+  --border: rgb(0 0 0 / 15%);
 }
 
 body {
-	font-family: "Inter", sans-serif;
-	font-size: 400;
-	font-style: normal;
-	font-weight: 400;
-	min-height: 100vh;
-	justify-content: center;
+  font-family: Inter, sans-serif;
+  font-size: 400;
+  font-style: normal;
+  font-weight: 400;
+  min-height: 100vh;
+  justify-content: center;
 }
 
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-	width: 1244px;
-	margin: 0 auto;
+  width: 1244px;
+  margin: 0 auto;
 }
 
 ul,
 ol {
-	list-style: none;
+  list-style: none;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+select,
+input {
+  border: none;
 }
 
 /* recurring styles */
 
 .subtitle {
-	font-size: 18px;
-	line-height: 24px;
-	font-weight: 600;
-	text-transform: uppercase;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .body {
-	font-size: 20px;
-	font-weight: 400;
-	line-height: 32px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
 }
 
 .body--small {
-	font-size: 16px;
-	font-weight: 500;
-	line-height: 24px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
 }
 
 .logo {
-	font-size: 20px;
-	font-weight: 700;
-	line-height: 24px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
 }
 
 /* header */
 
 .header {
-	margin-bottom: 24px;
+  margin-bottom: 24px;
 }
 
 .header__container {
-	padding: 20px 0;
-	border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 /* filtered-books */
 
+.filtered-books {
+  position: relative;
+}
+
+.filtered-books__container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 80vh;
+}
+
+.filtered-books__container::-webkit-scrollbar {
+  display: none;
+}
+
 .filtered-books__list {
-	max-width: 900px;
+  max-width: 900px;
 }
 
 .filtered-books__item {
-	margin-bottom: 40px;
+  margin-bottom: 40px;
+  position: relative;
 }
 
 .filtered-books__item:last-child {
-	margin-bottom: 24px;
+  margin-bottom: 24px;
 }
 
 .filtered-cards__list {
-	display: flex;
-	flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .filtered-cards__subtitle {
-	margin-bottom: 24px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .filtered-cards__item {
-	width: 167.2px;
-	height: 306.8px;
-	margin-bottom: 16px;
-	margin-right: 16px;
+  width: 167.2px;
+  height: 306.8px;
+  margin-bottom: 16px;
+  margin-right: 16px;
 }
 
 .filtered-cards__item:nth-child(5n) {
-	margin-right: 0;
+  margin-right: 0;
 }
 
 .filtered-cards__card .card__header {
-	margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .filtered-cards__card .card__image {
-	border-radius: 24px;
-	width: 100%;
-	height: 250px;
-	object-fit: cover;
+  border-radius: 24px;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
 }
 
 .filtered-cards__card .card__body {
-	height: 48px;
+  height: 48px;
 }
 
 .filtered-cards__card .card__title {
-	overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* filter */
+
+.filtered-books__filter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+}
+
+.filter__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter__form .form__element {
+  padding: 8px 16px;
+  margin-bottom: 24px;
+  color: var(--on-surface-dim);
+  border-radius: 16px;
+  height: 48px;
+  font-size: 20;
+  line-height: 32px;
+}
+
+.filter__form .form__element:last-child {
+  margin-bottom: 0;
+}
+
+.filter__form .form__element--input {
+  padding-left: 48px;
+  background: url("../images/icons/search.svg") no-repeat 16px;
+  background-color: var(--surface-overlay);
+}
+
+.filter__form .form__element--select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  background: url("../images/icons/arrow.svg") no-repeat;
+  background-position: calc(100% - 16px) center;
+  background-color: var(--surface-overlay);
+}
+
+.filter__form .form__element:focus {
+  color: black;
+}
+
+.filter__form .form__element--select option:first-of-type {
+  display: none;
+}
+
+.filter__form .form__element--checkbox-container {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0;
+  font-size: 20px;
+  color: black;
+}
+
+.filter__form .form__element--checkbox {
+  position: relative;
+  padding: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  margin-right: 16px;
+  border-radius: 2px;
+}
+
+.filter__form .form__element--checkbox:checked {
+  border-color: var(--primary);
+}
+
+.filter__form .form__element--checkbox::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary);
+  border-radius: 2px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.filter__form .form__element--checkbox:checked::after {
+  display: block;
+}
+
+.filter__title {
+  margin-bottom: 24px;
+}
+
+/* footer */
+
+.footer__container {
+  padding: 24px 0;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+}
+
+.footer .information-section__license {
+  margin-right: 32px;
+  color: var(--on-surface);
+}
+
+.footer .information-section__href {
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--on-surface);
 }
