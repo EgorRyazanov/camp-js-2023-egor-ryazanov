@@ -6,6 +6,7 @@
 	<title>Book catalog</title>
 	<link rel="stylesheet" href="./css/normalize.css">
 	<link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/media.css">
 </head>
 <body>
 	<header class="header">
@@ -26,7 +27,8 @@
 								<article class="filtered-cards__card">
 									<div class="card__header">
 										<picture class="card__image-container">
-											<img class="card__image" src="./images/2020/1.png" alt="book image">
+                      <source srcset="./images/2020/1/1-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/2020/1/1-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -38,7 +40,8 @@
 								<article class="filtered-cards__card">
 									<div class="card__header">
 										<picture class="card__image-container">
-											<img class="card__image" src="./images/2020/2.png" alt="book image">
+                      <source srcset="./images/2020/2/2-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/2020/2/2-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -50,7 +53,8 @@
 								<article class="filtered-cards__card">
 									<div class="card__header">
 										<picture class="card__image-container">
-											<img class="card__image" src="./images/2020/3.png" alt="book image">
+                      <source srcset="./images/1980/6/6-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/2020/3/3-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -69,7 +73,8 @@
 								<article class="filtered-cards__card">
 									<div class="card__header">
 										<picture class="card__image-container">
-											<img class="card__image" src="./images/1980/1.png" alt="book image">
+                      <source srcset="./images/1980/1/1-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/1980/1/1-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -81,7 +86,8 @@
 								<article class="filtered-cards__card">
 									<div class="card__header">
 										<picture class="card__image-container">
-											<img class="card__image" src="./images/1980/2.png" alt="book image">
+                      <source srcset="./images/1980/2/2-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/1980/2/2-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -92,8 +98,9 @@
 							<li class="filtered-cards__item">
 								<article class="filtered-cards__card">
 									<div class="card__header">
-										<picture class="card__image-container">
-											<img class="card__image" src="./images/1980/3.png" alt="book image">
+                    <picture class="card__image-container">
+                      <source srcset="./images/1980/3/3-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/1980/3/3-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -105,7 +112,8 @@
 								<article class="filtered-cards__card">
 									<div class="card__header">
 										<picture class="card__image-container">
-											<img class="card__image" src="./images/1980/4.png" alt="book image">
+                      <source srcset="./images/1980/4/4-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/1980/4/4-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -117,7 +125,8 @@
 								<article class="filtered-cards__card">
 									<div class="card__header">
 										<picture class="card__image-container">
-											<img class="card__image" src="./images/1980/5.png" alt="book image">
+                      <source srcset="./images/1980/5/5-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/1980/5/5-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -129,7 +138,8 @@
 								<article class="filtered-cards__card">
 									<div class="card__header">
 										<picture class="card__image-container">
-											<img class="card__image" src="./images/1980/6.png" alt="book image">
+                      <source srcset="./images/1980/6/6-148px.png" media="(max-width: 552px)" />
+											<img class="card__image" src="./images/1980/6/6-167px.png" alt="book image">
 										</picture>
 									</div>
 									<div class="card__body">
@@ -142,8 +152,8 @@
 				</ul>
 			</div>
       <div class="filtered-books__filter">
+        <h3 class="filter__title subtitle">filters</h3>
         <form action="#" class="filter__form ">
-          <h3 class="filter__title subtitle">filters</h3>
           <input class="form__element form__element--input" name="search" placeholder='e.g. "Refactoring"' type="search">
           <select class="form__element form__element--select" name="selector">
             <option selected value="none">Choose sort field</option>

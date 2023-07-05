@@ -1,0 +1,126 @@
+@media screen and (max-width: 1280px) {
+  .container {
+    width: 1200px;
+  }
+
+  .filtered-books__filter {
+    width: 276px;
+  }
+}
+
+@media screen and (max-width: 1244px) {
+  .container {
+    width: 1000px;
+  }
+
+  .filtered-books__list {
+    max-width: 760px;
+  }
+
+  .filtered-cards__item:nth-child(5n) {
+    margin-right: 16px;
+  }
+
+  .filtered-cards__item:nth-child(4n) {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    width: 800px;
+  }
+
+  .header {
+    margin-bottom: 128px;
+  }
+
+  .filtered-books__filter {
+    width: 100%;
+    top: -110px;
+    left: 0;
+  }
+
+  .filter__form {
+    flex-direction: row;
+  }
+
+  .filter__form .form__element {
+    width: 100%;
+  }
+
+  .filter__form .form__element:not(:last-child) {
+    margin-right: 32px;
+  }
+}
+
+@media screen and (max-width: 836px) {
+  .container {
+    width: 535px;
+  }
+
+  .header {
+    margin-bottom: 272px;
+  }
+
+  .filtered-cards__subtitle {
+    padding-top: 24px;
+  }
+
+  .filtered-books__filter {
+    top: -248px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .filter__form {
+    flex-direction: column;
+  }
+
+  .filtered-cards__item:nth-child(4n) {
+    margin-right: 16px;
+  }
+
+  .filtered-cards__item:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 552px) {
+  .container {
+    width: 312px;
+  }
+
+  .filtered-cards__item {
+    width: 148px;
+    height: 278px;
+  }
+
+  .filtered-cards__card .card__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 48px;
+  }
+
+  .filtered-cards__item:nth-child(3n) {
+    margin-right: 16px;
+  }
+
+  .filtered-cards__item:nth-child(2n) {
+    margin-right: 0;
+  }
+
+  .footer__container {
+    flex-direction: column;
+  }
+
+  .footer__information-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+
+  .footer__navigate-section {
+    text-align: end;
+  }
+}
