@@ -1,0 +1,9 @@
+:root {
+  --surface: rgb(255 255 255 / 100%);
+  --surface-overlay: rgb(0 0 0 / 10%);
+  --on-surface: rgb(0 0 0 / 100%);
+  --on-surface-dim: rgb(0 0 0 / 50%);
+  --primary: rgb(241 89 36 / 100%);
+  --on-primary: rgb(255 255 255);
+  --border: rgb(0 0 0 / 15%);
+}
