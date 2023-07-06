@@ -10,11 +10,7 @@
 
 @media screen and (max-width: 1244px) {
   .container {
-    width: 1000px;
-  }
-
-  .filtered-books__list {
-    max-width: 760px;
+    width: 1020px;
   }
 
   .filtered-cards__item:nth-child(5n) {
@@ -26,19 +22,25 @@
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1024px) {
   .container {
     width: 800px;
   }
 
-  .header {
-    margin-bottom: 128px;
+  .filtered-books {
+    flex-direction: column-reverse;
   }
 
   .filtered-books__filter {
     width: 100%;
-    top: -110px;
-    left: 0;
+    height: 106px;
+    top: 0;
+    background-color: white;
+  }
+
+  .filtered-cards__subtitle {
+    padding-top: 24px;
+    top: 106px;
   }
 
   .filter__form {
@@ -59,17 +61,12 @@
     width: 535px;
   }
 
-  .header {
-    margin-bottom: 272px;
-  }
-
   .filtered-cards__subtitle {
-    padding-top: 24px;
+    top: 240px;
   }
 
   .filtered-books__filter {
-    top: -248px;
-    padding-bottom: 24px;
+    height: 240px;
     border-bottom: 1px solid var(--border);
   }
 
