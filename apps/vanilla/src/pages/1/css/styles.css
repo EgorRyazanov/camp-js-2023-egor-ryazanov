@@ -193,9 +193,6 @@ input {
 
 .filter__form .form__element--select {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
   background: url("../images/icons/arrow.svg") no-repeat;
   background-position: calc(100% - 16px) center;
   background-color: var(--surface-overlay);
@@ -222,9 +219,6 @@ input {
   position: relative;
   padding: 4px;
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
   width: 24px;
   height: 24px;
   border: 2px solid var(--border);
