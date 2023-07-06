@@ -153,13 +153,13 @@
         <h3 class="filter__title subtitle">filters</h3>
         <form action="#" class="filter__form ">
           <input class="form__element form__element--input" name="search" placeholder='e.g. "Refactoring"' type="search">
-          <select class="form__element form__element--select" name="selector">
-            <option selected value="none">Choose sort field</option>
+          <select required class="form__element form__element--select" name="selector">
+            <option selected disabled hidden value="">Choose sort field</option>
             <option value="something">Length</option>
           </select>
           <div class="form__element form__element--checkbox-container">
             <input class="form__element--checkbox" name="comics" type="checkbox">
-            <label for="comics">Show comics</label>
+            <label class="form__element--checkbox-label" for="comics">Show comics</label>
           </div>
         </form>
       </div>

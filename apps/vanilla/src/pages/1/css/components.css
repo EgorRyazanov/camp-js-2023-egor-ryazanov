@@ -33,7 +33,7 @@
 /* header */
 
 .header {
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 }
 
 .header__container {
@@ -45,12 +45,10 @@
 
 .filtered-books {
   display: flex;
-  position: relative;
 }
 
 .filtered-books__container {
-  display: flex;
-  position: relative;
+  margin-right: 24px;
 }
 
 .filtered-books__container::-webkit-scrollbar {
@@ -77,6 +75,7 @@
 
 .filtered-cards__subtitle {
   margin-bottom: 16px;
+  padding-top: 16px;
   padding-bottom: 8px;
   position: sticky;
   top: 0;
@@ -104,6 +103,7 @@
 
 .filtered-cards__card .card__image {
   border-radius: 24px;
+  outline: 1px solid rgb(0 0 0 / 10%);
 }
 
 .filtered-cards__card .card__title {
@@ -119,6 +119,7 @@
   top: 0;
   height: 224px;
   width: 320px;
+  padding-top: 16px;
 }
 
 .filter__form {
@@ -129,11 +130,14 @@
 .filter__form .form__element {
   padding: 8px 16px;
   margin-bottom: 24px;
-  color: var(--on-surface-dim);
   border-radius: 16px;
   height: 48px;
-  font-size: 20;
+  font-size: 20px;
   line-height: 32px;
+}
+
+.filter__form .form__element::placeholder {
+  color: var(--on-surface-dim);
 }
 
 .filter__form .form__element:last-child {
@@ -157,9 +161,10 @@
   color: black;
 }
 
-.filter__form .form__element--select option:first-of-type {
-  display: none;
+.filter__form .form__element--select:invalid:not(:focus) {
+  color: var(--on-surface-dim);
 }
+
 
 .filter__form .form__element--checkbox-container {
   display: flex;
@@ -174,11 +179,11 @@
   position: relative;
   padding: 4px;
   appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border: 2px solid var(--border);
   margin-right: 16px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .filter__form .form__element--checkbox:checked {
@@ -188,8 +193,8 @@
 .filter__form .form__element--checkbox::after {
   content: "";
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background-color: var(--primary);
   border-radius: 2px;
   left: 50%;
