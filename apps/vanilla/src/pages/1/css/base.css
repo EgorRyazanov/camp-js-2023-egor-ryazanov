@@ -1,34 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
 body {
   font-family: Inter, sans-serif;
-  font-size: 400;
   font-style: normal;
-  font-weight: 400;
   min-height: 100vh;
-  justify-content: center;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-ul,
-ol {
-  list-style: none;
-}
-
-a,
-a:visited {
-  text-decoration: none;
-  color: black;
-}
-
-select,
-input {
-  border: none;
 }

@@ -38,7 +38,7 @@
 
 .header__container {
   padding: 20px 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* filtered-books */
@@ -71,6 +71,7 @@
 .filtered-cards__list {
   display: flex;
   flex-wrap: wrap;
+  gap: 16px;
 }
 
 .filtered-cards__subtitle {
@@ -79,18 +80,12 @@
   padding-bottom: 8px;
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: var(--background-sticky-elem-color);
 }
 
 .filtered-cards__item {
-  width: 167.2px;
-  height: 306.8px;
-  margin-bottom: 16px;
-  margin-right: 16px;
-}
-
-.filtered-cards__item:nth-child(5n) {
-  margin-right: 0;
+  width: 167px;
+  height: 306px;
 }
 
 .filtered-cards__card .card__header {
@@ -117,7 +112,7 @@
 .filtered-books__filter {
   position: sticky;
   top: 0;
-  height: 224px;
+  align-self: flex-start;
   width: 320px;
   padding-top: 16px;
 }
@@ -137,7 +132,7 @@
 }
 
 .filter__form .form__element::placeholder {
-  color: var(--on-surface-dim);
+  color: var(--on-surface-dim-color);
 }
 
 .filter__form .form__element:last-child {
@@ -146,23 +141,26 @@
 
 .filter__form .form__element--input {
   padding-left: 48px;
-  background: url("../images/icons/search.svg") no-repeat 16px;
-  background-color: var(--surface-overlay);
+  background-image: url("../images/icons/search.svg");
+  background-repeat: no-repeat;
+  background-position: 16px;
+  background-color: var(--surface-overlay-color);
 }
 
 .filter__form .form__element--select {
   appearance: none;
-  background: url("../images/icons/arrow.svg") no-repeat;
+  background: url("../images/icons/arrow.svg");
+  background-repeat: no-repeat;
   background-position: calc(100% - 16px) center;
-  background-color: var(--surface-overlay);
+  background-color: var(--surface-overlay-color);
 }
 
 .filter__form .form__element:focus {
-  color: black;
+  color: var(--font-input-color);
 }
 
 .filter__form .form__element--select:invalid:not(:focus) {
-  color: var(--on-surface-dim);
+  color: var(--on-surface-dim-color);
 }
 
 .filter__form .form__element--checkbox-container {
@@ -171,7 +169,7 @@
   height: 32px;
   padding: 0;
   font-size: 20px;
-  color: black;
+  color: var(--font-input-color);
 }
 
 .filter__form .form__element--checkbox {
@@ -180,13 +178,13 @@
   appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid var(--border);
+  border: 2px solid var(--border-color);
   margin-right: 16px;
   border-radius: 4px;
 }
 
 .filter__form .form__element--checkbox:checked {
-  border-color: var(--primary);
+  border-color: var(--primary-color);
 }
 
 .filter__form .form__element--checkbox::after {
@@ -194,7 +192,7 @@
   position: absolute;
   width: 10px;
   height: 10px;
-  background-color: var(--primary);
+  background-color: var(--primary-color);
   border-radius: 2px;
   left: 50%;
   top: 50%;
@@ -216,15 +214,15 @@
   padding: 24px 0;
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border-color);
 }
 
 .footer .information-section__license {
   margin-right: 32px;
-  color: var(--on-surface);
+  color: var(--on-surface-color);
 }
 
 .footer .information-section__href {
-  color: var(--on-surface);
-  border-bottom: 1px solid var(--on-surface);
+  color: var(--on-surface-color);
+  border-bottom: 1px solid var(--on-surface-color);
 }

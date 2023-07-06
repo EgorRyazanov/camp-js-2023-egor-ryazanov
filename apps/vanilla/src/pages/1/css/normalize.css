@@ -10,7 +10,7 @@
 
 html {
   line-height: 1.15; /* 1 */
-  -webkit-text-size-adjust: 100%; /* 2 */
+  text-size-adjust: 100%; /* 2 */
 }
 
 /* Sections
@@ -62,7 +62,7 @@ hr {
    */
 
 pre {
-  font-family: monospace, monospace; /* 1 */
+  font-family: monospace, sans-serif; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -105,7 +105,7 @@ strong {
 code,
 kbd,
 samp {
-  font-family: monospace, monospace; /* 1 */
+  font-family: monospace, sans-serif; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -199,7 +199,6 @@ button,
 [type="reset"],
 [type="submit"] {
   appearance: button;
-  -webkit-appearance: button;
 }
 
 /**
@@ -292,7 +291,6 @@ textarea {
 
 [type="search"] {
   appearance: textfield;
-  -webkit-appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 }
 
@@ -301,7 +299,7 @@ textarea {
    */
 
 [type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 /**
@@ -310,7 +308,7 @@ textarea {
    */
 
 ::-webkit-file-upload-button {
-  -webkit-appearance: button; /* 1 */
+  appearance: button; /* 1 */
   font: inherit; /* 2 */
 }
 
@@ -350,4 +348,28 @@ template {
 
 [hidden] {
   display: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+select,
+input {
+  border: none;
 }
