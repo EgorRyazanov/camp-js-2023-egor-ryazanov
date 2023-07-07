@@ -5,31 +5,6 @@
   margin: 0 auto;
 }
 
-.subtitle {
-  font-size: 18px;
-  line-height: 24px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.body {
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 32px;
-}
-
-.body--small {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 24px;
-}
-
 /* header */
 
 .header {
@@ -75,12 +50,13 @@
 }
 
 .filtered-cards__subtitle {
+  position: sticky;
+  top: 0;
   margin-bottom: 16px;
   padding-top: 16px;
   padding-bottom: 8px;
-  position: sticky;
-  top: 0;
-  background-color: var(--background-sticky-elem-color);
+  outline: var(--primary-color) 1px solid;
+  background-color: var(--primary-color);
 }
 
 .filtered-cards__item {
@@ -98,7 +74,7 @@
 
 .filtered-cards__card .card__image {
   border-radius: 24px;
-  outline: 1px solid rgb(0 0 0 / 10%);
+  outline: 1px solid var(--image-outline-color);
 }
 
 .filtered-cards__card .card__title {
@@ -115,16 +91,17 @@
   align-self: flex-start;
   width: 320px;
   padding-top: 16px;
+  outline: var(--primary-color) 1px solid;
 }
 
 .filter__form {
   display: flex;
   flex-direction: column;
+  gap: 24px 0;
 }
 
 .filter__form .form__element {
   padding: 8px 16px;
-  margin-bottom: 24px;
   border-radius: 16px;
   height: 48px;
   font-size: 20px;
@@ -132,7 +109,7 @@
 }
 
 .filter__form .form__element::placeholder {
-  color: var(--on-surface-dim-color);
+  color: var(--primary-dim-color);
 }
 
 .filter__form .form__element:last-child {
@@ -144,7 +121,7 @@
   background-image: url("../images/icons/search.svg");
   background-repeat: no-repeat;
   background-position: 16px;
-  background-color: var(--surface-overlay-color);
+  background-color: var(--primary-alternative-contrast-color);
 }
 
 .filter__form .form__element--select {
@@ -152,15 +129,15 @@
   background: url("../images/icons/arrow.svg");
   background-repeat: no-repeat;
   background-position: calc(100% - 16px) center;
-  background-color: var(--surface-overlay-color);
+  background-color: var(--primary-alternative-contrast-color);
 }
 
 .filter__form .form__element:focus {
-  color: var(--font-input-color);
+  color: var(--primary-contrast-color);
 }
 
 .filter__form .form__element--select:invalid:not(:focus) {
-  color: var(--on-surface-dim-color);
+  color: var(--primary-dim-color);
 }
 
 .filter__form .form__element--checkbox-container {
@@ -169,7 +146,8 @@
   height: 32px;
   padding: 0;
   font-size: 20px;
-  color: var(--font-input-color);
+  color: var(--primary-contrast-color);
+  gap: 0 16px;
 }
 
 .filter__form .form__element--checkbox {
@@ -179,25 +157,24 @@
   width: 20px;
   height: 20px;
   border: 2px solid var(--border-color);
-  margin-right: 16px;
   border-radius: 4px;
 }
 
 .filter__form .form__element--checkbox:checked {
-  border-color: var(--primary-color);
+  border-color: var(--checkbox-color);
 }
 
 .filter__form .form__element--checkbox::after {
   content: "";
+  display: none;
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 10px;
   height: 10px;
-  background-color: var(--primary-color);
-  border-radius: 2px;
-  left: 50%;
-  top: 50%;
   transform: translate(-50%, -50%);
-  display: none;
+  background-color: var(--checkbox-color);
+  border-radius: 2px;
 }
 
 .filter__form .form__element--checkbox:checked::after {
@@ -219,10 +196,103 @@
 
 .footer .information-section__license {
   margin-right: 32px;
-  color: var(--on-surface-color);
+  color: var(--primary-contrast-color);
 }
 
 .footer .information-section__href {
-  color: var(--on-surface-color);
-  border-bottom: 1px solid var(--on-surface-color);
+  color: var(--primary-contrast-color);
+  border-bottom: 1px solid var(--primary-contrast-color);
+}
+
+@media screen and (max-width: 1280px) {
+  .container {
+    width: 1024px;
+  }
+
+  .filtered-books__filter {
+    width: 276px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    width: 752px;
+  }
+
+  .filtered-books {
+    flex-direction: column-reverse;
+  }
+
+  .filtered-books__container {
+    margin-right: 0;
+  }
+
+  .filtered-books__filter {
+    top: 0;
+    width: 100%;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--primary-color);
+  }
+
+  .filtered-cards__subtitle {
+    top: 132px;
+  }
+
+  .filter__form {
+    flex-direction: row;
+  }
+
+  .filter__form .form__element {
+    width: 100%;
+    align-self: center;
+  }
+
+  .filter__form .form__element:not(:last-child) {
+    margin-right: 32px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 464px;
+  }
+
+  .filtered-cards__subtitle {
+    padding-top: 24px;
+    top: 264px;
+  }
+
+  .filtered-books__filter {
+    padding-bottom: 24px;
+  }
+
+  .filter__form {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    width: 312px;
+  }
+
+  .filtered-cards__item {
+    width: 148px;
+    height: 278px;
+  }
+
+  .footer__container {
+    flex-direction: column;
+  }
+
+  .footer__information-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+
+  .footer__navigate-section {
+    text-align: end;
+  }
 }

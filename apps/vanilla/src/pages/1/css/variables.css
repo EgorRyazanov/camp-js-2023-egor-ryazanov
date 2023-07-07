@@ -1,11 +1,9 @@
 :root {
-  --surface-color: rgb(255 255 255 / 100%);
-  --surface-overlay-color: rgb(0 0 0 / 5%);
-  --on-surface-color: rgb(0 0 0 / 100%);
-  --on-surface-dim-color: rgb(0 0 0 / 50%);
-  --primary-color: rgb(241 89 36 / 100%);
-  --on-primary-color: rgb(255 255 255);
+  --primary-color: rgb(255 255 255 / 100%);
+  --primary-contrast-color: rgb(0 0 0 / 100%);
+  --primary-dim-color: rgb(0 0 0 / 50%);
+  --primary-alternative-contrast-color: rgb(0 0 0 / 5%);
   --border-color: rgb(0 0 0 / 15%);
-  --font-input-color: rgb(0 0 0);
-  --background-sticky-elem-color: rgb(255 255 255);
+  --checkbox-color: rgb(241 89 36 / 100%);
+  --image-outline-color: rgb(0 0 0 / 10%);
 }
