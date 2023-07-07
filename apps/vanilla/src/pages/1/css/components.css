@@ -241,15 +241,12 @@
 
   .filter__form {
     flex-direction: row;
+    gap: 0 16px;
   }
 
   .filter__form .form__element {
     width: 100%;
     align-self: center;
-  }
-
-  .filter__form .form__element:not(:last-child) {
-    margin-right: 32px;
   }
 }
 
@@ -269,6 +266,7 @@
 
   .filter__form {
     flex-direction: column;
+    gap: 24px;
   }
 }
 
