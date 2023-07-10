@@ -6,4 +6,7 @@
   --border-color: rgb(0 0 0 / 15%);
   --checkbox-color: rgb(241 89 36 / 100%);
   --image-outline-color: rgb(0 0 0 / 10%);
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
 }

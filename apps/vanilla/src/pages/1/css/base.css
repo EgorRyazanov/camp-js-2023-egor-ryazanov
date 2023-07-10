@@ -2,6 +2,6 @@ body {
   font-family: Inter, sans-serif;
   font-style: normal;
   min-height: 100vh;
-  font-size: 20px;
+  font-size: var(--font-size-xl);
   line-height: 32px;
 }

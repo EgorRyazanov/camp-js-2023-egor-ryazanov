@@ -104,7 +104,7 @@
   padding: 8px 16px;
   border-radius: 16px;
   height: 48px;
-  font-size: 20px;
+  font-size: var(--font-size-xl);
   line-height: 32px;
 }
 
@@ -145,7 +145,7 @@
   align-items: center;
   height: 32px;
   padding: 0;
-  font-size: 20px;
+  font-size: var(--font-size-xl);
   color: var(--primary-contrast-color);
   gap: 0 16px;
 }
