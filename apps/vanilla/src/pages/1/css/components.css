@@ -35,12 +35,8 @@
 }
 
 .filtered-books__item {
-  margin-bottom: 40px;
-  position: relative;
-}
-
-.filtered-books__item:last-child {
   margin-bottom: 24px;
+  position: relative;
 }
 
 .filtered-cards__list {
