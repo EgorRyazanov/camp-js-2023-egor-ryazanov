@@ -12,7 +12,6 @@
 }
 
 .logo {
-  font-size: var(--font-size-xl);
   font-weight: 700;
   line-height: 24px;
 }

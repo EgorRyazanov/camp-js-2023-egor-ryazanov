@@ -1,7 +1,9 @@
 /* recurring styles */
 
 .container {
-  width: 1244px;
+  max-width: 1276px;
+  padding-left: 16px;
+  padding-right: 16px;
   margin: 0 auto;
 }
 
@@ -9,9 +11,6 @@
 
 .header {
   margin-bottom: 8px;
-}
-
-.header__container {
   padding: 20px 0;
   border-bottom: 1px solid var(--border-color);
 }
@@ -28,10 +27,6 @@
 
 .filtered-books__container::-webkit-scrollbar {
   display: none;
-}
-
-.filtered-books__list {
-  max-width: 900px;
 }
 
 .filtered-books__item {
@@ -59,23 +54,26 @@
   width: 167px;
 }
 
-.filtered-cards__card .card__header {
+.card__header {
   margin-bottom: 8px;
 }
 
-.filtered-cards__card .card__image-container {
+.card__image-container {
   width: 100%;
 }
 
-.filtered-cards__card .card__image {
+.card__image {
   border-radius: 24px;
   outline: 1px solid var(--image-outline-color);
 }
 
-.filtered-cards__card .card__title {
+.card__title {
+  height: 48px;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 48px;
+  line-height: 24px;
+  font-size: var(--font-size-md);
+  font-weight: 500;
 }
 
 /* filter */
@@ -95,23 +93,17 @@
   gap: 24px 0;
 }
 
-.filter__form .form__element {
+.form__element {
   padding: 8px 16px;
   border-radius: 16px;
   height: 48px;
-  font-size: var(--font-size-xl);
-  line-height: 32px;
 }
 
-.filter__form .form__element::placeholder {
+.form__element::placeholder {
   color: var(--primary-dim-color);
 }
 
-.filter__form .form__element:last-child {
-  margin-bottom: 0;
-}
-
-.filter__form .form__element--input {
+.form__element_input {
   padding-left: 48px;
   background-image: url("../images/icons/search.svg");
   background-repeat: no-repeat;
@@ -119,7 +111,7 @@
   background-color: var(--primary-alternative-contrast-color);
 }
 
-.filter__form .form__element--select {
+.form__element_select {
   appearance: none;
   background: url("../images/icons/arrow.svg");
   background-repeat: no-repeat;
@@ -127,25 +119,24 @@
   background-color: var(--primary-alternative-contrast-color);
 }
 
-.filter__form .form__element:focus {
+.form__element:focus {
   color: var(--primary-contrast-color);
 }
 
-.filter__form .form__element--select:invalid:not(:focus) {
+.form__element_select:invalid:not(:focus) {
   color: var(--primary-dim-color);
 }
 
-.filter__form .form__element--checkbox-container {
+.form__element_checkbox-container {
   display: flex;
   align-items: center;
   height: 32px;
   padding: 0;
-  font-size: var(--font-size-xl);
   color: var(--primary-contrast-color);
   gap: 0 16px;
 }
 
-.filter__form .form__element--checkbox {
+.form__element_checkbox {
   position: relative;
   padding: 4px;
   appearance: none;
@@ -155,11 +146,11 @@
   border-radius: 4px;
 }
 
-.filter__form .form__element--checkbox:checked {
+.form__element_checkbox:checked {
   border-color: var(--checkbox-color);
 }
 
-.filter__form .form__element--checkbox::after {
+.form__element_checkbox::after {
   content: "";
   display: none;
   position: absolute;
@@ -172,7 +163,7 @@
   border-radius: 2px;
 }
 
-.filter__form .form__element--checkbox:checked::after {
+.form__element_checkbox:checked::after {
   display: block;
 }
 
@@ -199,21 +190,7 @@
   border-bottom: 1px solid var(--primary-contrast-color);
 }
 
-@media screen and (max-width: 1280px) {
-  .container {
-    width: 1024px;
-  }
-
-  .filtered-books__filter {
-    width: 276px;
-  }
-}
-
 @media screen and (max-width: 1024px) {
-  .container {
-    width: 752px;
-  }
-
   .filtered-books {
     flex-direction: column-reverse;
   }
@@ -239,17 +216,13 @@
     gap: 0 16px;
   }
 
-  .filter__form .form__element {
+  .form__element {
     width: 100%;
     align-self: center;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .container {
-    width: 464px;
-  }
-
   .filtered-cards__subtitle {
     padding-top: 24px;
     top: 264px;
@@ -266,10 +239,6 @@
 }
 
 @media screen and (max-width: 480px) {
-  .container {
-    width: 312px;
-  }
-
   .filtered-cards__item {
     width: 148px;
     height: 278px;
