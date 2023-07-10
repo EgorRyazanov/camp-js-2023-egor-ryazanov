@@ -1,0 +1,3 @@
+class PLayer {
+  constructor()
+}
