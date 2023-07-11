@@ -1,26 +1,29 @@
 import { render } from '../utils';
-import { ListView } from '../views/list-view';
+import { ListView } from '../views/players-container-view';
 import { PLayerView } from '../views/player-view';
 import { PlayerModel } from '../generators/player-generator';
 import { RollButtonView } from '../views/roll-button-view';
 import { TurnGenerator } from '../generators/turn-generator';
 import { DiceGenerator } from '../generators/dice-generator';
+import { ScoresView } from '../views/scores-view';
 
 export class Controller {
   private app: HTMLElement;
-  private container: ListView;
+  private playersContainer: ListView;
   private rollButton: RollButtonView;
   public readonly playersModels: PlayerModel[];
   public readonly playersViews: PLayerView[];
 
   public readonly turnGenerator: TurnGenerator;
   public readonly diceGenerator: DiceGenerator;
+  public readonly scoresView: ScoresView;
 
-  constructor(app: HTMLElement, container: ListView, playersNames: string[]) {
+  constructor(app: HTMLElement, playersContainer: ListView, playersNames: string[]) {
     this.app = app;
-    this.container = container;
+    this.playersContainer = playersContainer;
     this.playersModels = [];
     this.playersViews = [];
+    this.scoresView = new ScoresView();
     this.rollButton = new RollButtonView();
 
     this.turnGenerator = new TurnGenerator(playersNames.length);
@@ -40,10 +43,9 @@ export class Controller {
     });
   }
 
-
   public init() {
-    render(this.app, this.container.getElement());
-    this.playersViews.forEach((playerView) => render(this.container.getElement(), playerView.getElement()));
+    render(this.app, this.playersContainer.getElement());
+    this.playersViews.forEach((playerView) => render(this.playersContainer.getElement(), playerView.getElement()));
     render(this.app, this.rollButton.getElement());
   }
 }
