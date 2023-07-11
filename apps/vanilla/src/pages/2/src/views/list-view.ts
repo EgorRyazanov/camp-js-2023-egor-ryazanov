@@ -1,18 +1,12 @@
 import { createELement } from '../utils';
 
-const listTemplate = (array: Array<string>) => `<div>${array}</div>`;
+const listTemplate = () => `<ul class="players-list"></ul>`;
 
 export class ListView {
   private element: HTMLElement;
-  private readonly array: Array<string>;
 
   public getTemplate() {
-    return listTemplate(this.array);
-  }
-
-  public updateComponent(value: string) {
-    this.array.push(value);
-    this.element = createELement(this.getTemplate());
+    return listTemplate();
   }
 
   public getElement() {
@@ -22,8 +16,7 @@ export class ListView {
     return createELement(this.getTemplate());
   }
 
-  constructor(array: Array<string>) {
-    this.array = array;
+  constructor() {
     this.element = this.getElement();
   }
 }

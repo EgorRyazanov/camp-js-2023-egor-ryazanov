@@ -1,19 +1,26 @@
-import { createELement } from '../utils';
+import { IDisplayData } from '../generators/player-generator';
+import { createELement, rerender } from '../utils';
+import { IObserver } from '../generators/publisher';
 
-const listTemplate = (points: Array<number>, name: string) => `<div class="player"> ${name} - ${points}  123</div>`;
+const playerTemplate = (points: Array<number>, name: string, isWin: boolean = false) => {
+  return `<div class="player ${isWin ? 'player_win' : ''}"> ${name} - ${points}</div>`;
+};
 
-export class PLayerView {
+export class PLayerView implements IObserver<IDisplayData> {
   private element: HTMLElement;
-  private readonly points: Array<number>;
+  private points: Array<number>;
   private name: string;
 
   public getTemplate() {
-    return listTemplate(this.points, this.name);
+    return playerTemplate(this.points, this.name);
   }
 
-  public updateComponent(value: number) {
-    this.points.push(value);
-    this.element = createELement(this.getTemplate());
+  update(value: IDisplayData) {
+    this.points = value.points;
+    const targetElement = this.element;
+    const newElement = createELement(playerTemplate(this.points, this.name, value.isWin));
+    rerender(targetElement, newElement);
+    this.element = newElement;
   }
 
   public getElement() {

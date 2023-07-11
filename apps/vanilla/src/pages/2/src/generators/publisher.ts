@@ -1,9 +1,9 @@
 export interface IObserver<T> {
-  update: (val: T) => void;
+  update: (value: T) => void;
 }
 
 export class Publisher<T> {
-  private readonly subscribers: IObserver<T>[] = [];
+  protected readonly subscribers: IObserver<T>[] = [];
   public subscribe(subscriber: IObserver<T>) {
     const subIdx = this.subscribers.findIndex((sub) => sub === subscriber);
     if (subIdx === -1) {

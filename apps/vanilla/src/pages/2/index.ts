@@ -3,10 +3,8 @@ import { ListView } from './src/views/list-view';
 
 window.addEventListener('DOMContentLoaded', () => {
   const app = document.getElementById('app');
-  const array = ['Контейнер'];
-  const container = new ListView(array);
+  const container = new ListView();
   const players = ["Егор", "Иван"]
-
   if (app) {
     const controller = new Controller(app, container, players);
     controller.init();
