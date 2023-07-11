@@ -1,7 +1,15 @@
-import { Controller } from "./src/controller/main-presenter"
+import { Controller } from './src/controller/main-controller';
+import { ListView } from './src/views/list-view';
 
-window.addEventListener("DOMContentLoaded", () => {
-  const app = document.getElementById("app")
-  const 
-  const contoller = new Controller(app)
-})
+window.addEventListener('DOMContentLoaded', () => {
+  const app = document.getElementById('app');
+  const array = ['Контейнер'];
+  const container = new ListView(array);
+  const players = ["Егор", "Иван"]
+
+  if (app) {
+    const controller = new Controller(app, container, players);
+    controller.init();
+    // controller.update()
+  }
+});

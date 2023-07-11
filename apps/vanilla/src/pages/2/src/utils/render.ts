@@ -5,8 +5,9 @@ export enum TPosition {
   afterend = "afterend"
 }
 
-export function render (container: HTMLElement, child: string, position: TPosition = TPosition.beforeend) {
+
+export function render (container: HTMLElement, child: HTMLElement, position: TPosition = TPosition.beforeend) {
   if (container && child) {
-    container.insertAdjacentHTML(position, child)
+    container.insertAdjacentElement(position, child)
   }
 }
