@@ -1,6 +1,4 @@
-export interface IObserver<T> {
-  update: (value: T) => void;
-}
+import { IObserver } from './types';
 
 export class Publisher<T> {
   protected readonly subscribers: IObserver<T>[] = [];

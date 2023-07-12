@@ -1,0 +1,22 @@
+:root {
+  /* colors */
+  --primary-color: #d9d9d9;
+  --primary-contrast-color: #1b1b1b;
+  --primary-contrast-lighter-color: #2c2c2c;
+  --primary-contrast-lightest-color: #d3d3d3;
+  --primary-alternative-contrast-color: #d88b01;
+  --primary-alternative-dim-contrast-color: #ffc373;
+
+  /* fonts-sizes */
+  --font-size-sm: 16px;
+  --font-size-md: 20px;
+  --font-size-lg: 32px;
+  --font-size-xl: 40px;
+
+  /* margins and paddings */
+  --normal-margin: 16px;
+  --normal-padding: 16px;
+
+  /* border-radius */
+  --border-radius: 16px;
+}

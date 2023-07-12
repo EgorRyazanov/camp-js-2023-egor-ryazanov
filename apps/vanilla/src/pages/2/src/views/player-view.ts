@@ -1,24 +1,29 @@
-import { IDisplayData } from '../generators/player-generator';
-import { createELement, rerender } from '../utils';
-import { IObserver } from '../generators/publisher';
+import { IDisplayData, IObserver } from '../generators/types';
+import { createELement, getSum, rerender } from '../utils';
 
-const playerTemplate = (points: Array<number>, name: string, isWin: boolean = false) => {
-  return `<div class="player ${isWin ? 'player_win' : ''}"> ${name} - ${points}</div>`;
+const getPlayerTemplate = (points: Array<number>, name: string, isWin: boolean = false, isNext: boolean = false) => {
+  return `<li class="scores__player player">
+    <h4 class="player__name ${isNext? "player__name_next": ""}">${name}</h4>
+    <h4 class="player__scores">Scores: ${getSum(points)}</h4>
+    <div class="player__text-container ${isWin ? 'player__text-container_win' : ''}">
+      <p class="player__text text">${points.join(" ")}</p>
+    <div>
+  </li>`;
 };
 
-export class PLayerView implements IObserver<IDisplayData> {
+export class PlayerView implements IObserver<IDisplayData> {
   private element: HTMLElement;
   private points: Array<number>;
   private name: string;
 
   public getTemplate() {
-    return playerTemplate(this.points, this.name);
+    return getPlayerTemplate(this.points, this.name);
   }
 
   update(value: IDisplayData) {
     this.points = value.points;
     const targetElement = this.element;
-    const newElement = createELement(playerTemplate(this.points, this.name, value.isWin));
+    const newElement = createELement(getPlayerTemplate(this.points, this.name, value.isWin, value.isNext));
     rerender(targetElement, newElement);
     this.element = newElement;
   }
@@ -30,7 +35,7 @@ export class PLayerView implements IObserver<IDisplayData> {
     return createELement(this.getTemplate());
   }
 
-  constructor(points: Array<number>, name: string) {
+  public constructor(points: Array<number>, name: string) {
     this.points = points;
     this.name = name;
     this.element = this.getElement();

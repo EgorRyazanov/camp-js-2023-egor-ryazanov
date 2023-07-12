@@ -1,0 +1,20 @@
+.container {
+  width: 1280px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+}
+
+.primary-button {
+  padding: var(--normal-padding) calc(var(--normal-padding) * 2);
+  font-weight: 700;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-md);
+}
+
+.primary-button:hover {
+  background-color: var(--primary-contrast-lightest-color);
+}

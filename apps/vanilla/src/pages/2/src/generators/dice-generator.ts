@@ -1,22 +1,18 @@
-import { IObserver, Publisher } from './publisher';
-import { ITurn } from './turn-generator';
+import { MAX_DICE_RESULT, MIN_DICE_RESULT } from "../utils/consts";
+import { Publisher } from "./publisher";
+import { IDiceResult, IObserver, IPlayerTurn } from "./types";
 
-export interface IDice {
-  result: number;
-  currentPlayerIndex: number;
-}
-
-export class DiceGenerator extends Publisher<IDice> implements IObserver<ITurn> {
+export class DiceGenerator extends Publisher<IDiceResult> implements IObserver<IPlayerTurn> {
   public constructor() {
     super();
   }
 
   private getRandomValue() {
-    return Math.floor(Math.random() * 6);
+    return Math.floor(Math.random() * (MAX_DICE_RESULT + 1 - MIN_DICE_RESULT) + MIN_DICE_RESULT);
   }
 
-  update(value: ITurn) {
+  update(value: IPlayerTurn) {
     const result = this.getRandomValue();
-    this.notify({ result, currentPlayerIndex: value.currentPlayerIndex });
+    this.notify({ result, currentPlayerIndex: value.currentPlayerIndex, nextPlayerIndex: value.nextPlayerIndex });
   }
 }

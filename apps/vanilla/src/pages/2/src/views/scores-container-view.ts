@@ -1,17 +1,12 @@
 import { createELement } from '../utils';
 
-export class RollButtonView {
+
+export class ScoresContainerView {
   private element: HTMLElement;
 
   public getTemplate() {
-    return `<button class="primary-button game__roll-button">Make roll</button>`;
+    return `<div class="game__scores"></div>`;
   }
-
-  public addEvents = (...args: Array<[string, () => void]>) => {
-    args.forEach((callback) => {
-      this.getElement().addEventListener(callback[0], callback[1]);
-    });
-  };
 
   public getElement() {
     if (this.element) {

@@ -1,0 +1,25 @@
+body {
+  font-family: Inter, sans-serif;
+  min-height: 100vh;
+  font-size: var(--font-size-md);
+  background-color: var(--primary-contrast-color);
+  color: var(--primary-color);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  border-style: none;
+  cursor: pointer;
+}

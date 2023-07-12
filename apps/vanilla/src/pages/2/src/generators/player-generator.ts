@@ -1,14 +1,8 @@
 import { MAX_SCORE } from '../utils/consts';
-import { IDice } from './dice-generator';
-import { IObserver, Publisher } from './publisher';
+import { IDiceResult, IDisplayData, IObserver } from './types';
+import { Publisher } from './publisher';
 
-export interface IDisplayData {
-  isWin: boolean;
-  pointsSum: number;
-  points: number[];
-}
-
-export class PlayerGenerator extends Publisher<IDisplayData> implements IObserver<IDice> {
+export class PlayerGenerator extends Publisher<IDisplayData> implements IObserver<IDiceResult> {
   public readonly name: string;
   private index: number;
   private _points: number[];
@@ -23,7 +17,7 @@ export class PlayerGenerator extends Publisher<IDisplayData> implements IObserve
     this._points.push(value);
   }
 
-  update(value: IDice) {
+  update(value: IDiceResult) {
     if (value.currentPlayerIndex === this.index) {
       this.points = value.result;
       this.pointsSum += value.result;
@@ -31,6 +25,9 @@ export class PlayerGenerator extends Publisher<IDisplayData> implements IObserve
         this.isWin = true;
       }
       this.notify({ isWin: this.isWin, pointsSum: this.pointsSum, points: this.points });
+    }
+    if (value.nextPlayerIndex === this.index) {
+      this.notify({ isWin: this.isWin, isNext: true, pointsSum: this.pointsSum, points: this.points });
     }
   }
 

@@ -1,11 +1,11 @@
 import { createELement } from '../utils';
 
-export class PlayerContainerView {
-  private element: HTMLElement;
+export abstract class View {
+  protected element: HTMLElement;
 
-  public getTemplate() {
-    return `<ul class="scores__players"></ul>`;
-  }
+  abstract initProps(props: any): void;
+
+  abstract getTemplate(): string;
 
   public getElement() {
     if (this.element) {
@@ -14,7 +14,8 @@ export class PlayerContainerView {
     return createELement(this.getTemplate());
   }
 
-  public constructor() {
+  public constructor(props?: any) {
+    this.initProps(props);
     this.element = this.getElement();
   }
 }
