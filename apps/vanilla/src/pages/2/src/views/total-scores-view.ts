@@ -2,11 +2,16 @@ import { RoundResult, Observer } from '../generators/types';
 import { createELement, getSum, rerender } from '../utils';
 import { View } from './view';
 
+/** View to display the total points of all players together.  */
 export class TotalScoresView extends View implements Observer<RoundResult> {
+  /** Points of all players together.  */
   private points: Array<number>;
+
+  /** Html element. */
   protected override element: HTMLElement;
 
-  override getTemplate() {
+  /** Returns template of view. */
+  public override getTemplate() {
     return `<div class="scores__total">
       <h4 class="total__title">Total</h4>
       <h4 class="total__scores">${getSum(this.points || [])}</h4>
@@ -16,6 +21,10 @@ export class TotalScoresView extends View implements Observer<RoundResult> {
     </div>`;
   }
 
+  /**
+   *  Update total scores view and rerender html element.
+   * @param value Total information about current turn.
+   */
   public update(value: RoundResult) {
     this.points.push(value.result);
     const targetElement = this.element;
