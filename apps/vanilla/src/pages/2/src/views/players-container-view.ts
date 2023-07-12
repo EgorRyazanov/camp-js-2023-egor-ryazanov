@@ -1,20 +1,14 @@
-import { createELement } from '../utils';
+import { View } from './view';
 
-export class PlayerContainerView {
-  private element: HTMLElement;
+export class PlayerContainerView extends View {
+  protected override element: HTMLElement;
 
-  public getTemplate() {
+  public override getTemplate() {
     return `<ul class="scores__players"></ul>`;
   }
 
-  public getElement() {
-    if (this.element) {
-      return this.element;
-    }
-    return createELement(this.getTemplate());
-  }
-
   public constructor() {
+    super();
     this.element = this.getElement();
   }
 }

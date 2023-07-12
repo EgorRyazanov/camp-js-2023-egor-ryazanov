@@ -1,9 +1,9 @@
-import { createELement } from '../utils';
+import { View } from './view';
 
-export class RollButtonView {
-  private element: HTMLElement;
+export class RollButtonView extends View {
+  protected override element: HTMLElement;
 
-  public getTemplate() {
+  public override getTemplate() {
     return `<button class="primary-button game__roll-button">Make roll</button>`;
   }
 
@@ -13,14 +13,8 @@ export class RollButtonView {
     });
   };
 
-  public getElement() {
-    if (this.element) {
-      return this.element;
-    }
-    return createELement(this.getTemplate());
-  }
-
   public constructor() {
+    super();
     this.element = this.getElement();
   }
 }

@@ -1,9 +1,7 @@
 import { createELement } from '../utils';
 
 export abstract class View {
-  protected element: HTMLElement;
-
-  abstract initProps(props: any): void;
+  protected abstract element: HTMLElement;
 
   abstract getTemplate(): string;
 
@@ -12,10 +10,5 @@ export abstract class View {
       return this.element;
     }
     return createELement(this.getTemplate());
-  }
-
-  public constructor(props?: any) {
-    this.initProps(props);
-    this.element = this.getElement();
   }
 }
