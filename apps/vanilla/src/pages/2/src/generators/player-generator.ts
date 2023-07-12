@@ -1,8 +1,8 @@
 import { MAX_SCORE } from '../utils/consts';
-import { IDiceResult, IDisplayData, IObserver } from './types';
+import { RoundResult, DisplayTurn, Observer } from './types';
 import { Publisher } from './publisher';
 
-export class PlayerGenerator extends Publisher<IDisplayData> implements IObserver<IDiceResult> {
+export class PlayerGenerator extends Publisher<DisplayTurn> implements Observer<RoundResult> {
   public readonly name: string;
   private index: number;
   private _points: number[];
@@ -17,7 +17,7 @@ export class PlayerGenerator extends Publisher<IDisplayData> implements IObserve
     this._points.push(value);
   }
 
-  update(value: IDiceResult) {
+  update(value: RoundResult) {
     if (value.currentPlayerIndex === this.index) {
       this.points = value.result;
       this.pointsSum += value.result;

@@ -1,4 +1,4 @@
-import { IDisplayData, IObserver } from '../generators/types';
+import { DisplayTurn, Observer } from '../generators/types';
 import { getSum, rerender, createELement } from '../utils';
 import { View } from './view';
 
@@ -12,7 +12,7 @@ const getPlayerTemplate = (points: Array<number>, name: string, isWin: boolean =
   </li>`;
 };
 
-export class PlayerView extends View implements IObserver<IDisplayData> {
+export class PlayerView extends View implements Observer<DisplayTurn> {
   protected override element: HTMLElement;
   private points: Array<number>;
   private name: string;
@@ -21,7 +21,7 @@ export class PlayerView extends View implements IObserver<IDisplayData> {
     return getPlayerTemplate(this.points, this.name);
   }
 
-  public update(value: IDisplayData) {
+  public update(value: DisplayTurn) {
     this.points = value.points;
     const targetElement = this.element;
     const newElement = createELement(getPlayerTemplate(this.points, this.name, value.isWin, value.isNext));

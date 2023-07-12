@@ -1,21 +1,20 @@
-export interface IObserver<T> {
+export interface Observer<T> {
   update: (value: T) => void;
 }
-// поменять название на RoundResult
-export interface IDiceResult {
+export interface RoundResult {
   result: number;
   currentPlayerIndex: number;
   nextPlayerIndex: number;
 }
 
-export interface IDisplayData {
+export interface DisplayTurn {
   isWin?: boolean;
   isNext?: boolean;
   pointsSum: number;
   points: number[];
 }
 
-export interface IPlayerTurn {
+export interface PlayerTurn {
   currentPlayerIndex: number;
   nextPlayerIndex: number;
 }

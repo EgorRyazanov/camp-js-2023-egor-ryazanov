@@ -1,15 +1,15 @@
-import { IObserver } from './types';
+import { Observer } from './types';
 
 export class Publisher<T> {
-  protected readonly subscribers: IObserver<T>[] = [];
-  public subscribe(subscriber: IObserver<T>) {
+  protected readonly subscribers: Observer<T>[] = [];
+  public subscribe(subscriber: Observer<T>) {
     const subIdx = this.subscribers.findIndex((sub) => sub === subscriber);
     if (subIdx === -1) {
       this.subscribers.push(subscriber);
     }
   }
 
-  public unsubscribe(subscriber: IObserver<T>) {
+  public unsubscribe(subscriber: Observer<T>) {
     const subIdx = this.subscribers.findIndex((sub) => sub === subscriber);
     if (subIdx !== -1) {
       this.subscribers.splice(subIdx, 1);

@@ -1,7 +1,7 @@
 import { Publisher } from './publisher';
-import { IPlayerTurn } from './types';
+import { PlayerTurn } from './types';
 
-export class TurnGenerator extends Publisher<IPlayerTurn> {
+export class TurnGenerator extends Publisher<PlayerTurn> {
   public currentPlayerIndex: number;
   public playerCount: number;
 

@@ -1,8 +1,8 @@
-import { IDiceResult, IObserver } from '../generators/types';
+import { RoundResult, Observer } from '../generators/types';
 import { createELement, getSum, rerender } from '../utils';
 import { View } from './view';
 
-export class TotalScoresView extends View implements IObserver<IDiceResult> {
+export class TotalScoresView extends View implements Observer<RoundResult> {
   private points: Array<number>;
   protected override element: HTMLElement;
 
@@ -16,7 +16,7 @@ export class TotalScoresView extends View implements IObserver<IDiceResult> {
     </div>`;
   }
 
-  public update(value: IDiceResult) {
+  public update(value: RoundResult) {
     this.points.push(value.result);
     const targetElement = this.element;
     const newElement = createELement(this.getTemplate());
@@ -27,6 +27,6 @@ export class TotalScoresView extends View implements IObserver<IDiceResult> {
   public constructor(points: Array<number> = []) {
     super();
     this.points = points;
-    this.element = this.getElement()
+    this.element = this.getElement();
   }
 }
