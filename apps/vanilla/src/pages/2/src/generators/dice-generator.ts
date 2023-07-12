@@ -7,7 +7,7 @@ export interface IDice {
 }
 
 export class DiceGenerator extends Publisher<IDice> implements IObserver<ITurn> {
-  constructor() {
+  public constructor() {
     super();
   }
 

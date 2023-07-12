@@ -1,7 +1,7 @@
 import { render } from '../utils';
 import { ListView } from '../views/players-container-view';
 import { PLayerView } from '../views/player-view';
-import { PlayerModel } from '../generators/player-generator';
+import { PlayerGenerator } from '../generators/player-generator';
 import { RollButtonView } from '../views/roll-button-view';
 import { TurnGenerator } from '../generators/turn-generator';
 import { DiceGenerator } from '../generators/dice-generator';
@@ -11,14 +11,14 @@ export class Controller {
   private app: HTMLElement;
   private playersContainer: ListView;
   private rollButton: RollButtonView;
-  public readonly playersModels: PlayerModel[];
+  public readonly playersModels: PlayerGenerator[];
   public readonly playersViews: PLayerView[];
 
   public readonly turnGenerator: TurnGenerator;
   public readonly diceGenerator: DiceGenerator;
   public readonly scoresView: ScoresView;
 
-  constructor(app: HTMLElement, playersContainer: ListView, playersNames: string[]) {
+  public constructor(app: HTMLElement, playersContainer: ListView, playersNames: string[]) {
     this.app = app;
     this.playersContainer = playersContainer;
     this.playersModels = [];
@@ -29,11 +29,12 @@ export class Controller {
     this.turnGenerator = new TurnGenerator(playersNames.length);
     this.diceGenerator = new DiceGenerator();
     this.turnGenerator.subscribe(this.diceGenerator);
+    this.diceGenerator.subscribe(this.scoresView)
 
     this.rollButton.addEvents(['click', this.turnGenerator.next]);
 
     playersNames.forEach((playerName, index) => {
-      this.playersModels.push(new PlayerModel(playerName, index));
+      this.playersModels.push(new PlayerGenerator(playerName, index));
       this.diceGenerator.subscribe(this.playersModels[index]);
     });
     this.playersModels.forEach((playerModel) => {
@@ -47,5 +48,6 @@ export class Controller {
     render(this.app, this.playersContainer.getElement());
     this.playersViews.forEach((playerView) => render(this.playersContainer.getElement(), playerView.getElement()));
     render(this.app, this.rollButton.getElement());
+    render(this.app, this.scoresView.getElement())
   }
 }

@@ -8,7 +8,7 @@ export class TurnGenerator extends Publisher<ITurn> {
   public currentPlayerIndex: number;
   public playerCount: number;
 
-  constructor(playerCount: number) {
+  public constructor(playerCount: number) {
     super();
     this.next = this.next.bind(this);
     this.calculateIndex = this.calculateIndex.bind(this);

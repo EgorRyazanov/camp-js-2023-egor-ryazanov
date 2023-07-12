@@ -1,12 +1,12 @@
-import { IDisplayData } from '../generators/player-generator';
 import { createELement, rerender } from '../utils';
 import { IObserver } from '../generators/publisher';
+import { IDice } from '../generators/dice-generator';
 
 const scoresTemplate = (points: Array<number>) => {
   return `<div class="scores">${points}</div>`;
 };
 
-export class ScoresView implements IObserver<IDisplayData> {
+export class ScoresView implements IObserver<IDice> {
   private element: HTMLElement;
   private points: Array<number>;
 
@@ -14,8 +14,8 @@ export class ScoresView implements IObserver<IDisplayData> {
     return scoresTemplate(this.points);
   }
 
-  update(value: IDisplayData) {
-    this.points = value.points;
+  update(value: IDice) {
+    this.points.push(value.result)
     const targetElement = this.element;
     const newElement = createELement(scoresTemplate(this.points));
     rerender(targetElement, newElement);

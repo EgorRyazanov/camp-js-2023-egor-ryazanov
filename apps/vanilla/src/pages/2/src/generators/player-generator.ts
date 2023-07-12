@@ -8,7 +8,7 @@ export interface IDisplayData {
   points: number[];
 }
 
-export class PlayerModel extends Publisher<IDisplayData> implements IObserver<IDice> {
+export class PlayerGenerator extends Publisher<IDisplayData> implements IObserver<IDice> {
   public readonly name: string;
   private index: number;
   private _points: number[];
@@ -34,7 +34,7 @@ export class PlayerModel extends Publisher<IDisplayData> implements IObserver<ID
     }
   }
 
-  constructor(name: string, index: number) {
+  public constructor(name: string, index: number) {
     super();
     this.name = name;
     this.index = index;
