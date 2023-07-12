@@ -1,5 +1,5 @@
 .container {
-  width: 1280px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
@@ -9,7 +9,7 @@
 }
 
 .primary-button {
-  padding: var(--normal-padding) calc(var(--normal-padding) * 2);
+  padding: var(--normal-padding) var(--lg-padding);
   font-weight: 700;
   border-radius: var(--border-radius);
   font-size: var(--font-size-md);

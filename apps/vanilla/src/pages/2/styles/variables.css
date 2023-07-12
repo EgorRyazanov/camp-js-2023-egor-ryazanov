@@ -15,7 +15,11 @@
 
   /* margins and paddings */
   --normal-margin: 16px;
+  --lg-margin: calc(var(--normal-margin) * 2);
+  --xl-margin: calc(var(--normal-margin) * 4);
   --normal-padding: 16px;
+  --lg-padding: calc(var(--normal-padding) * 2);
+  --xl-padding: calc(var(--normal-padding) * 4);
 
   /* border-radius */
   --border-radius: 16px;

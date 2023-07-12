@@ -1,7 +1,7 @@
 /* game */
 
 .game__container {
-  padding: calc(var(--normal-padding) * 4) calc(var(--normal-padding) * 2);
+  padding: var(--xl-padding) var(--lg-padding);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,30 +9,30 @@
 
 .game__title {
   border-bottom: 1px solid var(--primary-alternative-contrast-color);
-  margin-bottom: calc(var(--normal-margin) * 2);
+  margin-bottom: var(--lg-margin);
 }
 
 .game__roll-button {
-  margin-bottom: calc(var(--normal-margin) * 4);
+  margin-bottom: var(--xl-margin);
 }
 
 .game__scores {
   display: flex;
-  gap: calc(var(--normal-margin) * 2);
+  gap: var(--lg-margin);
   width: 100%;
 }
 
 /* scores */
 
 .scores__players {
-  width: 49%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--normal-margin) * 2);
+  gap: var(--lg-margin);
 }
 
 .scores__total {
-  width: 49%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--normal-margin);
@@ -72,4 +72,11 @@
   background-color: var(--primary-contrast-lighter-color);
   border-radius: var(--border-radius);
   min-height: 80px;
+}
+
+@media screen and (max-width: 1280px) {
+  .game__scores {
+    flex-direction: column;
+    align-items: center;
+  }
 }
