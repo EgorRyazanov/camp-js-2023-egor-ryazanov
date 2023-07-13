@@ -21,7 +21,7 @@ export class PlayerView extends View implements Observer<DisplayTurn> {
 		this.element = this.getElement();
 	}
 
-	/** Returns template of view.  */
+	/** Returns template of view. */
 	public override getTemplate(): string {
 		return this.getPlayerTemplate();
 	}

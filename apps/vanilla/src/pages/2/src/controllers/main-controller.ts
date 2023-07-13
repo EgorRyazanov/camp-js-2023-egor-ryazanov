@@ -9,7 +9,7 @@ import {
 } from '../views';
 import { PlayerGenerator, TurnGenerator, DiceGenerator } from '../generators';
 
-/** Controller.  */
+/** Controller. */
 export class Controller {
 	/** Container of app. */
 	private readonly appElement: HTMLElement;
