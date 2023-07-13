@@ -1,1 +1,1 @@
-export { Controller } from "./main-controller";
+export { Controller } from './main-controller';
