@@ -17,22 +17,22 @@ export class TurnGenerator extends Publisher<PlayerTurn> {
 		this.currentPlayerIndex = -1;
 	}
 
-	/**
-	 * Calculates player index.
-	 * @param currentIndex The index on the basis of which calculations are performed.
-	 */
-	private calculateIndex(currentIndex: number): number {
-		let index = currentIndex + 1;
-		if (this.playerCount === index) {
-			index = 0;
-		}
-		return index;
-	}
-
 	/** Makes turn. */
 	public next(): void {
 		this.currentPlayerIndex = this.calculateIndex(this.currentPlayerIndex);
 		const nextPlayerIndex = this.calculateIndex(this.currentPlayerIndex);
 		this.notify({ nextPlayerIndex, currentPlayerIndex: this.currentPlayerIndex });
+	}
+
+	/**
+	 * Calculates player index.
+	 * @param currentIndex The index on the basis of which calculations are performed.
+	 */
+	private calculateIndex(currentIndex: number): number {
+		const index = currentIndex + 1;
+		if (this.playerCount === index) {
+			return 0;
+		}
+		return index;
 	}
 }

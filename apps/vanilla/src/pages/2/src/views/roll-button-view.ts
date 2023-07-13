@@ -17,7 +17,7 @@ export class RollButtonView extends View {
 
 	/**
 	 * Add events to button.
-	 *  @param args Array of events and callbacks.
+	 * @param args Array of events and callbacks.
 	 */
 	public addEvents(...args: Array<[string, () => void]>): void {
 		args.forEach(callback => {

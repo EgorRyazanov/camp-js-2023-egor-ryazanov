@@ -1,14 +1,16 @@
-/* eslint-disable */
 // Disabled eslint because names reflect the actual naming of the items fixed on the documentation.
 // I can't change them to pascal case.
 /** Enum of positions to render element in different places relative to the parent. */
 export enum TPosition {
+	// eslint-disable-next-line camelcase
 	beforebegin = 'beforebegin',
+	// eslint-disable-next-line camelcase
 	afterbegin = 'afterbegin',
+	// eslint-disable-next-line camelcase
 	beforeend = 'beforeend',
+	// eslint-disable-next-line camelcase
 	afterend = 'afterend',
 }
-/* eslint-enable */
 
 /**
  * Inserts html element to another html element.
@@ -17,7 +19,5 @@ export enum TPosition {
  * @param position Position of child relative to the parent.
  */
 export function render(container: HTMLElement, child: HTMLElement, position: TPosition = TPosition.beforeend): void {
-	if (container && child) {
-		container.insertAdjacentElement(position, child);
-	}
+	container.insertAdjacentElement(position, child);
 }

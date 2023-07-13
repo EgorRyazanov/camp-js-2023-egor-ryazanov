@@ -3,7 +3,7 @@ import { View } from './view';
 /** Container for players scores views and total score view. */
 export class ScoresContainerView extends View {
 	/** Html element. */
-	protected override element: HTMLElement;
+	protected element: HTMLElement;
 
 	public constructor() {
 		super();

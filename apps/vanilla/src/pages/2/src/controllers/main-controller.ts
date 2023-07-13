@@ -12,25 +12,25 @@ import { PlayerGenerator, TurnGenerator, DiceGenerator } from '../generators';
 /** Controller.  */
 export class Controller {
 	/** Container of app. */
-	private app: HTMLElement;
+	private readonly appElement: HTMLElement;
 
 	/**  Container for players. */
-	private playersContainer: PlayerContainerView;
+	private readonly playersContainerView: PlayerContainerView;
 
 	/** Button that generate game turn. */
-	private rollButton: RollButtonView;
+	private readonly rollButtonView: RollButtonView;
 
 	/** Array of player generators. */
-	private readonly playersGenerators: PlayerGenerator[];
+	private readonly playersGenerators: readonly PlayerGenerator[];
 
 	/** Array of player views. */
-	private readonly playersViews: PlayerView[];
+	private readonly playersViews: readonly PlayerView[];
 
 	/** View to display the total points of all players together. */
 	private readonly totalScoresView: TotalScoresView;
 
 	/** View to display title of app. */
-	private readonly title: TitleView;
+	private readonly titleView: TitleView;
 
 	/** Container for players scores views and total score view. */
 	private readonly scoresContainerView: ScoresContainerView;
@@ -41,14 +41,12 @@ export class Controller {
 	/** Dice generator. */
 	private readonly diceGenerator: DiceGenerator;
 
-	public constructor(app: HTMLElement, playersContainer: PlayerContainerView, playersNames: string[]) {
-		this.app = app;
-		this.playersContainer = playersContainer;
-		this.playersGenerators = [];
-		this.playersViews = [];
+	public constructor(appElement: HTMLElement, playersContainerView: PlayerContainerView, playersNames: string[]) {
+		this.appElement = appElement;
+		this.playersContainerView = playersContainerView;
 		this.totalScoresView = new TotalScoresView();
-		this.rollButton = new RollButtonView();
-		this.title = new TitleView('Blackjack game');
+		this.rollButtonView = new RollButtonView();
+		this.titleView = new TitleView('Blackjack game');
 		this.scoresContainerView = new ScoresContainerView();
 
 		this.turnGenerator = new TurnGenerator(playersNames.length);
@@ -56,26 +54,31 @@ export class Controller {
 		this.turnGenerator.subscribe(this.diceGenerator);
 		this.diceGenerator.subscribe(this.totalScoresView);
 
-		this.rollButton.addEvents(['click', this.turnGenerator.next]);
+		this.rollButtonView.addEvents(['click', this.turnGenerator.next]);
 
+		const playersGeneratorsTemp: PlayerGenerator[] = [];
 		playersNames.forEach((playerName, index) => {
-			this.playersGenerators.push(new PlayerGenerator(playerName, index));
-			this.diceGenerator.subscribe(this.playersGenerators[index]);
+			playersGeneratorsTemp.push(new PlayerGenerator(playerName, index));
+			this.diceGenerator.subscribe(playersGeneratorsTemp[index]);
 		});
+		this.playersGenerators = playersGeneratorsTemp;
+
+		const playersViewsTemp: PlayerView[] = [];
 		this.playersGenerators.forEach(playerModel => {
 			const playerView = new PlayerView(playerModel.points, playerModel.name);
-			this.playersViews.push(playerView);
+			playersViewsTemp.push(playerView);
 			playerModel.subscribe(playerView);
 		});
+		this.playersViews = playersViewsTemp;
 	}
 
 	/** Adds all the html elements on the page and starts the program. */
 	public init(): void {
-		render(this.app, this.title.getElement());
-		render(this.app, this.rollButton.getElement());
-		render(this.app, this.scoresContainerView.getElement());
-		render(this.scoresContainerView.getElement(), this.playersContainer.getElement());
-		this.playersViews.forEach(playerView => render(this.playersContainer.getElement(), playerView.getElement()));
+		render(this.appElement, this.titleView.getElement());
+		render(this.appElement, this.rollButtonView.getElement());
+		render(this.appElement, this.scoresContainerView.getElement());
+		render(this.scoresContainerView.getElement(), this.playersContainerView.getElement());
+		this.playersViews.forEach(playerView => render(this.playersContainerView.getElement(), playerView.getElement()));
 		render(this.scoresContainerView.getElement(), this.totalScoresView.getElement());
 	}
 }

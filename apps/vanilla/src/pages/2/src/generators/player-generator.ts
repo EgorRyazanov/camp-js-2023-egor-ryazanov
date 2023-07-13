@@ -8,11 +8,11 @@ export class PlayerGenerator extends Publisher<DisplayTurn> implements Observer<
 	/** Name of player. */
 	public readonly name: string;
 
-	/** Index for generating a sequence of player turns in the game. */
-	private index: number;
-
 	/** Game points of player. */
 	public points: number[];
+
+	/** Index for generating a sequence of player turns in the game. */
+	private index: number;
 
 	/** The status of the player's victory. */
 	private isWin: boolean;
