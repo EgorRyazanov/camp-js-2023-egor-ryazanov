@@ -6,7 +6,7 @@ export class Publisher<T> {
 	protected readonly subscribers: Observer<T>[] = [];
 
 	/**
-	 * Method to subscribe to be notified about changes.
+	 * Subscribes to be notified about changes.
 	 * @param subscriber Entity that satisfies the interface.
 	 */
 	public subscribe(subscriber: Observer<T>): void {
@@ -17,7 +17,7 @@ export class Publisher<T> {
 	}
 
 	/**
-	 * Method to unsubscribe to not be notified about changes.
+	 * Unsubscribes to not be notified about changes.
 	 * @param subscriber Entity that satisfies the interface.
 	 */
 	public unsubscribe(subscriber: Observer<T>): void {
@@ -28,8 +28,8 @@ export class Publisher<T> {
 	}
 
 	/**
-	 * Method to notify subscribers.
-	 * @param value Object that satisfies the interface.
+	 * Notifies subscribers.
+	 * @param value Object that satisfies the interface of generator.
 	 */
 	public notify(value: T): void {
 		this.subscribers.forEach(sub => sub.update(value));

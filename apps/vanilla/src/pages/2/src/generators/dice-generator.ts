@@ -17,7 +17,7 @@ export class DiceGenerator extends Publisher<RoundResult> implements Observer<Pl
 	}
 
 	/**
-	 * Function that notify subscribers about current game points.
+	 * Generates number of points and notify subscribers about it.
 	 * @param value Information about the turn order of players in the game.
 	 */
 	public update(value: PlayerTurn): void {

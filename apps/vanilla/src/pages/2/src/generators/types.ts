@@ -8,7 +8,7 @@ export interface Observer<T> {
 	update: (value: T) => void;
 }
 
-/** Interface of total information about current turn. */
+/** Total information about current turn. */
 export interface RoundResult {
 
 	/** Number of points on current turn.  */
@@ -21,7 +21,7 @@ export interface RoundResult {
 	nextPlayerIndex: number;
 }
 
-/** Interface of player display information. */
+/** Player display information. */
 export interface DisplayTurn {
 
 	/** Win player status. */
@@ -37,7 +37,7 @@ export interface DisplayTurn {
 	points: number[];
 }
 
-/** Interface of information about the turn order of players in the game. */
+/** Information about the turn order of players in the game. */
 export interface PlayerTurn {
 
 	/** Index of player that made turn. */

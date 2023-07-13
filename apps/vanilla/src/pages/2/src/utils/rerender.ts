@@ -1,5 +1,5 @@
 /**
- * Function to replace old html element to updated html element.
+ * Replaces old html element to updated html element.
  * @param targetElement Current version of html element.
  * @param newElement New version of html element.
  */

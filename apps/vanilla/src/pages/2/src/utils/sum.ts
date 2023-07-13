@@ -1,5 +1,5 @@
 /**
- * Calculate sum of numbers array.
+ * Calculates sum of numbers array.
  * @param numbers Array of numbers.
  */
 export function getSum(numbers: number[]): number {

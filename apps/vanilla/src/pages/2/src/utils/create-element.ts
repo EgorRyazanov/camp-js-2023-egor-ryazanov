@@ -1,5 +1,5 @@
 /**
- * Function that create dom element based on string template.
+ * Creates dom element based on string template.
  * @param template Html template.
  */
 export function createELement(template: string): HTMLElement {

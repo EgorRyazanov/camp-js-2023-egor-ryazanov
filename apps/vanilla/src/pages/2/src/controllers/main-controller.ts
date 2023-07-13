@@ -69,7 +69,7 @@ export class Controller {
 		});
 	}
 
-	/** Function to add all the html elements on the page and starts the program. */
+	/** Adds all the html elements on the page and starts the program. */
 	public init(): void {
 		render(this.app, this.title.getElement());
 		render(this.app, this.rollButton.getElement());

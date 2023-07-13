@@ -23,7 +23,7 @@ export class TotalScoresView extends View implements Observer<RoundResult> {
 	}
 
 	/**
-	 *  Update total scores view and rerender html element.
+	 * Updates total scores view and rerender html element.
 	 * @param value Total information about current turn.
 	 */
 	public update(value: RoundResult): void {

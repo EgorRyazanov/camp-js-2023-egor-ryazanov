@@ -11,7 +11,7 @@ export enum TPosition {
 /* eslint-enable */
 
 /**
- * Function to insert html element to another html element.
+ * Inserts html element to another html element.
  * @param container Parent html element where we will insert child html element.
  * @param child Child html element that will be inserted in parent.
  * @param position Position of child relative to the parent.

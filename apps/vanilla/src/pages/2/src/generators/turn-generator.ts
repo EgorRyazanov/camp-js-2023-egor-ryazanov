@@ -18,7 +18,7 @@ export class TurnGenerator extends Publisher<PlayerTurn> {
 	}
 
 	/**
-	 * Calculate player index.
+	 * Calculates player index.
 	 * @param currentIndex The index on the basis of which calculations are performed.
 	 */
 	private calculateIndex(currentIndex: number): number {
@@ -29,7 +29,7 @@ export class TurnGenerator extends Publisher<PlayerTurn> {
 		return index;
 	}
 
-	/** Method to make turn. */
+	/** Makes turn. */
 	public next(): void {
 		this.currentPlayerIndex = this.calculateIndex(this.currentPlayerIndex);
 		const nextPlayerIndex = this.calculateIndex(this.currentPlayerIndex);
