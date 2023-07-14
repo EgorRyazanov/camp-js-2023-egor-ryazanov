@@ -9,7 +9,7 @@
 }
 
 .primary-button {
-  padding: var(--md-padding) var(--lg-padding);
+  padding: var(--md-space) var(--lg-space);
   font-weight: 700;
   border-radius: var(--border-radius);
   font-size: var(--font-size-md);

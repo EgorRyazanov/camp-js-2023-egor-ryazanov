@@ -11,8 +11,6 @@ export class TurnGenerator extends Publisher<PlayerTurn> {
 
 	public constructor(playerCount: number) {
 		super();
-		this.next = this.next.bind(this);
-
 		this.playerCount = playerCount;
 		this.currentPlayerIndex = -1;
 	}

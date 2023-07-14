@@ -18,7 +18,7 @@ export abstract class View {
 	 * @param template New template for view.
 	 */
 	protected generateElement(template?: string): HTMLElement {
-		if (template) {
+		if (template != null) {
 			return createElement(template);
 		}
 		return createElement(this.template);
