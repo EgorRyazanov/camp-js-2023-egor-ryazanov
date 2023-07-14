@@ -8,16 +8,16 @@ export abstract class View {
 	/** HTML element. */
 	protected abstract element: HTMLElement;
 
-	/** Returns HTML element */
+	/** Returns HTML element. */
 	public getElement(): HTMLElement {
 		return this.element;
 	}
 
 	/**
-	 * Generates HTML element based on template
-	 * @param template new template for view
+	 * Generates HTML element based on template.
+	 * @param template New template for view.
 	 */
-	protected generateElement(template?: string) {
+	protected generateElement(template?: string): HTMLElement {
 		if (template) {
 			return createElement(template);
 		}

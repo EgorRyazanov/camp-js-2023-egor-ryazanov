@@ -61,7 +61,7 @@ export class GameController {
 		render(this.appElement, this.rollButtonView.getElement());
 		render(this.appElement, this.scoresContainerView.getElement());
 		render(this.scoresContainerView.getElement(), this.playersContainerView.getElement());
-		this.playersViews.forEach((playerView) => render(this.playersContainerView.getElement(), playerView.getElement()));
+		this.playersViews.forEach(playerView => render(this.playersContainerView.getElement(), playerView.getElement()));
 		render(this.scoresContainerView.getElement(), this.totalScoresView.getElement());
 	}
 
@@ -69,7 +69,7 @@ export class GameController {
 	 * Creates array of players generators.
 	 * @param playersNames Players names.
 	 */
-	private createPlayerGenerators(playersNames: string[]) {
+	private createPlayerGenerators(playersNames: string[]): PlayerGenerator[] {
 		const playersGeneratorsTemp: PlayerGenerator[] = [];
 		playersNames.forEach((playerName, index) => {
 			playersGeneratorsTemp.push(new PlayerGenerator(playerName, index));
@@ -78,9 +78,9 @@ export class GameController {
 	}
 
 	/** Creates array of players views. */
-	private createPlayersViews() {
+	private createPlayersViews(): PlayerView[] {
 		const playersViewsTemp: PlayerView[] = [];
-		this.playersGenerators.forEach((playerModel) => {
+		this.playersGenerators.forEach(playerModel => {
 			const playerView = new PlayerView(playerModel.points, playerModel.name);
 			playersViewsTemp.push(playerView);
 			playerModel.subscribe(playerView);
@@ -88,11 +88,11 @@ export class GameController {
 		return playersViewsTemp;
 	}
 
-	/** Makes needed subscribes and add events */
-	private makeEventSubscribes() {
+	/** Makes needed subscribes and add events. */
+	private makeEventSubscribes(): void {
 		this.turnGenerator.subscribe(this.diceGenerator);
 		this.diceGenerator.subscribe(this.totalScoresView);
 		this.rollButtonView.addEvents([{ name: 'click', callback: this.turnGenerator.next }]);
-		this.playersGenerators.forEach((playerGenerator) => this.diceGenerator.subscribe(playerGenerator));
+		this.playersGenerators.forEach(playerGenerator => this.diceGenerator.subscribe(playerGenerator));
 	}
 }

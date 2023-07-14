@@ -1,12 +1,14 @@
 import { View } from './view';
 
 /** Events. */
-export type ListenerEvents = {
+export interface ListenerEvents {
+
 	/** Name of event. */
 	name: string;
+
 	/** Callback of event. */
 	callback: () => void;
-};
+}
 
 /** View of button that generate game turn. */
 export class RollButtonView extends View {
@@ -32,15 +34,15 @@ export class RollButtonView extends View {
 	 * @param newEvents Array of ListenerEvents entities.
 	 */
 	public addEvents(newEvents: ListenerEvents[]): void {
-		newEvents.forEach((event) => {
+		newEvents.forEach(event => {
 			this.element.addEventListener(event.name, event.callback);
 			this.events.push(event);
 		});
 	}
 
 	/** Removes events listeners. */
-	public RemoveEvents() {
-		this.events.forEach((event) => {
+	public removeEvents(): void {
+		this.events.forEach(event => {
 			this.element.removeEventListener(event.name, event.callback);
 		});
 	}

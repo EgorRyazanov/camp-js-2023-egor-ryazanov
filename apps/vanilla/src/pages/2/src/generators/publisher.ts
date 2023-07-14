@@ -10,7 +10,7 @@ export class Publisher<T> {
 	 * @param newSubscriber Entity that satisfies the interface.
 	 */
 	public subscribe(newSubscriber: Observer<T>): void {
-		const subscriberIndex = this.subscribers.findIndex((subscriber) => subscriber === newSubscriber);
+		const subscriberIndex = this.subscribers.findIndex(subscriber => subscriber === newSubscriber);
 		if (subscriberIndex === -1) {
 			this.subscribers.push(newSubscriber);
 		}
@@ -21,7 +21,7 @@ export class Publisher<T> {
 	 * @param targetSubscriber Entity that satisfies the interface.
 	 */
 	public unsubscribe(targetSubscriber: Observer<T>): void {
-		const subscriberIndex = this.subscribers.findIndex((subscriber) => subscriber === targetSubscriber);
+		const subscriberIndex = this.subscribers.findIndex(subscriber => subscriber === targetSubscriber);
 		if (subscriberIndex !== -1) {
 			this.subscribers.splice(subscriberIndex, 1);
 		}
@@ -32,6 +32,6 @@ export class Publisher<T> {
 	 * @param value Object that satisfies the interface of generator.
 	 */
 	public notify(value: T): void {
-		this.subscribers.forEach((subscriber) => subscriber.update(value));
+		this.subscribers.forEach(subscriber => subscriber.update(value));
 	}
 }

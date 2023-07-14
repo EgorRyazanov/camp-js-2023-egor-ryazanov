@@ -1,5 +1,6 @@
-import { Publisher } from './publisher';
 import { MAX_DICE_RESULT, MIN_DICE_RESULT, BORDER_LOSSES } from '../utils/consts';
+
+import { Publisher } from './publisher';
 import { RoundResult, Observer, PlayerTurn } from './types';
 
 /** Dice generator. */
