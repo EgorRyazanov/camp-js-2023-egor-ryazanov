@@ -11,7 +11,7 @@
 }
 
 .game__roll-button {
-  margin-bottom: var(--xl-space);
+  margin-bottom: var(--md-space);
 }
 
 .game__scores {

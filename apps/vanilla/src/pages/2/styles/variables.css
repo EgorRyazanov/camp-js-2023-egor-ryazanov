@@ -15,8 +15,8 @@
 
   /* margins and paddings */
   --md-space: 16px;
-  --lg-space: calc(var(--md-margin) * 2);
-  --xl-space: calc(var(--md-margin) * 4);
+  --lg-space: calc(var(--md-space) * 2);
+  --xl-space: calc(var(--md-space) * 4);
 
   /* border-radius */
   --border-radius: 16px;
