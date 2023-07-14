@@ -1,18 +1,26 @@
-import { createELement } from '../utils';
+import { createElement } from '../utils';
 
 /** View. */
 export abstract class View {
-	/** Html element. */
+	/** Returns template of view. */
+	public abstract get template(): string;
+
+	/** HTML element. */
 	protected abstract element: HTMLElement;
 
-	/** Returns template of view. */
-	public abstract getTemplate(): string;
-
-	/** Returns html element based on template.  */
+	/** Returns HTML element */
 	public getElement(): HTMLElement {
-		if (this.element) {
-			return this.element;
+		return this.element;
+	}
+
+	/**
+	 * Generates HTML element based on template
+	 * @param template new template for view
+	 */
+	protected generateElement(template?: string) {
+		if (template) {
+			return createElement(template);
 		}
-		return createELement(this.getTemplate());
+		return createElement(this.template);
 	}
 }

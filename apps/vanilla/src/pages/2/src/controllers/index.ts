@@ -1,1 +1,1 @@
-export { Controller } from './main-controller';
+export { GameController } from './game-controller';

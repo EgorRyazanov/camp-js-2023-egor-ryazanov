@@ -1,11 +1,11 @@
 import { DisplayTurn, Observer } from '../generators/types';
-import { getSum, rerender, createELement } from '../utils';
+import { getSum, rerender } from '../utils';
 
 import { View } from './view';
 
 /** PLayer view. */
 export class PlayerView extends View implements Observer<DisplayTurn> {
-	/** Html element. */
+	/** HTML element. */
 	protected override element: HTMLElement;
 
 	/** Array of game points. */
@@ -18,11 +18,11 @@ export class PlayerView extends View implements Observer<DisplayTurn> {
 		super();
 		this.points = points;
 		this.name = name;
-		this.element = this.getElement();
+		this.element = this.generateElement();
 	}
 
 	/** Returns template of view. */
-	public override getTemplate(): string {
+	public override get template(): string {
 		return this.getPlayerTemplate();
 	}
 
@@ -33,7 +33,7 @@ export class PlayerView extends View implements Observer<DisplayTurn> {
 	public update(value: DisplayTurn): void {
 		this.points = value.points;
 		const targetElement = this.element;
-		const newElement = createELement(this.getPlayerTemplate(value.isWin, value.isNext));
+		const newElement = this.generateElement(this.getPlayerTemplate(value.isWin, value.isNext));
 		rerender(targetElement, newElement);
 		this.element = newElement;
 	}

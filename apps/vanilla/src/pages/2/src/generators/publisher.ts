@@ -7,23 +7,23 @@ export class Publisher<T> {
 
 	/**
 	 * Subscribes to be notified about changes.
-	 * @param subscriber Entity that satisfies the interface.
+	 * @param newSubscriber Entity that satisfies the interface.
 	 */
-	public subscribe(subscriber: Observer<T>): void {
-		const subIdx = this.subscribers.findIndex(sub => sub === subscriber);
-		if (subIdx === -1) {
-			this.subscribers.push(subscriber);
+	public subscribe(newSubscriber: Observer<T>): void {
+		const subscriberIndex = this.subscribers.findIndex((subscriber) => subscriber === newSubscriber);
+		if (subscriberIndex === -1) {
+			this.subscribers.push(newSubscriber);
 		}
 	}
 
 	/**
 	 * Unsubscribes to not be notified about changes.
-	 * @param subscriber Entity that satisfies the interface.
+	 * @param targetSubscriber Entity that satisfies the interface.
 	 */
-	public unsubscribe(subscriber: Observer<T>): void {
-		const subIdx = this.subscribers.findIndex(sub => sub === subscriber);
-		if (subIdx !== -1) {
-			this.subscribers.splice(subIdx, 1);
+	public unsubscribe(targetSubscriber: Observer<T>): void {
+		const subscriberIndex = this.subscribers.findIndex((subscriber) => subscriber === targetSubscriber);
+		if (subscriberIndex !== -1) {
+			this.subscribers.splice(subscriberIndex, 1);
 		}
 	}
 
@@ -32,6 +32,6 @@ export class Publisher<T> {
 	 * @param value Object that satisfies the interface of generator.
 	 */
 	public notify(value: T): void {
-		this.subscribers.forEach(sub => sub.update(value));
+		this.subscribers.forEach((subscriber) => subscriber.update(value));
 	}
 }

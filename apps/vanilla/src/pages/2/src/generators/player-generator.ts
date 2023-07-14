@@ -18,12 +18,12 @@ export class PlayerGenerator extends Publisher<DisplayTurn> implements Observer<
 	private pointsSum: number;
 
 	/** Index for generating a sequence of player turns in the game. */
-	private readonly index: number;
+	private readonly sequenceIndex: number;
 
-	public constructor(name: string, index: number) {
+	public constructor(name: string, sequenceIndex: number) {
 		super();
 		this.name = name;
-		this.index = index;
+		this.sequenceIndex = sequenceIndex;
 		this.points = [];
 		this.isWin = false;
 		this.pointsSum = 0;
@@ -34,7 +34,7 @@ export class PlayerGenerator extends Publisher<DisplayTurn> implements Observer<
 	 * @param value Total information about current turn.
 	 */
 	public update(value: RoundResult): void {
-		if (value.currentPlayerIndex === this.index) {
+		if (value.currentPlayerIndex === this.sequenceIndex) {
 			this.points.push(value.turnPoints);
 			this.pointsSum += value.turnPoints;
 			if (this.pointsSum >= MAX_SCORE) {
@@ -42,7 +42,7 @@ export class PlayerGenerator extends Publisher<DisplayTurn> implements Observer<
 			}
 			this.notify({ isWin: this.isWin, pointsSum: this.pointsSum, points: this.points });
 		}
-		if (value.nextPlayerIndex === this.index) {
+		if (value.nextPlayerIndex === this.sequenceIndex) {
 			this.notify({ isWin: this.isWin, isNext: true, pointsSum: this.pointsSum, points: this.points });
 		}
 	}

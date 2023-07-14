@@ -1,27 +1,47 @@
 import { View } from './view';
 
+/** Events. */
+export type ListenerEvents = {
+	/** Name of event. */
+	name: string;
+	/** Callback of event. */
+	callback: () => void;
+};
+
 /** View of button that generate game turn. */
 export class RollButtonView extends View {
-	/** Html element. */
+	/** HTML element. */
 	protected override element: HTMLElement;
+
+	/** Events. */
+	private readonly events: ListenerEvents[];
 
 	public constructor() {
 		super();
-		this.element = this.getElement();
+		this.element = this.generateElement();
+		this.events = [];
 	}
 
 	/** Returns template of view. */
-	public override getTemplate(): string {
+	public override get template(): string {
 		return `<button class="primary-button game__roll-button">Make roll</button>`;
 	}
 
 	/**
 	 * Add events to button.
-	 * @param args Array of events and callbacks.
+	 * @param newEvents Array of ListenerEvents entities.
 	 */
-	public addEvents(...args: Array<[string, () => void]>): void {
-		args.forEach(callback => {
-			this.getElement().addEventListener(callback[0], callback[1]);
+	public addEvents(newEvents: ListenerEvents[]): void {
+		newEvents.forEach((event) => {
+			this.element.addEventListener(event.name, event.callback);
+			this.events.push(event);
+		});
+	}
+
+	/** Removes events listeners. */
+	public RemoveEvents() {
+		this.events.forEach((event) => {
+			this.element.removeEventListener(event.name, event.callback);
 		});
 	}
 }
