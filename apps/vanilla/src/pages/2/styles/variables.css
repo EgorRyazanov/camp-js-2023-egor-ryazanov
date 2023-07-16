@@ -14,9 +14,9 @@
   --font-size-xl: 40px;
 
   /* margins and paddings */
-  --md-space: 16px;
-  --lg-space: calc(var(--md-space) * 2);
-  --xl-space: calc(var(--md-space) * 4);
+  --space-md: 16px;
+  --space-lg: calc(var(--space-md) * 2);
+  --space-xl: calc(var(--space-md) * 4);
 
   /* border-radius */
   --border-radius: 16px;
