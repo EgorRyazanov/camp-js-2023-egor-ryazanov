@@ -9,7 +9,7 @@ import {
 } from '../views';
 import { PlayerGenerator, TurnGenerator, DiceGenerator } from '../generators';
 
-/** Controller. */
+/** Game Controller. */
 export class GameController {
 	/** Container of app. */
 	private readonly appElement: HTMLElement;
@@ -70,11 +70,7 @@ export class GameController {
 	 * @param playersNames Players names.
 	 */
 	private createPlayerGenerators(playersNames: string[]): PlayerGenerator[] {
-		const playersGeneratorsTemp: PlayerGenerator[] = [];
-		playersNames.forEach((playerName, index) => {
-			playersGeneratorsTemp.push(new PlayerGenerator(playerName, index));
-		});
-		return playersGeneratorsTemp;
+		return playersNames.map((name, index) => new PlayerGenerator(name, index));
 	}
 
 	/** Creates array of players views. */

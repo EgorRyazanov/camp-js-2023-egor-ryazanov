@@ -4,31 +4,28 @@ import { PlayerTurn } from './types';
 /** Turn generator. */
 export class TurnGenerator extends Publisher<PlayerTurn> {
 	/** Index of player that made turn. */
-	public currentPlayerIndex: number;
+	private currentPlayerIndex: number;
 
 	/** Total players count. */
-	public readonly playerCount: number;
+	public readonly playersCount: number;
 
 	public constructor(playerCount: number) {
 		super();
-		this.playerCount = playerCount;
+		this.playersCount = playerCount;
 		this.currentPlayerIndex = -1;
 	}
 
 	/** Makes turn. */
 	public next(): void {
-		this.currentPlayerIndex = this.calculateIndex(this.currentPlayerIndex);
-		const nextPlayerIndex = this.calculateIndex(this.currentPlayerIndex);
+		this.currentPlayerIndex = this.calculateIndex();
+		const nextPlayerIndex = this.calculateIndex();
 		this.notify({ nextPlayerIndex, currentPlayerIndex: this.currentPlayerIndex });
 	}
 
-	/**
-	 * Calculates player index.
-	 * @param currentIndex The index on the basis of which calculations are performed.
-	 */
-	private calculateIndex(currentIndex: number): number {
-		const index = currentIndex + 1;
-		if (this.playerCount === index) {
+	/** Calculates player index. */
+	private calculateIndex(): number {
+		const index = this.currentPlayerIndex + 1;
+		if (this.playersCount === index) {
 			return 0;
 		}
 		return index;
