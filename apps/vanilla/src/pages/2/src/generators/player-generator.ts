@@ -9,7 +9,7 @@ export class PlayerGenerator extends Publisher<DisplayTurn> implements Observer<
 	public readonly name: string;
 
 	/** Game points of player. */
-	public points: number[];
+	public readonly points: number[];
 
 	/** The status of the player's victory. */
 	private isWin: boolean;

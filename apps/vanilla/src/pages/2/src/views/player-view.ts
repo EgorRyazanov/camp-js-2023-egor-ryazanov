@@ -12,7 +12,7 @@ export class PlayerView extends View implements Observer<DisplayTurn> {
 	private points: number[];
 
 	/** Player name. */
-	private name: string;
+	private readonly name: string;
 
 	public constructor(points: number[], name: string) {
 		super();
@@ -32,9 +32,8 @@ export class PlayerView extends View implements Observer<DisplayTurn> {
 	 */
 	public update(value: DisplayTurn): void {
 		this.points = value.points;
-		const targetElement = this.element;
 		const newElement = this.generateElement(this.getPlayerTemplate(value.isWin, value.isNext));
-		rerender(targetElement, newElement);
+		rerender(this.element, newElement);
 		this.element = newElement;
 	}
 

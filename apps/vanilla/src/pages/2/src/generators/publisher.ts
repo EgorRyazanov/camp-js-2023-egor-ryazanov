@@ -3,15 +3,14 @@ import { Observer } from './types';
 /** Publisher. */
 export class Publisher<T> {
 	/** Subscribers. */
-	protected readonly subscribers: Observer<T>[] = [];
+	private readonly subscribers: Observer<T>[] = [];
 
 	/**
 	 * Subscribes to be notified about changes.
 	 * @param newSubscriber Entity that satisfies the interface.
 	 */
 	public subscribe(newSubscriber: Observer<T>): void {
-		const subscriberIndex = this.subscribers.findIndex(subscriber => subscriber === newSubscriber);
-		if (subscriberIndex === -1) {
+		if (!this.subscribers.includes(newSubscriber)) {
 			this.subscribers.push(newSubscriber);
 		}
 	}
