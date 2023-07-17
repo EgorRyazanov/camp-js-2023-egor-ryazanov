@@ -2,6 +2,7 @@ import { View } from './view';
 
 /** Events. */
 export interface ListenerEvents {
+	
 	/** Name of event. */
 	name: string;
 
