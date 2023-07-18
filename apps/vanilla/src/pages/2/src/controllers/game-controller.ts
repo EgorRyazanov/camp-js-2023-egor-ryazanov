@@ -14,7 +14,7 @@ export class GameController {
 	/** Container of app. */
 	private readonly appElement: HTMLElement;
 
-	/**  Container for players. */
+	/** Container for players. */
 	private readonly playersContainerView: PlayerContainerView;
 
 	/** Button that generate game turn. */
@@ -41,7 +41,11 @@ export class GameController {
 	/** Dice generator. */
 	private readonly diceGenerator: DiceGenerator;
 
-	public constructor(appElement: HTMLElement, playersContainerView: PlayerContainerView, playersNames: string[]) {
+	public constructor(
+		appElement: HTMLElement,
+		playersContainerView: PlayerContainerView,
+		readonly playersNames: string[]
+	) {
 		this.appElement = appElement;
 		this.playersContainerView = playersContainerView;
 		this.totalScoresView = new TotalScoresView();
@@ -61,7 +65,7 @@ export class GameController {
 		render(this.appElement, this.rollButtonView.getElement());
 		render(this.appElement, this.scoresContainerView.getElement());
 		render(this.scoresContainerView.getElement(), this.playersContainerView.getElement());
-		this.playersViews.forEach(playerView => render(this.playersContainerView.getElement(), playerView.getElement()));
+		this.playersViews.forEach((playerView) => render(this.playersContainerView.getElement(), playerView.getElement()));
 		render(this.scoresContainerView.getElement(), this.totalScoresView.getElement());
 	}
 
@@ -69,14 +73,14 @@ export class GameController {
 	 * Creates array of players generators.
 	 * @param playersNames Players names.
 	 */
-	private createPlayerGenerators(playersNames: string[]): PlayerGenerator[] {
+	private createPlayerGenerators(playersNames: readonly string[]): PlayerGenerator[] {
 		return playersNames.map((name, index) => new PlayerGenerator(name, index));
 	}
 
 	/** Creates array of players views. */
 	private createPlayersViews(): PlayerView[] {
 		const playersViewsTemp: PlayerView[] = [];
-		this.playersGenerators.forEach(playerModel => {
+		this.playersGenerators.forEach((playerModel) => {
 			const playerView = new PlayerView(playerModel.points, playerModel.name);
 			playersViewsTemp.push(playerView);
 			playerModel.subscribe(playerView);
@@ -89,6 +93,6 @@ export class GameController {
 		this.turnGenerator.subscribe(this.diceGenerator);
 		this.diceGenerator.subscribe(this.totalScoresView);
 		this.rollButtonView.addEvents([{ name: 'click', callback: () => this.turnGenerator.next() }]);
-		this.playersGenerators.forEach(playerGenerator => this.diceGenerator.subscribe(playerGenerator));
+		this.playersGenerators.forEach((playerGenerator) => this.diceGenerator.subscribe(playerGenerator));
 	}
 }

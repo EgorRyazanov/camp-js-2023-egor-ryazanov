@@ -3,7 +3,7 @@ import { getSum, rerender } from '../utils';
 
 import { View } from './view';
 
-/** View to display the total points of all players together.  */
+/** View to display the total points of all players together. */
 export class TotalScoresView extends View implements Observer<RoundResult> {
 	/** Points of all players together. */
 	private readonly points: number[];

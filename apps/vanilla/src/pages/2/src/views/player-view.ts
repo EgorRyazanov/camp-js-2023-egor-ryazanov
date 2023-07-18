@@ -27,7 +27,7 @@ export class PlayerView extends View implements Observer<DisplayTurn> {
 	}
 
 	/**
-	 *  Update player view and rerender it.
+	 * Update player view and rerender it.
 	 * @param value Player display information.
 	 */
 	public update(value: DisplayTurn): void {

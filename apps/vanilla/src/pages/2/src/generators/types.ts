@@ -9,7 +9,7 @@ export interface Observer<T> {
 
 /** Total information about current turn. */
 export interface RoundResult {
-	/** Number of points on current turn.  */
+	/** Number of points on current turn. */
 	readonly turnPoints: number;
 
 	/** Index of player that made turn. */
@@ -27,7 +27,7 @@ export interface DisplayTurn {
 	/** Status that means player will make turn in next round. */
 	readonly isNext?: boolean;
 
-	/** Sum of all points of player that made turn.  */
+	/** Sum of all points of player that made turn. */
 	readonly pointsSum: number;
 
 	/** Updated array of points of player that made turn. */
