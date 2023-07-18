@@ -1,6 +1,5 @@
 /** Interface for combining generators and their potential subscribers. */
 export interface Observer<T> {
-
 	/**
 	 * Updates entity by subscribe.
 	 * @param value Changes that the user has subscribed to.
@@ -10,39 +9,36 @@ export interface Observer<T> {
 
 /** Total information about current turn. */
 export interface RoundResult {
-
 	/** Number of points on current turn.  */
-	turnPoints: number;
+	readonly turnPoints: number;
 
 	/** Index of player that made turn. */
-	currentPlayerIndex: number;
+	readonly currentPlayerIndex: number;
 
 	/** Index of player that going to make turn in next round. */
-	nextPlayerIndex: number;
+	readonly nextPlayerIndex: number;
 }
 
 /** Player display information. */
 export interface DisplayTurn {
-
 	/** Win player status. */
-	isWin?: boolean;
+	readonly isWin?: boolean;
 
 	/** Status that means player will make turn in next round. */
-	isNext?: boolean;
+	readonly isNext?: boolean;
 
 	/** Sum of all points of player that made turn.  */
-	pointsSum: number;
+	readonly pointsSum: number;
 
 	/** Updated array of points of player that made turn. */
-	points: number[];
+	readonly points: number[];
 }
 
 /** Information about the turn order of players in the game. */
 export interface PlayerTurn {
-
 	/** Index of player that made turn. */
-	currentPlayerIndex: number;
+	readonly currentPlayerIndex: number;
 
 	/** Index of player that going to make turn in next round. */
-	nextPlayerIndex: number;
+	readonly nextPlayerIndex: number;
 }
