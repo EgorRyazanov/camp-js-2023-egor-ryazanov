@@ -19,7 +19,11 @@ export default defineConfig({
 		outDir,
 		emptyOutDir: true,
 		rollupOptions: {
-			input: [resolve(root, 'index.html'), resolve(root, '1', 'index.html'), resolve(root, '2', 'index.html')],
+			input: [
+				resolve(root, 'index.html'),
+				resolve(root, '1', 'index.html'),
+				resolve(root, '2', 'index.html')
+			],
 		},
 	},
 });
