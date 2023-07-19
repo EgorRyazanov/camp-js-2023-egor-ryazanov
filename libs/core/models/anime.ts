@@ -1,6 +1,7 @@
 import { Aired, Status, Type } from '../utils/types';
 
 import { Immerable, OmitImmerable } from './immerable';
+import { Pagination } from './pagintation';
 
 export class Anime extends Immerable {
 	public readonly id: number;
@@ -32,3 +33,4 @@ export class Anime extends Immerable {
 }
 
 type AnimeConstructorData = OmitImmerable<Anime>;
+export type AnimePagination = Pagination<Anime>;

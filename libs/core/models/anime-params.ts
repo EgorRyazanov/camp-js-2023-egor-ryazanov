@@ -32,7 +32,7 @@ export class AnimeParams extends Immerable {
 	public readonly userScoreAnnotatedGte?: number;
 	public readonly userScoreAnnotatedLte?: number;
 
-	public constructor(data: AnimeConstructorData) {
+	public constructor(data: AnimeParamsConstructorData) {
 		super();
 		this.airedEndswithGte = data.airedEndswithGte;
 		this.airedEndswithLte = data.airedEndswithLte;
@@ -62,4 +62,4 @@ export class AnimeParams extends Immerable {
 	}
 }
 
-type AnimeConstructorData = OmitImmerable<AnimeParams>;
+type AnimeParamsConstructorData = OmitImmerable<AnimeParams>;

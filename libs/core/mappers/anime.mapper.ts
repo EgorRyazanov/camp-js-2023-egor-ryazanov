@@ -1,8 +1,8 @@
-import { AnimeDto } from '../dtos/anime.dto';
-import { Anime } from '../models/anime';
+import { AnimeDto, AnimePaginationDto } from '../dtos/anime.dto';
+import { Anime, AnimePagination } from '../models/anime';
 
 export namespace AnimeMapper {
-	export function fromDto(dto: AnimeDto): Anime {
+	export function fromAnimeDto(dto: AnimeDto): Anime {
 		return new Anime({
 			id: dto.id,
 			created: dto.created,
@@ -16,5 +16,16 @@ export namespace AnimeMapper {
 			score: dto.score,
 			userScore: dto.user_score,
 		});
+	}
+
+	export function fromAnimePaginationDto(dto: AnimePaginationDto): AnimePagination {
+		return {
+			count: dto.count,
+			next: dto.next,
+			previous: dto.previous,
+			results: dto.results.map((animeDto) => {
+				return fromAnimeDto(animeDto);
+			}),
+		};
 	}
 }
