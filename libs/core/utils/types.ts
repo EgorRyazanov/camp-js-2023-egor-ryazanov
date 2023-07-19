@@ -1,3 +1,4 @@
+/** Type. */
 export enum Type {
 	'TV',
 	'OVA',
@@ -8,12 +9,14 @@ export enum Type {
 	'UNKNOWN',
 }
 
+/** Status. */
 export enum Status {
 	'FINISHED',
 	'AIRING',
 	'NOT_YET_AIRED',
 }
 
+/** Rating. */
 export enum Rating {
 	'G',
 	'PG',
@@ -24,7 +27,11 @@ export enum Rating {
 	'UNKNOWN',
 }
 
-export type Aired = {
+/** Aired dates. */
+export interface Aired {
+	/** Start date. */
 	start: string | null;
+
+	/** End date. */
 	end: string | null;
-};
+}

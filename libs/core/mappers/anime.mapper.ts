@@ -5,7 +5,7 @@ import { Anime, AnimePagination } from '../models/anime';
 export namespace AnimeMapper {
 	/**
 	 * Converts anime DTO to anime model.
-	 * @param dto anime GTO.
+	 * @param dto Anime GTO.
 	 */
 	export function fromAnimeDto(dto: AnimeDto): Anime {
 		return new Anime({
@@ -25,16 +25,14 @@ export namespace AnimeMapper {
 
 	/**
 	 * Converts anime pagination DTO to anime pagination model.
-	 * @param dto anime pagination DTO.
+	 * @param dto Anime pagination DTO.
 	 */
 	export function fromAnimePaginationDto(dto: AnimePaginationDto): AnimePagination {
 		return {
 			count: dto.count,
 			next: dto.next,
 			previous: dto.previous,
-			results: dto.results.map((animeDto) => {
-				return fromAnimeDto(animeDto);
-			}),
+			results: dto.results.map((animeDto) => fromAnimeDto(animeDto)),
 		};
 	}
 }

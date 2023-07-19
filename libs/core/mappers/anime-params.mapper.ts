@@ -5,7 +5,7 @@ import { AnimeParametersDto } from '../dtos/anime-params.dto';
 export namespace AnimeParametersMapper {
 	/**
 	 * Converts model to dto.
-	 * @param model anime model.
+	 * @param model Anime model.
 	 */
 	export function toDto(model: AnimeParameters): AnimeParametersDto {
 		return {
