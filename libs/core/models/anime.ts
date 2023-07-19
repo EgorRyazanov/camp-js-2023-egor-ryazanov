@@ -3,17 +3,29 @@ import { Aired, Status, Type } from '../utils/types';
 import { Immerable, OmitImmerable } from './immerable';
 import { Pagination } from './pagintation';
 
+/** Anime. */
 export class Anime extends Immerable {
+	/** Id. */
 	public readonly id: number;
+	/** Created date. */
 	public readonly created: string;
+	/** Modified date. */
 	public readonly modified: string;
+	/** English title */
 	public readonly titleEnglish: string;
+	/** Japanese title. */
 	public readonly titleJapanese: string;
+	/** Image. */
 	public readonly image: string;
+	/** Aired dates. */
 	public readonly aired: Aired;
+	/** Type. */
 	public readonly type: Type;
+	/** Status. */
 	public readonly status: Status;
+	/** Score. */
 	public readonly score: number | null;
+	/** User score. */
 	public readonly userScore: number | null;
 
 	public constructor(data: AnimeConstructorData) {
@@ -31,6 +43,7 @@ export class Anime extends Immerable {
 		this.userScore = data.userScore;
 	}
 }
-
+/** Constructor of anime model. */
 type AnimeConstructorData = OmitImmerable<Anime>;
+/** Anime pagination. */
 export type AnimePagination = Pagination<Anime>;

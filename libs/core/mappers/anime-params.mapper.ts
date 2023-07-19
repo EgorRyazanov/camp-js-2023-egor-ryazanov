@@ -1,8 +1,13 @@
-import { AnimeParams } from '../models/anime-params';
-import { AnimeParamsDto } from '../dtos/anime-params.dto';
+import { AnimeParameters } from '../models/anime-params';
+import { AnimeParametersDto } from '../dtos/anime-params.dto';
 
-export namespace AnimeParamsMapper {
-	export function toDto(model: AnimeParams): AnimeParamsDto {
+/** Anime Parameters Mapper. */
+export namespace AnimeParametersMapper {
+	/**
+	 * Converts model to dto.
+	 * @param model anime model.
+	 */
+	export function toDto(model: AnimeParameters): AnimeParametersDto {
 		return {
 			aired__endswith__gte: model?.airedEndswithGte,
 			aired__endswith__lte: model?.airedEndswithLte,
