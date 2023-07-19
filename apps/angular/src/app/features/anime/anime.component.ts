@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimeService } from '../../../core/services/anime.service';
-import { Anime } from '@js-camp/core/models/anime';
+import { Anime, AnimePagination } from '@js-camp/core/models/anime';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Component({
 	selector: 'camp-anime',
@@ -8,19 +9,23 @@ import { Anime } from '@js-camp/core/models/anime';
 	styleUrls: ['./anime.component.css'],
 })
 export class AnimeComponent implements OnInit {
-	animes: Anime[] = [];
+	isLoading$ = new BehaviorSubject<boolean>(true);
+	animeResponse$ = new Observable<AnimePagination>();
+	animes: readonly Anime[] = [];
 	displayedColumns: string[] = ['image', 'titleJpn', 'titleEng', 'start aired', 'type', 'status'];
 
-	constructor(private animeService: AnimeService) {}
+	constructor(private readonly animeService: AnimeService) {}
 
 	ngOnInit(): void {
-		this.getAnimes();
-	}
-
-	getAnimes() {
-		this.animeService.getAnimes().subscribe((animes) => {
-			this.animes = animes;
-			console.log(this.animes[0]);
-		});
+		this.animeService
+			.getAnimes()
+			.pipe(
+				tap((animePagination) => {
+					this.isLoading$.next(false);
+				})
+			)
+			.subscribe((animeResponse) => {
+				this.animes = animeResponse.results;
+			});
 	}
 }
