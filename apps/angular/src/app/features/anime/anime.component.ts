@@ -3,16 +3,21 @@ import { AnimeService } from '../../../core/services/anime.service';
 import { Anime, AnimePagination } from '@js-camp/core/models/anime';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
+/** Anime Component */
 @Component({
 	selector: 'camp-anime',
 	templateUrl: './anime.component.html',
 	styleUrls: ['./anime.component.css'],
 })
 export class AnimeComponent implements OnInit {
+	/** Status of anime getting from server. */
 	isLoading$ = new BehaviorSubject<boolean>(true);
-	animeResponse$ = new Observable<AnimePagination>();
+
+	/** List of animes. */
 	animes: readonly Anime[] = [];
-	displayedColumns: string[] = ['image', 'titleJpn', 'titleEng', 'start aired', 'type', 'status'];
+
+	/** Columns of table */
+	displayedColumns: string[] = ['image', 'titleJapanese', 'titleEnglish', 'start aired', 'type', 'status'];
 
 	constructor(private readonly animeService: AnimeService) {}
 

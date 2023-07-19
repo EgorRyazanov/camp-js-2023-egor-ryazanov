@@ -23,8 +23,11 @@ export interface AnimeParamsDto {
 	status?: Status;
 	status__in?: Status;
 	title_eng?: string;
+	title_eng__in?: string;
 	title_eng__icontains?: string;
+	title_jpn?: string;
 	title_jpn__in?: string;
+	title_jpn__icontains?: string;
 	type?: Type;
 	type__in?: Type;
 	user_score_annotated__gte?: number;

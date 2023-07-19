@@ -24,9 +24,12 @@ export class AnimeParams extends Immerable {
 	public readonly sourceIn?: string;
 	public readonly status?: Status;
 	public readonly statusIn?: Status;
-	public readonly titleEng?: string;
-	public readonly titleEngIcontains?: string;
-	public readonly titleJpnIn?: string;
+	public readonly titleEnglish?: string;
+	public readonly titleEngIn?: string;
+	public readonly titleEnglishIcontains?: string;
+	public readonly titleJapaneseIn?: string;
+	public readonly titleJapanese?: string;
+	public readonly titleJapaneseIcontains?: string;
 	public readonly type?: Type;
 	public readonly typeIn?: Type;
 	public readonly userScoreAnnotatedGte?: number;
@@ -55,9 +58,12 @@ export class AnimeParams extends Immerable {
 		this.sourceIn = data.sourceIn;
 		this.status = data.status;
 		this.statusIn = data.statusIn;
-		this.titleEng = data.titleEng;
-		this.titleEngIcontains = data.titleEngIcontains;
-		this.titleJpnIn = data.titleJpnIn;
+		this.titleEnglish = data.titleEnglish;
+		this.titleEnglishIcontains = data.titleEnglishIcontains;
+		this.titleEngIn = data.titleEngIn;
+		this.titleJapaneseIn = data.titleJapaneseIn;
+		this.titleJapanese = data.titleJapanese;
+		this.titleJapaneseIcontains = data.titleJapaneseIcontains;
 		this.type = data.type;
 	}
 }

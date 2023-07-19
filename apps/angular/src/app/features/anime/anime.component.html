@@ -6,14 +6,14 @@
 			<td mat-cell *matCellDef="let anime"><img class="anime__image" src="{{ anime.image }}" /></td>
 		</ng-container>
 
-		<ng-container matColumnDef="titleJpn">
+		<ng-container matColumnDef="titleJapanese">
 			<th mat-header-cell *matHeaderCellDef>Japanese Title</th>
-			<td mat-cell *matCellDef="let anime">{{ anime.titleJpn }}</td>
+			<td mat-cell *matCellDef="let anime">{{ anime.titleJapanese }}</td>
 		</ng-container>
 
-		<ng-container matColumnDef="titleEng">
+		<ng-container matColumnDef="titleEnglish">
 			<th mat-header-cell *matHeaderCellDef>English Title</th>
-			<td mat-cell *matCellDef="let anime">{{ anime.titleEng }}</td>
+			<td mat-cell *matCellDef="let anime">{{ anime.titleEnglish }}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="start aired">
