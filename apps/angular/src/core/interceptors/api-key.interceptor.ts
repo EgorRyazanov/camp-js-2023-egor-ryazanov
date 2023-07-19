@@ -6,7 +6,8 @@ import { environment } from '@js-camp/angular/environments/environment';
 /** Api Key Interceptor. */
 @Injectable()
 export class ApiKeyInterceptor implements HttpInterceptor {
-	intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+	/** @inheritdoc */
+	public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		const modifiedReq = request.clone({
 			headers: request.headers.set('Api-Key', environment.apiKey),
 		});

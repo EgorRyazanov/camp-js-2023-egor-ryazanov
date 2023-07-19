@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AnimeService } from '../../../core/services/anime.service';
-import { Anime, AnimePagination } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
 
-/** Anime Component */
+import { Anime } from '@js-camp/core/models/anime';
+import { BehaviorSubject, tap } from 'rxjs';
+
+import { AnimeService } from '../../../core/services/anime.service';
+
+/** Anime Component. */
 @Component({
 	selector: 'camp-anime',
 	templateUrl: './anime.component.html',
@@ -11,25 +13,33 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 })
 export class AnimeComponent implements OnInit {
 	/** Status of anime getting from server. */
-	isLoading$ = new BehaviorSubject<boolean>(true);
+	public isLoading$ = new BehaviorSubject<boolean>(true);
 
 	/** List of animes. */
-	animes: readonly Anime[] = [];
+	public animes: readonly Anime[] = [];
 
 	/** Columns of table. */
-	displayedColumns: string[] = ['image', 'titleJapanese', 'titleEnglish', 'start aired', 'type', 'status'];
+	public readonly displayedColumns: string[] = [
+		'image',
+		'titleJapanese',
+		'titleEnglish',
+		'start aired',
+		'type',
+		'status',
+	];
 
-	constructor(private readonly animeService: AnimeService) {}
+	public constructor(private readonly animeService: AnimeService) {}
 
-	ngOnInit(): void {
+	/** Initializes component. */
+	public ngOnInit(): void {
 		this.animeService
 			.getAnimes()
 			.pipe(
-				tap((animePagination) => {
+				tap(() => {
 					this.isLoading$.next(false);
-				})
+				}),
 			)
-			.subscribe((animeResponse) => {
+			.subscribe(animeResponse => {
 				this.animes = animeResponse.results;
 			});
 	}

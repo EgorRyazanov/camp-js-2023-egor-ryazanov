@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 /** Base Headers Interceptor. */
 @Injectable()
 export class BaseHeadersInterceptor implements HttpInterceptor {
-	intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+	/** @inheritdoc */
+	public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		const modifiedReq = request.clone({
 			headers: request.headers.set('Content-Type', 'application/json'),
 		});
