@@ -21,7 +21,7 @@ export class Publisher<T> {
 	 */
 	public unsubscribe(targetSubscriber: Observer<T>): void {
 		if (!this.subscribers.includes(targetSubscriber)) {
-			const subscriberIndex = this.subscribers.findIndex((subscriber) => subscriber === targetSubscriber);
+			const subscriberIndex = this.subscribers.findIndex(subscriber => subscriber === targetSubscriber);
 			this.subscribers.splice(subscriberIndex, 1);
 		}
 	}
@@ -31,6 +31,6 @@ export class Publisher<T> {
 	 * @param value Object that satisfies the interface of generator.
 	 */
 	public notify(value: T): void {
-		this.subscribers.forEach((subscriber) => subscriber.update(value));
+		this.subscribers.forEach(subscriber => subscriber.update(value));
 	}
 }

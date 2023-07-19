@@ -38,7 +38,7 @@ export class GameController {
 	public constructor(
 		private readonly appElement: HTMLElement,
 		private readonly playersContainerView: PlayerContainerView,
-		private readonly playersNames: string[]
+		private readonly playersNames: string[],
 	) {
 		this.totalScoresView = new TotalScoresView();
 		this.rollButtonView = new RollButtonView();
@@ -57,7 +57,7 @@ export class GameController {
 		render(this.appElement, this.rollButtonView.getElement());
 		render(this.appElement, this.scoresContainerView.getElement());
 		render(this.scoresContainerView.getElement(), this.playersContainerView.getElement());
-		this.playersViews.forEach((playerView) => render(this.playersContainerView.getElement(), playerView.getElement()));
+		this.playersViews.forEach(playerView => render(this.playersContainerView.getElement(), playerView.getElement()));
 		render(this.scoresContainerView.getElement(), this.totalScoresView.getElement());
 	}
 
@@ -71,7 +71,7 @@ export class GameController {
 
 	/** Creates array of players views. */
 	private createPlayersViews(): PlayerView[] {
-		return this.playersGenerators.map((playerModel) => {
+		return this.playersGenerators.map(playerModel => {
 			const playerView = new PlayerView(playerModel.points, playerModel.name);
 			playerModel.subscribe(playerView);
 			return playerView;
@@ -82,7 +82,7 @@ export class GameController {
 	private makeEventSubscribes(): void {
 		this.turnGenerator.subscribe(this.diceGenerator);
 		this.diceGenerator.subscribe(this.totalScoresView);
-		this.rollButtonView.addEvents([{ name: 'click', callback: () => this.turnGenerator.next() }]);
-		this.playersGenerators.forEach((playerGenerator) => this.diceGenerator.subscribe(playerGenerator));
+		this.rollButtonView.addEvents([{ name: 'click', callback: () => this.turnGenerator.getNextTurn() }]);
+		this.playersGenerators.forEach(playerGenerator => this.diceGenerator.subscribe(playerGenerator));
 	}
 }

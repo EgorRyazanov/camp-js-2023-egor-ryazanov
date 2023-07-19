@@ -16,7 +16,7 @@ export class TurnGenerator extends Publisher<PlayerTurn> {
 	}
 
 	/** Makes turn. */
-	public next(): void {
+	public getNextTurn(): void {
 		this.currentPlayerIndex = this.calculateIndex();
 		const nextPlayerIndex = this.calculateIndex();
 		this.notify({ nextPlayerIndex, currentPlayerIndex: this.currentPlayerIndex });
