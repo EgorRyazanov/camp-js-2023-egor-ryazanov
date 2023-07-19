@@ -1,30 +1,41 @@
 import { Aired, Type, Status } from '../utils/types';
+
 import { PaginationDto } from './pagination.dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
 	/** Id. */
-	id: number;
+	readonly id: number;
+
 	/** Created date. */
-	created: string;
+	readonly created: string;
+
 	/** Modified date. */
-	modified: string;
-	/** English title */
-	title_eng: string;
+	readonly modified: string;
+
+	/** English title. */
+	readonly title_eng: string;
+
 	/** Japanese title. */
-	title_jpn: string;
+	readonly title_jpn: string;
+
 	/** Image. */
-	image: string;
+	readonly image: string;
+
 	/** Aired dates. */
-	aired: Aired;
+	readonly aired: Aired;
+
 	/** Type. */
-	type: Type;
+	readonly type: Type;
+
 	/** Status. */
-	status: Status;
+	readonly status: Status;
+
 	/** Score. */
-	score: number | null;
+	readonly score: number | null;
+
 	/** User score. */
-	user_score: number | null;
+	readonly user_score: number | null;
 }
 
 /** Anime DTO with pagination fields. */
