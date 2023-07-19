@@ -29,6 +29,7 @@ export enum Rating {
 
 /** Aired dates. */
 export interface Aired {
+
 	/** Start date. */
 	start: string | null;
 

@@ -3,6 +3,7 @@ import { AnimeParametersDto } from '../dtos/anime-params.dto';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
+
 	/**
 	 * Converts model to dto.
 	 * @param model Anime model.
