@@ -5,9 +5,6 @@ import { RoundResult, Observer, PlayerTurn } from './types';
 
 /** Dice generator. */
 export class DiceGenerator extends Publisher<RoundResult> implements Observer<PlayerTurn> {
-	public constructor() {
-		super();
-	}
 
 	/**
 	 * Generates number of points and notify subscribers about it.
