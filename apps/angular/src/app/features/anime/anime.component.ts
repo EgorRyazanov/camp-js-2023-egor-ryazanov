@@ -16,7 +16,7 @@ export class AnimeComponent implements OnInit {
 	/** List of animes. */
 	animes: readonly Anime[] = [];
 
-	/** Columns of table */
+	/** Columns of table. */
 	displayedColumns: string[] = ['image', 'titleJapanese', 'titleEnglish', 'start aired', 'type', 'status'];
 
 	constructor(private readonly animeService: AnimeService) {}

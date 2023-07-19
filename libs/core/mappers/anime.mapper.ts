@@ -1,7 +1,12 @@
 import { AnimeDto, AnimePaginationDto } from '../dtos/anime.dto';
 import { Anime, AnimePagination } from '../models/anime';
 
+/** Anime Mapper. */
 export namespace AnimeMapper {
+	/**
+	 * Converts anime DTO to anime model.
+	 * @param dto anime GTO.
+	 */
 	export function fromAnimeDto(dto: AnimeDto): Anime {
 		return new Anime({
 			id: dto.id,
@@ -18,6 +23,10 @@ export namespace AnimeMapper {
 		});
 	}
 
+	/**
+	 * Converts anime pagination DTO to anime pagination model.
+	 * @param dto anime pagination DTO.
+	 */
 	export function fromAnimePaginationDto(dto: AnimePaginationDto): AnimePagination {
 		return {
 			count: dto.count,

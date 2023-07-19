@@ -1,6 +1,7 @@
-import { AnimeParams } from '../models/anime-params';
+import { AnimeParameters } from '../models/anime-params';
 
-export const BASE_ANIME_PARAMS: AnimeParams = new AnimeParams({
+/** Base http parameters. */
+export const BASE_ANIME_PARAMS: AnimeParameters = new AnimeParameters({
 	offset: 20000,
 	limit: 25,
 });
