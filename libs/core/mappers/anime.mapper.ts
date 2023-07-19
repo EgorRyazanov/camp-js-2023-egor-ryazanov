@@ -3,6 +3,7 @@ import { Anime, AnimePagination } from '../models/anime';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
+
 	/**
 	 * Converts anime DTO to anime model.
 	 * @param dto Anime GTO.
@@ -32,7 +33,7 @@ export namespace AnimeMapper {
 			count: dto.count,
 			next: dto.next,
 			previous: dto.previous,
-			results: dto.results.map((animeDto) => fromAnimeDto(animeDto)),
+			results: dto.results.map(animeDto => fromAnimeDto(animeDto)),
 		};
 	}
 }
