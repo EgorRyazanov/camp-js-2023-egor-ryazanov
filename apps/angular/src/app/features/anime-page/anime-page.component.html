@@ -1,4 +1,5 @@
 <camp-spinner *ngIf="isLoading$ | async"></camp-spinner>
+<div *ngIf="isLoading$ | async">123132131</div>
 <div class="animes">
 	<table aria-label="Table of animes" mat-table [dataSource]="animes" class="animes__table">
 		<ng-container matColumnDef="image">
@@ -36,5 +37,11 @@
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 	</table>
-	<mat-paginator [length]="25" [pageSize]="25" aria-label="Select page of Anime search results"></mat-paginator>
+	<mat-paginator
+		(page)="getNextPage($event)"
+		[length]="50"
+		[pageSize]="1"
+		[pageSizeOptions]="[1, 5, 10]"
+		aria-label="Select page of Anime search results"
+	></mat-paginator>
 </div>

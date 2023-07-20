@@ -4,9 +4,10 @@ import { AnimePaginationDto } from '@js-camp/core/dtos/anime.dto';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { AnimePagination } from '@js-camp/core/models/anime';
 import { Observable, catchError, map } from 'rxjs';
-import { BASE_ANIME_PARAMS } from '@js-camp/core/utils/constants';
 import { environment } from '@js-camp/angular/environments/environment';
 import { AnimeParametersMapper } from '@js-camp/core/mappers/anime-params.mapper';
+
+import { AnimeParameters } from '@js-camp/core/models/anime-params';
 
 import { createHttpParams } from '../utils/create-http-params';
 
@@ -20,11 +21,14 @@ export class AnimeService {
 
 	public constructor(private readonly http: HttpClient) {}
 
-	/** Get anime from server. */
-	public getAnimes(): Observable<AnimePagination> {
+	/**
+	 * Get anime from server.
+	 * @param page Current page index.
+	 */
+	public getAnimes(page: number): Observable<AnimePagination> {
 		return this.http
 			.get<AnimePaginationDto>(new URL(this.animePathname, environment.baseUrl).href, {
-			params: createHttpParams(AnimeParametersMapper.toDto(BASE_ANIME_PARAMS)),
+			params: createHttpParams(AnimeParametersMapper.toDto(new AnimeParameters({ offset: page * 25, limit: 25 }))),
 		})
 			.pipe(
 				map(animePaginationDto => AnimeMapper.fromAnimePaginationDto(animePaginationDto)),
