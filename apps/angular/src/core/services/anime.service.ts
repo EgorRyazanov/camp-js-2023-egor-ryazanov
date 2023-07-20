@@ -10,7 +10,6 @@ import { AnimeParametersMapper } from '@js-camp/core/mappers/anime-params.mapper
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 
 import { createHttpParams } from '../utils/create-http-params';
-import { LIMIT_ITEMS } from '../utils/constants';
 
 /** Anime Service. */
 @Injectable({
@@ -24,21 +23,21 @@ export class AnimeService {
 
 	/**
 	 * Get anime from server.
-	 * @param page Current page index.
+	 * @param parameters parameters of current request.
 	 */
-	public getAnimes(page: number): Observable<AnimePagination> {
+	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.http
 			.get<AnimePaginationDto>(new URL(this.animePathname, environment.baseUrl).href, {
-			params: createHttpParams(AnimeParametersMapper.toDto(new AnimeParameters({ offset: page * LIMIT_ITEMS, limit: LIMIT_ITEMS }))),
-		})
+				params: createHttpParams(AnimeParametersMapper.toDto(new AnimeParameters(parameters))),
+			})
 			.pipe(
-				map(animePaginationDto => AnimeMapper.fromAnimePaginationDto(animePaginationDto)),
+				map((animePaginationDto) => AnimeMapper.fromAnimePaginationDto(animePaginationDto)),
 				catchError((error: unknown) => {
 					if (error instanceof Error) {
 						throw new Error(error.message);
 					}
 					throw new Error('Something went wrong with anime service.');
-				}),
+				})
 			);
 	}
 }

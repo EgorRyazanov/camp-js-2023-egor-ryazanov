@@ -1,10 +1,22 @@
 import { Component } from '@angular/core';
 import { AnimePagination } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
+import {
+	BehaviorSubject,
+	Observable,
+	Subject,
+	combineLatestWith,
+	debounceTime,
+	map,
+	shareReplay,
+	switchMap,
+	tap,
+} from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
-import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
+import { DEBOUNCE_TIME, LIMIT_ITEMS } from '@js-camp/angular/core/utils/constants';
 
 import { AnimeService } from '../../../core/services/anime.service';
+import { AnimeParameters } from '@js-camp/core/models/anime-params';
+import { Sort } from '@angular/material/sort';
 
 /** Anime Component. */
 @Component({
@@ -22,6 +34,9 @@ export class AnimePageComponent {
 	/** Anime response. */
 	public animeResponse$ = new Observable<AnimePagination>();
 
+	/**	Sort parameter. */
+	public sortParameter$ = new BehaviorSubject<string>('');
+
 	/** Columns of table. */
 	protected readonly displayedColumns: readonly string[] = [
 		'image',
@@ -38,17 +53,31 @@ export class AnimePageComponent {
 
 	/** Creates stream to get animes from server. */
 	public createAnimesStream(): Observable<AnimePagination> {
-		return this.page$.pipe(
+		return this.sortParameter$.pipe(
+			combineLatestWith(this.page$),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(page => this.animeService.getAnimes(page)),
+			switchMap(([_, page]) =>
+				this.animeService.getAnimes(new AnimeParameters({ offset: page * LIMIT_ITEMS, limit: LIMIT_ITEMS }))
+			),
 			tap(() => {
 				this.isLoading$.next(false);
 			}),
-			shareReplay({ refCount: true, bufferSize: 1 }),
+			shareReplay({ refCount: true, bufferSize: 1 })
 		);
+	}
+
+	/**
+	 * Changes sort parameter.
+	 * @param event event of sort fields.
+	 */
+	public changeSortParameter(event: Sort): void {
+		if (event.direction) {
+			this.sortParameter$.next(event.direction === 'asc' ? `${event.active}` : `-${event.active}`);
+		}
+		this.sortParameter$.next('');
 	}
 
 	/**
