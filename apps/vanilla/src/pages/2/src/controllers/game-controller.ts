@@ -92,7 +92,7 @@ export class GameController {
 	private makeEventSubscribes(): void {
 		this.turnGenerator.subscribe(this.diceGenerator);
 		this.diceGenerator.subscribe(this.totalScoresView);
-		this.rollButtonView.addEvents([{ name: 'click', callback: () => this.turnGenerator.next() }]);
+		this.rollButtonView.addEvents([{ name: 'click', callback: () => this.turnGenerator.update() }]);
 		this.playersGenerators.forEach(playerGenerator => this.diceGenerator.subscribe(playerGenerator));
 	}
 }

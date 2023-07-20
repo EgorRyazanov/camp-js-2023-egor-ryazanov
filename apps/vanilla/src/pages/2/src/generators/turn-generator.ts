@@ -16,11 +16,7 @@ export class TurnGenerator extends Publisher<PlayerTurn> {
 	}
 
 	/** Makes turn. */
-<<<<<<< Updated upstream
-	public next(): void {
-=======
 	public update(): void {
->>>>>>> Stashed changes
 		this.currentPlayerIndex = this.calculateIndex();
 		const nextPlayerIndex = this.calculateIndex();
 		this.notify({ nextPlayerIndex, currentPlayerIndex: this.currentPlayerIndex });
