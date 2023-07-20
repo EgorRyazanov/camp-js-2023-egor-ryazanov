@@ -9,6 +9,9 @@ trim_trailing_whitespace = true
 max_line_length = 120
 end_of_line = lf
 
+[*.css]
+indent_style = space
+
 [*.ts]
 quote_type = single
 
