@@ -1,7 +1,7 @@
 import { Observer } from './types';
 
 /** Publisher. */
-export class Publisher<T> {
+export abstract class Publisher<T> {
 	/** Subscribers. */
 	private readonly subscribers: Observer<T>[] = [];
 
@@ -25,6 +25,8 @@ export class Publisher<T> {
 			this.subscribers.splice(subscriberIndex, 1);
 		}
 	}
+
+	abstract update(value: Observer<T>): void
 
 	/**
 	 * Notifies subscribers.

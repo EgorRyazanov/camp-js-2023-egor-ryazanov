@@ -33,7 +33,7 @@ export class PlayerGenerator extends Publisher<DisplayTurn> implements Observer<
 	 * Updates state of player and notify about changes.
 	 * @param value Total information about current turn.
 	 */
-	public update(value: RoundResult): void {
+	public o update(value: RoundResult): void {
 		if (value.currentPlayerIndex === this.sequenceIndex) {
 			this.points.push(value.turnPoints);
 			this.pointsSum += value.turnPoints;
