@@ -1,20 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
-
-import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '@js-camp/angular/shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-import { AnimeComponent } from './anime.component';
+import { AnimePageComponent } from './anime-page.component';
 
 /** Anime Module. */
 @NgModule({
-	declarations: [AnimeComponent],
+	declarations: [AnimePageComponent],
 	imports: [
-		HttpClientModule,
 		CommonModule,
 		SharedModule,
 		MatTableModule,
@@ -24,4 +21,4 @@ import { AnimeComponent } from './anime.component';
 		MatPaginatorModule,
 	],
 })
-export class AnimeModule {}
+export class AnimePageModule {}

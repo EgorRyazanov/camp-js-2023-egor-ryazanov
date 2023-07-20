@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { Anime } from '@js-camp/core/models/anime';
 import { BehaviorSubject, Subscription, tap } from 'rxjs';
 
@@ -7,11 +6,11 @@ import { AnimeService } from '../../../core/services/anime.service';
 
 /** Anime Component. */
 @Component({
-	selector: 'camp-anime',
-	templateUrl: './anime.component.html',
-	styleUrls: ['./anime.component.css'],
+	selector: 'camp-anime-page',
+	templateUrl: './anime-page.component.html',
+	styleUrls: ['./anime-page.component.css'],
 })
-export class AnimeComponent implements OnInit, OnDestroy {
+export class AnimePageComponent implements OnInit, OnDestroy {
 	/** Status of anime getting from server. */
 	public isLoading$ = new BehaviorSubject<boolean>(true);
 

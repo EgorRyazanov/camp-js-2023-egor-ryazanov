@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AnimePaginationDto } from '@js-camp/core/dtos/anime.dto';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { AnimePagination } from '@js-camp/core/models/anime';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { BASE_ANIME_PARAMS } from '@js-camp/core/utils/constants';
 import { environment } from '@js-camp/angular/environments/environment';
 import { AnimeParametersMapper } from '@js-camp/core/mappers/anime-params.mapper';
@@ -25,6 +25,14 @@ export class AnimeService {
 			.get<AnimePaginationDto>(new URL(this.animePathname, environment.baseUrl).href, {
 			params: createHttpParams(AnimeParametersMapper.toDto(BASE_ANIME_PARAMS)),
 		})
-			.pipe(map(animePaginationDto => AnimeMapper.fromAnimePaginationDto(animePaginationDto)));
+			.pipe(
+				map(animePaginationDto => AnimeMapper.fromAnimePaginationDto(animePaginationDto)),
+				catchError((error: unknown) => {
+					if (error instanceof Error) {
+						throw new Error(error.message);
+					}
+					throw new Error('Something went wrong with anime service.');
+				}),
+			);
 	}
 }
