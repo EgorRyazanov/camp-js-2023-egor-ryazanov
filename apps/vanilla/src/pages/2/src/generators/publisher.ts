@@ -26,8 +26,6 @@ export abstract class Publisher<T> {
 		}
 	}
 
-	abstract update(value: Observer<T>): void
-
 	/**
 	 * Notifies subscribers.
 	 * @param value Object that satisfies the interface of generator.
