@@ -29,10 +29,15 @@ export enum Rating {
 
 /** Aired dates. */
 export interface Aired {
-
-	/** Start date. */
+	/**
+	 *  Start date.
+	 *  @example 1975-01-01T00:00:00Z.
+	 */
 	start: string | null;
 
-	/** End date. */
+	/**
+	 *  End date.
+	 *  @example 1975-01-01T00:00:00Z.
+	 */
 	end: string | null;
 }

@@ -15,6 +15,7 @@ import { createHttpParams } from '../utils/create-http-params';
 	providedIn: 'root',
 })
 export class AnimeService {
+	/** Path to get anime. */
 	private readonly animePathname = '/api/v1/anime/anime/';
 
 	public constructor(private readonly http: HttpClient) {}
