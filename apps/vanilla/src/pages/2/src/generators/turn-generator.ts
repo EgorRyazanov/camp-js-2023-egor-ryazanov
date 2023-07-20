@@ -1,8 +1,8 @@
 import { Publisher } from './publisher';
-import { PlayerTurn } from './types';
+import { Observer, PlayerTurn } from './types';
 
 /** Turn generator. */
-export class TurnGenerator extends Publisher<PlayerTurn> {
+export class TurnGenerator extends Publisher<PlayerTurn> implements Observer<unknown> {
 	/** Index of player that made turn. */
 	private currentPlayerIndex: number;
 
@@ -16,7 +16,7 @@ export class TurnGenerator extends Publisher<PlayerTurn> {
 	}
 
 	/** Makes turn. */
-	public getNextTurn(): void {
+	public update(): void {
 		this.currentPlayerIndex = this.calculateIndex();
 		const nextPlayerIndex = this.calculateIndex();
 		this.notify({ nextPlayerIndex, currentPlayerIndex: this.currentPlayerIndex });

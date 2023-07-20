@@ -1,7 +1,7 @@
 import { Observer } from './types';
 
 /** Publisher. */
-export class Publisher<T> {
+export abstract class Publisher<T> {
 	/** Subscribers. */
 	private readonly subscribers: Observer<T>[] = [];
 
