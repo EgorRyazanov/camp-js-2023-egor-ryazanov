@@ -4,14 +4,19 @@ import { PaginationDto } from './pagination.dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
-
 	/** Id. */
 	readonly id: number;
 
-	/** Created date. */
+	/**
+	 * Created date.
+	 * @example 2023-07-13T08:25:29.562269Z.
+	 */
 	readonly created: string;
 
-	/** Modified date. */
+	/**
+	 * Modified date.
+	 * @example 2023-07-13T08:25:29.562276Z.
+	 */
 	readonly modified: string;
 
 	/** English title. */
