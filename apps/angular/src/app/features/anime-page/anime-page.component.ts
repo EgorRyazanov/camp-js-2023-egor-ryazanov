@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Anime } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Subscription, debounceTime, switchMap, tap } from 'rxjs';
-
+import { Component } from '@angular/core';
+import { AnimePagination } from '@js-camp/core/models/anime';
+import { BehaviorSubject, Observable, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
+import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 
 import { AnimeService } from '../../../core/services/anime.service';
 
@@ -12,18 +12,15 @@ import { AnimeService } from '../../../core/services/anime.service';
 	templateUrl: './anime-page.component.html',
 	styleUrls: ['./anime-page.component.css'],
 })
-export class AnimePageComponent implements OnInit, OnDestroy {
+export class AnimePageComponent {
 	/** Status of anime getting from server. */
 	public isLoading$ = new BehaviorSubject<boolean>(false);
 
 	/** Current page index. */
 	public page$ = new BehaviorSubject<number>(0);
 
-	/** List of animes. */
-	public animes: readonly Anime[] = [];
-
-	/** Subscription to service to get anime. */
-	public animeSubscription: Subscription | null = null;
+	/** Anime response. */
+	public animeResponse$ = new Observable<AnimePagination>();
 
 	/** Columns of table. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -35,24 +32,23 @@ export class AnimePageComponent implements OnInit, OnDestroy {
 		'status',
 	];
 
-	public constructor(private readonly animeService: AnimeService) {}
+	public constructor(private readonly animeService: AnimeService) {
+		this.animeResponse$ = this.createAnimesStream();
+	}
 
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		this.animeSubscription = this.page$
-			.pipe(
-				tap(() => {
-					this.isLoading$.next(true);
-				}),
-				debounceTime(500),
-				switchMap(page => this.animeService.getAnimes(page)),
-				tap(() => {
-					this.isLoading$.next(false);
-				}),
-			)
-			.subscribe(animeResponse => {
-				this.animes = animeResponse.results;
-			});
+	/** Creates stream to get animes from server. */
+	public createAnimesStream(): Observable<AnimePagination> {
+		return this.page$.pipe(
+			tap(() => {
+				this.isLoading$.next(true);
+			}),
+			debounceTime(DEBOUNCE_TIME),
+			switchMap(page => this.animeService.getAnimes(page)),
+			tap(() => {
+				this.isLoading$.next(false);
+			}),
+			shareReplay({ refCount: true, bufferSize: 1 }),
+		);
 	}
 
 	/**
@@ -61,10 +57,5 @@ export class AnimePageComponent implements OnInit, OnDestroy {
 	 */
 	public getNextPage(pageEvent?: PageEvent): void {
 		this.page$.next(pageEvent ? pageEvent.pageIndex * pageEvent.pageSize : 0);
-	}
-
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.animeSubscription?.unsubscribe();
 	}
 }

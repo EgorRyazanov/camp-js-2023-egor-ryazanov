@@ -10,6 +10,7 @@ import { AnimeParametersMapper } from '@js-camp/core/mappers/anime-params.mapper
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 
 import { createHttpParams } from '../utils/create-http-params';
+import { LIMIT_ITEMS } from '../utils/constants';
 
 /** Anime Service. */
 @Injectable({
@@ -28,7 +29,7 @@ export class AnimeService {
 	public getAnimes(page: number): Observable<AnimePagination> {
 		return this.http
 			.get<AnimePaginationDto>(new URL(this.animePathname, environment.baseUrl).href, {
-			params: createHttpParams(AnimeParametersMapper.toDto(new AnimeParameters({ offset: page * 25, limit: 25 }))),
+			params: createHttpParams(AnimeParametersMapper.toDto(new AnimeParameters({ offset: page * LIMIT_ITEMS, limit: LIMIT_ITEMS }))),
 		})
 			.pipe(
 				map(animePaginationDto => AnimeMapper.fromAnimePaginationDto(animePaginationDto)),

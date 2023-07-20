@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { SharedModule } from './../shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +12,7 @@ import { AnimePageModule } from './features/anime-page/anime-page.module';
 @NgModule({
 	declarations: [AppComponent],
 	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule, AnimePageModule],
-	providers: [],
+	providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}
