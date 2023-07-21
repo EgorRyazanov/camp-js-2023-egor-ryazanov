@@ -43,7 +43,7 @@ export interface Aired {
 }
 
 /** Ordering. */
-export interface TOrdering {
+export interface Ordering {
 	/**
 	 * Ordering direction.
 	 * @example "asc", "desc", "none".

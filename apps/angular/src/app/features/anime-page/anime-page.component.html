@@ -1,5 +1,15 @@
 <camp-spinner *ngIf="isLoading$ | async"></camp-spinner>
+
 <div *ngIf="animeResponse$ | async as animeResponse" class="animes">
+	<div class="animes__search">
+		<form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="animes__form form">
+			<mat-form-field color="accent" class="form__field">
+				<mat-label color="accent">Search</mat-label>
+				<input formControlName="search" matInput />
+			</mat-form-field>
+			<button class="form__submit" type="submit" mat-button color="accent">Find</button>
+		</form>
+	</div>
 	<table
 		matSort
 		(matSortChange)="changeSortParameter($event)"
@@ -39,9 +49,10 @@
 	</table>
 	<mat-paginator
 		(page)="getNextPage($event)"
-		[length]="animeResponse.count / 25"
+		[length]="animeResponse.count"
 		[pageSize]="1"
 		[pageSizeOptions]="[1, 5, 10]"
+		class="animes__paginator"
 		aria-label="Select page of Anime search results"
 	></mat-paginator>
 </div>

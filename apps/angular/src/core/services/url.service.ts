@@ -3,14 +3,14 @@ import { environment } from '@js-camp/angular/environments/environment';
 
 /** URL service. */
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class UrlService {
 	/**
 	 * Generates URI.
 	 * @param pathname: pathname.
 	 */
-	public function generateURI(pathname: URL | string):string {
-		return new URL(pathname, environment.baseUrl).href
+	public generateURI(pathname: URL | string): string {
+		return new URL(pathname, environment.baseUrl).href;
 	}
 }

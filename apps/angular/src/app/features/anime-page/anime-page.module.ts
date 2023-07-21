@@ -5,8 +5,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { AnimePageComponent } from './anime-page.component';
+import { MatButtonModule } from '@angular/material/button';
 
 /** Anime Module. */
 @NgModule({
@@ -19,6 +24,12 @@ import { AnimePageComponent } from './anime-page.component';
 		MatProgressSpinnerModule,
 		MatSortModule,
 		MatPaginatorModule,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatSelectModule,
+		MatIconModule,
+		MatButtonModule,
 	],
 })
 export class AnimePageModule {}

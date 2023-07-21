@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { AnimePagination } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, combineLatestWith, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, debounceTime, map, shareReplay, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME, LIMIT_ITEMS } from '@js-camp/angular/core/utils/constants';
 
 import { AnimeService } from '../../../core/services/anime.service';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort } from '@angular/material/sort';
-import { TOrdering } from '@js-camp/core/utils/types';
+import { Ordering } from '@js-camp/core/utils/types';
+import { FormBuilder } from '@angular/forms';
 
 /** Anime Component. */
 @Component({
@@ -26,7 +27,13 @@ export class AnimePageComponent {
 	public animeResponse$ = new Observable<AnimePagination>();
 
 	/**	Sort parameter. */
-	public sortParameter$ = new BehaviorSubject<TOrdering>({ field: 'none', direction: 'none' });
+	public sortParameter$ = new BehaviorSubject<Ordering>({ field: 'none', direction: 'none' });
+
+	public searchParameter$ = new BehaviorSubject('');
+
+	public searchForm = this.fb.group({
+		search: [''],
+	});
 
 	/** Columns of table. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -38,24 +45,26 @@ export class AnimePageComponent {
 		'status',
 	];
 
-	public constructor(private readonly animeService: AnimeService) {
+	public constructor(private readonly animeService: AnimeService, private fb: FormBuilder) {
 		this.animeResponse$ = this.createAnimesStream();
 	}
 
 	/** Creates stream to get animes from server. */
 	public createAnimesStream(): Observable<AnimePagination> {
 		return this.sortParameter$.pipe(
+			combineLatestWith(this.searchParameter$),
 			combineLatestWith(this.page$),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(([sort, page]) =>
+			switchMap(([[ordering, search], page]) =>
 				this.animeService.getAnimes(
 					new AnimeParameters({
 						offset: page * LIMIT_ITEMS,
 						limit: LIMIT_ITEMS,
-						ordering: sort,
+						ordering,
+						search,
 					})
 				)
 			),
@@ -80,5 +89,9 @@ export class AnimePageComponent {
 	 */
 	public getNextPage(pageEvent?: PageEvent): void {
 		this.page$.next(pageEvent ? pageEvent.pageIndex * pageEvent.pageSize : 0);
+	}
+
+	public onSubmit(): void {
+		this.searchParameter$.next(this.searchForm.value.search ?? '');
 	}
 }

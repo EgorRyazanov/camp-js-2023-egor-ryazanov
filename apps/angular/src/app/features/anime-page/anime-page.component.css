@@ -4,3 +4,16 @@
   height: 150px;
   object-fit: contain;
 }
+
+.animes {
+  background-color: var(--background-primary-color);
+  height: 100vh;
+}
+
+.animes__search {
+  padding: 16px;
+}
+
+.form__field {
+  width: 100%;
+}
