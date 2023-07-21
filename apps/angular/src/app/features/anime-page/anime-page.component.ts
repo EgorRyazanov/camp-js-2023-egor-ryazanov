@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { AnimePagination } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, combineLatestWith, debounceTime, map, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME, LIMIT_ITEMS } from '@js-camp/angular/core/utils/constants';
 
-import { AnimeService } from '../../../core/services/anime.service';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort } from '@angular/material/sort';
 import { Ordering } from '@js-camp/core/utils/types';
 import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { AnimeService } from '../../../core/services/anime.service';
 
 /** Anime Component. */
 @Component({
@@ -29,8 +31,10 @@ export class AnimePageComponent {
 	/**	Sort parameter. */
 	public sortParameter$ = new BehaviorSubject<Ordering>({ field: 'none', direction: 'none' });
 
+	/** Search parameter. */
 	public searchParameter$ = new BehaviorSubject('');
 
+	/** Form values. */
 	public searchForm = this.fb.group({
 		search: [''],
 	});
@@ -45,7 +49,18 @@ export class AnimePageComponent {
 		'status',
 	];
 
-	public constructor(private readonly animeService: AnimeService, private fb: FormBuilder) {
+	public constructor(
+		private readonly animeService: AnimeService,
+		private fb: FormBuilder,
+		private activeRoute: ActivatedRoute,
+		private router: Router,
+	) {
+		this.activeRoute.queryParams.subscribe(query => {
+			if ('search' in query) {
+				this.searchForm.controls.search.setValue(query['search']);
+				this.searchParameter$.next(query['search']);
+			}
+		});
 		this.animeResponse$ = this.createAnimesStream();
 	}
 
@@ -65,19 +80,18 @@ export class AnimePageComponent {
 						limit: LIMIT_ITEMS,
 						ordering,
 						search,
-					})
-				)
-			),
+					}),
+				)),
 			tap(() => {
 				this.isLoading$.next(false);
 			}),
-			shareReplay({ refCount: true, bufferSize: 1 })
+			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
 	/**
 	 * Changes sort parameter.
-	 * @param event event of sort fields.
+	 * @param event Event of sort fields.
 	 */
 	public changeSortParameter(event: Sort): void {
 		this.sortParameter$.next({ field: event.active, direction: event.direction });
@@ -91,7 +105,11 @@ export class AnimePageComponent {
 		this.page$.next(pageEvent ? pageEvent.pageIndex * pageEvent.pageSize : 0);
 	}
 
+	/** Submit form action. */
 	public onSubmit(): void {
-		this.searchParameter$.next(this.searchForm.value.search ?? '');
+		if (this.searchForm.value.search) {
+			this.router.navigate(['/'], { queryParams: { search: this.searchForm.value.search } });
+		}
+		this.searchParameter$.next('');
 	}
 }

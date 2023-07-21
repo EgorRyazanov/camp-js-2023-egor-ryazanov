@@ -8,7 +8,7 @@ import { environment } from '@js-camp/angular/environments/environment';
 export class UrlService {
 	/**
 	 * Generates URI.
-	 * @param pathname: pathname.
+	 * @param pathname Pathname.
 	 */
 	public generateURI(pathname: URL | string): string {
 		return new URL(pathname, environment.baseUrl).href;

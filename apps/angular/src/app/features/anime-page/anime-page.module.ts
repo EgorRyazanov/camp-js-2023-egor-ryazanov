@@ -10,8 +10,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { AnimePageComponent } from './anime-page.component';
+
 import { MatButtonModule } from '@angular/material/button';
+
+import { AnimePageComponent } from './anime-page.component';
 
 /** Anime Module. */
 @NgModule({

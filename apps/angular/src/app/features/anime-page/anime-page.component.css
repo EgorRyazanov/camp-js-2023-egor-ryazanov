@@ -11,7 +11,7 @@
 }
 
 .animes__search {
-  padding: 16px;
+  padding: var(--space-md);
 }
 
 .form__field {
