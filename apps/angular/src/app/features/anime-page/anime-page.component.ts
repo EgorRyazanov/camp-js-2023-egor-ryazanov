@@ -1,22 +1,13 @@
 import { Component } from '@angular/core';
 import { AnimePagination } from '@js-camp/core/models/anime';
-import {
-	BehaviorSubject,
-	Observable,
-	Subject,
-	combineLatestWith,
-	debounceTime,
-	map,
-	shareReplay,
-	switchMap,
-	tap,
-} from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME, LIMIT_ITEMS } from '@js-camp/angular/core/utils/constants';
 
 import { AnimeService } from '../../../core/services/anime.service';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort } from '@angular/material/sort';
+import { TOrdering } from '@js-camp/core/utils/types';
 
 /** Anime Component. */
 @Component({
@@ -29,13 +20,13 @@ export class AnimePageComponent {
 	public isLoading$ = new BehaviorSubject<boolean>(false);
 
 	/** Current page index. */
-	public page$ = new BehaviorSubject<number>(0);
+	public page$ = new BehaviorSubject(0);
 
 	/** Anime response. */
 	public animeResponse$ = new Observable<AnimePagination>();
 
 	/**	Sort parameter. */
-	public sortParameter$ = new BehaviorSubject<string>('');
+	public sortParameter$ = new BehaviorSubject<TOrdering>({ field: 'none', direction: 'none' });
 
 	/** Columns of table. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -59,8 +50,14 @@ export class AnimePageComponent {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(([_, page]) =>
-				this.animeService.getAnimes(new AnimeParameters({ offset: page * LIMIT_ITEMS, limit: LIMIT_ITEMS }))
+			switchMap(([sort, page]) =>
+				this.animeService.getAnimes(
+					new AnimeParameters({
+						offset: page * LIMIT_ITEMS,
+						limit: LIMIT_ITEMS,
+						ordering: sort,
+					})
+				)
 			),
 			tap(() => {
 				this.isLoading$.next(false);
@@ -74,10 +71,7 @@ export class AnimePageComponent {
 	 * @param event event of sort fields.
 	 */
 	public changeSortParameter(event: Sort): void {
-		if (event.direction) {
-			this.sortParameter$.next(event.direction === 'asc' ? `${event.active}` : `-${event.active}`);
-		}
-		this.sortParameter$.next('');
+		this.sortParameter$.next({ field: event.active, direction: event.direction });
 	}
 
 	/**

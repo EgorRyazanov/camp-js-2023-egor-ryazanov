@@ -1,4 +1,4 @@
-import { Status, Type, Rating } from '../utils/types';
+import { Status, Type, Rating, TOrdering } from '../utils/types';
 
 import { Immerable, OmitImmerable } from './immerable';
 
@@ -38,7 +38,7 @@ export class AnimeParameters extends Immerable {
 	public readonly offset?: number;
 
 	/** Ordering. */
-	public readonly ordering?: string;
+	public readonly ordering?: TOrdering;
 
 	/** Greater overall annotated score then current. */
 	public readonly overallScoreAnnotatedGte?: string;
@@ -71,7 +71,7 @@ export class AnimeParameters extends Immerable {
 	public readonly titleEnglish?: string;
 
 	/** English title in. */
-	public readonly titleEngIn?: string;
+	public readonly titleEnglishIn?: string;
 
 	/** English title contains. */
 	public readonly titleEnglishIcontains?: string;
@@ -122,7 +122,7 @@ export class AnimeParameters extends Immerable {
 		this.statusIn = data.statusIn;
 		this.titleEnglish = data.titleEnglish;
 		this.titleEnglishIcontains = data.titleEnglishIcontains;
-		this.titleEngIn = data.titleEngIn;
+		this.titleEnglishIn = data.titleEnglishIn;
 		this.titleJapaneseIn = data.titleJapaneseIn;
 		this.titleJapanese = data.titleJapanese;
 		this.titleJapaneseIcontains = data.titleJapaneseIcontains;

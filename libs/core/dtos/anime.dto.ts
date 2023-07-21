@@ -4,8 +4,7 @@ import { PaginationDto } from './pagination.dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
-
-	/** Id. */
+	/** ID. */
 	readonly id: number;
 
 	/**

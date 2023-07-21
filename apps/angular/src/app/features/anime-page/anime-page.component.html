@@ -14,32 +14,26 @@
 				<img alt="{{ anime.titleEnglish }}" class="anime__image" src="{{ anime.image }}" />
 			</td>
 		</ng-container>
-
 		<ng-container matColumnDef="titleJapanese">
 			<th mat-header-cell *matHeaderCellDef>Japanese Title</th>
 			<td mat-cell *matCellDef="let anime">{{ anime.titleJapanese }}</td>
 		</ng-container>
-
 		<ng-container matColumnDef="titleEnglish">
 			<th mat-sort-header="titleEnglish" mat-header-cell *matHeaderCellDef>English Title</th>
 			<td mat-cell *matCellDef="let anime">{{ anime.titleEnglish }}</td>
 		</ng-container>
-
 		<ng-container matColumnDef="start aired">
 			<th mat-sort-header="aired.start" mat-header-cell *matHeaderCellDef>Start</th>
 			<td mat-cell *matCellDef="let anime">{{ anime.aired.start | date }}</td>
 		</ng-container>
-
 		<ng-container matColumnDef="status">
 			<th mat-sort-header="status" mat-header-cell *matHeaderCellDef>Status</th>
 			<td mat-cell *matCellDef="let anime">{{ anime.status }}</td>
 		</ng-container>
-
 		<ng-container matColumnDef="type">
 			<th mat-header-cell *matHeaderCellDef>Type</th>
 			<td mat-cell *matCellDef="let anime">{{ anime.type }}</td>
 		</ng-container>
-
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 	</table>

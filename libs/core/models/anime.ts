@@ -5,7 +5,7 @@ import { Pagination } from './pagintation';
 
 /** Anime. */
 export class Anime extends Immerable {
-	/** Id. */
+	/** ID. */
 	public readonly id: number;
 
 	/**

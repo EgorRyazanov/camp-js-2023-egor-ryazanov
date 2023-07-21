@@ -29,7 +29,6 @@ export enum Rating {
 
 /** Aired dates. */
 export interface Aired {
-
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.
@@ -41,4 +40,15 @@ export interface Aired {
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
 	end: string | null;
+}
+
+/** Ordering. */
+export interface TOrdering {
+	/**
+	 * Ordering direction.
+	 * @example "asc", "desc", "none".
+	 */
+	direction: string;
+	/** field name. */
+	field: string;
 }

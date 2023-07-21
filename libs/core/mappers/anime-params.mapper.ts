@@ -1,8 +1,25 @@
 import { AnimeParameters } from '../models/anime-params';
 import { AnimeParametersDto } from '../dtos/anime-params.dto';
+import { TOrdering } from '../utils/types';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
+	/**
+	 * Converts ordering model value to dto ordering value.
+	 * @param value of ordering model.
+	 */
+	function orderingToDto(value: TOrdering): string | undefined {
+		switch (value.field) {
+			case 'titleEnglish':
+				return value.direction === 'asc' ? '-title_eng' : 'title_eng';
+			case 'status':
+				return value.direction === 'asc' ? '-status' : 'status';
+			case 'aired.start':
+				return value.direction === 'asc' ? '-aired__startswith' : 'aired__startswith';
+			default:
+				return undefined;
+		}
+	}
 
 	/**
 	 * Converts model to dto.
@@ -21,7 +38,7 @@ export namespace AnimeParametersMapper {
 			broadcast_timezone__in: model?.broadcastTimezoneIn,
 			limit: model?.limit,
 			offset: model?.offset,
-			ordering: model?.ordering,
+			ordering: model?.ordering ? orderingToDto(model.ordering) : undefined,
 			overall_score_annotated__gte: model?.overallScoreAnnotatedGte,
 			overall_score_annotated__lte: model?.overallScoreAnnotatedLte,
 			rating: model?.rating,
@@ -32,7 +49,7 @@ export namespace AnimeParametersMapper {
 			status: model?.status,
 			status__in: model?.statusIn,
 			title_eng: model?.titleEnglish,
-			title_eng__in: model?.titleEngIn,
+			title_eng__in: model?.titleEnglishIn,
 			title_eng__icontains: model?.titleEnglishIcontains,
 			title_jpn__in: model?.titleJapaneseIn,
 			title_jpn: model?.titleJapanese,
