@@ -1,12 +1,12 @@
 /** Type. */
 export enum Type {
-	'TV',
-	'OVA',
-	'MOVIE',
-	'SPECIAL',
-	'ONA',
-	'MUSIC',
-	'UNKNOWN',
+	TV = 'TV',
+	OVA = 'OVA',
+	MOVIE = 'MOVIE',
+	SPECIAL = 'SPECIAL',
+	ONA = 'ONA',
+	MUSIC = 'MUSIC',
+	UNKNOWN = 'UNKNOWN',
 }
 
 /** Status. */

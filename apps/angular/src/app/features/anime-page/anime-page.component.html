@@ -2,10 +2,16 @@
 
 <div *ngIf="animeResponse$ | async as animeResponse" class="animes">
 	<div class="animes__search">
-		<form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="animes__form form">
+		<form [formGroup]="form" (ngSubmit)="onSubmit()" class="animes__form form">
 			<mat-form-field color="accent" class="form__field">
 				<mat-label color="accent">Search</mat-label>
 				<input formControlName="search" matInput />
+			</mat-form-field>
+			<mat-form-field color="accent">
+				<mat-label>Filters</mat-label>
+				<mat-select formControlName="filters" multiple>
+					<mat-option *ngFor="let filter of filters" [value]="filter">{{ filter }}</mat-option>
+				</mat-select>
 			</mat-form-field>
 			<button class="form__submit" type="submit" mat-button color="accent">Find</button>
 		</form>
@@ -49,6 +55,7 @@
 	</table>
 	<mat-paginator
 		(page)="getNextPage($event)"
+		[pageIndex]="page$ | async"
 		[length]="animeResponse.count"
 		[pageSize]="1"
 		[pageSizeOptions]="[1, 5, 10]"

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AnimePagination } from '@js-camp/core/models/anime';
 import { BehaviorSubject, Observable, combineLatestWith, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
@@ -6,11 +6,13 @@ import { DEBOUNCE_TIME, LIMIT_ITEMS } from '@js-camp/angular/core/utils/constant
 
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort } from '@angular/material/sort';
-import { Ordering } from '@js-camp/core/utils/types';
-import { FormBuilder } from '@angular/forms';
+import { Ordering, Type } from '@js-camp/core/utils/types';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AnimeService } from '../../../core/services/anime.service';
+
+type QueryParameters = { [key in string]: unknown };
 
 /** Anime Component. */
 @Component({
@@ -18,7 +20,7 @@ import { AnimeService } from '../../../core/services/anime.service';
 	templateUrl: './anime-page.component.html',
 	styleUrls: ['./anime-page.component.css'],
 })
-export class AnimePageComponent {
+export class AnimePageComponent implements OnInit {
 	/** Status of anime getting from server. */
 	public isLoading$ = new BehaviorSubject<boolean>(false);
 
@@ -34,9 +36,13 @@ export class AnimePageComponent {
 	/** Search parameter. */
 	public searchParameter$ = new BehaviorSubject('');
 
+	/** Filter parameter. */
+	public filterParameter$ = new BehaviorSubject<Type[]>([]);
+
 	/** Form values. */
-	public searchForm = this.fb.group({
+	public form = this.fb.group({
 		search: [''],
+		filters: [[] as Type[]],
 	});
 
 	/** Columns of table. */
@@ -48,44 +54,65 @@ export class AnimePageComponent {
 		'type',
 		'status',
 	];
+	/** filters. */
+	protected readonly filters: readonly Type[] = [
+		Type.TV,
+		Type.OVA,
+		Type.MOVIE,
+		Type.SPECIAL,
+		Type.ONA,
+		Type.MUSIC,
+		Type.UNKNOWN,
+	];
 
 	public constructor(
 		private readonly animeService: AnimeService,
-		private fb: FormBuilder,
-		private activeRoute: ActivatedRoute,
-		private router: Router,
+		private readonly fb: NonNullableFormBuilder,
+		private readonly activeRoute: ActivatedRoute,
+		private readonly router: Router
 	) {
-		this.activeRoute.queryParams.subscribe(query => {
-			if ('search' in query) {
-				this.searchForm.controls.search.setValue(query['search']);
-				this.searchParameter$.next(query['search']);
-			}
-		});
 		this.animeResponse$ = this.createAnimesStream();
+	}
+
+	/**@inheritdoc */
+	ngOnInit(): void {
+		this.activeRoute.queryParams.subscribe((query) => {
+			if ('search' in query) {
+				this.form.controls.search.setValue(query['search']);
+			}
+			if ('type' in query) {
+				this.form.controls.filters.setValue([...query['type']]);
+			}
+			this.filterParameter$.next(query['type'] ?? []);
+			this.searchParameter$.next(query['search'] ?? '');
+		});
 	}
 
 	/** Creates stream to get animes from server. */
 	public createAnimesStream(): Observable<AnimePagination> {
 		return this.sortParameter$.pipe(
-			combineLatestWith(this.searchParameter$),
-			combineLatestWith(this.page$),
+			combineLatestWith(this.searchParameter$, this.page$, this.filterParameter$),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(([[ordering, search], page]) =>
-				this.animeService.getAnimes(
+			switchMap(([ordering, search, page, filter]) => {
+				console.log(filter);
+				return this.animeService.getAnimes(
 					new AnimeParameters({
 						offset: page * LIMIT_ITEMS,
 						limit: LIMIT_ITEMS,
+						typeIn: filter,
 						ordering,
 						search,
-					}),
-				)),
+					})
+				);
+			}),
 			tap(() => {
 				this.isLoading$.next(false);
+				window.scroll({ top: 0, behavior: 'smooth' });
 			}),
-			shareReplay({ refCount: true, bufferSize: 1 }),
+			shareReplay({ refCount: true, bufferSize: 1 })
 		);
 	}
 
@@ -107,9 +134,14 @@ export class AnimePageComponent {
 
 	/** Submit form action. */
 	public onSubmit(): void {
-		if (this.searchForm.value.search) {
-			this.router.navigate(['/'], { queryParams: { search: this.searchForm.value.search } });
+		const queryParameters: QueryParameters = {};
+		if (this.form.value.search) {
+			queryParameters['search'] = this.form.value.search;
 		}
-		this.searchParameter$.next('');
+		if (this.form.value.filters) {
+			queryParameters['type'] = this.form.value.filters;
+		}
+		this.page$.next(0);
+		this.router.navigate(['/'], { queryParams: queryParameters });
 	}
 }

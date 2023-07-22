@@ -2,7 +2,6 @@ import { Type, Status, Rating } from '../utils/types';
 
 /** Anime parameters DTO. */
 export interface AnimeParametersDto {
-
 	/** Greater end date then current. */
 	readonly aired__endswith__gte?: string;
 
@@ -88,7 +87,7 @@ export interface AnimeParametersDto {
 	readonly type?: Type;
 
 	/** Type in. */
-	readonly type__in?: Type;
+	readonly type__in?: string;
 
 	/** Greater annotated user score then current. */
 	readonly user_score_annotated__gte?: number;

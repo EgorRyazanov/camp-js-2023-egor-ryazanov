@@ -26,6 +26,7 @@ export namespace AnimeParametersMapper {
 			title_eng: model?.titleEnglish,
 			title_jpn: model?.titleJapanese,
 			type: model?.type,
+			type__in: model?.typeIn?.toString(),
 		};
 	}
 }

@@ -34,6 +34,9 @@ export class AnimeParameters extends Immerable {
 	/** Type. */
 	public readonly type?: Type;
 
+	/** Type in. */
+	public readonly typeIn?: Type[];
+
 	public constructor(data: AnimeParametersConstructorData) {
 		super();
 		this.limit = data.limit;
@@ -45,6 +48,7 @@ export class AnimeParameters extends Immerable {
 		this.status = data.status;
 		this.titleEnglish = data.titleEnglish;
 		this.titleJapanese = data.titleJapanese;
+		this.typeIn = data.typeIn;
 		this.type = data.type;
 	}
 }

@@ -15,6 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { AnimePageComponent } from './anime-page.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 /** Anime Module. */
 @NgModule({
 	declarations: [AnimePageComponent],
@@ -32,6 +34,7 @@ import { AnimePageComponent } from './anime-page.component';
 		MatSelectModule,
 		MatIconModule,
 		MatButtonModule,
+		BrowserAnimationsModule,
 	],
 })
 export class AnimePageModule {}
