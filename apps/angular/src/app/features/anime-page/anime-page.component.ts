@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, debounceTime, shareReplay, switchMap, tap 
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
+
 import { AnimeService } from '../../../core/services/anime.service';
 
 /** Anime Component. */
@@ -46,18 +47,17 @@ export class AnimePageComponent {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap((page) =>
+			switchMap(page =>
 				this.animeService.getAnimes(
 					new AnimeParameters({
 						offset: page * this.limitPageItems,
 						limit: this.limitPageItems,
-					})
-				)
-			),
+					}),
+				)),
 			tap(() => {
 				this.isLoading$.next(false);
 			}),
-			shareReplay({ refCount: true, bufferSize: 1 })
+			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
