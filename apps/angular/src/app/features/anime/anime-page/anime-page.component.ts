@@ -47,18 +47,17 @@ export class AnimePageComponent {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap((page) =>
+			switchMap(page =>
 				this.animeService.getAnimes(
 					new AnimeParameters({
 						offset: page * this.limitPageItems,
 						limit: this.limitPageItems,
-					})
-				)
-			),
+					}),
+				)),
 			tap(() => {
 				this.isLoading$.next(false);
 			}),
-			shareReplay({ refCount: true, bufferSize: 1 })
+			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
