@@ -5,12 +5,21 @@ import { HttpParams } from '@angular/common/http';
  * @param params Object with possible http parameters.
  */
 // Made it because parameter of object can be any element including my own types.
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-export function createHttpParams(params: { [key in string]: any }): HttpParams {
+export function createHttpParams(params: {
+	// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+	[key in string]: any;
+}): HttpParams {
 	let httpParams: HttpParams = new HttpParams();
 	Object.keys(params).forEach(param => {
-		if (params[param]) {
-			httpParams = httpParams.set(param, params[param]);
+		const parameter = params[param];
+		if (parameter) {
+			if (parameter instanceof Array) {
+				parameter.forEach(values => {
+					httpParams = httpParams.append(param, values);
+				});
+			} else {
+				httpParams = httpParams.set(param, parameter);
+			}
 		}
 	});
 

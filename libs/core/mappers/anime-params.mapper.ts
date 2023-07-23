@@ -1,46 +1,52 @@
 import { AnimeParameters } from '../models/anime-params';
 import { AnimeParametersDto } from '../dtos/anime-params.dto';
+import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from '../dtos/anime.dto';
+import { AnimeTypes, AnimeStatus, Rating } from '../models/anime';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
+	const ANIME_TYPE_TO_DTO: Readonly<Record<AnimeTypes, AnimeDtoTypes>> = {
+		[AnimeTypes.MUSIC]: AnimeDtoTypes.MUSIC,
+		[AnimeTypes.OVA]: AnimeDtoTypes.OVA,
+		[AnimeTypes.ONA]: AnimeDtoTypes.ONA,
+		[AnimeTypes.SPECIAL]: AnimeDtoTypes.SPECIAL,
+		[AnimeTypes.TV]: AnimeDtoTypes.TV,
+		[AnimeTypes.UNKNOWN]: AnimeDtoTypes.UNKNOWN,
+		[AnimeTypes.MOVIE]: AnimeDtoTypes.MOVIE,
+	};
 
+	const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
+		[AnimeStatus.FINISHED]: AnimeStatusDto.FINISHED,
+		[AnimeStatus.NOT_YET_AIRED]: AnimeStatusDto.NOT_YET_AIRED,
+		[AnimeStatus.AIRING]: AnimeStatusDto.AIRING,
+	};
+
+	const ANIME_RATING_TO_DTO: Readonly<Record<Rating, RatingDto>> = {
+		[Rating.G]: RatingDto.G,
+		[Rating.PG]: RatingDto.PG,
+		[Rating.PG_13]: RatingDto.PG_13,
+		[Rating.R_17]: RatingDto.R_17,
+		[Rating.R_PLUS]: RatingDto.R_PLUS,
+		[Rating.R_X]: RatingDto.R_X,
+		[Rating.UNKNOWN]: RatingDto.UNKNOWN,
+	};
 	/**
 	 * Converts model to dto.
 	 * @param model Anime model.
 	 */
 	export function toDto(model: AnimeParameters): AnimeParametersDto {
 		return {
-			aired__endswith__gte: model?.airedEndswithGte,
-			aired__endswith__lte: model?.airedEndswithLte,
-			aired__startswith__gte: model?.airedStartswithGte,
-			aired__startswith__lte: model?.airedStartswithLte,
-			broadcast_day: model?.broadcastDay,
-			broadcast_day__in: model?.broadcastDayIn,
-			broadcast_time__gte: model?.broadcastTimeGte,
-			broadcast_time__lte: model?.broadcastTimeLte,
-			broadcast_timezone__in: model?.broadcastTimezoneIn,
 			limit: model?.limit,
 			offset: model?.offset,
 			ordering: model?.ordering,
-			overall_score_annotated__gte: model?.overallScoreAnnotatedGte,
-			overall_score_annotated__lte: model?.overallScoreAnnotatedLte,
-			rating: model?.rating,
-			rating__in: model?.ratingIn,
+			rating: model?.rating ? ANIME_RATING_TO_DTO[model.rating] : undefined,
 			search: model?.search,
 			source: model?.source,
-			source__in: model?.sourceIn,
-			status: model?.status,
-			status__in: model?.statusIn,
+			status: model?.status ? ANIME_STATUS_TO_DTO[model.status] : undefined,
 			title_eng: model?.titleEnglish,
-			title_eng__in: model?.titleEngIn,
-			title_eng__icontains: model?.titleEnglishIcontains,
-			title_jpn__in: model?.titleJapaneseIn,
 			title_jpn: model?.titleJapanese,
-			title_jpn__icontains: model?.titleJapaneseIcontains,
-			type: model?.type,
-			type__in: model?.typeIn,
-			user_score_annotated__gte: model?.userScoreAnnotatedGte,
-			user_score_annotated__lte: model?.userScoreAnnotatedLte,
+			type: model?.type ? ANIME_TYPE_TO_DTO[model.type] : undefined,
+			type__in: model?.typeIn ? ANIME_TYPE_TO_DTO[model.typeIn] : undefined,
 		};
 	}
 }

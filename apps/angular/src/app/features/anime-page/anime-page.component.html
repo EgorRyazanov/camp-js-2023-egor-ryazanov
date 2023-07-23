@@ -1,10 +1,10 @@
 <camp-spinner *ngIf="isLoading$ | async"></camp-spinner>
-<div *ngIf="animeResponse$ | async as animeResponse" class="animes">
-	<table aria-label="Table of animes" mat-table [dataSource]="animeResponse.results" class="animes__table">
+<div *ngIf="response$ | async as response" class="animes">
+	<table aria-label="Table of animes" mat-table [dataSource]="response.results" class="animes__table">
 		<ng-container matColumnDef="image">
 			<th mat-header-cell *matHeaderCellDef>Image</th>
 			<td mat-cell *matCellDef="let anime">
-				<img alt="{{ anime.titleEnglish }}" class="anime__image" src="{{ anime.image }}" />
+				<img [alt]="anime.titleEnglish" class="anime__image" [src]="anime.image" />
 			</td>
 		</ng-container>
 
@@ -37,8 +37,8 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 	</table>
 	<mat-paginator
-		(page)="getNextPage($event)"
-		[length]="animeResponse.count / 25"
+		(page)="setPage($event)"
+		[length]="calculateTotalLenght(response.count)"
 		[pageSize]="1"
 		[pageSizeOptions]="[1, 5, 10]"
 		aria-label="Select page of Anime search results"

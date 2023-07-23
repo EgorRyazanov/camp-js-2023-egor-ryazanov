@@ -1,5 +1,3 @@
-import { Aired, Status, Type } from '../utils/types';
-
 import { Immerable, OmitImmerable } from './immerable';
 import { Pagination } from './pagintation';
 
@@ -33,10 +31,10 @@ export class Anime extends Immerable {
 	public readonly aired: Aired;
 
 	/** Type. */
-	public readonly type: Type;
+	public readonly type: AnimeTypes;
 
 	/** Status. */
-	public readonly status: Status;
+	public readonly status: AnimeStatus;
 
 	/** Score. */
 	public readonly score: number | null;
@@ -65,3 +63,47 @@ type AnimeConstructorData = OmitImmerable<Anime>;
 
 /** Anime pagination. */
 export type AnimePagination = Pagination<Anime>;
+
+/** Anime type. */
+export enum AnimeTypes {
+	TV = 'TV',
+	OVA = 'OVA',
+	MOVIE = 'MOVIE',
+	SPECIAL = 'SPECIAL',
+	ONA = 'ONA',
+	MUSIC = 'MUSIC',
+	UNKNOWN = 'UNKNOWN',
+}
+
+/** Status. */
+export enum AnimeStatus {
+	FINISHED = 'FINISHED',
+	AIRING = 'AIRING',
+	NOT_YET_AIRED = 'NOT_YET_AIRED',
+}
+
+/** Rating. */
+export enum Rating {
+	G = 'G',
+	PG = 'PG',
+	PG_13 = 'PG_13',
+	R_17 = 'R_17',
+	R_PLUS = 'R_PLUS',
+	R_X = 'R_X',
+	UNKNOWN = 'UNKNOWN',
+}
+
+/** Aired dates. */
+export interface Aired {
+	/**
+	 *  Start date.
+	 *  @example 1975-01-01T00:00:00Z.
+	 */
+	start: string | null;
+
+	/**
+	 *  End date.
+	 *  @example 1975-01-01T00:00:00Z.
+	 */
+	end: string | null;
+}
