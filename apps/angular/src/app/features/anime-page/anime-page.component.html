@@ -56,7 +56,7 @@
 	<mat-paginator
 		(page)="getNextPage($event)"
 		[pageIndex]="page$ | async"
-		[length]="animeResponse.count"
+		[length]="calculateTotalLenght(animeResponse.count)"
 		[pageSize]="1"
 		[pageSizeOptions]="[1, 5, 10]"
 		class="animes__paginator"

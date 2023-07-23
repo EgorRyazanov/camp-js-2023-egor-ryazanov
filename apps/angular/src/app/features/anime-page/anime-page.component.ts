@@ -54,7 +54,8 @@ export class AnimePageComponent implements OnInit {
 		'type',
 		'status',
 	];
-	/** filters. */
+
+	/** Filters. */
 	protected readonly filters: readonly Type[] = [
 		Type.TV,
 		Type.OVA,
@@ -69,14 +70,14 @@ export class AnimePageComponent implements OnInit {
 		private readonly animeService: AnimeService,
 		private readonly fb: NonNullableFormBuilder,
 		private readonly activeRoute: ActivatedRoute,
-		private readonly router: Router
+		private readonly router: Router,
 	) {
 		this.animeResponse$ = this.createAnimesStream();
 	}
 
-	/**@inheritdoc */
-	ngOnInit(): void {
-		this.activeRoute.queryParams.subscribe((query) => {
+	/** @inheritdoc */
+	public ngOnInit(): void {
+		this.activeRoute.queryParams.subscribe(query => {
 			if ('search' in query) {
 				this.form.controls.search.setValue(query['search']);
 			}
@@ -96,23 +97,20 @@ export class AnimePageComponent implements OnInit {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(([ordering, search, page, filter]) => {
-				console.log(filter);
-				return this.animeService.getAnimes(
-					new AnimeParameters({
-						offset: page * LIMIT_ITEMS,
-						limit: LIMIT_ITEMS,
-						typeIn: filter,
-						ordering,
-						search,
-					})
-				);
-			}),
+			switchMap(([ordering, search, page, filter]) => this.animeService.getAnimes(
+				new AnimeParameters({
+					offset: page * LIMIT_ITEMS,
+					limit: LIMIT_ITEMS,
+					typeIn: filter,
+					ordering,
+					search,
+				}),
+			)),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
 			}),
-			shareReplay({ refCount: true, bufferSize: 1 })
+			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
@@ -143,5 +141,13 @@ export class AnimePageComponent implements OnInit {
 		}
 		this.page$.next(0);
 		this.router.navigate(['/'], { queryParams: queryParameters });
+	}
+
+	/**
+	 * Calculates total lenghts.
+	 * @param animeCount Total anime count.
+	 */
+	public calculateTotalLenght(animeCount: number): number {
+		return Math.ceil(animeCount / LIMIT_ITEMS);
 	}
 }

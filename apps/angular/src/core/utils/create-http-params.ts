@@ -8,15 +8,9 @@ import { HttpParams } from '@angular/common/http';
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export function createHttpParams(params: { [key in string]: any }): HttpParams {
 	let httpParams: HttpParams = new HttpParams();
-	Object.keys(params).forEach((param) => {
+	Object.keys(params).forEach(param => {
 		if (params[param]) {
-			if (params[param] instanceof Array) {
-				params[param].forEach((parameter: any) => {
-					httpParams = httpParams.append(param, parameter);
-				});
-			} else {
-				httpParams = httpParams.set(param, params[param]);
-			}
+			httpParams = httpParams.set(param, params[param]);
 		}
 	});
 

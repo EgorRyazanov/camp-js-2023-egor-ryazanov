@@ -13,9 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { MatButtonModule } from '@angular/material/button';
 
-import { AnimePageComponent } from './anime-page.component';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AnimePageComponent } from './anime-page.component';
 
 /** Anime Module. */
 @NgModule({
