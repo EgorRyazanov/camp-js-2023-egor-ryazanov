@@ -6,13 +6,13 @@ import { Anime, AnimePagination } from '@js-camp/core/models/anime';
 import { Observable, map } from 'rxjs';
 import { AnimeParametersMapper } from '@js-camp/core/mappers/anime-params.mapper';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
-import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
 import { createHttpParams } from '../utils/create-http-params';
 
 import { UrlService } from './url.service';
+import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
-/** Anime service. */
+/** Anime Service. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -28,19 +28,13 @@ export class AnimeService {
 	 */
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.http
-			.get<AnimePaginationDto>(this.urlService.generateURI(this.animePathname)), {
-				params: createHttpParams(
-					AnimeParametersMapper.toDto(new AnimeParameters({ offset: page * LIMIT_ITEMS, limit: LIMIT_ITEMS }))
-				),
+			.get<AnimePaginationDto>(this.urlService.generateURI(this.animePathname), {
+				params: createHttpParams({ ...AnimeParametersMapper.toDto(new AnimeParameters(parameters)) }),
 			})
 			.pipe(
-				map((animePaginationDto) => AnimeMapper.fromAnimePaginationDto(animePaginationDto)),
-				catchError((error: unknown) => {
-					if (error instanceof Error) {
-						throw new Error(error.message);
-					}
-					throw new Error('Something went wrong with anime service.');
-				})
+				map((animePaginationDto) =>
+					PaginationMapper.fromPaginationDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromAnimeDto)
+				)
 			);
 	}
 }

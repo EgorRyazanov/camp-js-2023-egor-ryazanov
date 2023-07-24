@@ -1,5 +1,4 @@
 import { AnimeStatus, AnimeTypes, Rating, Ordering } from './anime';
-
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Anime parameters. */
@@ -35,7 +34,7 @@ export class AnimeParameters extends Immerable {
 	public readonly type?: AnimeTypes;
 
 	/** Type in. */
-	public readonly typeIn?: AnimeTypes[];
+	public readonly typeIn?: readonly AnimeTypes[];
 
 	public constructor(data: AnimeParametersConstructorData) {
 		super();

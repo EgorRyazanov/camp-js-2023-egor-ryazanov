@@ -87,7 +87,7 @@ export interface AnimeParametersDto {
 	readonly type?: AnimeDtoTypes;
 
 	/** Type in. */
-	readonly type__in?: AnimeDtoTypes;
+	readonly type__in?: readonly AnimeDtoTypes[];
 
 	/** Greater annotated user score then current. */
 	readonly user_score_annotated__gte?: number;

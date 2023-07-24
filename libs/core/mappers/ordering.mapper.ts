@@ -1,4 +1,4 @@
-import { Ordering } from '../utils/types';
+import { Ordering } from '../models/anime';
 
 type OrderingHelper = { [key in string]: string };
 

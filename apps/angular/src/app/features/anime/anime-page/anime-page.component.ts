@@ -6,7 +6,7 @@ import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort } from '@angular/material/sort';
-import { Ordering } from '@js-camp/core/utils/types';
+import { Ordering } from '@js-camp/core/models/anime';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -107,9 +107,9 @@ export class AnimePageComponent implements OnInit {
 					new AnimeParameters({
 						pageSize,
 						pageNumber,
-						typeIn: filter,
 						ordering,
 						search,
+						typeIn: filter,
 					})
 				)
 			),
@@ -134,8 +134,8 @@ export class AnimePageComponent implements OnInit {
 	 */
 	public setPage(pageEvent?: PageEvent): void {
 		if (pageEvent) {
-			this.pageSize$.next(pageEvent.pageIndex);
-			this.pageSize$.next(pageEvent.pageIndex);
+			this.pageNumber$.next(pageEvent.pageIndex);
+			this.pageSize$.next(pageEvent.pageSize);
 		} else {
 			this.pageNumber$.next(0);
 		}

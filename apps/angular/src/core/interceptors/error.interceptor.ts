@@ -21,8 +21,8 @@ export class ErrorInterceptor implements HttpInterceptor {
 					return throwError(() => new Error(`Status: ${error.status}; Message: ${error.message}`));
 				}
 				this.router.navigate(['/error']);
-				return throwError(() => new Error(`Status: ${error.status}; Message: ${error.message}`));
-			}),
+				return throwError(() => new Error('oops'));
+			})
 		);
 	}
 }
