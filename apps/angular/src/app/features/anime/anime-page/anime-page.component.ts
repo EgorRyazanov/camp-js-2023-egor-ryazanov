@@ -10,7 +10,7 @@ import { Ordering, Type } from '@js-camp/core/utils/types';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AnimeService } from '../../../core/services/anime.service';
+import { AnimeService } from '../../../../core/services/anime.service';
 
 type QueryParameters = { [key in string]: unknown };
 
@@ -21,14 +21,17 @@ type QueryParameters = { [key in string]: unknown };
 	styleUrls: ['./anime-page.component.css'],
 })
 export class AnimePageComponent implements OnInit {
-	/** Status of anime getting from server. */
-	public isLoading$ = new BehaviorSubject<boolean>(false);
+	/** Status of anime. */
+	public isLoading$ = new BehaviorSubject(false);
 
 	/** Current page index. */
-	public page$ = new BehaviorSubject(0);
+	public pageNumber$ = new BehaviorSubject(0);
+
+	/** Page sizes. */
+	protected readonly PageSizes: readonly number[] = [5, 10, 25];
 
 	/** Anime response. */
-	public animeResponse$ = new Observable<AnimePagination>();
+	public animePage$ = new Observable<AnimePagination>();
 
 	/**	Sort parameter. */
 	public sortParameter$ = new BehaviorSubject<Ordering>({ field: 'none', direction: 'none' });
@@ -70,14 +73,14 @@ export class AnimePageComponent implements OnInit {
 		private readonly animeService: AnimeService,
 		private readonly fb: NonNullableFormBuilder,
 		private readonly activeRoute: ActivatedRoute,
-		private readonly router: Router,
+		private readonly router: Router
 	) {
-		this.animeResponse$ = this.createAnimesStream();
+		this.animePage$ = this.createAnimesStream();
 	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.activeRoute.queryParams.subscribe(query => {
+		this.activeRoute.queryParams.subscribe((query) => {
 			if ('search' in query) {
 				this.form.controls.search.setValue(query['search']);
 			}
@@ -92,25 +95,27 @@ export class AnimePageComponent implements OnInit {
 	/** Creates stream to get animes from server. */
 	public createAnimesStream(): Observable<AnimePagination> {
 		return this.sortParameter$.pipe(
-			combineLatestWith(this.searchParameter$, this.page$, this.filterParameter$),
+			combineLatestWith(this.searchParameter$, this.pageNumber$, this.filterParameter$),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(([ordering, search, page, filter]) => this.animeService.getAnimes(
-				new AnimeParameters({
-					offset: page * LIMIT_ITEMS,
-					limit: LIMIT_ITEMS,
-					typeIn: filter,
-					ordering,
-					search,
-				}),
-			)),
+			switchMap(([ordering, search, page, filter]) =>
+				this.animeService.getAnimes(
+					new AnimeParameters({
+						offset: page * LIMIT_ITEMS,
+						limit: LIMIT_ITEMS,
+						typeIn: filter,
+						ordering,
+						search,
+					})
+				)
+			),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
 			}),
-			shareReplay({ refCount: true, bufferSize: 1 }),
+			shareReplay({ refCount: true, bufferSize: 1 })
 		);
 	}
 
@@ -127,7 +132,7 @@ export class AnimePageComponent implements OnInit {
 	 * @param pageEvent Page event.
 	 */
 	public getNextPage(pageEvent?: PageEvent): void {
-		this.page$.next(pageEvent ? pageEvent.pageIndex * pageEvent.pageSize : 0);
+		this.pageNumber$.next(pageEvent ? pageEvent.pageIndex * pageEvent.pageSize : 0);
 	}
 
 	/** Submit form action. */
@@ -139,15 +144,7 @@ export class AnimePageComponent implements OnInit {
 		if (this.form.value.filters) {
 			queryParameters['type'] = this.form.value.filters;
 		}
-		this.page$.next(0);
+		this.pageNumber$.next(0);
 		this.router.navigate(['/'], { queryParams: queryParameters });
-	}
-
-	/**
-	 * Calculates total lenghts.
-	 * @param animeCount Total anime count.
-	 */
-	public calculateTotalLenght(animeCount: number): number {
-		return Math.ceil(animeCount / LIMIT_ITEMS);
 	}
 }

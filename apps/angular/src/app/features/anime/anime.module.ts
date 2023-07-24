@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { SharedModule } from '@js-camp/angular/shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AnimePageComponent } from './anime-page.component';
+import { AnimePageComponent } from './anime-page/anime-page.component';
 
 /** Anime Module. */
 @NgModule({
@@ -24,7 +24,6 @@ import { AnimePageComponent } from './anime-page.component';
 		CommonModule,
 		SharedModule,
 		MatTableModule,
-		NgIf,
 		MatProgressSpinnerModule,
 		MatSortModule,
 		MatPaginatorModule,
