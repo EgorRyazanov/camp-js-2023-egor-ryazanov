@@ -6,11 +6,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-import { AnimePageComponent } from './anime-page/anime-page.component';
+import { AnimesPageComponent } from './animes-page/animes-page.component';
 
 /** Anime Module. */
 @NgModule({
-	declarations: [AnimePageComponent],
+	declarations: [AnimesPageComponent],
 	imports: [CommonModule, SharedModule, MatTableModule, MatProgressSpinnerModule, MatSortModule, MatPaginatorModule],
 })
 export class AnimeModule {}

@@ -10,10 +10,10 @@ import { AnimeService } from '../../../../core/services/anime.service';
 /** Anime Component. */
 @Component({
 	selector: 'camp-anime-page',
-	templateUrl: './anime-page.component.html',
-	styleUrls: ['./anime-page.component.css'],
+	templateUrl: './animes-page.component.html',
+	styleUrls: ['./animes-page.component.css'],
 })
-export class AnimePageComponent {
+export class AnimesPageComponent {
 	/** Status of anime. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
@@ -70,7 +70,7 @@ export class AnimePageComponent {
 	 */
 	protected setPage(pageEvent?: PageEvent): void {
 		if (pageEvent) {
-			this.pageSize$.next(pageEvent.pageIndex);
+			this.pageNumber$.next(pageEvent.pageIndex);
 			this.pageSize$.next(pageEvent.pageSize);
 		} else {
 			this.pageNumber$.next(0);

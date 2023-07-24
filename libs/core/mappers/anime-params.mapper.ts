@@ -40,7 +40,7 @@ export namespace AnimeParametersMapper {
 	export function toDto(model: AnimeParameters): AnimeParametersDto {
 		return {
 			limit: model?.pageSize ? model.pageSize : defaultPageSize,
-			offset: model?.pageNumber ? model.pageNumber : undefined,
+			offset: model?.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
 			ordering: model?.ordering,
 			rating: model?.rating ? ANIME_RATING_TO_DTO[model.rating] : undefined,
 			search: model?.search,
