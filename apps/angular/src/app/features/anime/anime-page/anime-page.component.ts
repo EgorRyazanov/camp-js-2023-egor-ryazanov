@@ -56,12 +56,11 @@ export class AnimePageComponent {
 					new AnimeParameters({
 						pageSize,
 						pageNumber,
-					})
-				)
-			),
+					}),
+				)),
 			tap(() => {
 				this.isLoading$.next(false);
-			})
+			}),
 		);
 	}
 
