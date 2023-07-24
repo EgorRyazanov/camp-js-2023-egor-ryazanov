@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimePagination, AnimeTypes, Ordering } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, combineLatestWith, debounceTime, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, debounceTime, finalize, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 
@@ -75,14 +75,14 @@ export class AnimesPageComponent implements OnInit {
 		private readonly animeService: AnimeService,
 		private readonly fb: NonNullableFormBuilder,
 		private readonly activeRoute: ActivatedRoute,
-		private readonly router: Router,
+		private readonly router: Router
 	) {
 		this.animePage$ = this.createAnimesStream();
 	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.activeRoute.queryParams.subscribe(query => {
+		this.activeRoute.queryParams.subscribe((query) => {
 			if ('search' in query) {
 				this.form.controls.search.setValue(query['search']);
 			}
@@ -110,12 +110,13 @@ export class AnimesPageComponent implements OnInit {
 						ordering,
 						search,
 						typeIn: filter instanceof Array ? filter : [filter],
-					}),
-				)),
+					})
+				)
+			),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
-			}),
+			})
 		);
 	}
 
