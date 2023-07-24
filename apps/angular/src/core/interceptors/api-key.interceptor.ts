@@ -3,7 +3,7 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable } from 'rxjs';
 import { environment } from '@js-camp/angular/environments/environment';
 
-/** Api Key Interceptor. */
+/** API Key Interceptor. */
 @Injectable()
 export class ApiKeyInterceptor implements HttpInterceptor {
 	/** @inheritdoc */

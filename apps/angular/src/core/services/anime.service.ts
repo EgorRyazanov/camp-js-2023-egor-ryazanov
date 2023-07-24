@@ -12,7 +12,7 @@ import { createHttpParams } from '../utils/create-http-params';
 
 import { UrlService } from './url.service';
 
-/** Anime Service. */
+/** Anime service. */
 @Injectable({
 	providedIn: 'root',
 })

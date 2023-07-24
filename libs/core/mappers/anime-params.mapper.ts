@@ -5,6 +5,8 @@ import { AnimeTypes, AnimeStatus, Rating } from '../models/anime';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
+	export const defaultPageSize = 25;
+
 	const ANIME_TYPE_TO_DTO: Readonly<Record<AnimeTypes, AnimeDtoTypes>> = {
 		[AnimeTypes.MUSIC]: AnimeDtoTypes.MUSIC,
 		[AnimeTypes.OVA]: AnimeDtoTypes.OVA,
@@ -36,8 +38,8 @@ export namespace AnimeParametersMapper {
 	 */
 	export function toDto(model: AnimeParameters): AnimeParametersDto {
 		return {
-			limit: model?.limit,
-			offset: model?.offset,
+			limit: model?.pageSize ? model.pageSize : defaultPageSize,
+			offset: model?.pageNumber ? model.pageNumber : undefined,
 			ordering: model?.ordering,
 			rating: model?.rating ? ANIME_RATING_TO_DTO[model.rating] : undefined,
 			search: model?.search,

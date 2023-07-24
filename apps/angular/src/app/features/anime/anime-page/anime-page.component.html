@@ -1,4 +1,4 @@
-<camp-spinner *ngIf="isLoading$ | async"></camp-spinner>
+<camp-spinner *ngIf="isLoading$ | async" />
 <div *ngIf="response$ | async as response" class="animes">
 	<table aria-label="Table of animes" mat-table [dataSource]="response.results" class="animes__table">
 		<ng-container matColumnDef="image">
@@ -38,9 +38,10 @@
 	</table>
 	<mat-paginator
 		(page)="setPage($event)"
-		[length]="calculateTotalLenght(response.count)"
-		[pageSize]="1"
-		[pageSizeOptions]="[1, 5, 10]"
+		[length]="response.count"
+		[pageSizeOptions]="pageSizes"
+		[pageSize]="pageSize$ | async"
+		showFirstLastButtons
 		aria-label="Select page of Anime search results"
 	></mat-paginator>
 </div>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AnimePagination } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, debounceTime, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
@@ -14,17 +14,20 @@ import { AnimeService } from '../../../../core/services/anime.service';
 	styleUrls: ['./anime-page.component.css'],
 })
 export class AnimePageComponent {
-	/** Status of anime getting from server. */
-	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
+	/** Status of anime. */
+	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Current page index. */
-	protected readonly page$ = new BehaviorSubject<number>(0);
+	protected readonly pageNumber$ = new BehaviorSubject(0);
+
+	/** Page sizes. */
+	protected readonly pageSizes: readonly number[] = [5, 10, 25];
+
+	/** Current page size. */
+	protected readonly pageSize$ = new BehaviorSubject(this.pageSizes[0]);
 
 	/** Anime response. */
 	protected readonly response$: Observable<AnimePagination>;
-
-	/** Limit page items. */
-	private readonly limitPageItems = 25;
 
 	/** Columns of table. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -40,24 +43,24 @@ export class AnimePageComponent {
 		this.response$ = this.createAnimesStream();
 	}
 
-	/** Creates stream to get animes from server. */
+	/** Stream of animes. */
 	private createAnimesStream(): Observable<AnimePagination> {
-		return this.page$.pipe(
+		return this.pageNumber$.pipe(
+			combineLatestWith(this.pageSize$),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(page =>
+			switchMap(([pageNumber, pageSize]) =>
 				this.animeService.getAnimes(
 					new AnimeParameters({
-						offset: page * this.limitPageItems,
-						limit: this.limitPageItems,
+						pageSize,
+						pageNumber,
 					}),
 				)),
 			tap(() => {
 				this.isLoading$.next(false);
 			}),
-			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
@@ -66,14 +69,11 @@ export class AnimePageComponent {
 	 * @param pageEvent Page event.
 	 */
 	protected setPage(pageEvent?: PageEvent): void {
-		this.page$.next(pageEvent ? pageEvent.pageIndex * pageEvent.pageSize : 0);
-	}
-
-	/**
-	 * Calculates total lenghts.
-	 * @param animeCount Total anime count.
-	 */
-	public calculateTotalLenght(animeCount: number): number {
-		return Math.ceil(animeCount / this.limitPageItems);
+		if (pageEvent) {
+			this.pageSize$.next(pageEvent.pageIndex);
+			this.pageSize$.next(pageEvent.pageSize);
+		} else {
+			this.pageNumber$.next(0);
+		}
 	}
 }
