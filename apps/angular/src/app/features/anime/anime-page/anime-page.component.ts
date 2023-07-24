@@ -65,7 +65,7 @@ export class AnimePageComponent {
 	}
 
 	/**
-	 * Starts getting anime from server on pagination changes.
+	 * Sets next page.
 	 * @param pageEvent Page event.
 	 */
 	protected setPage(pageEvent?: PageEvent): void {
