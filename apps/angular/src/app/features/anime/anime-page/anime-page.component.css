@@ -1,4 +1,4 @@
-.anime__image {
+.table__image {
   margin: 10px;
   width: 150px;
   height: 150px;
@@ -10,12 +10,12 @@
   height: 100vh;
 }
 
-.animes__search {
+.animes__form {
   padding: var(--space-md);
+  margin: 0 auto;
 }
 
 .form {
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   width: 50%;
