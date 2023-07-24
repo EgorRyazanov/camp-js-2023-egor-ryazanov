@@ -57,7 +57,7 @@ export namespace AnimeParametersMapper {
 			title_eng: model?.titleEnglish,
 			title_jpn: model?.titleJapanese,
 			type: model?.type ? ANIME_TYPE_TO_DTO[model.type] : undefined,
-			type__in: model?.typeIn ? model.typeIn.map((typeInElement) => ANIME_TYPE_TO_DTO[typeInElement]) : undefined,
+			type__in: model?.typeIn ? model.typeIn.map(typeInElement => ANIME_TYPE_TO_DTO[typeInElement]) : undefined,
 		};
 	}
 }
