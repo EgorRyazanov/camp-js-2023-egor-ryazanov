@@ -1,10 +1,11 @@
-import { AnimeTypes, Aired } from '../models/anime';
+import { Aired } from '../models/anime';
 
 import { PaginationDto } from './pagination.dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
-	/** Id. */
+
+	/** ID. */
 	readonly id: number;
 
 	/**

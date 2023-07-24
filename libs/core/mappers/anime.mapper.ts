@@ -1,7 +1,5 @@
-import { AnimeDto, AnimeStatusDto, RatingDto } from '../dtos/anime.dto';
-import { Anime, AnimeStatus, Rating } from '../models/anime';
-import { AnimeDtoTypes } from '../dtos/anime.dto';
-import { AnimeTypes } from '../models/anime';
+import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../dtos/anime.dto';
+import { Anime, AnimeStatus, AnimeTypes } from '../models/anime';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
@@ -21,15 +19,6 @@ export namespace AnimeMapper {
 		[AnimeStatusDto.AIRING]: AnimeStatus.AIRING,
 	};
 
-	const ANIME_RATING_FROM_DTO: Readonly<Record<RatingDto, Rating>> = {
-		[RatingDto.G]: Rating.G,
-		[RatingDto.PG]: Rating.PG,
-		[RatingDto.PG_13]: Rating.PG_13,
-		[RatingDto.R_17]: Rating.R_17,
-		[RatingDto.R_PLUS]: Rating.R_PLUS,
-		[RatingDto.R_X]: Rating.R_X,
-		[RatingDto.UNKNOWN]: Rating.UNKNOWN,
-	};
 	/**
 	 * Converts anime DTO to anime model.
 	 * @param dto Anime GTO.

@@ -3,7 +3,7 @@ import { Pagination } from './pagintation';
 
 /** Anime. */
 export class Anime extends Immerable {
-	/** Id. */
+	/** ID. */
 	public readonly id: number;
 
 	/**
@@ -95,6 +95,7 @@ export enum Rating {
 
 /** Aired dates. */
 export interface Aired {
+
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.

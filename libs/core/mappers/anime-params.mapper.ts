@@ -32,6 +32,7 @@ export namespace AnimeParametersMapper {
 		[Rating.R_X]: RatingDto.R_X,
 		[Rating.UNKNOWN]: RatingDto.UNKNOWN,
 	};
+
 	/**
 	 * Converts model to dto.
 	 * @param model Anime model.
