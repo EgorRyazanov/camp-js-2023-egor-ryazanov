@@ -27,7 +27,7 @@ export class AnimePageComponent {
 	protected readonly pageSize$ = new BehaviorSubject(this.pageSizes[0]);
 
 	/** Anime response. */
-	protected readonly response$: Observable<AnimePagination>;
+	protected readonly animePage$: Observable<AnimePagination>;
 
 	/** Columns of table. */
 	protected readonly displayedColumns: readonly string[] = [
@@ -40,7 +40,7 @@ export class AnimePageComponent {
 	];
 
 	public constructor(private readonly animeService: AnimeService) {
-		this.response$ = this.createAnimesStream();
+		this.animePage$ = this.createAnimesStream();
 	}
 
 	/** Stream of animes. */

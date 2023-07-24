@@ -1,5 +1,5 @@
 <camp-spinner *ngIf="isLoading$ | async" />
-<div *ngIf="response$ | async as response" class="animes">
+<div *ngIf="animePage$ | async as response" class="animes">
 	<table aria-label="Table of animes" mat-table [dataSource]="response.results" class="animes__table">
 		<ng-container matColumnDef="image">
 			<th mat-header-cell *matHeaderCellDef>Image</th>
