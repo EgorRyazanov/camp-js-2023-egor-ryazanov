@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimePagination, AnimeTypes } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, combineLatestWith, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, debounceTime, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 
@@ -10,16 +10,17 @@ import { Ordering } from '@js-camp/core/models/anime';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AnimeService } from '../../../../core/services/anime.service';
 import { HttpParamsOptions } from '@angular/common/http';
+
+import { AnimeService } from '../../../../core/services/anime.service';
 
 /** Anime Component. */
 @Component({
 	selector: 'camp-anime-page',
-	templateUrl: './anime-page.component.html',
-	styleUrls: ['./anime-page.component.css'],
+	templateUrl: './animes-page.component.html',
+	styleUrls: ['./animes-page.component.css'],
 })
-export class AnimePageComponent implements OnInit {
+export class AnimesPageComponent implements OnInit {
 	/** Status of anime. */
 	protected isLoading$ = new BehaviorSubject(false);
 
@@ -109,7 +110,7 @@ export class AnimePageComponent implements OnInit {
 						pageNumber,
 						ordering,
 						search,
-						typeIn: filter,
+						typeIn: filter instanceof Array ? filter : [filter],
 					})
 				)
 			),

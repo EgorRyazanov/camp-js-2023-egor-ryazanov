@@ -15,11 +15,11 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AnimePageComponent } from './anime-page/anime-page.component';
+import { AnimesPageComponent } from './animes-page/animes-page.component';
 
 /** Anime Module. */
 @NgModule({
-	declarations: [AnimePageComponent],
+	declarations: [AnimesPageComponent],
 	imports: [
 		CommonModule,
 		SharedModule,

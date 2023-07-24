@@ -11,9 +11,7 @@ export function createHttpParams(params: NonNullable<HttpParamsOptions['fromObje
 		const parameter = params[param];
 		if (parameter) {
 			if (parameter instanceof Array) {
-				parameter.forEach((values) => {
-					httpParams = httpParams.append(param, values);
-				});
+				httpParams = httpParams.append(param, parameter.join(', '));
 			} else {
 				httpParams = httpParams.set(param, parameter);
 			}

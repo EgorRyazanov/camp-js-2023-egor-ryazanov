@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AnimePageComponent } from './features/anime/anime-page/anime-page.component';
+import { AnimesPageComponent } from './features/anime/animes-page/animes-page.component';
 import { ErrorPageComponent } from './features/error-page/error-page.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		component: AnimePageComponent,
+		component: AnimesPageComponent,
 	},
 	{
 		path: 'error',

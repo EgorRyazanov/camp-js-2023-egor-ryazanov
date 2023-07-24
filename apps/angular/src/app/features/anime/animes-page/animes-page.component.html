@@ -1,3 +1,4 @@
+<camp-spinner *ngIf="isLoading$ | async"></camp-spinner>
 <div class="animes">
 	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="animes__form form">
 		<mat-form-field color="accent" class="form__field">
@@ -13,7 +14,6 @@
 		<button class="form__submit" type="submit" mat-button color="accent">Find</button>
 	</form>
 	<div *ngIf="animePage$ | async as animePage" class="animes__table">
-		<camp-spinner *ngIf="isLoading$ | async"></camp-spinner>
 		<table
 			matSort
 			(matSortChange)="changeSortParameter($event)"

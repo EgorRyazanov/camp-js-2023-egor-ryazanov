@@ -10,7 +10,7 @@ export class UrlService {
 	 * Generates URI.
 	 * @param pathname Pathname.
 	 */
-	public generateURI(pathname: URL | string): string {
+	public generateURL(pathname: URL | string): string {
 		return new URL(pathname, environment.apiUrl).toString();
 	}
 }

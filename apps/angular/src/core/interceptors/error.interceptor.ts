@@ -22,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 				}
 				this.router.navigate(['/error']);
 				return throwError(() => new Error('oops'));
-			})
+			}),
 		);
 	}
 }
