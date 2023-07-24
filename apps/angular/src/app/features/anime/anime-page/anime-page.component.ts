@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { AnimePagination } from '@js-camp/core/models/anime';
+import { AnimePagination, AnimeTypes } from '@js-camp/core/models/anime';
 import { BehaviorSubject, Observable, combineLatestWith, debounceTime, shareReplay, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
-import { DEBOUNCE_TIME, LIMIT_ITEMS } from '@js-camp/angular/core/utils/constants';
+import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort } from '@angular/material/sort';
-import { Ordering, Type } from '@js-camp/core/utils/types';
+import { Ordering } from '@js-camp/core/utils/types';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AnimeService } from '../../../../core/services/anime.service';
-
-type QueryParameters = { [key in string]: unknown };
+import { HttpParamsOptions } from '@angular/common/http';
 
 /** Anime Component. */
 @Component({
@@ -22,30 +21,33 @@ type QueryParameters = { [key in string]: unknown };
 })
 export class AnimePageComponent implements OnInit {
 	/** Status of anime. */
-	public isLoading$ = new BehaviorSubject(false);
+	protected isLoading$ = new BehaviorSubject(false);
 
 	/** Current page index. */
-	public pageNumber$ = new BehaviorSubject(0);
+	protected pageNumber$ = new BehaviorSubject(0);
 
 	/** Page sizes. */
-	protected readonly PageSizes: readonly number[] = [5, 10, 25];
+	protected readonly pageSizes: readonly number[] = [5, 10, 25];
+
+	/** Current page size. */
+	protected readonly pageSize$ = new BehaviorSubject(this.pageSizes[0]);
 
 	/** Anime response. */
-	public animePage$ = new Observable<AnimePagination>();
+	protected animePage$ = new Observable<AnimePagination>();
 
 	/**	Sort parameter. */
-	public sortParameter$ = new BehaviorSubject<Ordering>({ field: 'none', direction: 'none' });
+	protected sortParameter$ = new BehaviorSubject<Ordering>({ field: 'none', direction: 'none' });
 
 	/** Search parameter. */
-	public searchParameter$ = new BehaviorSubject('');
+	protected searchParameter$ = new BehaviorSubject('');
 
 	/** Filter parameter. */
-	public filterParameter$ = new BehaviorSubject<Type[]>([]);
+	protected filterParameter$ = new BehaviorSubject<AnimeTypes[]>([]);
 
 	/** Form values. */
-	public form = this.fb.group({
+	protected form = this.fb.group({
 		search: [''],
-		filters: [[] as Type[]],
+		filters: [[] as AnimeTypes[]],
 	});
 
 	/** Columns of table. */
@@ -59,14 +61,14 @@ export class AnimePageComponent implements OnInit {
 	];
 
 	/** Filters. */
-	protected readonly filters: readonly Type[] = [
-		Type.TV,
-		Type.OVA,
-		Type.MOVIE,
-		Type.SPECIAL,
-		Type.ONA,
-		Type.MUSIC,
-		Type.UNKNOWN,
+	protected readonly filters: readonly AnimeTypes[] = [
+		AnimeTypes.TV,
+		AnimeTypes.OVA,
+		AnimeTypes.MOVIE,
+		AnimeTypes.SPECIAL,
+		AnimeTypes.ONA,
+		AnimeTypes.MUSIC,
+		AnimeTypes.UNKNOWN,
 	];
 
 	public constructor(
@@ -92,19 +94,19 @@ export class AnimePageComponent implements OnInit {
 		});
 	}
 
-	/** Creates stream to get animes from server. */
+	/** Stream of animes. */
 	public createAnimesStream(): Observable<AnimePagination> {
 		return this.sortParameter$.pipe(
-			combineLatestWith(this.searchParameter$, this.pageNumber$, this.filterParameter$),
+			combineLatestWith(this.searchParameter$, this.pageNumber$, this.pageSize$, this.filterParameter$),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(([ordering, search, page, filter]) =>
+			switchMap(([ordering, search, pageNumber, pageSize, filter]) =>
 				this.animeService.getAnimes(
 					new AnimeParameters({
-						offset: page * LIMIT_ITEMS,
-						limit: LIMIT_ITEMS,
+						pageSize,
+						pageNumber,
 						typeIn: filter,
 						ordering,
 						search,
@@ -114,8 +116,7 @@ export class AnimePageComponent implements OnInit {
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
-			}),
-			shareReplay({ refCount: true, bufferSize: 1 })
+			})
 		);
 	}
 
@@ -128,16 +129,21 @@ export class AnimePageComponent implements OnInit {
 	}
 
 	/**
-	 * Starts getting anime from server on pagination changes.
+	 * Sets next page.
 	 * @param pageEvent Page event.
 	 */
-	public getNextPage(pageEvent?: PageEvent): void {
-		this.pageNumber$.next(pageEvent ? pageEvent.pageIndex * pageEvent.pageSize : 0);
+	public setPage(pageEvent?: PageEvent): void {
+		if (pageEvent) {
+			this.pageSize$.next(pageEvent.pageIndex);
+			this.pageSize$.next(pageEvent.pageIndex);
+		} else {
+			this.pageNumber$.next(0);
+		}
 	}
 
 	/** Submit form action. */
 	public onSubmit(): void {
-		const queryParameters: QueryParameters = {};
+		const queryParameters: HttpParamsOptions['fromObject'] = {};
 		if (this.form.value.search) {
 			queryParameters['search'] = this.form.value.search;
 		}
@@ -148,83 +154,3 @@ export class AnimePageComponent implements OnInit {
 		this.router.navigate(['/'], { queryParams: queryParameters });
 	}
 }
-// import { Component } from '@angular/core';
-// import { AnimePagination } from '@js-camp/core/models/anime';
-// import { BehaviorSubject, Observable, combineLatestWith, debounceTime, switchMap, tap } from 'rxjs';
-// import { PageEvent } from '@angular/material/paginator';
-// import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
-// import { AnimeParameters } from '@js-camp/core/models/anime-params';
-
-// import { AnimeService } from '../../../../core/services/anime.service';
-
-// /** Anime Component. */
-// @Component({
-// 	selector: 'camp-anime-page',
-// 	templateUrl: './anime-page.component.html',
-// 	styleUrls: ['./anime-page.component.css'],
-// })
-// export class AnimePageComponent {
-// 	/** Status of anime. */
-// 	protected readonly isLoading$ = new BehaviorSubject(false);
-
-// 	/** Current page index. */
-// 	protected readonly pageNumber$ = new BehaviorSubject(0);
-
-// 	/** Page sizes. */
-// 	protected readonly pageSizes: readonly number[] = [5, 10, 25];
-
-// 	/** Current page size. */
-// 	protected readonly pageSize$ = new BehaviorSubject(this.pageSizes[0]);
-
-// 	/** Anime response. */
-// 	protected readonly animePage$: Observable<AnimePagination>;
-
-// 	/** Columns of table. */
-// 	protected readonly displayedColumns: readonly string[] = [
-// 		'image',
-// 		'titleJapanese',
-// 		'titleEnglish',
-// 		'start aired',
-// 		'type',
-// 		'status',
-// 	];
-
-// 	public constructor(private readonly animeService: AnimeService) {
-// 		this.animePage$ = this.createAnimesStream();
-// 	}
-
-// 	/** Stream of animes. */
-// 	private createAnimesStream(): Observable<AnimePagination> {
-// 		return this.pageNumber$.pipe(
-// 			combineLatestWith(this.pageSize$),
-// 			tap(() => {
-// 				this.isLoading$.next(true);
-// 			}),
-// 			debounceTime(DEBOUNCE_TIME),
-// 			switchMap(([pageNumber, pageSize]) =>
-// 				this.animeService.getAnimes(
-// 					new AnimeParameters({
-// 						pageSize,
-// 						pageNumber,
-// 					})
-// 				)
-// 			),
-// 			tap(() => {
-// 				this.isLoading$.next(false);
-// 			})
-// 		);
-// 	}
-
-// 	/**
-// 	 * Starts getting anime from server on pagination changes.
-// 	 * @param pageEvent Page event.
-// 	 */
-// 	protected setPage(pageEvent?: PageEvent): void {
-// 		if (pageEvent) {
-// 			this.pageSize$.next(pageEvent.pageIndex);
-// 			this.pageSize$.next(pageEvent.pageSize);
-// 		} else {
-// 			this.pageNumber$.next(0);
-// 		}
-// 	}
-// }

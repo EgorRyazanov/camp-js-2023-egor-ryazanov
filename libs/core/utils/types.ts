@@ -1,32 +1,3 @@
-/** Type. */
-export enum Type {
-	TV = 'TV',
-	OVA = 'OVA',
-	MOVIE = 'MOVIE',
-	SPECIAL = 'SPECIAL',
-	ONA = 'ONA',
-	MUSIC = 'MUSIC',
-	UNKNOWN = 'UNKNOWN',
-}
-
-/** Status. */
-export enum Status {
-	'FINISHED',
-	'AIRING',
-	'NOT_YET_AIRED',
-}
-
-/** Rating. */
-export enum Rating {
-	'G',
-	'PG',
-	'PG_13',
-	'R_17',
-	'R_PLUS',
-	'R_X',
-	'UNKNOWN',
-}
-
 /** Aired dates. */
 export interface Aired {
 	/**

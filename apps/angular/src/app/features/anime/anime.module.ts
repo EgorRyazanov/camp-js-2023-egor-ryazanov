@@ -36,4 +36,4 @@ import { AnimePageComponent } from './anime-page/anime-page.component';
 		BrowserAnimationsModule,
 	],
 })
-export class AnimePageModule {}
+export class AnimeModule {}

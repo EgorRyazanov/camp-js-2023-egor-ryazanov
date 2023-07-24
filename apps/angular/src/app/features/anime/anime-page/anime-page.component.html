@@ -1,5 +1,4 @@
 <camp-spinner *ngIf="isLoading$ | async"></camp-spinner>
-
 <div *ngIf="animePage$ | async as animePage" class="animes">
 	<div class="animes__search">
 		<form [formGroup]="form" (ngSubmit)="onSubmit()" class="animes__form form">
@@ -54,9 +53,9 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 	</table>
 	<mat-paginator
-		(page)="getNextPage($event)"
+		(page)="setPage($event)"
 		[pageIndex]="pageNumber$ | async"
-		[length]="response.count"
+		[length]="animePage.count"
 		[pageSizeOptions]="pageSizes"
 		[pageSize]="pageSize$ | async"
 		class="animes__paginator"

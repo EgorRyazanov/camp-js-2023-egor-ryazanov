@@ -35,7 +35,7 @@ export class AnimeParameters extends Immerable {
 	public readonly type?: AnimeTypes;
 
 	/** Type in. */
-	public readonly typeIn?: AnimeTypes;
+	public readonly typeIn?: AnimeTypes[];
 
 	public constructor(data: AnimeParametersConstructorData) {
 		super();

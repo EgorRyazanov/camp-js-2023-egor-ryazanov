@@ -28,7 +28,7 @@ export class AnimeService {
 	 */
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.http
-			.get<AnimePaginationDto>(new URL(this.animePathname, environment.baseUrl).href, {
+			.get<AnimePaginationDto>(this.urlService.generateURI(this.animePathname)), {
 				params: createHttpParams(
 					AnimeParametersMapper.toDto(new AnimeParameters({ offset: page * LIMIT_ITEMS, limit: LIMIT_ITEMS }))
 				),
