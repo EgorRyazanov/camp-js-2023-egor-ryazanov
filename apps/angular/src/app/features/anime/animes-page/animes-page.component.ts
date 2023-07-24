@@ -21,10 +21,10 @@ import { AnimeService } from '../../../../core/services/anime.service';
 })
 export class AnimesPageComponent implements OnInit {
 	/** Status of anime. */
-	protected isLoading$ = new BehaviorSubject(false);
+	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Current page index. */
-	protected pageNumber$ = new BehaviorSubject(0);
+	protected readonly pageNumber$ = new BehaviorSubject(0);
 
 	/** Page sizes. */
 	protected readonly pageSizes: readonly number[] = [5, 10, 25];
@@ -32,20 +32,20 @@ export class AnimesPageComponent implements OnInit {
 	/** Current page size. */
 	protected readonly pageSize$ = new BehaviorSubject(this.pageSizes[0]);
 
-	/** Anime response. */
-	protected animePage$ = new Observable<AnimePagination>();
+	/** Anime page. */
+	protected readonly animePage$ = new Observable<AnimePagination>();
 
 	/**	Sort parameter. */
-	protected sortParameter$ = new BehaviorSubject<Ordering>({ field: 'none', direction: 'none' });
+	protected readonly sortParameter$ = new BehaviorSubject<Ordering>({ field: 'none', direction: 'none' });
 
 	/** Search parameter. */
-	protected searchParameter$ = new BehaviorSubject('');
+	protected readonly searchParameter$ = new BehaviorSubject('');
 
 	/** Filter parameter. */
-	protected filterParameter$ = new BehaviorSubject<AnimeTypes[]>([]);
+	protected readonly filterParameter$ = new BehaviorSubject<AnimeTypes[]>([]);
 
 	/** Form values. */
-	protected form = this.fb.group({
+	protected readonly form = this.fb.group({
 		search: [''],
 		filters: [[] as AnimeTypes[]],
 	});
