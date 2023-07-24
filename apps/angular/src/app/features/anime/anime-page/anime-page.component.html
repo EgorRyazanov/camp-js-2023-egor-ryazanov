@@ -56,9 +56,9 @@
 	<mat-paginator
 		(page)="getNextPage($event)"
 		[pageIndex]="pageNumber$ | async"
-		[length]="calculateTotalLenght(animePage.count)"
-		[pageSize]="1"
-		[pageSizeOptions]="[1, 5, 10]"
+		[length]="response.count"
+		[pageSizeOptions]="pageSizes"
+		[pageSize]="pageSize$ | async"
 		class="animes__paginator"
 		aria-label="Select page of Anime search results"
 	></mat-paginator>

@@ -1,4 +1,4 @@
-import { Type, Status, Rating } from '../utils/types';
+import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from './anime.dto';
 
 /** Anime parameters DTO. */
 export interface AnimeParametersDto {
@@ -45,10 +45,10 @@ export interface AnimeParametersDto {
 	readonly overall_score_annotated__lte?: string;
 
 	/** Rating. */
-	readonly rating?: Rating;
+	readonly rating?: RatingDto;
 
 	/** Rating in. */
-	readonly rating__in?: Rating;
+	readonly rating__in?: RatingDto;
 
 	/** Search. */
 	readonly search?: string;
@@ -60,10 +60,10 @@ export interface AnimeParametersDto {
 	readonly source__in?: string;
 
 	/** Status. */
-	readonly status?: Status;
+	readonly status?: AnimeStatusDto;
 
 	/** Status in. */
-	readonly status__in?: Status;
+	readonly status__in?: AnimeStatusDto;
 
 	/** English title. */
 	readonly title_eng?: string;
@@ -84,10 +84,10 @@ export interface AnimeParametersDto {
 	readonly title_jpn__icontains?: string;
 
 	/** Type. */
-	readonly type?: Type;
+	readonly type?: AnimeDtoTypes;
 
 	/** Type in. */
-	readonly type__in?: string;
+	readonly type__in?: AnimeDtoTypes;
 
 	/** Greater annotated user score then current. */
 	readonly user_score_annotated__gte?: number;

@@ -1,14 +1,14 @@
-import { Status, Type, Rating, Ordering } from '../utils/types';
+import { AnimeStatus, AnimeTypes, Rating, Ordering } from './anime';
 
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Anime parameters. */
 export class AnimeParameters extends Immerable {
 	/** Limit of elements in response. */
-	public readonly limit?: number;
+	public readonly pageSize?: number;
 
 	/** Offset. */
-	public readonly offset?: number;
+	public readonly pageNumber?: number;
 
 	/** Ordering. */
 	public readonly ordering?: Ordering;
@@ -23,7 +23,7 @@ export class AnimeParameters extends Immerable {
 	public readonly source?: string;
 
 	/** Status. */
-	public readonly status?: Status;
+	public readonly status?: AnimeStatus;
 
 	/** English title. */
 	public readonly titleEnglish?: string;
@@ -32,15 +32,15 @@ export class AnimeParameters extends Immerable {
 	public readonly titleJapanese?: string;
 
 	/** Type. */
-	public readonly type?: Type;
+	public readonly type?: AnimeTypes;
 
 	/** Type in. */
-	public readonly typeIn?: Type[];
+	public readonly typeIn?: AnimeTypes;
 
 	public constructor(data: AnimeParametersConstructorData) {
 		super();
-		this.limit = data.limit;
-		this.offset = data.offset;
+		this.pageSize = data.pageSize;
+		this.pageNumber = data.pageNumber;
 		this.ordering = data.ordering;
 		this.rating = data.rating;
 		this.search = data.search;

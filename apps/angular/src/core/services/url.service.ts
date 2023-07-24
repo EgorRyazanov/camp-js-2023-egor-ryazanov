@@ -11,6 +11,6 @@ export class UrlService {
 	 * @param pathname Pathname.
 	 */
 	public generateURI(pathname: URL | string): string {
-		return new URL(pathname, environment.baseUrl).href;
+		return new URL(pathname, environment.apiUrl).toString();
 	}
 }
