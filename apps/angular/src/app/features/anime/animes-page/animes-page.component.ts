@@ -28,7 +28,6 @@ interface QueryParams {
 	styleUrls: ['./animes-page.component.css'],
 })
 export class AnimesPageComponent implements OnInit {
-	private readonly destroyRef = Inject(DestroyRef);
 	/** Status of anime. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
@@ -63,7 +62,7 @@ export class AnimesPageComponent implements OnInit {
 	};
 
 	/** Form values. */
-	protected readonly form = this.fb.group({
+	protected readonly form = this.formBuilder.group({
 		search: [''],
 		filters: [[] as AnimeTypes[]],
 	});
@@ -91,17 +90,17 @@ export class AnimesPageComponent implements OnInit {
 
 	public constructor(
 		private readonly animeService: AnimeService,
-		private readonly fb: NonNullableFormBuilder,
+		private readonly formBuilder: NonNullableFormBuilder,
 		private readonly activeRoute: ActivatedRoute,
 		private readonly router: Router
 	) {
 		this.animePage$ = this.createAnimesStream();
-		this.activeRoute.queryParams.pipe();
+		this.activeRoute.queryParams.pipe(takeUntilDestroyed());
 	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.activeRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((query) => {
+		this.activeRoute.queryParams.subscribe((query) => {
 			if ('search' in query) {
 				this.form.controls.search.setValue(query['search']);
 				this.queryParams['search'] = query['search'];
@@ -123,8 +122,8 @@ export class AnimesPageComponent implements OnInit {
 				this.queryParams['field'] = query['field'];
 				this.queryParams['direction'] = query['direction'];
 			}
-			this.filterParameter$.next(query['type'] ?? []);
 			this.searchParameter$.next(query['search'] ?? '');
+			this.filterParameter$.next(query['type'] ?? []);
 		});
 	}
 
