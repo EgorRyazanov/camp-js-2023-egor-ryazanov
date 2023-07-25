@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { AnimePagination, AnimeTypes, Ordering } from '@js-camp/core/models/anime';
 import { BehaviorSubject, Observable, combineLatestWith, debounceTime, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort, SortDirection } from '@angular/material/sort';
@@ -27,6 +28,7 @@ interface QueryParams {
 	styleUrls: ['./animes-page.component.css'],
 })
 export class AnimesPageComponent implements OnInit {
+	private readonly destroyRef = Inject(DestroyRef);
 	/** Status of anime. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
@@ -94,11 +96,12 @@ export class AnimesPageComponent implements OnInit {
 		private readonly router: Router
 	) {
 		this.animePage$ = this.createAnimesStream();
+		this.activeRoute.queryParams.pipe();
 	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.activeRoute.queryParams.subscribe((query) => {
+		this.activeRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((query) => {
 			if ('search' in query) {
 				this.form.controls.search.setValue(query['search']);
 				this.queryParams['search'] = query['search'];
