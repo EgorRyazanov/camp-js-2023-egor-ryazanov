@@ -9,7 +9,7 @@ import { AnimeService } from '../../../../core/services/anime.service';
 
 /** Anime Component. */
 @Component({
-	selector: 'camp-anime-page',
+	selector: 'camp-animes-page',
 	templateUrl: './animes-page.component.html',
 	styleUrls: ['./animes-page.component.css'],
 })
