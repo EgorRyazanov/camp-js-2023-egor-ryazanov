@@ -1,3 +1,11 @@
 :root {
-  --spinner-background-color: rgb(0 0 0 /80%);
+  /* colors */
+  --spinner-background-color: rgb(0 0 0 /20%);
+  --background-primary-color: #424242;
+  --primary-contrast-color: #fff;
+
+  /* margins and paddings */
+  --space-md: 32px;
+  --space-lg: calc(var(--space-md) * 2);
+  --space-xl: calc(var(--space-md) * 4);
 }
