@@ -11,6 +11,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
+interface QueryParams {
+	size: number;
+	page: number;
+	type: AnimeTypes[];
+	field: string;
+	direction: SortDirection;
+	search: string;
+}
+
 /** Anime Component. */
 @Component({
 	selector: 'camp-anime-page',
@@ -42,12 +51,12 @@ export class AnimesPageComponent implements OnInit {
 	/** Filter parameter. */
 	protected readonly filterParameter$ = new BehaviorSubject<AnimeTypes[]>([]);
 
-	protected readonly queryParams = {
+	protected readonly queryParams: QueryParams = {
 		size: this.pageSizes[0],
 		page: 0,
-		type: [] as AnimeTypes[],
+		type: [],
 		field: '',
-		direction: '' as SortDirection,
+		direction: '',
 		search: '',
 	};
 
