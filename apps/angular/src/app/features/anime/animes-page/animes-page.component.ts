@@ -205,7 +205,7 @@ export class AnimesPageComponent implements OnInit {
 		if (this.form.value.filters) {
 			this.queryParams.type = this.form.value.filters;
 		}
-		this.pageNumber$.next(0);
+		this.queryParams.page = 0;
 		this.setQueryParams();
 	}
 }
