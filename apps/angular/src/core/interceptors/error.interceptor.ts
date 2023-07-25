@@ -19,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 					return throwError(() => new Error(`Status: ${error.status}; Message: ${error.message}`));
 				}
 				return throwError(() => error);
-			})
+			}),
 		);
 	}
 }
