@@ -20,3 +20,8 @@
   flex-direction: column;
   width: 50%;
 }
+
+.table__paginator {
+  position: sticky;
+  bottom: 0;
+}

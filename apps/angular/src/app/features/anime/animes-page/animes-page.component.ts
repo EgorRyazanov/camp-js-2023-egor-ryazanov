@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimePagination, AnimeTypes, Ordering } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, combineLatestWith, debounceTime, finalize, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, debounceTime, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
-import { Sort } from '@angular/material/sort';
+import { Sort, SortDirection } from '@angular/material/sort';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { HttpParamsOptions } from '@angular/common/http';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
@@ -43,6 +41,15 @@ export class AnimesPageComponent implements OnInit {
 
 	/** Filter parameter. */
 	protected readonly filterParameter$ = new BehaviorSubject<AnimeTypes[]>([]);
+
+	protected readonly queryParams = {
+		size: this.pageSizes[0],
+		page: 0,
+		type: [] as AnimeTypes[],
+		field: '',
+		direction: '' as SortDirection,
+		search: '',
+	};
 
 	/** Form values. */
 	protected readonly form = this.fb.group({
@@ -85,9 +92,24 @@ export class AnimesPageComponent implements OnInit {
 		this.activeRoute.queryParams.subscribe((query) => {
 			if ('search' in query) {
 				this.form.controls.search.setValue(query['search']);
+				this.queryParams['search'] = query['search'];
 			}
 			if ('type' in query) {
 				this.form.controls.filters.setValue([...query['type']]);
+				this.queryParams['type'] = query['type'];
+			}
+			if ('page' in query) {
+				this.pageNumber$.next(query['page']);
+				this.queryParams['page'] = query['page'];
+			}
+			if ('size' in query) {
+				this.pageSize$.next(query['size']);
+				this.queryParams['size'] = query['size'];
+			}
+			if ('field' in query && 'direction' in query) {
+				this.sortParameter$.next({ field: query['field'], direction: query['direction'] });
+				this.queryParams['field'] = query['field'];
+				this.queryParams['direction'] = query['direction'];
 			}
 			this.filterParameter$.next(query['type'] ?? []);
 			this.searchParameter$.next(query['search'] ?? '');
@@ -95,15 +117,15 @@ export class AnimesPageComponent implements OnInit {
 	}
 
 	/** Stream of animes. */
-	public createAnimesStream(): Observable<AnimePagination> {
+	protected createAnimesStream(): Observable<AnimePagination> {
 		return this.sortParameter$.pipe(
 			combineLatestWith(this.searchParameter$, this.pageNumber$, this.pageSize$, this.filterParameter$),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(([ordering, search, pageNumber, pageSize, filter]) =>
-				this.animeService.getAnimes(
+			switchMap(([ordering, search, pageNumber, pageSize, filter]) => {
+				return this.animeService.getAnimes(
 					new AnimeParameters({
 						pageSize,
 						pageNumber,
@@ -111,8 +133,8 @@ export class AnimesPageComponent implements OnInit {
 						search,
 						typeIn: filter instanceof Array ? filter : [filter],
 					})
-				)
-			),
+				);
+			}),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
@@ -120,37 +142,44 @@ export class AnimesPageComponent implements OnInit {
 		);
 	}
 
+	protected setQueryParams() {
+		this.router.navigate(['/'], { queryParams: this.queryParams });
+	}
+
 	/**
 	 * Changes sort parameter.
 	 * @param event Event of sort fields.
 	 */
-	public changeSortParameter(event: Sort): void {
+	protected changeSortParameter(event: Sort): void {
 		this.sortParameter$.next({ field: event.active, direction: event.direction });
+		this.queryParams['field'] = event.active ?? '';
+		this.queryParams['direction'] = event.direction ?? ('' as SortDirection);
+		this.setQueryParams();
 	}
 
 	/**
 	 * Sets next page.
 	 * @param pageEvent Page event.
 	 */
-	public setPage(pageEvent?: PageEvent): void {
+	protected setPage(pageEvent?: PageEvent): void {
 		if (pageEvent) {
 			this.pageNumber$.next(pageEvent.pageIndex);
 			this.pageSize$.next(pageEvent.pageSize);
-		} else {
-			this.pageNumber$.next(0);
+			this.queryParams['page'] = pageEvent.pageIndex;
+			this.queryParams['size'] = pageEvent.pageSize;
+			this.setQueryParams();
 		}
 	}
 
 	/** Submit form action. */
-	public onSubmit(): void {
-		const queryParameters: HttpParamsOptions['fromObject'] = {};
+	protected onSubmit(): void {
 		if (this.form.value.search) {
-			queryParameters['search'] = this.form.value.search;
+			this.queryParams['search'] = this.form.value.search;
 		}
 		if (this.form.value.filters) {
-			queryParameters['type'] = this.form.value.filters;
+			this.queryParams['type'] = this.form.value.filters;
 		}
 		this.pageNumber$.next(0);
-		this.router.navigate(['/'], { queryParams: queryParameters });
+		this.setQueryParams();
 	}
 }
