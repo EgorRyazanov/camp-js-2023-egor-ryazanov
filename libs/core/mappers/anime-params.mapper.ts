@@ -2,6 +2,7 @@ import { AnimeParameters } from '../models/anime-params';
 import { AnimeParametersDto } from '../dtos/anime-params.dto';
 import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from '../dtos/anime.dto';
 import { AnimeTypes, AnimeStatus, Rating } from '../models/anime';
+import { deleteProperties } from '../utils/delete-properties';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
@@ -38,7 +39,7 @@ export namespace AnimeParametersMapper {
 	 * @param model Anime model.
 	 */
 	export function toDto(model: AnimeParameters): AnimeParametersDto {
-		return {
+		return deleteProperties({
 			limit: model?.pageSize ? model.pageSize : defaultPageSize,
 			offset: model?.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
 			ordering: model?.ordering,
@@ -50,6 +51,6 @@ export namespace AnimeParametersMapper {
 			title_jpn: model?.titleJapanese,
 			type: model?.type ? ANIME_TYPE_TO_DTO[model.type] : undefined,
 			type__in: model?.typeIn ? ANIME_TYPE_TO_DTO[model.typeIn] : undefined,
-		};
+		});
 	}
 }
