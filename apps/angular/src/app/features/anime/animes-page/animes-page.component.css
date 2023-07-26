@@ -21,7 +21,7 @@
   width: 50%;
 }
 
-.table__paginator {
+.animes__paginator {
   position: sticky;
   bottom: 0;
 }
@@ -37,3 +37,7 @@
   z-index: 100;
   background-color: var(--spinner-background-color);
 }
+/* 
+.table {
+  table-layout: fixed;
+} */
