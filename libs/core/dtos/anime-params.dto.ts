@@ -2,6 +2,7 @@ import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from './anime.dto';
 
 /** Anime parameters DTO. */
 export interface AnimeParametersDto {
+
 	/** Limit of elements in response. */
 	readonly limit?: number;
 
@@ -10,6 +11,7 @@ export interface AnimeParametersDto {
 
 	/** Ordering. */
 	readonly ordering?: string;
+
 	/** Rating. */
 	readonly rating?: RatingDto;
 
@@ -24,11 +26,13 @@ export interface AnimeParametersDto {
 
 	/** Status. */
 	readonly status?: AnimeStatusDto;
+
 	/** English title. */
 	readonly title_eng?: string;
 
 	/** Japanese title. */
 	readonly title_jpn?: string;
+
 	/** Type. */
 	readonly type?: AnimeDtoTypes;
 

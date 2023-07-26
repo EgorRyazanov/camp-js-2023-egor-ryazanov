@@ -3,6 +3,7 @@ import { Pagination } from '../models/pagintation';
 
 /** Pagination mapper. */
 export namespace PaginationMapper {
+
 	/**
 	 * Converts pagination DTO to pagination model.
 	 * @param pagination DTO.
@@ -10,13 +11,13 @@ export namespace PaginationMapper {
 	 */
 	export function fromPaginationDto<TDto, TModel>(
 		pagination: PaginationDto<TDto>,
-		dtoConvertor: (dto: TDto) => TModel
+		dtoConvertor: (dto: TDto) => TModel,
 	): Pagination<TModel> {
 		return {
 			count: pagination.count,
 			next: pagination.next,
 			previous: pagination.previous,
-			items: pagination.results.map((item) => dtoConvertor(item)),
+			items: pagination.results.map(item => dtoConvertor(item)),
 		};
 	}
 }

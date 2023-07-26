@@ -54,17 +54,16 @@ export class AnimesPageComponent {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap((pagination) =>
+			switchMap(pagination =>
 				this.animeService.getAnimes(
 					new AnimeParameters({
 						pageSize: pagination.pageSize,
 						pageNumber: pagination.pageNumber,
-					})
-				)
-			),
+					}),
+				)),
 			tap(() => {
 				this.isLoading$.next(false);
-			})
+			}),
 		);
 	}
 
