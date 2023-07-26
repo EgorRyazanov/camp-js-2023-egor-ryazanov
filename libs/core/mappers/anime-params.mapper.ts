@@ -1,8 +1,9 @@
 import { AnimeParameters } from '../models/anime-params';
 import { AnimeParametersDto } from '../dtos/anime-params.dto';
 import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from '../dtos/anime.dto';
-import { AnimeTypes, AnimeStatus, Rating } from '../models/anime';
-import { deleteProperties } from '../utils/delete-properties';
+import { AnimeTypes, Rating } from '../models/anime';
+import { deleteUndefinedProperties } from '../utils/delete-undefined-properties';
+import { AnimeStatus } from '../models/anime-status';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
@@ -39,7 +40,7 @@ export namespace AnimeParametersMapper {
 	 * @param model Anime model.
 	 */
 	export function toDto(model: AnimeParameters): AnimeParametersDto {
-		return deleteProperties({
+		return deleteUndefinedProperties({
 			limit: model?.pageSize ? model.pageSize : defaultPageSize,
 			offset: model?.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
 			ordering: model?.ordering,

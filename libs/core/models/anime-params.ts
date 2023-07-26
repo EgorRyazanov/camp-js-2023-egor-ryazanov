@@ -1,4 +1,5 @@
-import { AnimeStatus, AnimeTypes, Rating } from './anime';
+import { AnimeTypes, Rating } from './anime';
+import { AnimeStatus } from './anime-status';
 
 import { Immerable, OmitImmerable } from './immerable';
 

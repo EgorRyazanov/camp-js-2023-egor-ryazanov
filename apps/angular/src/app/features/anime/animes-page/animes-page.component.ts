@@ -5,6 +5,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 
+import { AnimeStatus } from '@js-camp/core/models/anime-status';
+
 import { AnimeService } from '../../../../core/services/anime.service';
 
 const defaultPagination = {
@@ -65,6 +67,14 @@ export class AnimesPageComponent {
 				this.isLoading$.next(false);
 			}),
 		);
+	}
+
+	/**
+	 * Gets readable status of anime.
+	 * @param status Anime status.
+	 */
+	protected getReadableStatus(status: AnimeStatus): string {
+		return AnimeStatus.toReadable(status);
 	}
 
 	/**

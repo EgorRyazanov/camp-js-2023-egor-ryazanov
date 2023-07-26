@@ -24,8 +24,6 @@ export class AnimeService {
 	/** Url service. */
 	private readonly urlService = inject(UrlService);
 
-	public constructor() {}
-
 	/**
 	 * Get anime from server.
 	 * @param parameters Parameters of current request.

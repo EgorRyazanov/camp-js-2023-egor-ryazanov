@@ -1,3 +1,4 @@
+import { AnimeStatus } from './anime-status';
 import { Immerable, OmitImmerable } from './immerable';
 import { Pagination } from './pagintation';
 
@@ -73,13 +74,6 @@ export enum AnimeTypes {
 	ONA = 'ONA',
 	MUSIC = 'MUSIC',
 	UNKNOWN = 'UNKNOWN',
-}
-
-/** Status. */
-export enum AnimeStatus {
-	FINISHED = 'FINISHED',
-	AIRING = 'AIRING',
-	NOT_YET_AIRED = 'NOT_YET_AIRED',
 }
 
 /** Rating. */
