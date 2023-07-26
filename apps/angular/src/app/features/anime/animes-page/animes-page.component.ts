@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { AnimePagination, AnimeTypes, Ordering } from '@js-camp/core/models/anime';
 import { BehaviorSubject, Observable, Subject, combineLatestWith, debounceTime, switchMap, takeUntil, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort, SortDirection } from '@angular/material/sort';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { AnimeService } from '../../../../core/services/anime.service';
 
 /** Routing query params. */
 interface RoutingQueryParams {
-
 	/** Page size. */
 	size: number;
 
@@ -40,9 +39,6 @@ interface RoutingQueryParams {
 	styleUrls: ['./animes-page.component.css'],
 })
 export class AnimesPageComponent implements OnInit {
-	/** Destroy subject reference. */
-	protected readonly destroyRef$ = new Subject<void>();
-
 	/** Status of anime. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
@@ -66,6 +62,8 @@ export class AnimesPageComponent implements OnInit {
 
 	/** Filter parameter. */
 	protected readonly filterParameter$ = new BehaviorSubject<AnimeTypes[]>([]);
+
+	private readonly destroyRef = inject(DestroyRef);
 
 	/** Query params. */
 	protected readonly queryParams: RoutingQueryParams = {
@@ -108,14 +106,14 @@ export class AnimesPageComponent implements OnInit {
 		private readonly animeService: AnimeService,
 		private readonly formBuilder: NonNullableFormBuilder,
 		private readonly activeRoute: ActivatedRoute,
-		private readonly router: Router,
+		private readonly router: Router
 	) {
 		this.animePage$ = this.createAnimesStream();
 	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.activeRoute.queryParams.pipe(takeUntil(this.destroyRef$)).subscribe(query => {
+		this.activeRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((query) => {
 			if ('search' in query) {
 				this.form.controls.search.setValue(query['search']);
 				this.queryParams.search = query['search'];
@@ -158,12 +156,13 @@ export class AnimesPageComponent implements OnInit {
 						ordering,
 						search,
 						typeIn: filter instanceof Array ? filter : [filter],
-					}),
-				)),
+					})
+				)
+			),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
-			}),
+			})
 		);
 	}
 
@@ -199,12 +198,8 @@ export class AnimesPageComponent implements OnInit {
 
 	/** Submit form action. */
 	protected onSubmit(): void {
-		if (this.form.value.search) {
-			this.queryParams.search = this.form.value.search;
-		}
-		if (this.form.value.filters) {
-			this.queryParams.type = this.form.value.filters;
-		}
+		this.queryParams.search = this.form.value.search ?? '';
+		this.queryParams.type = this.form.value.filters ?? [];
 		this.queryParams.page = 0;
 		this.setQueryParams();
 	}
