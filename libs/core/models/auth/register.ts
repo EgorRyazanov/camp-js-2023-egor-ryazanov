@@ -22,7 +22,6 @@ export class Register extends Immerable {
 		this.email = data.email;
 		this.firstName = data.firstName;
 		this.lastName = data.lastName;
-		this.avatar = data.avatar;
 		this.password = data.password;
 	}
 }

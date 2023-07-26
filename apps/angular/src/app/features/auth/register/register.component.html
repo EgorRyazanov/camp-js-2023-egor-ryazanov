@@ -1,1 +1,22 @@
-<p>register works!</p>
+<div class="register auth-container">
+	<h1 class="register__title auth-title">Register</h1>
+	<form [formGroup]="registerForm" class="login__form auth-form">
+		<mat-form-field color="accent" class="form__field">
+			<mat-label color="accent">Email</mat-label>
+			<input formControlName="email" matInput />
+		</mat-form-field>
+		<mat-form-field color="accent" class="form__field">
+			<mat-label color="accent">First name</mat-label>
+			<input formControlName="firstName" matInput />
+		</mat-form-field>
+		<mat-form-field color="accent" class="form__field">
+			<mat-label color="accent">Last name</mat-label>
+			<input formControlName="lastName" matInput />
+		</mat-form-field>
+		<mat-form-field color="accent" class="form__field">
+			<mat-label color="accent">Password</mat-label>
+			<input formControlName="password" matInput />
+		</mat-form-field>
+		<button class="form__submit" type="submit" mat-raised-button color="primary">Register</button>
+	</form>
+</div>

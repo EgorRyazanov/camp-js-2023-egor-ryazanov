@@ -1,1 +1,14 @@
-<p>login works!</p>
+<div class="login auth-container">
+	<h1 class="login__title auth-title">Login</h1>
+	<form [formGroup]="loginForm" class="login__form auth-form">
+		<mat-form-field color="accent" class="form__field">
+			<mat-label color="accent">Email</mat-label>
+			<input formControlName="email" matInput />
+		</mat-form-field>
+		<mat-form-field color="accent" class="form__field">
+			<mat-label color="accent">Password</mat-label>
+			<input formControlName="password" matInput />
+		</mat-form-field>
+		<button class="form__submit" type="submit" mat-raised-button color="primary">Login</button>
+	</form>
+</div>

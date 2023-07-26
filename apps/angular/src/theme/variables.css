@@ -6,7 +6,7 @@
   --primary-alternative-contrast-color: #8e9ace;
 
   /* margins and paddings */
-  --space-md: 32px;
+  --space-md: 16px;
   --space-lg: calc(var(--space-md) * 2);
   --space-xl: calc(var(--space-md) * 4);
 }

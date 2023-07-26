@@ -12,7 +12,6 @@ export namespace RegisterMapper {
 			email: registerModel.email,
 			first__name: registerModel.firstName,
 			last__name: registerModel.lastName,
-			avatar: registerModel.avatar,
 			password: registerModel.password,
 		};
 	}
