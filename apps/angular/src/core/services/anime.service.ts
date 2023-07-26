@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AnimeDto, AnimePaginationDto } from '@js-camp/core/dtos/anime.dto';
-import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
-import { Anime, AnimePagination } from '@js-camp/core/models/anime';
+import { AnimeDto, AnimePaginationDto } from '@js-camp/core/dtos/anime-dto/anime.dto';
+import { AnimeMapper } from '@js-camp/core/mappers/anime/anime.mapper';
+import { Anime, AnimePagination } from '@js-camp/core/models/anime/anime';
 import { Observable, map } from 'rxjs';
-import { AnimeParametersMapper } from '@js-camp/core/mappers/anime-params.mapper';
-import { AnimeParameters } from '@js-camp/core/models/anime-params';
+import { AnimeParametersMapper } from '@js-camp/core/mappers/anime/anime-params.mapper';
+import { AnimeParameters } from '@js-camp/core/models/anime/anime-params';
 
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
@@ -30,11 +30,12 @@ export class AnimeService {
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.http
 			.get<AnimePaginationDto>(this.urlService.generateURL(this.animePathname), {
-			params: createHttpParams({ ...AnimeParametersMapper.toDto(new AnimeParameters(parameters)) }),
-		})
+				params: createHttpParams({ ...AnimeParametersMapper.toDto(new AnimeParameters(parameters)) }),
+			})
 			.pipe(
-				map(animePaginationDto =>
-					PaginationMapper.fromPaginationDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromAnimeDto)),
+				map((animePaginationDto) =>
+					PaginationMapper.fromPaginationDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromAnimeDto)
+				)
 			);
 	}
 }

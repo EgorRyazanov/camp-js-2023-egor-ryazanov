@@ -3,6 +3,7 @@
   --spinner-background-color: rgb(0 0 0 /20%);
   --background-primary-color: #424242;
   --primary-contrast-color: #fff;
+  --primary-alternative-contrast-color: #8e9ace;
 
   /* margins and paddings */
   --space-md: 32px;

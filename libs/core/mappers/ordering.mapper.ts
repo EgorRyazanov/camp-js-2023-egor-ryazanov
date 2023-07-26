@@ -1,10 +1,9 @@
-import { Ordering } from '../models/anime';
+import { Ordering } from '../models/anime/anime';
 
 type OrderingHelper = { [key in string]: string };
 
 /** Ordering mapper. */
 export namespace OrderingMapper {
-
 	/**
 	 * Converts ordering model to dto.
 	 * @param ordering Model.

@@ -1,11 +1,11 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { AnimePagination, AnimeTypes, Ordering } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, Subject, combineLatestWith, debounceTime, switchMap, takeUntil, tap } from 'rxjs';
+import { AnimePagination, Ordering, AnimeTypes } from '@js-camp/core/models/anime/anime';
+import { BehaviorSubject, Observable, combineLatestWith, debounceTime, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { AnimeParameters } from '@js-camp/core/models/anime-params';
+import { AnimeParameters } from '@js-camp/core/models/anime/anime-params';
 import { Sort, SortDirection } from '@angular/material/sort';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

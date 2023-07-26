@@ -2,7 +2,6 @@ import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from './anime.dto';
 
 /** Anime parameters DTO. */
 export interface AnimeParametersDto {
-
 	/** Greater end date then current. */
 	readonly aired__endswith__gte?: string;
 

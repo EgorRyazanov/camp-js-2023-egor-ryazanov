@@ -1,9 +1,9 @@
-import { AnimeParameters } from '../models/anime-params';
-import { AnimeParametersDto } from '../dtos/anime-params.dto';
-import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from '../dtos/anime.dto';
-import { AnimeTypes, AnimeStatus, Rating } from '../models/anime';
+import { AnimeParameters } from '../../models/anime/anime-params';
+import { AnimeParametersDto } from '../../dtos/anime-dto/anime-params.dto';
+import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from '../../dtos/anime-dto/anime.dto';
+import { AnimeTypes, AnimeStatus, Rating } from '../../models/anime/anime';
 
-import { OrderingMapper } from './ordering.mapper';
+import { OrderingMapper } from '../ordering.mapper';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
@@ -57,7 +57,7 @@ export namespace AnimeParametersMapper {
 			title_eng: model?.titleEnglish,
 			title_jpn: model?.titleJapanese,
 			type: model?.type ? ANIME_TYPE_TO_DTO[model.type] : undefined,
-			type__in: model?.typeIn ? model.typeIn.map(typeInElement => ANIME_TYPE_TO_DTO[typeInElement]) : undefined,
+			type__in: model?.typeIn ? model.typeIn.map((typeInElement) => ANIME_TYPE_TO_DTO[typeInElement]) : undefined,
 		};
 	}
 }

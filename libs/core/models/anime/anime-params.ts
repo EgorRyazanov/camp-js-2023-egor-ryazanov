@@ -1,5 +1,5 @@
 import { AnimeStatus, AnimeTypes, Rating, Ordering } from './anime';
-import { Immerable, OmitImmerable } from './immerable';
+import { Immerable, OmitImmerable } from '../immerable';
 
 /** Anime parameters. */
 export class AnimeParameters extends Immerable {

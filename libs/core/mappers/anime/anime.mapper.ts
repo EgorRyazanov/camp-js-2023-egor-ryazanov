@@ -1,5 +1,5 @@
-import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../dtos/anime.dto';
-import { Anime, AnimeStatus, AnimeTypes } from '../models/anime';
+import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../../dtos/anime-dto/anime.dto';
+import { Anime, AnimeStatus, AnimeTypes } from '../../models/anime/anime';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
