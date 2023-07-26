@@ -9,7 +9,17 @@ import { AnimeStatus } from '@js-camp/core/models/anime-status';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
-const defaultPagination = {
+/** Default pagination. */
+interface DefaultPagination {
+
+	/** Page number. */
+	pageNumber: number;
+
+	/** Page size. */
+	pageSize: number;
+}
+
+const defaultPagination: DefaultPagination = {
 	pageNumber: 0,
 	pageSize: 5,
 };
