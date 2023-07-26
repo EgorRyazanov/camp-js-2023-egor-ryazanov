@@ -10,13 +10,13 @@ export class Anime extends Immerable {
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
 	 */
-	public readonly created: string;
+	public readonly created: Date;
 
 	/**
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
 	 */
-	public readonly modified: string;
+	public readonly modified: Date;
 
 	/** English title. */
 	public readonly titleEnglish: string;
@@ -100,11 +100,11 @@ export interface Aired {
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	start: string | null;
+	start: Date | null;
 
 	/**
 	 *  End date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	end: string | null;
+	end: Date | null;
 }

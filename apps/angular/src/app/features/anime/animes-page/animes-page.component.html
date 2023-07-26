@@ -1,6 +1,6 @@
 <div class="animes">
 	<ng-container *ngIf="animePage$ | async as animePage">
-		<table matSort aria-label="Table of animes" mat-table [dataSource]="animePage.results" class="table">
+		<table matSort aria-label="Table of animes" mat-table [dataSource]="animePage.items" class="table">
 			<ng-container matColumnDef="image">
 				<th mat-header-cell *matHeaderCellDef>Image</th>
 				<td mat-cell *matCellDef="let anime">
@@ -31,11 +31,12 @@
 			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 		</table>
 		<mat-paginator
+			*ngIf="pagination$ | async as pagination"
 			(page)="setPage($event)"
-			[pageIndex]="pageNumber$ | async"
+			[pageIndex]="pagination.pageNumber"
 			[length]="animePage.count"
 			[pageSizeOptions]="pageSizes"
-			[pageSize]="pageSize$ | async"
+			[pageSize]="pagination.pageSize"
 			class="table__paginator"
 			showFirstLastButtons
 			aria-label="Select page of Anime search results"
