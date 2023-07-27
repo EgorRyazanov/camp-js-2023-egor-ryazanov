@@ -10,7 +10,7 @@
   height: 100vh;
 }
 
-.table__paginator {
+.animes__paginator {
   position: sticky;
   bottom: 0;
 }
