@@ -92,8 +92,8 @@ export class AnimesPageComponent {
 	 * @param _index Index.
 	 * @param anime Anime.
 	 */
-	protected trackByAnime(_index: number, anime: Anime): string {
-		return anime.id.toString();
+	protected trackByAnime(_index: number, anime: Anime): number {
+		return anime.id;
 	}
 
 	/**

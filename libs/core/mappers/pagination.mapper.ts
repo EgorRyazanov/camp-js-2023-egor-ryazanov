@@ -7,9 +7,9 @@ export namespace PaginationMapper {
 	/**
 	 * Converts pagination DTO to pagination model.
 	 * @param pagination DTO.
-	 * @param dtoMapper Mapper dto to model.
+	 * @param dtoMapper Mapper DTO to model.
 	 */
-	export function fromPaginationDto<TDto, TModel>(
+	export function fromDto<TDto, TModel>(
 		pagination: PaginationDto<TDto>,
 		dtoMapper: (dto: TDto) => TModel,
 	): Pagination<TModel> {

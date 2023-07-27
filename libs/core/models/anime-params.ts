@@ -1,10 +1,8 @@
 import { AnimeTypes, Rating } from './anime';
 import { AnimeStatus } from './anime-status';
 
-import { Immerable, OmitImmerable } from './immerable';
-
 /** Anime parameters. */
-export class AnimeParameters extends Immerable {
+export class AnimeParameters {
 	/** Limit of elements in response. */
 	public readonly pageSize?: number;
 
@@ -38,8 +36,7 @@ export class AnimeParameters extends Immerable {
 	/** Type in. */
 	public readonly typeIn?: AnimeTypes;
 
-	public constructor(data: AnimeParametersConstructorData) {
-		super();
+	public constructor(data: AnimeParameters) {
 		this.pageSize = data.pageSize;
 		this.pageNumber = data.pageNumber;
 		this.ordering = data.ordering;
@@ -52,6 +49,3 @@ export class AnimeParameters extends Immerable {
 		this.type = data.type;
 	}
 }
-
-/** Constructor of anime parameters model. */
-type AnimeParametersConstructorData = OmitImmerable<AnimeParameters>;

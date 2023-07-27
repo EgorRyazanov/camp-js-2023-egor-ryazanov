@@ -22,9 +22,9 @@ export namespace AnimeMapper {
 
 	/**
 	 * Converts anime DTO to anime model.
-	 * @param dto Anime GTO.
+	 * @param dto Anime DTO.
 	 */
-	export function fromAnimeDto(dto: AnimeDto): Anime {
+	export function fromDto(dto: AnimeDto): Anime {
 		return new Anime({
 			id: dto.id,
 			created: new Date(dto.created),

@@ -1,9 +1,8 @@
 import { AnimeStatus } from './anime-status';
-import { Immerable, OmitImmerable } from './immerable';
 import { Pagination } from './pagintation';
 
 /** Anime. */
-export class Anime extends Immerable {
+export class Anime {
 	/** ID. */
 	public readonly id: number;
 
@@ -43,8 +42,7 @@ export class Anime extends Immerable {
 	/** User score. */
 	public readonly userScore: number | null;
 
-	public constructor(data: AnimeConstructorData) {
-		super();
+	public constructor(data: Anime) {
 		this.id = data.id;
 		this.created = data.created;
 		this.modified = data.modified;
@@ -58,9 +56,6 @@ export class Anime extends Immerable {
 		this.userScore = data.userScore;
 	}
 }
-
-/** Constructor of anime model. */
-type AnimeConstructorData = OmitImmerable<Anime>;
 
 /** Anime pagination. */
 export type AnimePagination = Pagination<Anime>;
