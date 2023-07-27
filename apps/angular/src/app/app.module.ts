@@ -18,7 +18,7 @@ import { AnimeModule } from './features/anime/anime.module';
 /** App module. */
 @NgModule({
 	declarations: [AppComponent, ErrorPageComponent],
-	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule, AnimeModule],
+	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule],
 	providers: [
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true },

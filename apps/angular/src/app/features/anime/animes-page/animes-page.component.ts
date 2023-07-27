@@ -168,7 +168,7 @@ export class AnimesPageComponent implements OnInit {
 
 	/** Sets query params. */
 	protected setQueryParams(): void {
-		this.router.navigate(['/'], { queryParams: this.queryParams });
+		this.router.navigate(['/animes'], { queryParams: this.queryParams });
 	}
 
 	/**
