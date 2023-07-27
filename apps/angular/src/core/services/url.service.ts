@@ -14,6 +14,7 @@ export class UrlService {
 	public readonly authUrls = {
 		login: this.generateURL('/api/v1/auth/login/'),
 		register: this.generateURL('/api/v1/auth/register/'),
+		refreshToken: this.generateURL('/api/v1/auth/token/refresh/'),
 	} as const;
 
 	/** Anime urls. */
