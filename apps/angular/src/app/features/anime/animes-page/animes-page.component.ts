@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AnimePagination } from '@js-camp/core/models/anime';
+import { Anime, AnimePagination } from '@js-camp/core/models/anime';
 import { BehaviorSubject, Observable, debounceTime, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
@@ -85,6 +85,15 @@ export class AnimesPageComponent {
 	 */
 	protected getReadableStatus(status: AnimeStatus): string {
 		return AnimeStatus.toReadable(status);
+	}
+
+	/**
+	 * Tracks anime.
+	 * @param _index Index.
+	 * @param anime Anime.
+	 */
+	protected trackByAnime(_index: number, anime: Anime): string {
+		return anime.id.toString();
 	}
 
 	/**
