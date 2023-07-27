@@ -18,9 +18,6 @@ import { UrlService } from './url.service';
 	providedIn: 'root',
 })
 export class AnimeService {
-	/** Path to get anime. */
-	private readonly animePathname = '/api/v1/anime/anime/';
-
 	public constructor(private readonly http: HttpClient, private readonly urlService: UrlService) {}
 
 	/**
@@ -29,7 +26,7 @@ export class AnimeService {
 	 */
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.http
-			.get<AnimePaginationDto>(this.urlService.generateURL(this.animePathname), {
+			.get<AnimePaginationDto>(this.urlService.anime.animes, {
 				params: createHttpParams({ ...AnimeParametersMapper.toDto(new AnimeParameters(parameters)) }),
 			})
 			.pipe(

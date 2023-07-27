@@ -8,11 +8,21 @@ import { AppConfig } from './app.config';
 export class UrlService {
 	/** App config. */
 	private readonly appConfig = inject(AppConfig);
+
+	public readonly auth = {
+		login: this.generateURL('/api/v1/auth/login/'),
+		register: this.generateURL('/api/v1/auth/register/'),
+	} as const;
+
+	public readonly anime = {
+		animes: this.generateURL('/api/v1/anime/anime/'),
+	} as const;
+
 	/**
 	 * Generates URI.
 	 * @param pathname Pathname.
 	 */
-	public generateURL(pathname: URL | string): string {
+	private generateURL(pathname: URL | string): string {
 		return new URL(pathname, this.appConfig.apiUrl).toString();
 	}
 }
