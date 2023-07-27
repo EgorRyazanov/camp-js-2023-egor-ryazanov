@@ -26,7 +26,7 @@ export class AnimeService {
 	 */
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.http
-			.get<AnimePaginationDto>(this.urlService.anime.animes, {
+			.get<AnimePaginationDto>(this.urlService.animeUrls.animes, {
 				params: createHttpParams({ ...AnimeParametersMapper.toDto(new AnimeParameters(parameters)) }),
 			})
 			.pipe(

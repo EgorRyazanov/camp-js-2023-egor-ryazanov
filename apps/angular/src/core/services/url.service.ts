@@ -9,12 +9,14 @@ export class UrlService {
 	/** App config. */
 	private readonly appConfig = inject(AppConfig);
 
-	public readonly auth = {
+	/** Authorization urls. */
+	public readonly authUrls = {
 		login: this.generateURL('/api/v1/auth/login/'),
 		register: this.generateURL('/api/v1/auth/register/'),
 	} as const;
 
-	public readonly anime = {
+	/** Anime urls. */
+	public readonly animeUrls = {
 		animes: this.generateURL('/api/v1/anime/anime/'),
 	} as const;
 
