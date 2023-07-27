@@ -12,7 +12,11 @@ export namespace AnimeType {
 		[AnimeTypes.MOVIE]: AnimeDtoTypes.MOVIE,
 	};
 
+	/**
+	 * Converts type model to DTO.
+	 * @param types Array of anime status.
+	 */
 	export function toDto(types: readonly AnimeTypes[]): string {
-		return types.map((typeInElement) => ANIME_TYPE_TO_DTO[typeInElement]).join(', ');
+		return types.map(typeInElement => ANIME_TYPE_TO_DTO[typeInElement]).join(', ');
 	}
 }

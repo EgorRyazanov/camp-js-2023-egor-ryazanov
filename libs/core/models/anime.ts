@@ -1,6 +1,8 @@
+import { SortDirection } from '@angular/material/sort';
+
 import { AnimeStatus } from './anime-status';
 import { Pagination } from './pagintation';
-import { SortDirection } from '@angular/material/sort';
+
 /** Anime. */
 export class Anime {
 	/** ID. */
@@ -84,6 +86,7 @@ export enum Rating {
 
 /** Aired dates. */
 export interface Aired {
+
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.
@@ -99,6 +102,7 @@ export interface Aired {
 
 /** Ordering. */
 export interface Ordering {
+
 	/**
 	 * Ordering direction.
 	 * @example "asc", "desc", "none".

@@ -3,9 +3,10 @@ import { AnimeParametersDto } from '../dtos/anime-params.dto';
 import { AnimeStatusDto, RatingDto } from '../dtos/anime.dto';
 import { Rating } from '../models/anime';
 
-import { OrderingMapper } from './ordering.mapper';
 import { deleteUndefinedProperties } from '../utils/delete-undefined-properties';
 import { AnimeStatus } from '../models/anime-status';
+
+import { OrderingMapper } from './ordering.mapper';
 import { AnimeType } from './anime-type.mapper';
 
 /** Anime Parameters Mapper. */

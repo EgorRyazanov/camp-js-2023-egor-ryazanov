@@ -16,8 +16,8 @@
 		<table
 			matSort
 			mat-table
-			aria-label="Table of animes"
 			class="animes__table table"
+			aria-label="Table of animes"
 			[trackBy]="trackByAnime"
 			[dataSource]="animePage.items"
 			[matSortActive]="queryParams.field"
@@ -54,14 +54,14 @@
 			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 		</table>
 		<mat-paginator
-			(page)="setPageParameter($event)"
-			[pageIndex]="pageNumber$ | async"
-			[length]="animePage.count"
-			[pageSizeOptions]="pageSizes"
-			[pageSize]="pageSize$ | async"
-			class="animes__paginator"
 			showFirstLastButtons
+			class="animes__paginator"
 			aria-label="Select page of Anime search results"
+			[length]="animePage.count"
+			[pageSize]="pageSize$ | async"
+			[pageIndex]="pageNumber$ | async"
+			[pageSizeOptions]="pageSizes"
+			(page)="setPageParameter($event)"
 		/>
 	</ng-container>
 	<div *ngIf="isLoading$ | async" class="animes__spinner">

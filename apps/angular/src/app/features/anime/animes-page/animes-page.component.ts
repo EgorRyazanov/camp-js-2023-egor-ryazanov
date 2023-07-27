@@ -9,11 +9,13 @@ import { Sort, SortDirection } from '@angular/material/sort';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AnimeService } from '../../../../core/services/anime.service';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
+
+import { AnimeService } from '../../../../core/services/anime.service';
 
 /** Routing query params. */
 interface RoutingQueryParams {
+
 	/** Page size. */
 	size: number;
 
@@ -33,6 +35,7 @@ interface RoutingQueryParams {
 	search: string;
 }
 
+/** Default routing query parameters. */
 const defaultRoutingQueryParams: RoutingQueryParams = {
 	size: 5,
 	page: 0,
@@ -49,10 +52,19 @@ const defaultRoutingQueryParams: RoutingQueryParams = {
 	styleUrls: ['./animes-page.component.css'],
 })
 export class AnimesPageComponent implements OnInit {
+	/** Destroy ref. */
 	private readonly destroyRef = inject(DestroyRef);
+
+	/** Anime service. */
 	private readonly animeService = inject(AnimeService);
+
+	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	/** Active route. */
 	private readonly activeRoute = inject(ActivatedRoute);
+
+	/** Router. */
 	private readonly router = inject(Router);
 
 	/** Page sizes. */
@@ -119,7 +131,7 @@ export class AnimesPageComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.activeRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((query) => {
+		this.activeRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(query => {
 			const type = query['type'] instanceof Array ? query['type'] : [query['type']];
 			this.form.controls.search.setValue(query['search']);
 			this.form.controls.filters.setValue(type);
@@ -155,13 +167,12 @@ export class AnimesPageComponent implements OnInit {
 						ordering,
 						search,
 						typeIn: filter instanceof Array ? filter : [filter],
-					})
-				)
-			),
+					}),
+				)),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
-			})
+			}),
 		);
 	}
 
@@ -186,6 +197,7 @@ export class AnimesPageComponent implements OnInit {
 	protected trackByAnime(_index: number, anime: Anime): number {
 		return anime.id;
 	}
+
 	/**
 	 * Changes sort parameter.
 	 * @param event Event of sort fields.
