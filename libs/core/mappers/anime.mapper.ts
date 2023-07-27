@@ -1,5 +1,6 @@
 import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../dtos/anime.dto';
-import { Anime, AnimeStatus, AnimeTypes } from '../models/anime';
+import { Anime, AnimeTypes } from '../models/anime';
+import { AnimeStatus } from '../models/anime-status';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
@@ -21,13 +22,13 @@ export namespace AnimeMapper {
 
 	/**
 	 * Converts anime DTO to anime model.
-	 * @param dto Anime GTO.
+	 * @param dto Anime DTO.
 	 */
-	export function fromAnimeDto(dto: AnimeDto): Anime {
+	export function fromDto(dto: AnimeDto): Anime {
 		return new Anime({
 			id: dto.id,
-			created: dto.created,
-			modified: dto.modified,
+			created: new Date(dto.created),
+			modified: new Date(dto.modified),
 			titleEnglish: dto.title_eng,
 			titleJapanese: dto.title_jpn,
 			image: dto.image,

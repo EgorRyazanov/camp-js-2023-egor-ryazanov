@@ -1,8 +1,8 @@
-import { Immerable, OmitImmerable } from './immerable';
+import { AnimeStatus } from './anime-status';
 import { Pagination } from './pagintation';
-
+import { SortDirection } from '@angular/material/sort';
 /** Anime. */
-export class Anime extends Immerable {
+export class Anime {
 	/** ID. */
 	public readonly id: number;
 
@@ -10,13 +10,13 @@ export class Anime extends Immerable {
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
 	 */
-	public readonly created: string;
+	public readonly created: Date;
 
 	/**
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
 	 */
-	public readonly modified: string;
+	public readonly modified: Date;
 
 	/** English title. */
 	public readonly titleEnglish: string;
@@ -42,8 +42,7 @@ export class Anime extends Immerable {
 	/** User score. */
 	public readonly userScore: number | null;
 
-	public constructor(data: AnimeConstructorData) {
-		super();
+	public constructor(data: Anime) {
 		this.id = data.id;
 		this.created = data.created;
 		this.modified = data.modified;
@@ -57,9 +56,6 @@ export class Anime extends Immerable {
 		this.userScore = data.userScore;
 	}
 }
-
-/** Constructor of anime model. */
-type AnimeConstructorData = OmitImmerable<Anime>;
 
 /** Anime pagination. */
 export type AnimePagination = Pagination<Anime>;
@@ -75,13 +71,6 @@ export enum AnimeTypes {
 	UNKNOWN = 'UNKNOWN',
 }
 
-/** Status. */
-export enum AnimeStatus {
-	FINISHED = 'FINISHED',
-	AIRING = 'AIRING',
-	NOT_YET_AIRED = 'NOT_YET_AIRED',
-}
-
 /** Rating. */
 export enum Rating {
 	G = 'G',
@@ -95,28 +84,26 @@ export enum Rating {
 
 /** Aired dates. */
 export interface Aired {
-
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	start: string | null;
+	start: Date | null;
 
 	/**
 	 *  End date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	end: string | null;
+	end: Date | null;
 }
 
 /** Ordering. */
 export interface Ordering {
-
 	/**
 	 * Ordering direction.
 	 * @example "asc", "desc", "none".
 	 */
-	direction: string;
+	direction: SortDirection;
 
 	/** Field name. */
 	field: string;

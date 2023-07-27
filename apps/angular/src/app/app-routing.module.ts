@@ -10,7 +10,7 @@ const routes: Routes = [
 		component: AnimesPageComponent,
 	},
 	{
-		path: 'error',
+		path: '**',
 		component: ErrorPageComponent,
 	},
 ];
