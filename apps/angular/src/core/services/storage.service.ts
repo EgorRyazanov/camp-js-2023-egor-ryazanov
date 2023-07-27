@@ -29,6 +29,7 @@ export class StorageService {
 			return of(undefined);
 		});
 	}
+
 	/**
 	 * Get item from storage by key.
 	 * @param key Key.
@@ -38,7 +39,7 @@ export class StorageService {
 		return defer(() => {
 			const value = localStorage.getItem(key);
 			if (value) {
-				return of((async () => await JSON.parse(value)) as T);
+				return of((async() => await JSON.parse(value)) as T);
 			}
 
 			return of(null);

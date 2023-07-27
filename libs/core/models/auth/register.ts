@@ -1,7 +1,5 @@
-import { Immerable, OmitImmerable } from '../immerable';
-
 /** Register. */
-export class Register extends Immerable {
+export class Register {
 	/** Email. */
 	public readonly email: string;
 
@@ -11,20 +9,13 @@ export class Register extends Immerable {
 	/** Last name. */
 	public readonly lastName: string;
 
-	/** Avatar. */
-	public readonly avatar: string;
-
 	/** Password. */
 	public readonly password: string;
 
-	public constructor(data: RegisterConstructorData) {
-		super();
+	public constructor(data: Register) {
 		this.email = data.email;
 		this.firstName = data.firstName;
 		this.lastName = data.lastName;
 		this.password = data.password;
 	}
 }
-
-/** Register constructor type. */
-type RegisterConstructorData = OmitImmerable<Register>;

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { ErrorPageComponent } from './features/error-page/error-page.component';
 
 const routes: Routes = [
@@ -11,11 +12,11 @@ const routes: Routes = [
 	{
 		path: 'animes',
 		title: 'Animes',
-		loadChildren: () => import('./features/anime/anime.module').then((module) => module.AnimeModule),
+		loadChildren: () => import('./features/anime/anime.module').then(module => module.AnimeModule),
 	},
 	{
 		path: 'auth',
-		loadChildren: () => import('./features/auth/auth.module').then((module) => module.AuthModule),
+		loadChildren: () => import('./features/auth/auth.module').then(module => module.AuthModule),
 	},
 	{
 		path: '**',
