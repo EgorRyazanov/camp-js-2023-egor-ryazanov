@@ -1,0 +1,55 @@
+<div class="animes">
+	<ng-container *ngIf="animePage$ | async as animePage">
+		<table
+			matSort
+			mat-table
+			aria-label="Table of animes"
+			class="animes__table table"
+			[trackBy]="trackByAnime"
+			[dataSource]="animePage.items"
+		>
+			<ng-container matColumnDef="image">
+				<th mat-header-cell *matHeaderCellDef>Image</th>
+				<td mat-cell *matCellDef="let anime">
+					<img [alt]="anime.titleEnglish" class="table__image" [src]="anime.image" />
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="titleJapanese">
+				<th mat-header-cell *matHeaderCellDef>Japanese Title</th>
+				<td mat-cell *matCellDef="let anime">{{ anime.titleJapanese }}</td>
+			</ng-container>
+			<ng-container matColumnDef="titleEnglish">
+				<th mat-header-cell *matHeaderCellDef>English Title</th>
+				<td mat-cell *matCellDef="let anime">{{ anime.titleEnglish }}</td>
+			</ng-container>
+			<ng-container matColumnDef="start aired">
+				<th mat-header-cell *matHeaderCellDef>Start</th>
+				<td mat-cell *matCellDef="let anime">{{ anime.aired.start | date }}</td>
+			</ng-container>
+			<ng-container matColumnDef="status">
+				<th mat-header-cell *matHeaderCellDef>Status</th>
+				<td mat-cell *matCellDef="let anime">{{ getReadableStatus(anime.status) }}</td>
+			</ng-container>
+			<ng-container matColumnDef="type">
+				<th mat-header-cell *matHeaderCellDef>Type</th>
+				<td mat-cell *matCellDef="let anime">{{ anime.type }}</td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+		</table>
+		<mat-paginator
+			*ngIf="pagination$ | async as pagination"
+			aria-label="Select page of Anime search results"
+			class="animes__paginator"
+			showFirstLastButtons
+			[pageIndex]="pagination.pageNumber"
+			[length]="animePage.count"
+			[pageSizeOptions]="pageSizes"
+			[pageSize]="pagination.pageSize"
+			(page)="setPage($event)"
+		></mat-paginator>
+	</ng-container>
+	<div *ngIf="isLoading$ | async" class="animes__spinner">
+		<camp-spinner />
+	</div>
+</div>
