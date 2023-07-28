@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LoginComponent {
 	/** Is app loading. */
-	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
+	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Login form. */
 	protected readonly loginForm: FormGroup;
@@ -30,8 +30,10 @@ export class LoginComponent {
 	 * Handle 'submit' of the login form.
 	 */
 	protected onSubmit(): void {
-		console.log(123);
-		this.userService.login(this.loginForm.value).subscribe();
+		this.isLoading$.next(true);
+		this.userService.login(this.loginForm.value).subscribe(() => {
+			this.isLoading$.next(false);
+		});
 	}
 
 	private initLoginForm(): FormGroup {
