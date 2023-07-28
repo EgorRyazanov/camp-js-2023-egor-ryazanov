@@ -13,7 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { ErrorPageComponent } from './features/error-page/error-page.component';
-import { AnimeModule } from './features/anime/anime.module';
+import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
+import { RefreshTokenInterceptor } from '../core/interceptors/refresh-token.interceptor';
 
 /** App module. */
 @NgModule({
@@ -21,7 +22,9 @@ import { AnimeModule } from './features/anime/anime.module';
 	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule],
 	providers: [
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 	],
 	bootstrap: [AppComponent],

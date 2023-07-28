@@ -1,17 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {
-	catchError,
-	concat,
-	first,
-	map,
-	merge,
-	Observable,
-	OperatorFunction,
-	pipe,
-	shareReplay,
-	switchMap,
-	throwError,
-} from 'rxjs';
+import { catchError, concat, first, map, merge, Observable, OperatorFunction, pipe, switchMap, throwError } from 'rxjs';
 
 import { Login } from '@js-camp/core/models/auth/login';
 import { Register } from '@js-camp/core/models/auth/register';

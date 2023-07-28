@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 
 import { AppConfig } from './app.config';
+import { AUTO_STYLE } from '@angular/animations';
 
 /** URL service. */
 @Injectable({
@@ -21,6 +22,14 @@ export class UrlService {
 	public readonly animeUrls = {
 		animes: this.generateURL('/api/v1/anime/anime/'),
 	} as const;
+
+	public isAuthUrl(value: string): boolean {
+		return Object.keys(this.authUrls).includes(value);
+	}
+
+	public isAnimeUrl(value: string): boolean {
+		return Object.keys(this.animeUrls).includes(value);
+	}
 
 	/**
 	 * Generates URI.
