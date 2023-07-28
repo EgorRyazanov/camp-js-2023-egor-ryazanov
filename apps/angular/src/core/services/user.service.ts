@@ -88,7 +88,6 @@ export class UserService {
 		return pipe(
 			switchMap((secret) => {
 				const saveUserSecretSideEffect$ = this.userSecretStorage.saveSecret(secret);
-
 				return merge(this.isAuthorized$, saveUserSecretSideEffect$);
 			}),
 			first((isAuthorized) => {
@@ -99,9 +98,6 @@ export class UserService {
 	}
 
 	private initCurrentUserStream(): Observable<boolean> {
-		return this.userSecretStorage.currentSecret$.pipe(
-			map((secret) => secret != null),
-			shareReplay()
-		);
+		return this.userSecretStorage.currentSecret$.pipe(map((secret) => secret != null));
 	}
 }

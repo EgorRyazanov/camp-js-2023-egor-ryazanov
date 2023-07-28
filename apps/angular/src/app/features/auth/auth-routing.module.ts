@@ -3,17 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { AuthorizedGuard } from '@js-camp/angular/core/guards/authorized.guard';
+import { unAuthorizedGuard } from '@js-camp/angular/core/guards/unauthorized.guard';
 
 const routes: Routes = [
 	{
 		path: 'login',
 		component: LoginComponent,
+		canActivate: [unAuthorizedGuard],
 	},
 	{
 		path: 'register',
 		component: RegisterComponent,
-		canActivate: [AuthorizedGuard],
+		canActivate: [unAuthorizedGuard],
 	},
 ];
 

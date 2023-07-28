@@ -1,20 +1,12 @@
-import { Injectable, inject } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 import { UserService } from '../services/user.service';
 
-@Injectable({
-	providedIn: 'root',
-})
-export class AuthorizedGuard implements CanActivate {
-	userService = inject(UserService);
-	router = inject(Router);
+export const authorizedGuard: CanActivateFn = () => {
+	const userService = inject(UserService);
+	const router = inject(Router);
 
-	canActivate(): Observable<boolean | UrlTree> {
-		return this.userService.isAuthorized$.pipe(
-			map((isAuthorized) => (isAuthorized ? this.router.parseUrl('/') : true))
-		);
-	}
-}
+	return userService.isAuthorized$.pipe(map((isAuthorized) => (isAuthorized ? isAuthorized : router.parseUrl('/'))));
+};
