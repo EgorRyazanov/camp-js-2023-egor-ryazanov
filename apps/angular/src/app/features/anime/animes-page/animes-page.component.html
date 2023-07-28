@@ -1,6 +1,6 @@
 <div class="animes">
 	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="animes__form form">
-		<mat-form-field color="accent" class="form__field">
+		<mat-form-field color="accent">
 			<mat-label color="accent">Search</mat-label>
 			<input formControlName="search" matInput />
 		</mat-form-field>
@@ -10,7 +10,7 @@
 				<mat-option *ngFor="let filter of filters" [value]="filter">{{ filter }}</mat-option>
 			</mat-select>
 		</mat-form-field>
-		<button class="form__submit" type="submit" mat-button color="accent">Find</button>
+		<button type="submit" mat-button color="accent">Find</button>
 	</form>
 	<ng-container *ngIf="animePage$ | async as animePage">
 		<table

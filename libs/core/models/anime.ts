@@ -105,10 +105,10 @@ export interface Ordering {
 
 	/**
 	 * Ordering direction.
-	 * @example "asc", "desc", "none".
+	 * @example "asc", "desc".
 	 */
-	direction: SortDirection;
+	readonly direction: SortDirection;
 
 	/** Field name. */
-	field: string;
+	readonly field: string;
 }

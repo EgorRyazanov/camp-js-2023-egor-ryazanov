@@ -1,21 +1,23 @@
 import { Ordering } from '../models/anime';
 
-type OrderingHelper = { [key in string]: string };
+type OrderingFieldMapper = Record<string, string>;
 
 /** Ordering mapper. */
 export namespace OrderingMapper {
 
 	/**
-	 * Converts ordering model to dto.
+	 * Converts ordering model to DTO.
 	 * @param ordering Model.
-	 * @param orderingHelper Convert to dto.
+	 * @param orderingFieldMapper Converts field model to dto.
 	 */
-	export function toDto(ordering: Ordering | undefined, orderingHelper: OrderingHelper): string | undefined {
+	export function toDto(ordering: Ordering | undefined, orderingFieldMapper: OrderingFieldMapper): string | undefined {
 		if (!ordering) {
 			return undefined;
 		}
-		if (ordering?.field in orderingHelper) {
-			return ordering.direction === 'asc' ? `-${orderingHelper[ordering.field]}` : orderingHelper[ordering.field];
+		if (ordering?.field in orderingFieldMapper) {
+			return ordering.direction === 'asc' ?
+				`-${orderingFieldMapper[ordering.field]}` :
+				orderingFieldMapper[ordering.field];
 		}
 		return undefined;
 	}

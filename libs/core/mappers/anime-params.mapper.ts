@@ -7,13 +7,13 @@ import { deleteUndefinedProperties } from '../utils/delete-undefined-properties'
 import { AnimeStatus } from '../models/anime-status';
 
 import { OrderingMapper } from './ordering.mapper';
-import { AnimeType } from './anime-type.mapper';
+import { AnimeTypeMapper } from './anime-type.mapper';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
 	const defaultPageSize = 25;
 
-	const ORDERING_TO_DTO = {
+	const ORDERING_FIELD_TO_DTO = {
 		titleEnglish: 'title_eng',
 		status: 'status',
 		[`aired.start`]: 'aired__startswith',
@@ -43,15 +43,15 @@ export namespace AnimeParametersMapper {
 		return deleteUndefinedProperties({
 			limit: model?.pageSize ?? defaultPageSize,
 			offset: model?.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
-			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_TO_DTO),
+			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_FIELD_TO_DTO),
 			rating: model?.rating ? ANIME_RATING_TO_DTO[model.rating] : undefined,
 			search: model?.search,
 			source: model?.source,
 			status: model?.status ? ANIME_STATUS_TO_DTO[model.status] : undefined,
 			title_eng: model?.titleEnglish,
 			title_jpn: model?.titleJapanese,
-			type: model?.type ? AnimeType.ANIME_TYPE_TO_DTO[model.type] : undefined,
-			type__in: model?.typeIn ? AnimeType.toDto(model.typeIn) : undefined,
+			type: model?.type ? AnimeTypeMapper.ANIME_TYPE_TO_DTO[model.type] : undefined,
+			type__in: model?.typeIn ? AnimeTypeMapper.toDto(model.typeIn) : undefined,
 		});
 	}
 }

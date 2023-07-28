@@ -1,7 +1,7 @@
 import { AnimeDtoTypes } from '../dtos/anime.dto';
 import { AnimeTypes } from '../models/anime';
 
-export namespace AnimeType {
+export namespace AnimeTypeMapper {
 	export const ANIME_TYPE_TO_DTO: Readonly<Record<AnimeTypes, AnimeDtoTypes>> = {
 		[AnimeTypes.MUSIC]: AnimeDtoTypes.MUSIC,
 		[AnimeTypes.OVA]: AnimeDtoTypes.OVA,
