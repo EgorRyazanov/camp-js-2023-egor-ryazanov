@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, retry, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 import { Router } from '@angular/router';
 
@@ -12,14 +12,13 @@ export class ErrorInterceptor implements HttpInterceptor {
 	/** @inheritdoc */
 	public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		return next.handle(request).pipe(
-			retry(3),
 			catchError((error: unknown) => {
 				this.router.navigate(['/error']);
 				if (error instanceof HttpErrorResponse) {
 					return throwError(() => new Error(`Status: ${error.status}; Message: ${error.message}`));
 				}
 				return throwError(() => error);
-			}),
+			})
 		);
 	}
 }

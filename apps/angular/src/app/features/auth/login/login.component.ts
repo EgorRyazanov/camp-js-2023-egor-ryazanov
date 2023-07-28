@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { UserService } from '@js-camp/angular/core/services/user.service';
 import { BehaviorSubject } from 'rxjs';
 
 /** Login page. */
@@ -17,7 +18,7 @@ export class LoginComponent {
 
 	private readonly fb = inject(NonNullableFormBuilder);
 
-	// private readonly userService = inject(UserService);
+	private readonly userService = inject(UserService);
 
 	private readonly destroyRef = inject(DestroyRef);
 
@@ -29,13 +30,14 @@ export class LoginComponent {
 	 * Handle 'submit' of the login form.
 	 */
 	protected onSubmit(): void {
-		// this.userService.login(loginData).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+		console.log(123);
+		this.userService.login(this.loginForm.value).subscribe();
 	}
 
 	private initLoginForm(): FormGroup {
 		return this.fb.group({
-			email: this.fb.control('', [Validators.required, Validators.email]),
-			password: this.fb.control('', Validators.required),
+			email: this.fb.control('user@example.com', [Validators.required, Validators.email]),
+			password: this.fb.control('qwertyu123blablabla', Validators.required),
 		});
 	}
 }
