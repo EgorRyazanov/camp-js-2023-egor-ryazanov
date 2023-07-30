@@ -6,7 +6,6 @@ import { Anime, AnimePagination } from '@js-camp/core/models/anime';
 import { Observable, map } from 'rxjs';
 import { AnimeParametersMapper } from '@js-camp/core/mappers/anime-params.mapper';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
-
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
 import { UrlService } from './url.service';

@@ -10,9 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-
 import { MatButtonModule } from '@angular/material/button';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AnimesPageComponent } from './animes-page/animes-page.component';

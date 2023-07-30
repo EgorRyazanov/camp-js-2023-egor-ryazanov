@@ -1,16 +1,19 @@
-import { Rating, Ordering, AnimeTypes } from './anime';
+import { Ordering } from '../mappers/ordering.mapper';
+
+import { Rating, AnimeTypes } from './anime';
+import { AnimeOrderingDirection, AnimeOrderingField } from './anime-ordering';
 import { AnimeStatus } from './anime-status';
 
 /** Anime parameters. */
 export class AnimeParameters {
 	/** Limit of elements in response. */
-	public readonly pageSize?: number;
+	public readonly pageSize: number;
 
 	/** Offset. */
-	public readonly pageNumber?: number;
+	public readonly pageNumber: number;
 
 	/** Ordering. */
-	public readonly ordering?: Ordering;
+	public readonly ordering?: Ordering<AnimeOrderingField, AnimeOrderingDirection>;
 
 	/** Rating. */
 	public readonly rating?: Rating;

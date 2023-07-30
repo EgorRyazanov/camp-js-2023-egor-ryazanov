@@ -1,5 +1,3 @@
-import { SortDirection } from '@angular/material/sort';
-
 import { AnimeStatus } from './anime-status';
 import { Pagination } from './pagintation';
 
@@ -98,17 +96,4 @@ export interface Aired {
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
 	end: Date | null;
-}
-
-/** Ordering. */
-export interface Ordering {
-
-	/**
-	 * Ordering direction.
-	 * @example "asc", "desc".
-	 */
-	readonly direction: SortDirection;
-
-	/** Field name. */
-	readonly field: string;
 }
