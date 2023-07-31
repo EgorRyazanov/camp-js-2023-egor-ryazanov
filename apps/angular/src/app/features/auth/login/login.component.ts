@@ -3,7 +3,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
-import { BehaviorSubject } from 'rxjs';
+import { AppError } from '@js-camp/core/models/app-error';
+import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 
 /** Login page. */
 @Component({
@@ -37,9 +38,18 @@ export class LoginComponent {
 		this.isLoading$.next(true);
 		this.userService
 			.login(this.loginForm.value)
-			.pipe(takeUntilDestroyed(this.destroyRef))
+			.pipe(
+				first(),
+				catchError((error) => {
+					console.log(error);
+					return throwError(() => error);
+				}),
+				finalize(() => {
+					this.isLoading$.next(false);
+				}),
+				takeUntilDestroyed(this.destroyRef)
+			)
 			.subscribe(() => {
-				this.isLoading$.next(false);
 				this.router.navigate(['/']);
 			});
 	}

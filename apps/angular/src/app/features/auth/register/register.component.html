@@ -1,6 +1,6 @@
 <div class="auth-container">
 	<h1 class="auth-title">Register</h1>
-	<form [formGroup]="registerForm" class="auth-form">
+	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
 		<mat-form-field color="accent">
 			<mat-label color="accent">Email</mat-label>
 			<input formControlName="email" matInput />

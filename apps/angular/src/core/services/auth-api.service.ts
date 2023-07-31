@@ -10,6 +10,7 @@ import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Login } from '@js-camp/core/models/auth/login';
 import { LoginMapper } from '@js-camp/core/mappers/auth/login.mapper';
+import { catchAppErrors } from '../utils/catch-app-error';
 
 /** Auth API. */
 @Injectable({ providedIn: 'root' })
@@ -27,7 +28,10 @@ export class AuthApiService {
 	public register(registerData: Register): Observable<UserSecret> {
 		return this.httpClient
 			.post<UserSecret>(this.apiUrlService.authUrls.register, RegisterMapper.toDto(registerData))
-			.pipe(map((secretDto) => UserSecretMapper.fromDto(secretDto)));
+			.pipe(
+				map((secretDto) => UserSecretMapper.fromDto(secretDto)),
+				catchAppErrors()
+			);
 	}
 
 	/**
@@ -35,9 +39,10 @@ export class AuthApiService {
 	 * @param loginData Login data.
 	 */
 	public login(loginData: Login): Observable<UserSecret> {
-		return this.httpClient
-			.post<UserSecret>(this.apiUrlService.authUrls.login, LoginMapper.toDto(loginData))
-			.pipe(map((secretDto) => UserSecretMapper.fromDto(secretDto)));
+		return this.httpClient.post<UserSecret>(this.apiUrlService.authUrls.login, LoginMapper.toDto(loginData)).pipe(
+			map((secretDto) => UserSecretMapper.fromDto(secretDto)),
+			catchAppErrors()
+		);
 	}
 
 	/**
