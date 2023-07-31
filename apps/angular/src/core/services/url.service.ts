@@ -24,11 +24,11 @@ export class UrlService {
 	} as const;
 
 	public isAuthUrl(value: string): boolean {
-		return Object.keys(this.authUrls).includes(value);
+		return Object.values(this.authUrls).includes(value);
 	}
 
 	public isAnimeUrl(value: string): boolean {
-		return Object.keys(this.animeUrls).includes(value);
+		return Object.values(this.animeUrls).includes(value);
 	}
 
 	/**

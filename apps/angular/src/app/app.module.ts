@@ -15,11 +15,14 @@ import { AppComponent } from './app.component';
 import { ErrorPageComponent } from './features/error-page/error-page.component';
 import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
 import { RefreshTokenInterceptor } from '../core/interceptors/refresh-token.interceptor';
+import { BasePageComponent } from './features/base-page/base-page.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 /** App module. */
 @NgModule({
-	declarations: [AppComponent, ErrorPageComponent],
-	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule],
+	declarations: [AppComponent, ErrorPageComponent, BasePageComponent],
+	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule, MatIconModule, MatButtonModule],
 	providers: [
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

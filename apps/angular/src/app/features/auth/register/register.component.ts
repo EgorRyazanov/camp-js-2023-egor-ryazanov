@@ -1,8 +1,11 @@
 import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from '@js-camp/angular/core/services/user.service';
 import { BehaviorSubject } from 'rxjs';
 
-/** Login page. */
+/** Register page. */
 @Component({
 	selector: 'camp-login',
 	templateUrl: './register.component.html',
@@ -17,19 +20,26 @@ export class RegisterComponent {
 
 	private readonly fb = inject(NonNullableFormBuilder);
 
-	// private readonly userService = inject(UserService);
+	private readonly userService = inject(UserService);
 
 	private readonly destroyRef = inject(DestroyRef);
+
+	private readonly router = inject(Router);
 
 	public constructor() {
 		this.registerForm = this.initRegisterForm();
 	}
 
-	/**
-	 * Handle 'submit' of the login form.
-	 */
+	/** Handle 'submit' of the submit form. */
 	protected onSubmit(): void {
-		// this.userService.login(loginData).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+		this.isLoading$.next(true);
+		this.userService
+			.register(this.registerForm.value)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+				this.isLoading$.next(false);
+				this.router.navigate(['/']);
+			});
 	}
 
 	private initRegisterForm(): FormGroup {

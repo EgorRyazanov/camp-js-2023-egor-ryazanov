@@ -3,9 +3,10 @@
   --spinner-background-color: rgb(0 0 0 /20%);
   --background-primary-color: #424242;
   --primary-contrast-color: #fff;
-  --primary-alternative-contrast-color: #8e9ace;
+  --primary-alternative-contrast-color: #c2185b;
 
   /* margins and paddings */
+  --space-sm: 8px;
   --space-md: 16px;
   --space-lg: calc(var(--space-md) * 2);
   --space-xl: calc(var(--space-md) * 4);

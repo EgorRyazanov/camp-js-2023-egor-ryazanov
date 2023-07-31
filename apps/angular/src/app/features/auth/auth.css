@@ -29,3 +29,12 @@
   z-index: 100;
   background-color: var(--spinner-background-color);
 }
+
+.auth-submit {
+  margin-bottom: var(--space-sm);
+}
+
+.auth-link {
+  text-decoration: none;
+  color: var(--primary-contrast-color);
+}

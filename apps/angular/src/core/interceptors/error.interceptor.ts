@@ -13,7 +13,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 	public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		return next.handle(request).pipe(
 			catchError((error: unknown) => {
-				this.router.navigate(['/error']);
 				if (error instanceof HttpErrorResponse) {
 					return throwError(() => new Error(`Status: ${error.status}; Message: ${error.message}`));
 				}

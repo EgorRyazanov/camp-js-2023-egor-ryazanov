@@ -1,5 +1,7 @@
 import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -22,6 +24,8 @@ export class LoginComponent {
 
 	private readonly destroyRef = inject(DestroyRef);
 
+	private readonly router = inject(Router);
+
 	public constructor() {
 		this.loginForm = this.initLoginForm();
 	}
@@ -31,9 +35,13 @@ export class LoginComponent {
 	 */
 	protected onSubmit(): void {
 		this.isLoading$.next(true);
-		this.userService.login(this.loginForm.value).subscribe(() => {
-			this.isLoading$.next(false);
-		});
+		this.userService
+			.login(this.loginForm.value)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+				this.isLoading$.next(false);
+				this.router.navigate(['/']);
+			});
 	}
 
 	private initLoginForm(): FormGroup {
