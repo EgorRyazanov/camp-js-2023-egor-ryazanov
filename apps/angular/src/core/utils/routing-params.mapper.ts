@@ -1,4 +1,4 @@
-import { AnimeTypes } from '@js-camp/core/models/anime';
+import { AnimeTypes } from '@js-camp/core/models/anime-type';
 import { AnimeOrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
 
 /** Routing anime params mapper. */

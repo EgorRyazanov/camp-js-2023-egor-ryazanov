@@ -1,4 +1,5 @@
 import { AnimeStatus } from './anime-status';
+import { AnimeTypes } from './anime-type';
 import { Pagination } from './pagintation';
 
 /** Anime. */
@@ -59,17 +60,6 @@ export class Anime {
 
 /** Anime pagination. */
 export type AnimePagination = Pagination<Anime>;
-
-/** Anime type. */
-export enum AnimeTypes {
-	TV = 'TV',
-	OVA = 'OVA',
-	MOVIE = 'MOVIE',
-	SPECIAL = 'SPECIAL',
-	ONA = 'ONA',
-	MUSIC = 'MUSIC',
-	UNKNOWN = 'UNKNOWN',
-}
 
 /** Rating. */
 export enum Rating {

@@ -1,8 +1,9 @@
 import { Ordering } from '../mappers/ordering.mapper';
 
-import { Rating, AnimeTypes } from './anime';
+import { Rating } from './anime';
 import { AnimeOrderingDirection, AnimeOrderingField } from './anime-ordering';
 import { AnimeStatus } from './anime-status';
+import { AnimeTypes } from './anime-type';
 
 /** Anime parameters. */
 export class AnimeParameters {

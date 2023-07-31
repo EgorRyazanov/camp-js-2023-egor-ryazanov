@@ -1,5 +1,5 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { Anime, AnimePagination, AnimeTypes } from '@js-camp/core/models/anime';
+import { Anime, AnimePagination } from '@js-camp/core/models/anime';
 import { BehaviorSubject, Observable, debounceTime, finalize, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
@@ -12,6 +12,8 @@ import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { ParametersService } from '@js-camp/angular/core/services/parameters';
 import { AnimeRoutingQueryParams, RoutingAnimeParamsMapper } from '@js-camp/angular/core/utils/routing-params.mapper';
 import { AnimeOrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
+
+import { AnimeTypes } from '@js-camp/core/models/anime-type';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
@@ -133,6 +135,14 @@ export class AnimesPageComponent implements OnInit {
 				this.isLoading$.next(false);
 			}),
 		);
+	}
+
+	/**
+	 * Gets readable type of anime.
+	 * @param status Anime type.
+	 */
+	protected getReadableType(status: AnimeTypes): string {
+		return AnimeTypes.toReadable(status);
 	}
 
 	/**

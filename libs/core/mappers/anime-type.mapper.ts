@@ -1,5 +1,5 @@
 import { AnimeDtoTypes } from '../dtos/anime.dto';
-import { AnimeTypes } from '../models/anime';
+import { AnimeTypes } from '../models/anime-type';
 
 export namespace AnimeTypeMapper {
 	export const ANIME_TYPE_TO_DTO: Readonly<Record<AnimeTypes, AnimeDtoTypes>> = {
