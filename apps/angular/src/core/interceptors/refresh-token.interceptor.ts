@@ -47,7 +47,8 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 	}
 
 	private shouldHttpErrorBeIgnored(error: HttpErrorResponse): boolean {
-		return error.status !== HttpStatusCode.Unauthorized;
+		// Idk why backend doesnt give us status separately, but write it down in message.
+		return !error.message.includes('401');
 	}
 
 	private shouldRefreshTokenForUrl(url: string): boolean {

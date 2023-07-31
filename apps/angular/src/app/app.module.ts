@@ -25,9 +25,9 @@ import { MatButtonModule } from '@angular/material/button';
 	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule, MatIconModule, MatButtonModule],
 	providers: [
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
-		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 	],
 	bootstrap: [AppComponent],
