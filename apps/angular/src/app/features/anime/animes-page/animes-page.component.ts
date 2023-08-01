@@ -7,7 +7,6 @@ import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort } from '@angular/material/sort';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import {
 	RoutingAnimeParamsMapper,
 	UnknownAnimeRouringQueryParams,
@@ -99,18 +98,19 @@ export class AnimesPageComponent {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(params => this.animeService.getAnimes(
-				new AnimeParameters({
-					pageSize: params.pageSize,
-					pageNumber: params.pageNumber,
-					ordering: {
-						field: params.field,
-						direction: params.direction,
-					},
-					search: params.search,
-					typeIn: params.type,
-				}),
-			)),
+			switchMap(params =>
+				this.animeService.getAnimes(
+					new AnimeParameters({
+						pageSize: params.pageSize,
+						pageNumber: params.pageNumber,
+						ordering: {
+							field: params.field,
+							direction: params.direction,
+						},
+						search: params.search,
+						typeIn: params.type,
+					}),
+				)),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
@@ -119,22 +119,6 @@ export class AnimesPageComponent {
 				this.isLoading$.next(false);
 			}),
 		);
-	}
-
-	/**
-	 * Gets readable type of anime.
-	 * @param status Anime type.
-	 */
-	protected getReadableType(status: AnimeTypes): string {
-		return AnimeTypes.toReadable(status);
-	}
-
-	/**
-	 * Gets readable status of anime.
-	 * @param status Anime status.
-	 */
-	protected getReadableStatus(status: AnimeStatus): string {
-		return AnimeStatus.toReadable(status);
 	}
 
 	/**
@@ -171,8 +155,8 @@ export class AnimesPageComponent {
 		});
 	}
 
-	/** Submit form action. */
-	protected onSubmit(): void {
+	/** Submit form action. Sets page and size parameters. */
+	protected setPaginationParameters(): void {
 		this.setQueryParams({
 			search: this.form.value.search,
 			type: this.form.value.filters,

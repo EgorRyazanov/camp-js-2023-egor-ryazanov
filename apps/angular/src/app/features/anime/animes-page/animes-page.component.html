@@ -1,5 +1,5 @@
 <div class="animes">
-	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="animes__form form">
+	<form [formGroup]="form" (ngSubmit)="setPaginationParameters()" class="animes__form form">
 		<mat-form-field color="accent">
 			<mat-label color="accent">Search</mat-label>
 			<input formControlName="search" matInput />
@@ -50,11 +50,11 @@
 			</ng-container>
 			<ng-container matColumnDef="status">
 				<th mat-sort-header="status" mat-header-cell *matHeaderCellDef>Status</th>
-				<td mat-cell *matCellDef="let anime">{{ getReadableStatus(anime.status) }}</td>
+				<td mat-cell *matCellDef="let anime">{{ anime.status | readableAnimeStatus }}</td>
 			</ng-container>
 			<ng-container matColumnDef="type">
 				<th mat-header-cell *matHeaderCellDef>Type</th>
-				<td mat-cell *matCellDef="let anime">{{ getReadableType(anime.type) }}</td>
+				<td mat-cell *matCellDef="let anime">{{ anime.type | readableAnimeType }}</td>
 			</ng-container>
 			<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
