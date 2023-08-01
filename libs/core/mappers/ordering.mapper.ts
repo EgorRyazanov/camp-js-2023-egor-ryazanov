@@ -1,11 +1,13 @@
+import { OrderingDirection } from '../models/anime-ordering';
+
 /** Ordering. */
-export interface Ordering<Field, Direction> {
+export interface Ordering<Field> {
 
 	/** Field. */
 	readonly field: Field;
 
 	/** Direction. */
-	readonly direction: Direction;
+	readonly direction: OrderingDirection;
 }
 
 /** Ordering mapper for field or direction. */
@@ -20,8 +22,8 @@ export namespace OrderingMapper {
 	 * @param orderingFieldMapper Converts field model to DTO.
 	 * @param orderingDirectionMapper Coverts direction model to DTO.
 	 */
-	export function toDto<OrderingField extends string, OrderingDirection extends string>(
-		ordering: Ordering<OrderingField, OrderingDirection> | undefined,
+	export function toDto<OrderingField extends string>(
+		ordering: Ordering<OrderingField> | undefined,
 		orderingFieldMapper: OrderingMapper,
 		orderingDirectionMapper: OrderingMapper,
 	): string | undefined {
