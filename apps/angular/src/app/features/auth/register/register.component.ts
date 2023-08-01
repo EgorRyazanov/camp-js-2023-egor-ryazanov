@@ -21,15 +21,15 @@ export class RegisterComponent {
 	/** Register form. */
 	protected readonly registerForm: FormGroup;
 
-	private readonly fb = inject(NonNullableFormBuilder);
+	protected readonly commonErrors$ = new BehaviorSubject<AppError[]>([]);
+
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly userService = inject(UserService);
 
 	private readonly destroyRef = inject(DestroyRef);
 
 	private readonly router = inject(Router);
-
-	protected readonly commonErrors$ = new BehaviorSubject<AppError[]>([]);
 
 	public constructor() {
 		this.registerForm = this.initRegisterForm();
@@ -54,7 +54,7 @@ export class RegisterComponent {
 					finalize(() => {
 						this.isLoading$.next(false);
 					}),
-					takeUntilDestroyed(this.destroyRef),
+					takeUntilDestroyed(this.destroyRef)
 				)
 				.subscribe(() => {
 					this.router.navigate(['/']);
@@ -63,12 +63,16 @@ export class RegisterComponent {
 	}
 
 	private initRegisterForm(): FormGroup {
-		return this.fb.group({
-			email: this.fb.control('', [Validators.required, Validators.email]),
-			firstName: this.fb.control('', [Validators.required]),
-			lastName: this.fb.control('', [Validators.required]),
-			password: this.fb.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
-			repeatPassword: this.fb.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT), AppValidators.matchControl("password")]),
+		return this.formBuilder.group({
+			email: this.formBuilder.control('', [Validators.required, Validators.email]),
+			firstName: this.formBuilder.control('', [Validators.required]),
+			lastName: this.formBuilder.control('', [Validators.required]),
+			password: this.formBuilder.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
+			repeatPassword: this.formBuilder.control('', [
+				Validators.required,
+				Validators.minLength(AppValidators.MIN_LENGHT),
+				AppValidators.matchControl('password'),
+			]),
 		});
 	}
 }

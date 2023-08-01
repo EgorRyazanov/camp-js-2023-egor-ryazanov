@@ -38,3 +38,7 @@
   text-decoration: none;
   color: var(--primary-contrast-color);
 }
+
+.auth-common-errors-container {
+  margin-bottom: var(--space-md);
+}

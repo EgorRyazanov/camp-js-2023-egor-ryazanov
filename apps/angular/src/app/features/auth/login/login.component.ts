@@ -3,6 +3,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
+import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
+import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { AppError } from '@js-camp/core/models/app-error';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 
@@ -19,7 +21,9 @@ export class LoginComponent {
 	/** Login form. */
 	protected readonly loginForm: FormGroup;
 
-	private readonly fb = inject(NonNullableFormBuilder);
+	protected readonly commonErrors$ = new BehaviorSubject<AppError[]>([]);
+
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly userService = inject(UserService);
 
@@ -31,33 +35,37 @@ export class LoginComponent {
 		this.loginForm = this.initLoginForm();
 	}
 
-	/**
-	 * Handle 'submit' of the login form.
-	 */
+	/** Handle 'submit' of the login form. */
 	protected onSubmit(): void {
-		this.isLoading$.next(true);
-		this.userService
-			.login(this.loginForm.value)
-			.pipe(
-				first(),
-				catchError((error) => {
-					console.log(error);
-					return throwError(() => error);
-				}),
-				finalize(() => {
-					this.isLoading$.next(false);
-				}),
-				takeUntilDestroyed(this.destroyRef)
-			)
-			.subscribe(() => {
-				this.router.navigate(['/']);
-			});
+		this.loginForm.markAllAsTouched();
+		if (this.loginForm.invalid != true) {
+			this.isLoading$.next(true);
+			this.userService
+				.login(this.loginForm.value)
+				.pipe(
+					first(),
+					catchFormErrors(this.loginForm),
+					catchError((errors) => {
+						if (errors instanceof Array) {
+							this.commonErrors$.next(errors);
+						}
+						return throwError(() => errors);
+					}),
+					finalize(() => {
+						this.isLoading$.next(false);
+					}),
+					takeUntilDestroyed(this.destroyRef)
+				)
+				.subscribe(() => {
+					this.router.navigate(['/']);
+				});
+		}
 	}
 
 	private initLoginForm(): FormGroup {
-		return this.fb.group({
-			email: this.fb.control('user@example.com', [Validators.required, Validators.email]),
-			password: this.fb.control('qwertyu123blablabla', Validators.required),
+		return this.formBuilder.group({
+			email: this.formBuilder.control('', [Validators.required, Validators.email]),
+			password: this.formBuilder.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
 		});
 	}
 }

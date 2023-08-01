@@ -1,13 +1,33 @@
 <div class="auth-container">
 	<h1 class="auth-title">Login</h1>
+	<div class="auth-common-errors-container" *ngIf="commonErrors$ | async as errors">
+		<mat-error *ngFor="let error of errors">
+			{{ error.message }}
+		</mat-error>
+	</div>
 	<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
 		<mat-form-field color="accent">
 			<mat-label color="accent">Email</mat-label>
 			<input formControlName="email" matInput />
+			<mat-error *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">
+				Email is required
+			</mat-error>
+			<mat-error *ngIf="loginForm.controls['email'].hasError('email') && loginForm.controls['email'].touched">
+				Email is incorrect
+			</mat-error>
+			<mat-error *ngFor="let error of loginForm.controls['email'].getError('invalid')">
+				{{ error }}
+			</mat-error>
 		</mat-form-field>
 		<mat-form-field color="accent">
 			<mat-label color="accent">Password</mat-label>
 			<input type="password" formControlName="password" matInput />
+			<mat-error *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+				Password is required
+			</mat-error>
+			<mat-error *ngFor="let error of loginForm.controls['password'].getError('invalid')">
+				{{ error }}
+			</mat-error>
 		</mat-form-field>
 		<button class="auth-submit" type="submit" mat-raised-button color="primary">Login</button>
 	</form>

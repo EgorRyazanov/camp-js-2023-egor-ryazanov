@@ -1,10 +1,10 @@
 <div class="auth-container">
 	<h1 class="auth-title">Register</h1>
-	<ng-container *ngIf="commonErrors$ | async as errors">
-		<li *ngFor="let error of errors">
+	<div class="auth-common-errors-container" *ngIf="commonErrors$ | async as errors">
+		<mat-error *ngFor="let error of errors">
 			{{ error.message }}
-		</li>
-	</ng-container>
+		</mat-error>
+	</div>
 	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
 		<mat-form-field color="accent">
 			<mat-label color="accent">Email</mat-label>
@@ -67,13 +67,13 @@
 				You need to repeat your password
 			</mat-error>
 			<mat-error
-			*ngIf="
-				registerForm.controls['repeatPassword'].hasError('matchError') &&
-				registerForm.controls['repeatPassword'].touched
-			"
-		>
-			Passwords do not match
-		</mat-error>
+				*ngIf="
+					registerForm.controls['repeatPassword'].hasError('matchError') &&
+					registerForm.controls['repeatPassword'].touched
+				"
+			>
+				Passwords do not match
+			</mat-error>
 		</mat-form-field>
 		<button class="auth-submit" type="submit" mat-raised-button color="primary">Register</button>
 	</form>
