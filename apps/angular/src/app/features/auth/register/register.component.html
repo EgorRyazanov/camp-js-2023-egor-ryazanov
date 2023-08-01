@@ -66,14 +66,16 @@
 			>
 				You need to repeat your password
 			</mat-error>
+			<mat-error
+			*ngIf="
+				registerForm.controls['repeatPassword'].hasError('matchError') &&
+				registerForm.controls['repeatPassword'].touched
+			"
+		>
+			Passwords do not match
+		</mat-error>
 		</mat-form-field>
 		<button class="auth-submit" type="submit" mat-raised-button color="primary">Register</button>
 	</form>
 	<a routerLink="/auth/login" class="auth-link" href="">Уже есть аккаунт?</a>
 </div>
-
-<!-- <ng-template #errorTemplate let-name="name">
-		<mat-error *ngFor="let error of registerForm.controls[name].getError('invalid')">
-			{{ error }}
-		</mat-error>
-</ng-template> -->

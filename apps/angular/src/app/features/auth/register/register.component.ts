@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
+import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { AppError } from '@js-camp/core/models/app-error';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
@@ -66,8 +67,8 @@ export class RegisterComponent {
 			email: this.fb.control('', [Validators.required, Validators.email]),
 			firstName: this.fb.control('', [Validators.required]),
 			lastName: this.fb.control('', [Validators.required]),
-			password: this.fb.control('', [Validators.required]),
-			repeatPassword: this.fb.control('', [Validators.required]),
+			password: this.fb.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
+			repeatPassword: this.fb.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT), AppValidators.matchControl("password")]),
 		});
 	}
 }
