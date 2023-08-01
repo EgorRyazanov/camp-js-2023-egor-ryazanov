@@ -20,8 +20,8 @@
 			aria-label="Table of animes"
 			[trackBy]="trackByAnime"
 			[dataSource]="animePage.items"
-			[matSortActive]="paramsState.field"
-			[matSortDirection]="paramsState.direction"
+			[matSortActive]="getQueryParams()['field']"
+			[matSortDirection]="getQueryParams()['direction']"
 			(matSortChange)="changeSortParameter($event)"
 		>
 			<ng-container matColumnDef="image">
@@ -64,8 +64,8 @@
 			class="animes__paginator"
 			aria-label="Select page of Anime search results"
 			[length]="animePage.count"
-			[pageSize]="paramsState.pageSize"
-			[pageIndex]="paramsState.pageNumber"
+			[pageSize]="getQueryParams()['pageSize']"
+			[pageIndex]="getQueryParams()['pageNumber']"
 			[pageSizeOptions]="pageSizes"
 			(page)="setPageParameter($event)"
 		/>

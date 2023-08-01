@@ -1,5 +1,5 @@
 import { AnimeTypes } from '@js-camp/core/models/anime-type';
-import { AnimeOrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
+import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
 
 /** Routing anime params mapper. */
 export namespace RoutingAnimeParamsMapper {
@@ -10,7 +10,7 @@ export namespace RoutingAnimeParamsMapper {
 		pageNumber: 0,
 		type: [],
 		field: AnimeOrderingField.NONE,
-		direction: AnimeOrderingDirection.NONE,
+		direction: OrderingDirection.NONE,
 		search: '',
 	};
 
@@ -46,7 +46,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param value String.
 	 */
 	function isDirection(value: string): boolean {
-		return Object.values(AnimeOrderingDirection).includes(value as AnimeOrderingDirection);
+		return Object.values(OrderingDirection).includes(value as OrderingDirection);
 	}
 
 	/**
@@ -54,7 +54,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param page Unknown.
 	 * @returns Page and value was changed flag.
 	 */
-	export function pageToModal(page: unknown): Pick<AnimeRoutingQueryParams, 'pageNumber'> & Changed {
+	export function pageToModel(page: unknown): Pick<AnimeRoutingQueryParams, 'pageNumber'> & Changed {
 		if (typeof page === 'string') {
 			if (isNumeric(page)) {
 				return { pageNumber: Number(page), isChanged: false };
@@ -69,7 +69,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param size Unknown.
 	 * @returns Size and value was changed flag.
 	 */
-	export function sizeToModal(size: unknown): Pick<AnimeRoutingQueryParams, 'pageSize'> & Changed {
+	export function sizeToModel(size: unknown): Pick<AnimeRoutingQueryParams, 'pageSize'> & Changed {
 		if (typeof size === 'string') {
 			if (isNumeric(size) && pageSizes.includes(Number(size))) {
 				return { pageSize: Number(size), isChanged: false };
@@ -84,7 +84,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param search Unknown.
 	 * @returns Search and value was changed flag.
 	 */
-	export function searchToModal(search: unknown): Pick<AnimeRoutingQueryParams, 'search'> & Changed {
+	export function searchToModel(search: unknown): Pick<AnimeRoutingQueryParams, 'search'> & Changed {
 		if (typeof search === 'string') {
 			return { search, isChanged: false };
 		}
@@ -96,7 +96,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param type Unknown.
 	 * @returns Type and value was changed flag.
 	 */
-	export function typeToModal(type: unknown): Pick<AnimeRoutingQueryParams, 'type'> & Changed {
+	export function typeToModel(type: unknown): Pick<AnimeRoutingQueryParams, 'type'> & Changed {
 		if (typeof type === 'string') {
 			if (isType(type)) {
 				return { type: [type as AnimeTypes], isChanged: false };
@@ -123,7 +123,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param field Unknown.
 	 * @returns Field and value was changed flag.
 	 */
-	export function fieldToModal(field: unknown): Pick<AnimeRoutingQueryParams, 'field'> & Changed {
+	export function fieldToModel(field: unknown): Pick<AnimeRoutingQueryParams, 'field'> & Changed {
 		if (typeof field === 'string') {
 			if (isField(field)) {
 				return { field: field as AnimeOrderingField, isChanged: false };
@@ -138,14 +138,14 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param direction Unknown.
 	 * @returns Direction and value was changed flag.
 	 */
-	export function directionToModal(direction: unknown): Pick<AnimeRoutingQueryParams, 'direction'> & Changed {
+	export function directionToModel(direction: unknown): Pick<AnimeRoutingQueryParams, 'direction'> & Changed {
 		if (typeof direction === 'string') {
 			if (isDirection(direction)) {
-				return { direction: direction as AnimeOrderingDirection, isChanged: false };
+				return { direction: direction as OrderingDirection, isChanged: false };
 			}
 		}
 
-		return { direction: AnimeOrderingDirection.NONE, isChanged: true };
+		return { direction: OrderingDirection.NONE, isChanged: true };
 	}
 
 	/**
@@ -153,15 +153,15 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param params Unknown params.
 	 * @returns Params and values were changed flag.
 	 */
-	export function toModal(params: UnknownAnimeRouringQueryParams): {
+	export function toModel(params: UnknownAnimeRouringQueryParams): {
 		params: AnimeRoutingQueryParams;
 	} & Changed {
-		const pageState = pageToModal(params.pageNumber);
-		const sizeState = sizeToModal(params.pageSize);
-		const fieldState = fieldToModal(params.field);
-		const typeState = typeToModal(params.type);
-		const searchState = searchToModal(params.search);
-		const directionState = directionToModal(params.direction);
+		const pageState = pageToModel(params.pageNumber);
+		const sizeState = sizeToModel(params.pageSize);
+		const fieldState = fieldToModel(params.field);
+		const typeState = typeToModel(params.type);
+		const searchState = searchToModel(params.search);
+		const directionState = directionToModel(params.direction);
 		let isChanged = false;
 		if (
 			pageState.isChanged ||
@@ -203,14 +203,14 @@ export interface AnimeRoutingQueryParams {
 	readonly field: AnimeOrderingField;
 
 	/** Sorting direction. */
-	readonly direction: AnimeOrderingDirection;
+	readonly direction: OrderingDirection;
 
 	/** Search. */
 	readonly search: string;
 }
 
 /** Unknown routing query params. */
-interface UnknownAnimeRouringQueryParams {
+export interface UnknownAnimeRouringQueryParams {
 
 	/** Page size. */
 	readonly pageSize: unknown;

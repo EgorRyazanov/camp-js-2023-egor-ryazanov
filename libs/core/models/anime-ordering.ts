@@ -4,7 +4,7 @@ export class AnimeOrdering {
 	private readonly field: AnimeOrderingField;
 
 	/** Direction. */
-	private readonly direction: AnimeOrderingDirection;
+	private readonly direction: OrderingDirection;
 
 	public constructor(data: AnimeOrdering) {
 		this.field = data.field;
@@ -20,8 +20,8 @@ export enum AnimeOrderingField {
 	NONE = '',
 }
 
-/** Anime Ordering Direction. */
-export enum AnimeOrderingDirection {
+/** Ordering Direction. */
+export enum OrderingDirection {
 	ASCENDING = 'asc',
 	DESCENING = 'desc',
 	NONE = '',

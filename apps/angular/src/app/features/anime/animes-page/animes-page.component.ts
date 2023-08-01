@@ -1,18 +1,18 @@
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Anime, AnimePagination } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, debounceTime, finalize, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, debounceTime, finalize, map, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
 import { Sort } from '@angular/material/sort';
 import { NonNullableFormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
-import { ParametersService } from '@js-camp/angular/core/services/parameters';
-import { AnimeRoutingQueryParams, RoutingAnimeParamsMapper } from '@js-camp/angular/core/utils/routing-params.mapper';
-import { AnimeOrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
-
+import {
+	RoutingAnimeParamsMapper,
+	UnknownAnimeRouringQueryParams,
+} from '@js-camp/angular/core/utils/routing-params.mapper';
+import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
 import { AnimeTypes } from '@js-camp/core/models/anime-type';
 
 import { AnimeService } from '../../../../core/services/anime.service';
@@ -23,9 +23,9 @@ import { AnimeService } from '../../../../core/services/anime.service';
 	templateUrl: './animes-page.component.html',
 	styleUrls: ['./animes-page.component.css'],
 })
-export class AnimesPageComponent implements OnInit {
-	/** Destroy ref. */
-	private readonly destroyRef = inject(DestroyRef);
+export class AnimesPageComponent {
+	/** Router. */
+	private readonly router = inject(Router);
 
 	/** Anime service. */
 	private readonly animeService = inject(AnimeService);
@@ -36,20 +36,11 @@ export class AnimesPageComponent implements OnInit {
 	/** Active route. */
 	private readonly activeRoute = inject(ActivatedRoute);
 
-	/** Params service. */
-	private readonly paramsService: ParametersService<AnimeRoutingQueryParams>;
-
 	/** Anime page. */
 	protected readonly animePage$ = new Observable<AnimePagination>();
 
 	/** Page sizes. */
 	protected readonly pageSizes = RoutingAnimeParamsMapper.pageSizes;
-
-	/** Params state. */
-	protected paramsState = RoutingAnimeParamsMapper.defaultQueryParams;
-
-	/** Flag to begin anime stream. */
-	protected readonly hasToGetData$ = new BehaviorSubject<void>(undefined);
 
 	/** Status of anime. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
@@ -82,51 +73,44 @@ export class AnimesPageComponent implements OnInit {
 	];
 
 	public constructor() {
-		this.paramsService = new ParametersService(this.paramsState, '/');
 		this.animePage$ = this.createAnimesStream();
-	}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		this.activeRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(query => {
-			const { params, isChanged } = RoutingAnimeParamsMapper.toModal({
-				search: query['search'],
-				type: query['type'],
-				pageNumber: query['pageNumber'],
-				pageSize: query['pageSize'],
-				field: query['field'],
-				direction: query['direction'],
-			});
-			this.paramsState = params;
-			this.form.controls.search.setValue(this.paramsState.search);
-			this.form.controls.filters.setValue(this.paramsState.type);
-			this.paramsService.changeParams(this.paramsState, isChanged);
-			this.hasToGetData$.next();
-		});
 	}
 
 	/** Stream of animes. */
 	protected createAnimesStream(): Observable<AnimePagination> {
-		return this.hasToGetData$.pipe(
+		return this.activeRoute.queryParams.pipe(
+			map(query => {
+				const { params, isChanged } = RoutingAnimeParamsMapper.toModel({
+					search: query['search'],
+					type: query['type'],
+					pageNumber: query['pageNumber'],
+					pageSize: query['pageSize'],
+					field: query['field'],
+					direction: query['direction'],
+				});
+				if (isChanged) {
+					this.setQueryParams(params);
+				}
+				this.form.controls.search.setValue(params.search);
+				this.form.controls.filters.setValue(params.type);
+				return params;
+			}),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(() => {
-				const params = this.paramsService.getParams();
-				return this.animeService.getAnimes(
-					new AnimeParameters({
-						pageSize: params.pageSize,
-						pageNumber: params.pageNumber,
-						ordering: {
-							field: params.field,
-							direction: params.direction,
-						},
-						search: params.search,
-						typeIn: params.type,
-					}),
-				);
-			}),
+			switchMap(params => this.animeService.getAnimes(
+				new AnimeParameters({
+					pageSize: params.pageSize,
+					pageNumber: params.pageNumber,
+					ordering: {
+						field: params.field,
+						direction: params.direction,
+					},
+					search: params.search,
+					typeIn: params.type,
+				}),
+			)),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
@@ -167,11 +151,11 @@ export class AnimesPageComponent implements OnInit {
 	 * @param event Event of sort fields.
 	 */
 	protected changeSortParameter(event: Sort): void {
-		const fieldState = RoutingAnimeParamsMapper.fieldToModal(event.active);
-		const directionState = RoutingAnimeParamsMapper.directionToModal(event.direction);
-		this.paramsService.changeParams({
+		const fieldState = RoutingAnimeParamsMapper.fieldToModel(event.active);
+		const directionState = RoutingAnimeParamsMapper.directionToModel(event.direction);
+		this.setQueryParams({
 			direction: directionState.direction,
-			field: directionState.direction === AnimeOrderingDirection.NONE ? AnimeOrderingField.NONE : fieldState.field,
+			field: directionState.direction === OrderingDirection.NONE ? AnimeOrderingField.NONE : fieldState.field,
 		});
 	}
 
@@ -180,19 +164,33 @@ export class AnimesPageComponent implements OnInit {
 	 * @param pageEvent Page event.
 	 */
 	protected setPageParameter(pageEvent: PageEvent): void {
-		const currentParams = this.paramsService.getParams();
-		this.paramsService.changeParams({
-			pageNumber: pageEvent.pageIndex ?? currentParams.pageNumber,
-			pageSize: pageEvent.pageSize ?? currentParams.pageSize,
+		const currentParams = this.getQueryParams();
+		this.setQueryParams({
+			pageNumber: pageEvent.pageIndex ?? currentParams[`pageNumber`],
+			pageSize: pageEvent.pageSize ?? currentParams[`pageSize`],
 		});
 	}
 
 	/** Submit form action. */
 	protected onSubmit(): void {
-		this.paramsService.changeParams({
+		this.setQueryParams({
 			search: this.form.value.search,
 			type: this.form.value.filters,
 			pageNumber: RoutingAnimeParamsMapper.defaultQueryParams.pageNumber,
 		});
+	}
+
+	/** Gets query params. */
+	public getQueryParams(): Params {
+		return this.activeRoute.snapshot.queryParams;
+	}
+
+	/**
+	 * Sets query params.
+	 * @param params Changed params.
+	 */
+	private setQueryParams(params: Partial<UnknownAnimeRouringQueryParams>): void {
+		const currentParams = this.getQueryParams();
+		this.router.navigate(['/'], { queryParams: { ...currentParams, ...params } });
 	}
 }

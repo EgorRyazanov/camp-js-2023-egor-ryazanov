@@ -1,7 +1,7 @@
 import { Ordering } from '../mappers/ordering.mapper';
 
 import { Rating } from './anime';
-import { AnimeOrderingDirection, AnimeOrderingField } from './anime-ordering';
+import { OrderingDirection, AnimeOrderingField } from './anime-ordering';
 import { AnimeStatus } from './anime-status';
 import { AnimeTypes } from './anime-type';
 
@@ -14,7 +14,7 @@ export class AnimeParameters {
 	public readonly pageNumber: number;
 
 	/** Ordering. */
-	public readonly ordering?: Ordering<AnimeOrderingField, AnimeOrderingDirection>;
+	public readonly ordering?: Ordering<AnimeOrderingField, OrderingDirection>;
 
 	/** Rating. */
 	public readonly rating?: Rating;

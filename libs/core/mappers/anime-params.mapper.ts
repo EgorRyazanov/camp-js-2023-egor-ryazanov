@@ -2,12 +2,9 @@ import { AnimeParameters } from '../models/anime-params';
 import { AnimeParametersDto } from '../dtos/anime-params.dto';
 import { AnimeStatusDto, RatingDto } from '../dtos/anime.dto';
 import { Rating } from '../models/anime';
-
 import { deleteUndefinedProperties } from '../utils/delete-undefined-properties';
 import { AnimeStatus } from '../models/anime-status';
-
-import { AnimeOrderingDirection, AnimeOrderingField } from '../models/anime-ordering';
-
+import { OrderingDirection, AnimeOrderingField } from '../models/anime-ordering';
 import { AnimeOrderingDirectionDto, AnimeOrderingFieldDto } from '../dtos/anime-ordering.dto';
 
 import { OrderingMapper } from './ordering.mapper';
@@ -24,9 +21,9 @@ export namespace AnimeParametersMapper {
 	};
 
 	const ORDERING_DIRECTION_TO_DTO = {
-		[AnimeOrderingDirection.ASCENDING]: AnimeOrderingDirectionDto.ASCENDING,
-		[AnimeOrderingDirection.DESCENING]: AnimeOrderingDirectionDto.DESCENING,
-		[AnimeOrderingDirection.NONE]: AnimeOrderingDirectionDto.NONE,
+		[OrderingDirection.ASCENDING]: AnimeOrderingDirectionDto.ASCENDING,
+		[OrderingDirection.DESCENING]: AnimeOrderingDirectionDto.DESCENING,
+		[OrderingDirection.NONE]: AnimeOrderingDirectionDto.NONE,
 	};
 
 	const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
