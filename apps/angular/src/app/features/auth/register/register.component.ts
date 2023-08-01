@@ -4,7 +4,8 @@ import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
-import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { AppError } from '@js-camp/core/models/app-error';
+import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 
 /** Register page. */
 @Component({
@@ -27,27 +28,37 @@ export class RegisterComponent {
 
 	private readonly router = inject(Router);
 
+	protected readonly commonErrors$ = new BehaviorSubject<AppError[]>([]);
+
 	public constructor() {
 		this.registerForm = this.initRegisterForm();
 	}
 
 	/** Handle 'submit' of the submit form. */
 	protected onSubmit(): void {
-		this.isLoading$.next(true);
-		this.userService
-			.register(this.registerForm.value)
-			.pipe(
-				takeUntilDestroyed(this.destroyRef),
-				catchFormErrors(this.registerForm),
-				catchError((error) => {
-					console.log(error);
-					return throwError(() => error);
-				})
-			)
-			.subscribe(() => {
-				this.isLoading$.next(false);
-				this.router.navigate(['/']);
-			});
+		this.registerForm.markAllAsTouched();
+		if (this.registerForm.invalid != true) {
+			this.isLoading$.next(true);
+			this.userService
+				.register(this.registerForm.value)
+				.pipe(
+					first(),
+					catchFormErrors(this.registerForm),
+					catchError((errors) => {
+						if (errors instanceof Array) {
+							this.commonErrors$.next(errors);
+						}
+						return throwError(() => errors);
+					}),
+					finalize(() => {
+						this.isLoading$.next(false);
+					}),
+					takeUntilDestroyed(this.destroyRef),
+				)
+				.subscribe(() => {
+					this.router.navigate(['/']);
+				});
+		}
 	}
 
 	private initRegisterForm(): FormGroup {
@@ -55,8 +66,8 @@ export class RegisterComponent {
 			email: this.fb.control('', [Validators.required, Validators.email]),
 			firstName: this.fb.control('', [Validators.required]),
 			lastName: this.fb.control('', [Validators.required]),
-			password: this.fb.control('', Validators.required),
-			repeatPassword: this.fb.control('', Validators.required),
+			password: this.fb.control('', [Validators.required]),
+			repeatPassword: this.fb.control('', [Validators.required]),
 		});
 	}
 }

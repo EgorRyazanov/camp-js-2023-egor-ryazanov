@@ -8,10 +8,14 @@ export function catchFormErrors<T>(form: FormGroup): OperatorFunction<T, T> {
 			catchError((errors) => {
 				if (errors instanceof Array) {
 					const commonErrors: AppError[] = [];
+					Object.keys(form.controls).forEach(key => {
+						form.controls[key].updateValueAndValidity();
+					});
 					errors.forEach((error) => {
 						if (error instanceof AppError) {
 							if (form.contains(error.key)) {
-								form.controls[error.key].setErrors({ invalid: error.message });
+								const formErrors = form.controls[error.key].getError('invalid') ?? [];
+								form.controls[error.key].setErrors({ invalid: [...formErrors, error.message] });
 							} else {
 								commonErrors.push(error);
 							}
