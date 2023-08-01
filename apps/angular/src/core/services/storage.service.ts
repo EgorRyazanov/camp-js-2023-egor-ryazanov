@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, defer, of } from 'rxjs';
+import { Observable, defer, of } from 'rxjs';
 
-/**
- * Storage service. Uses `localStorage` underhood.
- */
+/** Storage service. */
 @Injectable({
 	providedIn: 'root',
 })

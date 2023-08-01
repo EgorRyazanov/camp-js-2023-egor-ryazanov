@@ -17,13 +17,13 @@ const routes: Routes = [
 		children: [
 			{
 				path: '',
-				loadChildren: () => import('./features/anime/anime.module').then((module) => module.AnimeModule),
+				loadChildren: () => import('./features/anime/anime.module').then(module => module.AnimeModule),
 			},
 		],
 	},
 	{
 		path: 'auth',
-		loadChildren: () => import('./features/auth/auth.module').then((module) => module.AuthModule),
+		loadChildren: () => import('./features/auth/auth.module').then(module => module.AuthModule),
 	},
 	{
 		path: '**',

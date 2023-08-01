@@ -3,9 +3,10 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
+import { UserSecret } from '@js-camp/core/models/auth/user-secret';
+
 import { AppConfig } from '../services/app.config';
 import { UserSecretStorageService } from '../services/user-secret-storage.service';
-import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 const AUTH_HEADER_KEY = 'Authorization';
 const AUTH_PREFIX = 'Bearer';
@@ -13,8 +14,10 @@ const AUTH_PREFIX = 'Bearer';
 /** Adds JWT to requests using Authorization HTTP header. */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+	/** App config service. */
 	private readonly appConfigService = inject(AppConfig);
 
+	/** User secret storage. */
 	private readonly userSecretStorage = inject(UserSecretStorageService);
 
 	/** @inheritdoc */
@@ -23,18 +26,16 @@ export class AuthInterceptor implements HttpInterceptor {
 			const userSecret$ = this.userSecretStorage.currentSecret$.pipe(first());
 
 			return userSecret$.pipe(
-				map((userSecret) =>
-					userSecret
-						? req.clone({
-								headers: this.appendAuthorizationHeader(req.headers, userSecret),
-						  })
-						: req
-				),
-				switchMap((newReq) => next.handle(newReq))
+				map(userSecret =>
+					userSecret ?
+						req.clone({
+							headers: this.appendAuthorizationHeader(req.headers, userSecret),
+						  }) :
+						req),
+				switchMap(newReq => next.handle(newReq)),
 			);
 		}
 
-		// Do nothing.
 		return next.handle(req);
 	}
 

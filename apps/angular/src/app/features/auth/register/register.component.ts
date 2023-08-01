@@ -12,40 +12,44 @@ import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 @Component({
 	selector: 'camp-login',
 	templateUrl: './register.component.html',
-	styleUrls: ['./register.component.css', '../auth.css'],
 })
 export class RegisterComponent {
-	/** Is app loading. */
+	/** Loading status. */
 	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
 	/** Register form. */
 	protected readonly registerForm: FormGroup;
 
+	/** Common global form errors. */
 	protected readonly commonErrors$ = new BehaviorSubject<AppError[]>([]);
 
+	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
+	/** User service. */
 	private readonly userService = inject(UserService);
 
+	/** Destroy ref. */
 	private readonly destroyRef = inject(DestroyRef);
 
+	/** Router. */
 	private readonly router = inject(Router);
 
 	public constructor() {
 		this.registerForm = this.initRegisterForm();
 	}
 
-	/** Handle 'submit' of the submit form. */
-	protected onSubmit(): void {
+	/** Registers user. */
+	protected register(): void {
 		this.registerForm.markAllAsTouched();
-		if (this.registerForm.invalid != true) {
+		if (this.registerForm.invalid !== true) {
 			this.isLoading$.next(true);
 			this.userService
 				.register(this.registerForm.value)
 				.pipe(
 					first(),
 					catchFormErrors(this.registerForm),
-					catchError((errors) => {
+					catchError((errors: unknown) => {
 						if (errors instanceof Array) {
 							this.commonErrors$.next(errors);
 						}
@@ -54,7 +58,7 @@ export class RegisterComponent {
 					finalize(() => {
 						this.isLoading$.next(false);
 					}),
-					takeUntilDestroyed(this.destroyRef)
+					takeUntilDestroyed(this.destroyRef),
 				)
 				.subscribe(() => {
 					this.router.navigate(['/']);
@@ -62,6 +66,7 @@ export class RegisterComponent {
 		}
 	}
 
+	/** Initialize register form. */
 	private initRegisterForm(): FormGroup {
 		return this.formBuilder.group({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),

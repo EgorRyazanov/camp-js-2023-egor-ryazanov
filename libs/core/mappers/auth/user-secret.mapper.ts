@@ -3,6 +3,7 @@ import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 /** User secret mapper. */
 export namespace UserSecretMapper {
+
 	/**
 	 * Converts secret model to DTO.
 	 * @param modal User Secret model.

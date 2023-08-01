@@ -5,7 +5,7 @@
 			{{ error.message }}
 		</mat-error>
 	</div>
-	<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+	<form [formGroup]="loginForm" (ngSubmit)="login()" class="auth-form">
 		<mat-form-field color="accent">
 			<mat-label color="accent">Email</mat-label>
 			<input formControlName="email" matInput />

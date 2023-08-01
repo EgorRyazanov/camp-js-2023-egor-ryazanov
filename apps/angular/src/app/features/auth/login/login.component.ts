@@ -12,23 +12,27 @@ import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 @Component({
 	selector: 'camp-login',
 	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.css', '../auth.css'],
 })
 export class LoginComponent {
-	/** Is app loading. */
+	/** Loading status. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Login form. */
 	protected readonly loginForm: FormGroup;
 
+	/** Common global form errors. */
 	protected readonly commonErrors$ = new BehaviorSubject<AppError[]>([]);
 
+	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
+	/** User service. */
 	private readonly userService = inject(UserService);
 
+	/** Destroy ref. */
 	private readonly destroyRef = inject(DestroyRef);
 
+	/** Router. */
 	private readonly router = inject(Router);
 
 	public constructor() {
@@ -36,16 +40,16 @@ export class LoginComponent {
 	}
 
 	/** Handle 'submit' of the login form. */
-	protected onSubmit(): void {
+	protected login(): void {
 		this.loginForm.markAllAsTouched();
-		if (this.loginForm.invalid != true) {
+		if (this.loginForm.invalid !== true) {
 			this.isLoading$.next(true);
 			this.userService
 				.login(this.loginForm.value)
 				.pipe(
 					first(),
 					catchFormErrors(this.loginForm),
-					catchError((errors) => {
+					catchError((errors: unknown) => {
 						if (errors instanceof Array) {
 							this.commonErrors$.next(errors);
 						}
@@ -54,7 +58,7 @@ export class LoginComponent {
 					finalize(() => {
 						this.isLoading$.next(false);
 					}),
-					takeUntilDestroyed(this.destroyRef)
+					takeUntilDestroyed(this.destroyRef),
 				)
 				.subscribe(() => {
 					this.router.navigate(['/']);
@@ -62,6 +66,7 @@ export class LoginComponent {
 		}
 	}
 
+	/** Initialize register form. */
 	private initLoginForm(): FormGroup {
 		return this.formBuilder.group({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),

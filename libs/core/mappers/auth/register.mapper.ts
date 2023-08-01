@@ -3,9 +3,10 @@ import { Register } from '@js-camp/core/models/auth/register';
 
 /** Register mapper. */
 export namespace RegisterMapper {
+
 	/**
 	 * Converts rigester model to dto.
-	 * @param registerModel register model.
+	 * @param registerModel Register model.
 	 */
 	export function toDto(registerModel: Register): RegisterDto {
 		return {

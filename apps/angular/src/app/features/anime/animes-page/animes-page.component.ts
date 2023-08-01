@@ -14,6 +14,7 @@ import { AnimeService } from '../../../../core/services/anime.service';
 
 /** Routing query params. */
 interface RoutingQueryParams {
+
 	/** Page size. */
 	size: number;
 
@@ -107,14 +108,14 @@ export class AnimesPageComponent implements OnInit {
 		private readonly animeService: AnimeService,
 		private readonly formBuilder: NonNullableFormBuilder,
 		private readonly activeRoute: ActivatedRoute,
-		private readonly router: Router
+		private readonly router: Router,
 	) {
 		this.animePage$ = this.createAnimesStream();
 	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.activeRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((query) => {
+		this.activeRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(query => {
 			if ('search' in query) {
 				this.form.controls.search.setValue(query['search']);
 				this.queryParams.search = query['search'];
@@ -157,13 +158,12 @@ export class AnimesPageComponent implements OnInit {
 						ordering,
 						search,
 						typeIn: filter instanceof Array ? filter : [filter],
-					})
-				)
-			),
+					}),
+				)),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
-			})
+			}),
 		);
 	}
 

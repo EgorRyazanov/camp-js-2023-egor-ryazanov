@@ -1,5 +1,6 @@
+/** Error DTO. */
 export interface ErrorDto {
-	attr: string;
-	code: string;
-	detail: string;
+	readonly attr: string;
+	readonly code: string;
+	readonly detail: string;
 }

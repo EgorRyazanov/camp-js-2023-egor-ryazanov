@@ -3,9 +3,10 @@ import { Login } from '@js-camp/core/models/auth/login';
 
 /** Login mapper. */
 export namespace LoginMapper {
+
 	/**
 	 * Converts login model to dto.
-	 * @param ordering login model.
+	 * @param loginModel Login model.
 	 */
 	export function toDto(loginModel: Login): LoginDto {
 		return {

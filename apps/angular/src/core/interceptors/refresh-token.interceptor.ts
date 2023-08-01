@@ -4,7 +4,6 @@ import {
 	HttpHandler,
 	HttpInterceptor,
 	HttpRequest,
-	HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -19,8 +18,10 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 	/** Active request for token refresh. */
 	private refreshSecretRequest$: Observable<void> | null = null;
 
+	/** User service. */
 	private readonly userService = inject(UserService);
 
+	/** API URL config. */
 	private readonly apiUrlsConfig = inject(UrlService);
 
 	/** @inheritdoc */
@@ -30,7 +31,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 		}
 
 		return next.handle(req).pipe(
-			catchError((error) => {
+			catchError((error: unknown) => {
 				if (this.shouldHttpErrorBeIgnored(error)) {
 					return throwError(() => error);
 				}
@@ -40,17 +41,25 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 					tap(() => {
 						this.refreshSecretRequest$ = null;
 					}),
-					switchMap(() => next.handle(req))
+					switchMap(() => next.handle(req)),
 				);
-			})
+			}),
 		);
 	}
 
+	/**
+	 * Accepts only error responses with 401 status code.
+	 * @param error Error response.
+	 */
 	private shouldHttpErrorBeIgnored(error: HttpErrorResponse): boolean {
 		// Idk why backend doesnt give us status separately, but write it down in message.
 		return !error.message.includes('401');
 	}
 
+	/**
+	 * Checks should URL needs accept token.
+	 * @param url URL to check.
+	 */
 	private shouldRefreshTokenForUrl(url: string): boolean {
 		return !this.apiUrlsConfig.isAuthUrl(url) && this.apiUrlsConfig.isAnimeUrl(url);
 	}
