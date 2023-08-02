@@ -10,7 +10,7 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
 import { UrlService } from './url.service';
 
-/** Anime Service. */
+/** Anime service. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -27,8 +27,7 @@ export class AnimeService {
 			params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(new AnimeParameters(parameters)) } }),
 		})
 			.pipe(
-				map(animePaginationDto =>
-					PaginationMapper.fromPaginationDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromAnimeDto)),
+				map(animePaginationDto => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
 			);
 	}
 }

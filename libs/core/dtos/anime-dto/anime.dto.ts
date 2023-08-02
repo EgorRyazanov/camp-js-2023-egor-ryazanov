@@ -1,4 +1,4 @@
-import { Aired } from '../../models/anime/anime';
+import { Aired } from '../../../core/models/anime/anime';
 
 import { PaginationDto } from '../pagination.dto';
 
@@ -50,20 +50,20 @@ export type AnimePaginationDto = PaginationDto<AnimeDto>;
 
 /** Anime type. */
 export enum AnimeDtoTypes {
-	TV = 'TV',
-	OVA = 'OVA',
-	MOVIE = 'MOVIE',
-	SPECIAL = 'SPECIAL',
-	ONA = 'ONA',
-	MUSIC = 'MUSIC',
-	UNKNOWN = 'UNKNOWN',
+	Tv = 'TV',
+	Ova = 'OVA',
+	Movie = 'MOVIE',
+	Special = 'SPECIAL',
+	Ona = 'ONA',
+	Music = 'MUSIC',
+	Unknown = 'UNKNOWN',
 }
 
 /** Status. */
 export enum AnimeStatusDto {
-	FINISHED = 'FINISHED',
-	AIRING = 'AIRING',
-	NOT_YET_AIRED = 'NOT_YET_AIRED',
+	Finished = 'FINISHED',
+	Airing = 'AIRING',
+	NotYetAired = 'NOT_YET_AIRED',
 }
 
 /** Rating. */
@@ -74,5 +74,5 @@ export enum RatingDto {
 	R_17 = 'R_17',
 	R_PLUS = 'R_PLUS',
 	R_X = 'R_X',
-	UNKNOWN = 'UNKNOWN',
+	Unknown = 'UNKNOWN',
 }

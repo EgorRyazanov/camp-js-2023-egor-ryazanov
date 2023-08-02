@@ -1,8 +1,10 @@
-import { Immerable, OmitImmerable } from '../immerable';
 import { Pagination } from '../pagintation';
 
+import { AnimeStatus } from './anime-status';
+import { AnimeTypes } from './anime-type';
+
 /** Anime. */
-export class Anime extends Immerable {
+export class Anime {
 	/** ID. */
 	public readonly id: number;
 
@@ -10,13 +12,13 @@ export class Anime extends Immerable {
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
 	 */
-	public readonly created: string;
+	public readonly created: Date;
 
 	/**
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
 	 */
-	public readonly modified: string;
+	public readonly modified: Date;
 
 	/** English title. */
 	public readonly titleEnglish: string;
@@ -42,8 +44,7 @@ export class Anime extends Immerable {
 	/** User score. */
 	public readonly userScore: number | null;
 
-	public constructor(data: AnimeConstructorData) {
-		super();
+	public constructor(data: Anime) {
 		this.id = data.id;
 		this.created = data.created;
 		this.modified = data.modified;
@@ -58,29 +59,8 @@ export class Anime extends Immerable {
 	}
 }
 
-/** Constructor of anime model. */
-type AnimeConstructorData = OmitImmerable<Anime>;
-
 /** Anime pagination. */
 export type AnimePagination = Pagination<Anime>;
-
-/** Anime type. */
-export enum AnimeTypes {
-	TV = 'TV',
-	OVA = 'OVA',
-	MOVIE = 'MOVIE',
-	SPECIAL = 'SPECIAL',
-	ONA = 'ONA',
-	MUSIC = 'MUSIC',
-	UNKNOWN = 'UNKNOWN',
-}
-
-/** Status. */
-export enum AnimeStatus {
-	FINISHED = 'FINISHED',
-	AIRING = 'AIRING',
-	NOT_YET_AIRED = 'NOT_YET_AIRED',
-}
 
 /** Rating. */
 export enum Rating {
@@ -90,7 +70,7 @@ export enum Rating {
 	R_17 = 'R_17',
 	R_PLUS = 'R_PLUS',
 	R_X = 'R_X',
-	UNKNOWN = 'UNKNOWN',
+	Unknown = 'UNKNOWN',
 }
 
 /** Aired dates. */
@@ -100,24 +80,11 @@ export interface Aired {
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	start: string | null;
+	start: Date | null;
 
 	/**
 	 *  End date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	end: string | null;
-}
-
-/** Ordering. */
-export interface Ordering {
-
-	/**
-	 * Ordering direction.
-	 * @example "asc", "desc", "none".
-	 */
-	direction: string;
-
-	/** Field name. */
-	field: string;
+	end: Date | null;
 }

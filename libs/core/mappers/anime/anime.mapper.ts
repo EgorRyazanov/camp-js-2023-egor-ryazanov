@@ -1,33 +1,35 @@
-import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../../dtos/anime-dto/anime.dto';
-import { Anime, AnimeStatus, AnimeTypes } from '../../models/anime/anime';
+import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../../../core/dtos/anime-dto/anime.dto';
+import { Anime } from '../../../core/models/anime/anime';
+import { AnimeStatus } from '../../../core/models/anime/anime-status';
+import { AnimeTypes } from '../../../core/models/anime/anime-type';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
 	const ANIME_TYPE_FROM_DTO: Readonly<Record<AnimeDtoTypes, AnimeTypes>> = {
-		[AnimeDtoTypes.MUSIC]: AnimeTypes.MUSIC,
-		[AnimeDtoTypes.OVA]: AnimeTypes.OVA,
-		[AnimeDtoTypes.ONA]: AnimeTypes.ONA,
-		[AnimeDtoTypes.SPECIAL]: AnimeTypes.SPECIAL,
-		[AnimeDtoTypes.TV]: AnimeTypes.TV,
-		[AnimeDtoTypes.UNKNOWN]: AnimeTypes.UNKNOWN,
-		[AnimeDtoTypes.MOVIE]: AnimeTypes.MOVIE,
+		[AnimeDtoTypes.Music]: AnimeTypes.Music,
+		[AnimeDtoTypes.Ova]: AnimeTypes.Ova,
+		[AnimeDtoTypes.Ona]: AnimeTypes.Ona,
+		[AnimeDtoTypes.Special]: AnimeTypes.Special,
+		[AnimeDtoTypes.Tv]: AnimeTypes.Tv,
+		[AnimeDtoTypes.Unknown]: AnimeTypes.Unknown,
+		[AnimeDtoTypes.Movie]: AnimeTypes.Movie,
 	};
 
 	const ANIME_STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
-		[AnimeStatusDto.FINISHED]: AnimeStatus.FINISHED,
-		[AnimeStatusDto.NOT_YET_AIRED]: AnimeStatus.NOT_YET_AIRED,
-		[AnimeStatusDto.AIRING]: AnimeStatus.AIRING,
+		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
+		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
+		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 	};
 
 	/**
 	 * Converts anime DTO to anime model.
-	 * @param dto Anime GTO.
+	 * @param dto Anime DTO.
 	 */
-	export function fromAnimeDto(dto: AnimeDto): Anime {
+	export function fromDto(dto: AnimeDto): Anime {
 		return new Anime({
 			id: dto.id,
-			created: dto.created,
-			modified: dto.modified,
+			created: new Date(dto.created),
+			modified: new Date(dto.modified),
 			titleEnglish: dto.title_eng,
 			titleJapanese: dto.title_jpn,
 			image: dto.image,

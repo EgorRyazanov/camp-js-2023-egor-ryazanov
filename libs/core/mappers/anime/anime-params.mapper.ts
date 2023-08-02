@@ -1,26 +1,36 @@
 import { AnimeParameters } from '../../../core/models/anime/anime-params';
 import { AnimeParametersDto } from '../../../core/dtos/anime-dto/anime-params.dto';
-import { RatingDto, AnimeStatusDto } from '../../../core/dtos/anime-dto/anime.dto';
-import { Rating, AnimeStatus } from '../../../core/models/anime/anime';
+import { AnimeStatusDto, RatingDto } from '../../../core/dtos/anime-dto/anime.dto';
+import { Rating } from '../../../core/models/anime/anime';
 import { deleteUndefinedProperties } from '../../../core/utils/delete-undefined-properties';
+import { AnimeStatus } from '../../../core/models/anime/anime-status';
+import { OrderingDirection, AnimeOrderingField } from '../../../core/models/anime/anime-ordering';
+import { AnimeOrderingDirectionDto, AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-ordering.dto';
 
 import { OrderingMapper } from '../ordering.mapper';
-import { AnimeTypeMapper } from '../anime-type.mapper';
+
+import { AnimeTypeMapper } from './anime-type.mapper';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
 	const defaultPageSize = 25;
 
 	const ORDERING_FIELD_TO_DTO = {
-		titleEnglish: 'title_eng',
-		status: 'status',
-		[`aired.start`]: 'aired__startswith',
+		[AnimeOrderingField.TitleEnghlish]: AnimeOrderingFieldDto.TitleEnghlish,
+		[AnimeOrderingField.Status]: AnimeOrderingFieldDto.Status,
+		[AnimeOrderingField.AiredStart]: AnimeOrderingFieldDto.AiredStart,
+	};
+
+	const ORDERING_DIRECTION_TO_DTO = {
+		[OrderingDirection.Ascending]: AnimeOrderingDirectionDto.Ascending,
+		[OrderingDirection.Descending]: AnimeOrderingDirectionDto.Descending,
+		[OrderingDirection.None]: AnimeOrderingDirectionDto.None,
 	};
 
 	const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
-		[AnimeStatus.FINISHED]: AnimeStatusDto.FINISHED,
-		[AnimeStatus.NOT_YET_AIRED]: AnimeStatusDto.NOT_YET_AIRED,
-		[AnimeStatus.AIRING]: AnimeStatusDto.AIRING,
+		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
+		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
+		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
 	};
 
 	const ANIME_RATING_TO_DTO: Readonly<Record<Rating, RatingDto>> = {
@@ -30,7 +40,7 @@ export namespace AnimeParametersMapper {
 		[Rating.R_17]: RatingDto.R_17,
 		[Rating.R_PLUS]: RatingDto.R_PLUS,
 		[Rating.R_X]: RatingDto.R_X,
-		[Rating.UNKNOWN]: RatingDto.UNKNOWN,
+		[Rating.Unknown]: RatingDto.Unknown,
 	};
 
 	/**
@@ -41,7 +51,7 @@ export namespace AnimeParametersMapper {
 		return deleteUndefinedProperties({
 			limit: model?.pageSize ?? defaultPageSize,
 			offset: model?.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
-			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_FIELD_TO_DTO),
+			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_FIELD_TO_DTO, ORDERING_DIRECTION_TO_DTO),
 			rating: model?.rating ? ANIME_RATING_TO_DTO[model.rating] : undefined,
 			search: model?.search,
 			source: model?.source,
