@@ -10,7 +10,7 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
 import { UrlService } from './url.service';
 
-/** Anime Service. */
+/** Anime service. */
 @Injectable({
 	providedIn: 'root',
 })

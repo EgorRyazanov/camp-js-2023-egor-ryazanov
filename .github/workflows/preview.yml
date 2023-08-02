@@ -29,7 +29,7 @@ jobs:
           REPO_NAME=camp-js-2023-egor-ryazanov
           npm run angular:build -- --baseHref=/$REPO_NAME/pr-preview/pr-$PR_NUMBER/
 
-    - name: Deploy preview
-      uses: rossjrw/pr-preview-action@v1
-      with:
-        source-dir: dist/apps/vanilla
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: dist/apps/angular
