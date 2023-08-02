@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Anime, AnimePagination } from '@js-camp/core/models/anime';
-import { BehaviorSubject, Observable, debounceTime, finalize, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, debounceTime, map, switchMap, tap, throwError } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { AnimeParameters } from '@js-camp/core/models/anime-params';
@@ -157,8 +157,9 @@ export class AnimesPageComponent {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
 			}),
-			finalize(() => {
+			catchError((error: unknown) => {
 				this.isLoading$.next(false);
+				return throwError(() => error);
 			}),
 		);
 	}
