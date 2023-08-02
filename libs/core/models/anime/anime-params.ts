@@ -1,6 +1,5 @@
 import { Ordering } from '../../../core/mappers/ordering.mapper';
 
-import { Rating } from './anime';
 import { AnimeOrderingField } from './anime-ordering';
 import { AnimeStatus } from './anime-status';
 import { AnimeTypes } from './anime-type';
@@ -16,26 +15,11 @@ export class AnimeParameters {
 	/** Ordering. */
 	public readonly ordering?: Ordering<AnimeOrderingField>;
 
-	/** Rating. */
-	public readonly rating?: Rating;
-
 	/** Search. */
 	public readonly search?: string;
 
-	/** Source. */
-	public readonly source?: string;
-
 	/** Status. */
 	public readonly status?: AnimeStatus;
-
-	/** English title. */
-	public readonly titleEnglish?: string;
-
-	/** Japanese title. */
-	public readonly titleJapanese?: string;
-
-	/** Type. */
-	public readonly type?: AnimeTypes;
 
 	/** Type in. */
 	public readonly typeIn?: readonly AnimeTypes[];
@@ -44,13 +28,8 @@ export class AnimeParameters {
 		this.pageSize = data.pageSize;
 		this.pageNumber = data.pageNumber;
 		this.ordering = data.ordering;
-		this.rating = data.rating;
 		this.search = data.search;
-		this.source = data.source;
 		this.status = data.status;
-		this.titleEnglish = data.titleEnglish;
-		this.titleJapanese = data.titleJapanese;
 		this.typeIn = data.typeIn;
-		this.type = data.type;
 	}
 }
