@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -12,6 +13,7 @@ import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 @Component({
 	selector: 'camp-login',
 	templateUrl: './login.component.html',
+	styleUrls: ['../auth.css'],
 })
 export class LoginComponent {
 	/** Loading status. */
@@ -50,8 +52,8 @@ export class LoginComponent {
 					first(),
 					catchFormErrors(this.loginForm),
 					catchError((errors: unknown) => {
-						if (errors instanceof Array) {
-							this.commonErrors$.next(errors);
+						if (errors instanceof HttpErrorResponse && errors.error instanceof Array) {
+							this.commonErrors$.next(errors.error);
 						}
 						return throwError(() => errors);
 					}),

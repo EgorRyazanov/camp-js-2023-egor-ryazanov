@@ -9,7 +9,7 @@ export namespace AppValidators {
 	 */
 	export function matchControl(controlName: string): ValidatorFn {
 		return (control: AbstractControl): ValidationErrors | null => {
-			if (control.get(controlName)?.value !== control.value) {
+			if (control.parent?.get(controlName)?.value !== control.value) {
 				return { matchError: true };
 			}
 			return null;

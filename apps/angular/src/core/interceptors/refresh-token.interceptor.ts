@@ -1,10 +1,4 @@
-import {
-	HttpErrorResponse,
-	HttpEvent,
-	HttpHandler,
-	HttpInterceptor,
-	HttpRequest,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
@@ -32,7 +26,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 
 		return next.handle(req).pipe(
 			catchError((error: unknown) => {
-				if (this.shouldHttpErrorBeIgnored(error)) {
+				if (error instanceof HttpErrorResponse && this.shouldHttpErrorBeIgnored(error)) {
 					return throwError(() => error);
 				}
 				this.refreshSecretRequest$ ??= this.userService.refreshSecret();

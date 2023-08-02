@@ -24,18 +24,12 @@ export class AuthInterceptor implements HttpInterceptor {
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		if (this.shouldInterceptToken(req.url)) {
 			const userSecret$ = this.userSecretStorage.currentSecret$.pipe(first());
-
 			return userSecret$.pipe(
 				map(userSecret =>
-					userSecret ?
-						req.clone({
-							headers: this.appendAuthorizationHeader(req.headers, userSecret),
-						  }) :
-						req),
+					userSecret ? req.clone({ headers: this.appendAuthorizationHeader(req.headers, userSecret) }) : req),
 				switchMap(newReq => next.handle(newReq)),
 			);
 		}
-
 		return next.handle(req);
 	}
 

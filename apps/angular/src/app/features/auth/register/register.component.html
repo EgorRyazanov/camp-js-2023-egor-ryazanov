@@ -78,4 +78,7 @@
 		<button class="auth-submit" type="submit" mat-raised-button color="primary">Register</button>
 	</form>
 	<a routerLink="/auth/login" class="auth-link" href="">Уже есть аккаунт?</a>
+	<div *ngIf="isLoading$ | async" class="auth-spinner">
+		<camp-spinner />
+	</div>
 </div>
