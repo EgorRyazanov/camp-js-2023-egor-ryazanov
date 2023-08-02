@@ -18,7 +18,7 @@ import { AnimeTypes } from '@js-camp/core/models/anime-type';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
-type ProccessQueries = Changed & { params: AnimeRoutingQueryParams; };
+type ProccessQueries = Changed & { params: AnimeRoutingQueryParams };
 
 /** Anime Component. */
 @Component({
@@ -139,20 +139,22 @@ export class AnimesPageComponent {
 	/** Stream of animes. */
 	private createAnimesStream(): Observable<AnimePagination> {
 		return this.activeRoute.queryParams.pipe(
-			map(query => {
+			map((query) => {
 				const { params, isChanged } = this.proccessQueries(query);
 				if (isChanged) {
 					this.setQueryParams(params);
 				}
+				return params;
+			}),
+			tap((params) => {
 				this.form.controls.search.setValue(params.search);
 				this.form.controls.filters.setValue(params.type);
-				return params;
 			}),
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(params => this.animeService.getAnimes(new AnimeParameters(this.prepareAnimeParams(params)))),
+			switchMap((params) => this.getAnimePage(params)),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
@@ -160,7 +162,7 @@ export class AnimesPageComponent {
 			catchError((error: unknown) => {
 				this.isLoading$.next(false);
 				return throwError(() => error);
-			}),
+			})
 		);
 	}
 
@@ -185,19 +187,21 @@ export class AnimesPageComponent {
 	}
 
 	/**
-	 * Converts AnimeRoutingQueryParams to AnimeParameters.
+	 * Get anime page.
 	 * @param params Anime routing query params.
 	 */
-	private prepareAnimeParams(params: AnimeRoutingQueryParams): AnimeParameters {
-		return {
-			pageSize: params.pageSize,
-			pageNumber: params.pageNumber,
-			ordering: {
-				field: params.field,
-				direction: params.direction,
-			},
-			search: params.search,
-			typeIn: params.type,
-		};
+	private getAnimePage(params: AnimeRoutingQueryParams): Observable<AnimePagination> {
+		return this.animeService.getAnimes(
+			new AnimeParameters({
+				pageSize: params.pageSize,
+				pageNumber: params.pageNumber,
+				ordering: {
+					field: params.field,
+					direction: params.direction,
+				},
+				search: params.search,
+				typeIn: params.type,
+			})
+		);
 	}
 }
