@@ -1,5 +1,5 @@
-import { LoginDto } from '@js-camp/core/dtos/auth-dto/login.dto';
-import { Login } from '@js-camp/core/models/auth/login';
+import { LoginDto } from '../../../core/dtos/auth-dto/login.dto';
+import { Login } from '../../../core/models/auth/login';
 
 /** Login mapper. */
 export namespace LoginMapper {

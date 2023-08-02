@@ -1,5 +1,5 @@
-import { RegisterDto } from '@js-camp/core/dtos/auth-dto/register.dto';
-import { Register } from '@js-camp/core/models/auth/register';
+import { RegisterDto } from '../../../core/dtos/auth-dto/register.dto';
+import { Register } from '../../../core/models/auth/register';
 
 /** Register mapper. */
 export namespace RegisterMapper {

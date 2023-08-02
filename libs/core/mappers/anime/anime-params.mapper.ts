@@ -1,8 +1,8 @@
-import { AnimeParameters } from '@js-camp/core/models/anime/anime-params';
-import { AnimeParametersDto } from '@js-camp/core/dtos/anime-dto/anime-params.dto';
-import { RatingDto, AnimeStatusDto } from '@js-camp/core/dtos/anime-dto/anime.dto';
-import { Rating, AnimeStatus } from '@js-camp/core/models/anime/anime';
-import { deleteUndefinedProperties } from '@js-camp/core/utils/delete-undefined-properties';
+import { AnimeParameters } from '../../../core/models/anime/anime-params';
+import { AnimeParametersDto } from '../../../core/dtos/anime-dto/anime-params.dto';
+import { RatingDto, AnimeStatusDto } from '../../../core/dtos/anime-dto/anime.dto';
+import { Rating, AnimeStatus } from '../../../core/models/anime/anime';
+import { deleteUndefinedProperties } from '../../../core/utils/delete-undefined-properties';
 
 import { OrderingMapper } from '../ordering.mapper';
 import { AnimeTypeMapper } from '../anime-type.mapper';

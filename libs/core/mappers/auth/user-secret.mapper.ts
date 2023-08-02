@@ -1,5 +1,5 @@
-import { UserSecretDto } from '@js-camp/core/dtos/auth-dto/user-secret-dto';
-import { UserSecret } from '@js-camp/core/models/auth/user-secret';
+import { UserSecretDto } from '../../../core/dtos/auth-dto/user-secret-dto';
+import { UserSecret } from '../../../core/models/auth/user-secret';
 
 /** User secret mapper. */
 export namespace UserSecretMapper {
