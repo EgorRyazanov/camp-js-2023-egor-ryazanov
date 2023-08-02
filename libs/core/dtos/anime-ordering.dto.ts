@@ -10,15 +10,15 @@ export interface AnimeOrderingDto {
 
 /** Anime Ordering Field DTO. */
 export enum AnimeOrderingFieldDto {
-	TITLE_ENGLISH = 'title_eng',
-	STATUS = 'status',
-	AIRED_START = 'aired__startswith',
-	NONE = '',
+	TitleEnghlish = 'title_eng',
+	Status = 'status',
+	AiredStart = 'aired__startswith',
+	None = '',
 }
 
 /** Anime Ordering Direction DTO. */
 export enum AnimeOrderingDirectionDto {
-	ASCENDING = '-',
-	DESCENING = '',
-	NONE = '',
+	Ascending = '-',
+	Descending = '',
+	None = '',
 }

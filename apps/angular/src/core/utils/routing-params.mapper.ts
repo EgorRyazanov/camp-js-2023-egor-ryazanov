@@ -9,8 +9,8 @@ export namespace RoutingAnimeParamsMapper {
 		pageSize: 5,
 		pageNumber: 0,
 		type: [],
-		field: AnimeOrderingField.NONE,
-		direction: OrderingDirection.NONE,
+		field: AnimeOrderingField.None,
+		direction: OrderingDirection.None,
 		search: '',
 	};
 
@@ -130,7 +130,7 @@ export namespace RoutingAnimeParamsMapper {
 			}
 		}
 
-		return { field: AnimeOrderingField.NONE, isChanged: true };
+		return { field: AnimeOrderingField.None, isChanged: true };
 	}
 
 	/**
@@ -145,7 +145,7 @@ export namespace RoutingAnimeParamsMapper {
 			}
 		}
 
-		return { direction: OrderingDirection.NONE, isChanged: true };
+		return { direction: OrderingDirection.None, isChanged: true };
 	}
 
 	/**

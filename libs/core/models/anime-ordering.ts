@@ -14,15 +14,15 @@ export class AnimeOrdering {
 
 /** Anime Ordering Field. */
 export enum AnimeOrderingField {
-	TITLE_ENGLISH = 'titleEnglish',
-	STATUS = 'status',
-	AIRED_START = 'aired.start',
-	NONE = '',
+	TitleEnghlish = 'titleEnglish',
+	Status = 'status',
+	AiredStart = 'aired.start',
+	None = '',
 }
 
 /** Ordering Direction. */
 export enum OrderingDirection {
-	ASCENDING = 'asc',
-	DESCENING = 'desc',
-	NONE = '',
+	Ascending = 'asc',
+	Descending = 'desc',
+	None = '',
 }

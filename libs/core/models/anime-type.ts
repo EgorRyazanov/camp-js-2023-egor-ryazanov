@@ -1,12 +1,12 @@
 /** Anime type. */
 export enum AnimeTypes {
-	TV = 'TV',
-	OVA = 'OVA',
-	MOVIE = 'MOVIE',
-	SPECIAL = 'SPECIAL',
-	ONA = 'ONA',
-	MUSIC = 'MUSIC',
-	UNKNOWN = 'UNKNOWN',
+	Tv = 'TV',
+	Ova = 'OVA',
+	Movie = 'MOVIE',
+	Special = 'SPECIAL',
+	Ona = 'ONA',
+	Music = 'MUSIC',
+	Unknown = 'UNKNOWN',
 }
 
 /** Anime types. */
@@ -14,13 +14,13 @@ export namespace AnimeTypes {
 
 	/** Anime types map-object to title view. */
 	const TO_TITLE_MAP: Record<AnimeTypes, string> = {
-		[AnimeTypes.MOVIE]: 'Movie',
-		[AnimeTypes.MUSIC]: 'Music',
-		[AnimeTypes.ONA]: 'Ona',
-		[AnimeTypes.OVA]: 'Ova',
-		[AnimeTypes.SPECIAL]: 'Special',
-		[AnimeTypes.TV]: 'Tv',
-		[AnimeTypes.UNKNOWN]: 'Unknown',
+		[AnimeTypes.Movie]: 'Movie',
+		[AnimeTypes.Music]: 'Music',
+		[AnimeTypes.Ona]: 'Ona',
+		[AnimeTypes.Ova]: 'Ova',
+		[AnimeTypes.Special]: 'Special',
+		[AnimeTypes.Tv]: 'Tv',
+		[AnimeTypes.Unknown]: 'Unknown',
 	};
 
 	/**

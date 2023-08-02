@@ -1,8 +1,8 @@
 /** Status. */
 export enum AnimeStatus {
-	FINISHED = 'FINISHED',
-	AIRING = 'AIRING',
-	NOT_YET_AIRED = 'NOT_YET_AIRED',
+	Finished = 'FINISHED',
+	Airing = 'AIRING',
+	NotYetAired = 'NOT_YET_AIRED',
 }
 
 /** Anime status. */
@@ -10,9 +10,9 @@ export namespace AnimeStatus {
 
 	/** Anime status map-object to title view. */
 	const TO_TITLE_MAP: Record<AnimeStatus, string> = {
-		[AnimeStatus.FINISHED]: 'Finished',
-		[AnimeStatus.AIRING]: 'Airing',
-		[AnimeStatus.NOT_YET_AIRED]: 'Not yet aired',
+		[AnimeStatus.Finished]: 'Finished',
+		[AnimeStatus.Airing]: 'Airing',
+		[AnimeStatus.NotYetAired]: 'Not yet aired',
 	};
 
 	/**

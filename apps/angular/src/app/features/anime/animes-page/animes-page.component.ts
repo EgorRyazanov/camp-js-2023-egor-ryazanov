@@ -18,7 +18,7 @@ import { AnimeTypes } from '@js-camp/core/models/anime-type';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
-type ProccessQueries = Changed & { params: AnimeRoutingQueryParams };
+type ProccessQueries = Changed & { params: AnimeRoutingQueryParams; };
 
 /** Anime Component. */
 @Component({
@@ -66,13 +66,13 @@ export class AnimesPageComponent {
 
 	/** Filters. */
 	protected readonly filters: readonly AnimeTypes[] = [
-		AnimeTypes.TV,
-		AnimeTypes.OVA,
-		AnimeTypes.MOVIE,
-		AnimeTypes.SPECIAL,
-		AnimeTypes.ONA,
-		AnimeTypes.MUSIC,
-		AnimeTypes.UNKNOWN,
+		AnimeTypes.Tv,
+		AnimeTypes.Ova,
+		AnimeTypes.Movie,
+		AnimeTypes.Special,
+		AnimeTypes.Ona,
+		AnimeTypes.Music,
+		AnimeTypes.Unknown,
 	];
 
 	public constructor() {
@@ -97,7 +97,7 @@ export class AnimesPageComponent {
 		const directionState = RoutingAnimeParamsMapper.directionToModel(event.direction);
 		this.setQueryParams({
 			direction: directionState.direction,
-			field: directionState.direction === OrderingDirection.NONE ? AnimeOrderingField.NONE : fieldState.field,
+			field: directionState.direction === OrderingDirection.None ? AnimeOrderingField.None : fieldState.field,
 		});
 	}
 
@@ -139,14 +139,14 @@ export class AnimesPageComponent {
 	/** Stream of animes. */
 	private createAnimesStream(): Observable<AnimePagination> {
 		return this.activeRoute.queryParams.pipe(
-			map((query) => {
+			map(query => {
 				const { params, isChanged } = this.proccessQueries(query);
 				if (isChanged) {
 					this.setQueryParams(params);
 				}
 				return params;
 			}),
-			tap((params) => {
+			tap(params => {
 				this.form.controls.search.setValue(params.search);
 				this.form.controls.filters.setValue(params.type);
 			}),
@@ -154,7 +154,7 @@ export class AnimesPageComponent {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap((params) => this.getAnimePage(params)),
+			switchMap(params => this.getAnimePage(params)),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
@@ -162,7 +162,7 @@ export class AnimesPageComponent {
 			catchError((error: unknown) => {
 				this.isLoading$.next(false);
 				return throwError(() => error);
-			})
+			}),
 		);
 	}
 
@@ -201,7 +201,7 @@ export class AnimesPageComponent {
 				},
 				search: params.search,
 				typeIn: params.type,
-			})
+			}),
 		);
 	}
 }

@@ -15,21 +15,21 @@ export namespace AnimeParametersMapper {
 	const defaultPageSize = 25;
 
 	const ORDERING_FIELD_TO_DTO = {
-		[AnimeOrderingField.TITLE_ENGLISH]: AnimeOrderingFieldDto.TITLE_ENGLISH,
-		[AnimeOrderingField.STATUS]: AnimeOrderingFieldDto.STATUS,
-		[AnimeOrderingField.AIRED_START]: AnimeOrderingFieldDto.AIRED_START,
+		[AnimeOrderingField.TitleEnghlish]: AnimeOrderingFieldDto.TitleEnghlish,
+		[AnimeOrderingField.Status]: AnimeOrderingFieldDto.Status,
+		[AnimeOrderingField.AiredStart]: AnimeOrderingFieldDto.AiredStart,
 	};
 
 	const ORDERING_DIRECTION_TO_DTO = {
-		[OrderingDirection.ASCENDING]: AnimeOrderingDirectionDto.ASCENDING,
-		[OrderingDirection.DESCENING]: AnimeOrderingDirectionDto.DESCENING,
-		[OrderingDirection.NONE]: AnimeOrderingDirectionDto.NONE,
+		[OrderingDirection.Ascending]: AnimeOrderingDirectionDto.Ascending,
+		[OrderingDirection.Descending]: AnimeOrderingDirectionDto.Descending,
+		[OrderingDirection.None]: AnimeOrderingDirectionDto.None,
 	};
 
 	const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
-		[AnimeStatus.FINISHED]: AnimeStatusDto.FINISHED,
-		[AnimeStatus.NOT_YET_AIRED]: AnimeStatusDto.NOT_YET_AIRED,
-		[AnimeStatus.AIRING]: AnimeStatusDto.AIRING,
+		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
+		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
+		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
 	};
 
 	const ANIME_RATING_TO_DTO: Readonly<Record<Rating, RatingDto>> = {
@@ -39,7 +39,7 @@ export namespace AnimeParametersMapper {
 		[Rating.R_17]: RatingDto.R_17,
 		[Rating.R_PLUS]: RatingDto.R_PLUS,
 		[Rating.R_X]: RatingDto.R_X,
-		[Rating.UNKNOWN]: RatingDto.UNKNOWN,
+		[Rating.Unknown]: RatingDto.Unknown,
 	};
 
 	/**

@@ -69,7 +69,7 @@ export enum Rating {
 	R_17 = 'R_17',
 	R_PLUS = 'R_PLUS',
 	R_X = 'R_X',
-	UNKNOWN = 'UNKNOWN',
+	Unknown = 'UNKNOWN',
 }
 
 /** Aired dates. */
