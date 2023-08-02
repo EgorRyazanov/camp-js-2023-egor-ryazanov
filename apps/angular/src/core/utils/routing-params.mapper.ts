@@ -29,7 +29,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * Checks for param type.
 	 * @param value String.
 	 */
-	function isType(value: string): boolean {
+	function isAnimeType(value: string): boolean {
 		return Object.values(AnimeTypes).includes(value as AnimeTypes);
 	}
 
@@ -37,7 +37,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * Checks for param field.
 	 * @param value String.
 	 */
-	function isField(value: string): boolean {
+	function isAnimeField(value: string): boolean {
 		return Object.values(AnimeOrderingField).includes(value as AnimeOrderingField);
 	}
 
@@ -98,14 +98,14 @@ export namespace RoutingAnimeParamsMapper {
 	 */
 	export function typeToModel(type: unknown): Pick<AnimeRoutingQueryParams, 'type'> & Changed {
 		if (typeof type === 'string') {
-			if (isType(type)) {
+			if (isAnimeType(type)) {
 				return { type: [type as AnimeTypes], isChanged: false };
 			}
 		} else if (type instanceof Array) {
 			const modal: AnimeTypes[] = [];
 			let isChanged = false;
 			type.forEach(element => {
-				if (element && typeof element === 'string' && isType(element)) {
+				if (element && typeof element === 'string' && isAnimeType(element)) {
 					modal.push(element as AnimeTypes);
 				} else {
 					isChanged = true;
@@ -125,7 +125,7 @@ export namespace RoutingAnimeParamsMapper {
 	 */
 	export function fieldToModel(field: unknown): Pick<AnimeRoutingQueryParams, 'field'> & Changed {
 		if (typeof field === 'string') {
-			if (isField(field)) {
+			if (isAnimeField(field)) {
 				return { field: field as AnimeOrderingField, isChanged: false };
 			}
 		}
@@ -162,17 +162,14 @@ export namespace RoutingAnimeParamsMapper {
 		const typeState = typeToModel(params.type);
 		const searchState = searchToModel(params.search);
 		const directionState = directionToModel(params.direction);
-		let isChanged = false;
-		if (
+		const isChanged =
 			pageState.isChanged ||
 			sizeState.isChanged ||
 			fieldState.isChanged ||
 			typeState.isChanged ||
 			searchState.isChanged ||
-			directionState.isChanged
-		) {
-			isChanged = true;
-		}
+			directionState.isChanged;
+
 		return {
 			isChanged,
 			params: {

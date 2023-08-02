@@ -8,6 +8,7 @@ import { Sort } from '@angular/material/sort';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
+	AnimeRoutingQueryParams,
 	RoutingAnimeParamsMapper,
 	UnknownAnimeRouringQueryParams,
 } from '@js-camp/angular/core/utils/routing-params.mapper';
@@ -75,52 +76,6 @@ export class AnimesPageComponent {
 		this.animePage$ = this.createAnimesStream();
 	}
 
-	/** Stream of animes. */
-	protected createAnimesStream(): Observable<AnimePagination> {
-		return this.activeRoute.queryParams.pipe(
-			map(query => {
-				const { params, isChanged } = RoutingAnimeParamsMapper.toModel({
-					search: query['search'],
-					type: query['type'],
-					pageNumber: query['pageNumber'],
-					pageSize: query['pageSize'],
-					field: query['field'],
-					direction: query['direction'],
-				});
-				if (isChanged) {
-					this.setQueryParams(params);
-				}
-				this.form.controls.search.setValue(params.search);
-				this.form.controls.filters.setValue(params.type);
-				return params;
-			}),
-			tap(() => {
-				this.isLoading$.next(true);
-			}),
-			debounceTime(DEBOUNCE_TIME),
-			switchMap(params =>
-				this.animeService.getAnimes(
-					new AnimeParameters({
-						pageSize: params.pageSize,
-						pageNumber: params.pageNumber,
-						ordering: {
-							field: params.field,
-							direction: params.direction,
-						},
-						search: params.search,
-						typeIn: params.type,
-					}),
-				)),
-			tap(() => {
-				this.isLoading$.next(false);
-				window.scroll({ top: 0, behavior: 'smooth' });
-			}),
-			finalize(() => {
-				this.isLoading$.next(false);
-			}),
-		);
-	}
-
 	/**
 	 * Tracks anime.
 	 * @param _index Index.
@@ -176,5 +131,57 @@ export class AnimesPageComponent {
 	private setQueryParams(params: Partial<UnknownAnimeRouringQueryParams>): void {
 		const currentParams = this.getQueryParams();
 		this.router.navigate(['/'], { queryParams: { ...currentParams, ...params } });
+	}
+
+	/** Stream of animes. */
+	private createAnimesStream(): Observable<AnimePagination> {
+		return this.createRoutingStream().pipe(
+			tap(() => {
+				this.isLoading$.next(true);
+			}),
+			debounceTime(DEBOUNCE_TIME),
+			switchMap(params =>
+				this.animeService.getAnimes(
+					new AnimeParameters({
+						pageSize: params.pageSize,
+						pageNumber: params.pageNumber,
+						ordering: {
+							field: params.field,
+							direction: params.direction,
+						},
+						search: params.search,
+						typeIn: params.type,
+					}),
+				)),
+			tap(() => {
+				this.isLoading$.next(false);
+				window.scroll({ top: 0, behavior: 'smooth' });
+			}),
+			finalize(() => {
+				this.isLoading$.next(false);
+			}),
+		);
+	}
+
+	/** Stream of routing params. */
+	private createRoutingStream(): Observable<AnimeRoutingQueryParams> {
+		return this.activeRoute.queryParams.pipe(
+			map(query => {
+				const { params, isChanged } = RoutingAnimeParamsMapper.toModel({
+					search: query['search'],
+					type: query['type'],
+					pageNumber: query['pageNumber'],
+					pageSize: query['pageSize'],
+					field: query['field'],
+					direction: query['direction'],
+				});
+				if (isChanged) {
+					this.setQueryParams(params);
+				}
+				this.form.controls.search.setValue(params.search);
+				this.form.controls.filters.setValue(params.type);
+				return params;
+			}),
+		);
 	}
 }
