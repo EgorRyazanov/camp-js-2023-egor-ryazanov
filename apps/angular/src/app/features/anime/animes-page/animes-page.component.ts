@@ -184,6 +184,10 @@ export class AnimesPageComponent {
 		};
 	}
 
+	/**
+	 * Converts AnimeRoutingQueryParams to AnimeParameters.
+	 * @param params Anime routing query params.
+	 */
 	private prepareAnimeParams(params: AnimeRoutingQueryParams): AnimeParameters {
 		return {
 			pageSize: params.pageSize,
