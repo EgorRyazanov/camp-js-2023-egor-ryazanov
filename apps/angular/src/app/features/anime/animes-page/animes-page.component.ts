@@ -18,7 +18,7 @@ import { AnimeTypes } from '@js-camp/core/models/anime-type';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
-type ProccessQueries = Changed & { params: AnimeRoutingQueryParams };
+type ProccessQueries = Changed & { params: AnimeRoutingQueryParams; };
 
 /** Anime Component. */
 @Component({
@@ -139,7 +139,7 @@ export class AnimesPageComponent {
 	/** Stream of animes. */
 	private createAnimesStream(): Observable<AnimePagination> {
 		return this.activeRoute.queryParams.pipe(
-			map((query) => this.proccessQueries(query)),
+			map(query => this.proccessQueries(query)),
 			tap(({ isChanged, params }) => {
 				if (isChanged) {
 					this.setQueryParams(params);
@@ -160,7 +160,7 @@ export class AnimesPageComponent {
 			catchError((error: unknown) => {
 				this.isLoading$.next(false);
 				return throwError(() => error);
-			})
+			}),
 		);
 	}
 
@@ -199,7 +199,7 @@ export class AnimesPageComponent {
 				},
 				search: params.search,
 				typeIn: params.type,
-			})
+			}),
 		);
 	}
 
