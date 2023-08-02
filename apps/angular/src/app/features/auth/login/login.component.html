@@ -10,10 +10,10 @@
 			<mat-label color="accent">Email</mat-label>
 			<input formControlName="email" matInput />
 			<mat-error *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">
-				Email is required
+				{{ "Email" | errorMessage : "required" }}
 			</mat-error>
 			<mat-error *ngIf="loginForm.controls['email'].hasError('email') && loginForm.controls['email'].touched">
-				Email is incorrect
+				{{ "Email" | errorMessage : "email" }}
 			</mat-error>
 			<mat-error *ngFor="let error of loginForm.controls['email'].getError('invalid')">
 				{{ error }}
@@ -23,7 +23,10 @@
 			<mat-label color="accent">Password</mat-label>
 			<input type="password" formControlName="password" matInput />
 			<mat-error *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
-				Password is required
+				{{ "Password" | errorMessage : "required" }}
+			</mat-error>
+			<mat-error *ngIf="loginForm.controls['password'].hasError('minlength') && loginForm.controls['password'].touched">
+				{{ "Password" | errorMessage : "minlength" }}
 			</mat-error>
 			<mat-error *ngFor="let error of loginForm.controls['password'].getError('invalid')">
 				{{ error }}

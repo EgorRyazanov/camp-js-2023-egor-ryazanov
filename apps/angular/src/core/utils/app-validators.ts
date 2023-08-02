@@ -15,4 +15,19 @@ export namespace AppValidators {
 			return null;
 		};
 	}
+
+	/**
+	 * Converts error type to message.
+	 * @param errorType Error type.
+	 * @param fieldName Field name.
+	 */
+	export function convertTypeToMessage(errorType: string, fieldName?: string): string {
+		const ERROR_TYPE_TO_MESSAGE: Record<string, string> = {
+			required: `${fieldName ?? 'Field'} is required`,
+			email: 'Email is incorrect',
+			minlength: `${fieldName} should contain minimum ${MIN_LENGHT} symbols`,
+			matchError: `${fieldName} do not match`,
+		};
+		return ERROR_TYPE_TO_MESSAGE[errorType];
+	}
 }
