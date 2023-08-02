@@ -54,7 +54,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param page Unknown.
 	 * @returns Page and value was changed flag.
 	 */
-	export function pageToModel(page: unknown): Pick<AnimeRoutingQueryParams, 'pageNumber'> & Changed {
+	export function pageToModel(page: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'pageNumber'>> {
 		if (typeof page === 'string') {
 			if (isNumeric(page)) {
 				return { pageNumber: Number(page), isChanged: false };
@@ -69,7 +69,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param size Unknown.
 	 * @returns Size and value was changed flag.
 	 */
-	export function sizeToModel(size: unknown): Pick<AnimeRoutingQueryParams, 'pageSize'> & Changed {
+	export function sizeToModel(size: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'pageSize'>> {
 		if (typeof size === 'string') {
 			if (isNumeric(size) && pageSizes.includes(Number(size))) {
 				return { pageSize: Number(size), isChanged: false };
@@ -84,7 +84,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param search Unknown.
 	 * @returns Search and value was changed flag.
 	 */
-	export function searchToModel(search: unknown): Pick<AnimeRoutingQueryParams, 'search'> & Changed {
+	export function searchToModel(search: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'search'>> {
 		if (typeof search === 'string') {
 			return { search, isChanged: false };
 		}
@@ -96,7 +96,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param type Unknown.
 	 * @returns Type and value was changed flag.
 	 */
-	export function typeToModel(type: unknown): Pick<AnimeRoutingQueryParams, 'type'> & Changed {
+	export function typeToModel(type: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
 		if (typeof type === 'string') {
 			if (isAnimeType(type)) {
 				return { type: [type as AnimeTypes], isChanged: false };
@@ -123,7 +123,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param field Unknown.
 	 * @returns Field and value was changed flag.
 	 */
-	export function fieldToModel(field: unknown): Pick<AnimeRoutingQueryParams, 'field'> & Changed {
+	export function fieldToModel(field: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
 		if (typeof field === 'string') {
 			if (isAnimeField(field)) {
 				return { field: field as AnimeOrderingField, isChanged: false };
@@ -138,7 +138,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param direction Unknown.
 	 * @returns Direction and value was changed flag.
 	 */
-	export function directionToModel(direction: unknown): Pick<AnimeRoutingQueryParams, 'direction'> & Changed {
+	export function directionToModel(direction: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
 		if (typeof direction === 'string') {
 			if (isDirection(direction)) {
 				return { direction: direction as OrderingDirection, isChanged: false };
@@ -153,9 +153,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param params Unknown params.
 	 * @returns Params and values were changed flag.
 	 */
-	export function toModel(params: UnknownAnimeRouringQueryParams): {
-		params: AnimeRoutingQueryParams;
-	} & Changed {
+	export function toModel(params: UnknownAnimeRouringQueryParams): ChangedQueryParams<AnimeRoutingQueryParams> {
 		const pageState = pageToModel(params.pageNumber);
 		const sizeState = sizeToModel(params.pageSize);
 		const fieldState = fieldToModel(params.field);
@@ -172,14 +170,12 @@ export namespace RoutingAnimeParamsMapper {
 
 		return {
 			isChanged,
-			params: {
-				pageNumber: pageState.pageNumber,
-				pageSize: sizeState.pageSize,
-				field: fieldState.field,
-				type: typeState.type,
-				search: searchState.search,
-				direction: directionState.direction,
-			},
+			pageNumber: pageState.pageNumber,
+			pageSize: sizeState.pageSize,
+			field: fieldState.field,
+			type: typeState.type,
+			search: searchState.search,
+			direction: directionState.direction,
 		};
 	}
 }
@@ -229,8 +225,11 @@ export interface UnknownAnimeRouringQueryParams {
 }
 
 /** Changed. */
-interface Changed {
+export interface Changed {
 
 	/** Shows param was changed. */
 	readonly isChanged: boolean;
 }
+
+/** Anime routing query params with status that shows some of the initial values were converted to default. */
+export type ChangedQueryParams<T extends Partial<AnimeRoutingQueryParams>> = T & Changed;
