@@ -1,5 +1,5 @@
 /** Anime type. */
-export enum AnimeTypes {
+export enum AnimeType {
 	Tv = 'TV',
 	Ova = 'OVA',
 	Movie = 'MOVIE',
@@ -13,21 +13,21 @@ export enum AnimeTypes {
 export namespace AnimeTypes {
 
 	/** Anime types map-object to title view. */
-	const TO_TITLE_MAP: Record<AnimeTypes, string> = {
-		[AnimeTypes.Movie]: 'Movie',
-		[AnimeTypes.Music]: 'Music',
-		[AnimeTypes.Ona]: 'Ona',
-		[AnimeTypes.Ova]: 'Ova',
-		[AnimeTypes.Special]: 'Special',
-		[AnimeTypes.Tv]: 'Tv',
-		[AnimeTypes.Unknown]: 'Unknown',
+	const TO_TITLE_MAP: Record<AnimeType, string> = {
+		[AnimeType.Movie]: 'Movie',
+		[AnimeType.Music]: 'Music',
+		[AnimeType.Ona]: 'Ona',
+		[AnimeType.Ova]: 'Ova',
+		[AnimeType.Special]: 'Special',
+		[AnimeType.Tv]: 'Tv',
+		[AnimeType.Unknown]: 'Unknown',
 	};
 
 	/**
 	 * Converts an anime types to readable title.
 	 * @param value Anime types.
 	 */
-	export function toReadable(value: AnimeTypes): string {
+	export function toReadable(value: AnimeType): string {
 		return TO_TITLE_MAP[value];
 	}
 }
