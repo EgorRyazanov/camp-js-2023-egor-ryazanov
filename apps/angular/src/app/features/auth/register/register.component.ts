@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -6,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
+import { ErrorMapper } from '@js-camp/core/mappers/error.mapper';
 import { AppError } from '@js-camp/core/models/app-error';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 
@@ -52,15 +52,17 @@ export class RegisterComponent {
 					first(),
 					catchFormErrors(this.registerForm),
 					catchError((errors: unknown) => {
-						if (errors instanceof HttpErrorResponse && errors.error instanceof Array) {
-							this.commonErrors$.next(errors.error);
+						if (errors instanceof AppError) {
+							if (errors.validationErrors.hasOwnProperty(ErrorMapper.COMMON_ERROR_FIELD)) {
+								this.commonErrors$.next(errors.validationErrors[ErrorMapper.COMMON_ERROR_FIELD]);
+							}
 						}
 						return throwError(() => errors);
 					}),
 					finalize(() => {
 						this.isLoading$.next(false);
 					}),
-					takeUntilDestroyed(this.destroyRef),
+					takeUntilDestroyed(this.destroyRef)
 				)
 				.subscribe(() => {
 					this.router.navigate(['/']);

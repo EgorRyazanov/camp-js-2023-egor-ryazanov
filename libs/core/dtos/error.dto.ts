@@ -1,5 +1,5 @@
 /** Error DTO. */
-export interface ErrorDto {
+export interface ValidationErrorDto {
 	readonly attr: string;
 	readonly code: string;
 	readonly detail: string;
