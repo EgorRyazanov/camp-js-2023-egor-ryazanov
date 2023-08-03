@@ -7,7 +7,7 @@
 
 .animes {
   background-color: var(--background-primary-color);
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .animes__form {
@@ -36,4 +36,8 @@
   justify-content: center;
   z-index: 100;
   background-color: var(--spinner-background-color);
+}
+
+.table__row_navigation {
+  cursor: pointer;
 }

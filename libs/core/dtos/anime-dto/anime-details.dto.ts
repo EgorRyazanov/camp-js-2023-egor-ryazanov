@@ -4,8 +4,7 @@ import { GenreDto } from '../genre-dto/genre.dto';
 import { AnimeDtoTypes, AnimeStatusDto } from './anime.dto';
 
 export interface AnimeDetailDto {
-
-	/** Id. */
+	/** ID. */
 	readonly id: number;
 
 	/**
@@ -47,7 +46,7 @@ export interface AnimeDetailDto {
 	/** Season. */
 	readonly season: SeasonsDTO;
 
-	/** Youtube trialer's URL. */
+	/** Youtube trialer's ID. */
 	readonly trailer_youtube_id: string;
 
 	/** Airing. */
@@ -94,7 +93,6 @@ export enum SourceDTO {
 
 /** Aired dates. */
 export interface AiredDto {
-
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.

@@ -5,6 +5,15 @@
   justify-content: space-between;
   align-items: center;
 }
+.header__title-link:visited,
+.header__title-link {
+  text-decoration: none;
+  color: var(--primary-contrast-color);
+}
+
+.header__title-link:hover {
+  color: var(--font-hover-color);
+}
 
 .header__title {
   margin: 0;

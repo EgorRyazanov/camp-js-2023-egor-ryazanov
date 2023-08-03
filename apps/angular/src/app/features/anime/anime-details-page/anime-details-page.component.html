@@ -1,0 +1,24 @@
+<div class="anime">
+	<ng-container *ngIf="anime$ | async as anime">
+		<h2 class="anime__title" *ngIf="anime.titleEnglish">{{ anime.titleEnglish }}</h2>
+		<h2 class="anime__title" *ngIf="anime.titleJapanese">{{ anime.titleJapanese }}</h2>
+		<img class="anime__image" [src]="anime.image" (click)="openDialog(anime.image)" />
+		<div class="anime__description">
+			<p>{{ anime.synopsis }}</p>
+		</div>
+		<ng-container *ngIf="saveVideoUrl$ | async as url">
+			<iframe
+				width="560"
+				height="315"
+				[src]="url"
+				title="YouTube video player"
+				frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+				allowfullscreen
+			></iframe>
+		</ng-container>
+	</ng-container>
+</div>
+<div *ngIf="isLoading$ | async" class="anime__spinner">
+	<camp-spinner />
+</div>

@@ -18,7 +18,7 @@ import { AnimeTypes } from '@js-camp/core/models/anime/anime-type';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
-type ProccessQueries = Changed & { params: AnimeRoutingQueryParams; };
+type ProccessQueries = Changed & { params: AnimeRoutingQueryParams };
 
 /** Anime Component. */
 @Component({
@@ -139,14 +139,14 @@ export class AnimesPageComponent {
 	/** Stream of animes. */
 	private createAnimesStream(): Observable<AnimePagination> {
 		return this.activeRoute.queryParams.pipe(
-			map(query => {
+			map((query) => {
 				const { params, isChanged } = this.proccessQueries(query);
 				if (isChanged) {
 					this.setQueryParams(params);
 				}
 				return params;
 			}),
-			tap(params => {
+			tap((params) => {
 				this.form.controls.search.setValue(params.search);
 				this.form.controls.filters.setValue(params.type);
 			}),
@@ -154,7 +154,7 @@ export class AnimesPageComponent {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
-			switchMap(params => this.getAnimePage(params)),
+			switchMap((params) => this.getAnimePage(params)),
 			tap(() => {
 				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
@@ -162,7 +162,7 @@ export class AnimesPageComponent {
 			catchError((error: unknown) => {
 				this.isLoading$.next(false);
 				return throwError(() => error);
-			}),
+			})
 		);
 	}
 
@@ -201,7 +201,15 @@ export class AnimesPageComponent {
 				},
 				search: params.search,
 				typeIn: params.type,
-			}),
+			})
 		);
+	}
+
+	/**
+	 * Navigates to details by anime id.
+	 * @param anime Anime.
+	 */
+	protected navigateToDetails(anime: Anime) {
+		this.router.navigate(['animes/', anime.id]);
 	}
 }

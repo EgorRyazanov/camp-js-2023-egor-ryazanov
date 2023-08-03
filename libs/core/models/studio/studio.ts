@@ -1,6 +1,6 @@
 /** Studio. */
 export class Studio {
-	/** Id. */
+	/** ID. */
 	public readonly id: number;
 
 	/**

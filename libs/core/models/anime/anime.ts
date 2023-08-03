@@ -1,4 +1,5 @@
 import { Pagination } from '../pagintation';
+import { Aired } from './anime-detail';
 
 import { AnimeStatus } from './anime-status';
 import { AnimeTypes } from './anime-type';
@@ -23,6 +24,9 @@ export class Anime {
 	/** Status. */
 	public readonly status: AnimeStatus;
 
+	/** Aired dates. */
+	public readonly aired: Aired;
+
 	public constructor(data: Anime) {
 		this.id = data.id;
 		this.titleEnglish = data.titleEnglish;
@@ -30,6 +34,7 @@ export class Anime {
 		this.image = data.image;
 		this.type = data.type;
 		this.status = data.status;
+		this.aired = data.aired;
 	}
 }
 

@@ -33,6 +33,10 @@ export namespace AnimeMapper {
 			image: dto.image,
 			type: ANIME_TYPE_FROM_DTO[dto.type],
 			status: ANIME_STATUS_FROM_DTO[dto.status],
+			aired: {
+				start: new Date(dto.aired.start ?? ''),
+				end: new Date(dto.aired.end ?? ''),
+			},
 		});
 	}
 }

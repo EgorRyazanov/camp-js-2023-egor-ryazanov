@@ -7,7 +7,7 @@ import { AnimeStatus } from './anime-status';
 
 /** Anime Detail. */
 export class AnimeDetail {
-	/** Id. */
+	/** ID. */
 	public readonly id: number;
 
 	/**
@@ -50,7 +50,7 @@ export class AnimeDetail {
 	public readonly season: Seasons;
 
 	/** Youtube trialer's URL. */
-	public readonly trailerYoutubeId: string;
+	public readonly trailerYoutubeUrl: string | null;
 
 	/** Airing. */
 	public readonly airing: boolean;
@@ -80,7 +80,7 @@ export class AnimeDetail {
 		this.synopsis = animeDetailData.synopsis;
 		this.titleEnglish = animeDetailData.titleEnglish;
 		this.titleJapanese = animeDetailData.titleJapanese;
-		this.trailerYoutubeId = animeDetailData.trailerYoutubeId;
+		this.trailerYoutubeUrl = animeDetailData.trailerYoutubeUrl;
 		this.type = animeDetailData.type;
 	}
 }
@@ -128,7 +128,6 @@ export enum Rating {
 
 /** Aired dates. */
 export interface Aired {
-
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.

@@ -11,13 +11,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
 import { AnimesPageComponent } from './animes-page/animes-page.component';
 import { AnimeRoutingModule } from './anime-routing.module';
+import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 /** Anime Module. */
 @NgModule({
-	declarations: [AnimesPageComponent],
+	declarations: [AnimesPageComponent, AnimeDetailsPageComponent],
 	imports: [
 		AnimeRoutingModule,
 		CommonModule,
@@ -32,6 +35,8 @@ import { AnimeRoutingModule } from './anime-routing.module';
 		MatSelectModule,
 		MatIconModule,
 		MatButtonModule,
+		MatDialogModule,
 	],
+	providers: [AnimeDetailsService, AnimeService],
 })
 export class AnimeModule {}

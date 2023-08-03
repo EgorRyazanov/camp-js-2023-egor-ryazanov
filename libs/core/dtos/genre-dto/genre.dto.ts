@@ -1,7 +1,6 @@
 /** Genre DTO. */
 export interface GenreDto {
-
-	/** Id. */
+	/** ID. */
 	readonly id: number;
 
 	/**

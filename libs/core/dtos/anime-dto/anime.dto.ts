@@ -1,8 +1,8 @@
 import { PaginationDto } from '../pagination.dto';
+import { AiredDto } from './anime-details.dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
-
 	/** ID. */
 	readonly id: number;
 
@@ -20,6 +20,9 @@ export interface AnimeDto {
 
 	/** Status. */
 	readonly status: AnimeStatusDto;
+
+	/** Aired dates. */
+	readonly aired: AiredDto;
 }
 
 /** Anime DTO with pagination fields. */

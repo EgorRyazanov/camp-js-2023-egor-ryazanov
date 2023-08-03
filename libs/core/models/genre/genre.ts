@@ -1,6 +1,6 @@
 /** Genre. */
 export class Genre {
-	/** Id. */
+	/** ID. */
 	public readonly id: number;
 
 	/**
