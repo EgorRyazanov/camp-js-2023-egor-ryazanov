@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -7,7 +6,7 @@ import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ErrorMapper } from '@js-camp/core/mappers/error.mapper';
-import { AppError } from '@js-camp/core/models/app-error';
+import { AppError, ValidationError } from '@js-camp/core/models/app-error';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 
 /** Login page. */
@@ -24,7 +23,7 @@ export class LoginComponent {
 	protected readonly loginForm: FormGroup;
 
 	/** Common global form errors. */
-	protected readonly commonErrors$ = new BehaviorSubject<AppError[]>([]);
+	protected readonly commonErrors$ = new BehaviorSubject<ValidationError[]>([]);
 
 	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -69,6 +68,10 @@ export class LoginComponent {
 					this.router.navigate(['/']);
 				});
 		}
+	}
+
+	protected trackByErrors(_: number, error: ValidationError) {
+		return error.message;
 	}
 
 	/** Initialize register form. */
