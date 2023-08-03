@@ -144,11 +144,7 @@ export class AnimesPageComponent {
 				if (isChanged) {
 					this.setQueryParams(params);
 				}
-			}),
-			tap(({ params }) => {
 				this.fillOutForm(params);
-			}),
-			tap(() => {
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
