@@ -1,5 +1,7 @@
-import { AnimeTypes } from '@js-camp/core/models/anime-type';
+import { AnimeType } from '@js-camp/core/models/anime-type';
 import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
+
+type Enum = Record<string, string | number>;
 
 /** Routing anime params mapper. */
 export namespace RoutingAnimeParamsMapper {
@@ -18,35 +20,36 @@ export namespace RoutingAnimeParamsMapper {
 	export const pageSizes: readonly number[] = [5, 10, 25];
 
 	/**
-	 * Checks string is number.
-	 * @param value String.
+	 * Checks that value contains in enum.
+	 * @param value Value to check.
+	 * @param validatingEnum Inspector.
 	 */
-	function isNumeric(value: string): boolean {
-		return /^\d+$/.test(value);
+	function isType<T extends string>(value: string, validatingEnum: Enum): boolean {
+		return Object.values(validatingEnum).includes(value as T);
 	}
 
 	/**
-	 * Checks for param type.
-	 * @param value String.
+	 * Checks that type of value is AnimeType.
+	 * @param type Value to check.
 	 */
-	function isAnimeType(value: string): boolean {
-		return Object.values(AnimeTypes).includes(value as AnimeTypes);
+	function isAnimeType(type: string): type is AnimeType {
+		return isType<AnimeType>(type, AnimeType);
 	}
 
 	/**
-	 * Checks for param field.
-	 * @param value String.
+	 * Checks that type of value is OrderingDirection.
+	 * @param type Value to check.
 	 */
-	function isAnimeField(value: string): boolean {
-		return Object.values(AnimeOrderingField).includes(value as AnimeOrderingField);
+	function isOrderingDirectionType(type: string): type is OrderingDirection {
+		return isType<OrderingDirection>(type, OrderingDirection);
 	}
 
 	/**
-	 * Checks for param direction.
-	 * @param value String.
+	 * Checks that type of value is OrderingField.
+	 * @param type Value to check.
 	 */
-	function isDirection(value: string): boolean {
-		return Object.values(OrderingDirection).includes(value as OrderingDirection);
+	function isOrderingFieldType(type: string): type is AnimeOrderingField {
+		return isType<AnimeOrderingField>(type, AnimeOrderingField);
 	}
 
 	/**
@@ -56,8 +59,9 @@ export namespace RoutingAnimeParamsMapper {
 	 */
 	export function pageToModel(page: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'pageNumber'>> {
 		if (typeof page === 'string') {
-			if (isNumeric(page)) {
-				return { pageNumber: Number(page), isChanged: false };
+			const pageNumber = Number(page);
+			if (!Number.isNaN(pageNumber)) {
+				return { pageNumber, isChanged: false };
 			}
 		}
 
@@ -71,8 +75,9 @@ export namespace RoutingAnimeParamsMapper {
 	 */
 	export function sizeToModel(size: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'pageSize'>> {
 		if (typeof size === 'string') {
-			if (isNumeric(size) && pageSizes.includes(Number(size))) {
-				return { pageSize: Number(size), isChanged: false };
+			const pageSize = Number(size);
+			if (!Number.isNaN(pageSize) && pageSizes.includes(pageSize)) {
+				return { pageSize, isChanged: false };
 			}
 		}
 
@@ -99,20 +104,21 @@ export namespace RoutingAnimeParamsMapper {
 	export function typeToModel(type: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
 		if (typeof type === 'string') {
 			if (isAnimeType(type)) {
-				return { type: [type as AnimeTypes], isChanged: false };
+				return { type: [type], isChanged: false };
 			}
 		} else if (type instanceof Array) {
-			const modal: AnimeTypes[] = [];
+			const newTypeModel: AnimeType[] = [];
 			let isChanged = false;
-			type.forEach(element => {
-				if (element && typeof element === 'string' && isAnimeType(element)) {
-					modal.push(element as AnimeTypes);
+
+			type.forEach(typeElement => {
+				if (typeElement && typeof typeElement === 'string' && isAnimeType(typeElement)) {
+					newTypeModel.push(typeElement);
 				} else {
 					isChanged = true;
 				}
 			});
 
-			return { isChanged, type: modal };
+			return { isChanged, type: newTypeModel };
 		}
 
 		return { type: defaultQueryParams.type, isChanged: true };
@@ -125,8 +131,8 @@ export namespace RoutingAnimeParamsMapper {
 	 */
 	export function fieldToModel(field: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
 		if (typeof field === 'string') {
-			if (isAnimeField(field)) {
-				return { field: field as AnimeOrderingField, isChanged: false };
+			if (isOrderingFieldType(field)) {
+				return { field, isChanged: false };
 			}
 		}
 
@@ -140,8 +146,8 @@ export namespace RoutingAnimeParamsMapper {
 	 */
 	export function directionToModel(direction: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
 		if (typeof direction === 'string') {
-			if (isDirection(direction)) {
-				return { direction: direction as OrderingDirection, isChanged: false };
+			if (isOrderingDirectionType(direction)) {
+				return { direction, isChanged: false };
 			}
 		}
 
@@ -190,7 +196,7 @@ export interface AnimeRoutingQueryParams {
 	readonly pageNumber: number;
 
 	/** Filter type. */
-	readonly type: AnimeTypes[];
+	readonly type: AnimeType[];
 
 	/** Soring field. */
 	readonly field: AnimeOrderingField;

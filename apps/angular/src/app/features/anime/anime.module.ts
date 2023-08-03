@@ -32,6 +32,7 @@ import { AnimesPageComponent } from './animes-page/animes-page.component';
 		MatIconModule,
 		MatButtonModule,
 		BrowserAnimationsModule,
+		SharedModule,
 	],
 })
 export class AnimeModule {}
