@@ -10,6 +10,10 @@ export namespace GenreMapper {
 		[GenreTypesDto.Themes]: GenreTypes.Themes,
 	};
 
+	export function toReadable(genres: readonly Genre[]) {
+		return genres.map((genre) => genre.name).join(', ');
+	}
+
 	/**
 	 * Converts genre from DTO to model.
 	 * @param dto Genre DTO.

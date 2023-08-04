@@ -1,9 +1,10 @@
 import { Studio } from '../studio/studio';
-
 import { Genre } from '../genre/genre';
-
 import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
+import { Seasons } from '../season';
+import { Ratings } from '../rating';
+import { Sources } from './anime-source';
 
 /** Anime Detail. */
 export class AnimeDetail {
@@ -41,10 +42,10 @@ export class AnimeDetail {
 	public readonly status: AnimeStatus;
 
 	/** Rating. */
-	public readonly rating: Rating;
+	public readonly rating: Ratings;
 
 	/** Source. */
-	public readonly source: Source;
+	public readonly source: Sources;
 
 	/** Season. */
 	public readonly season: Seasons;
@@ -83,47 +84,6 @@ export class AnimeDetail {
 		this.trailerYoutubeUrl = animeDetailData.trailerYoutubeUrl;
 		this.type = animeDetailData.type;
 	}
-}
-
-/** Seasons DTO. */
-export enum Seasons {
-	Summer = 'Summer',
-	Winter = 'Winter',
-	Spring = 'Spring',
-	Fall = 'Fall',
-	NonSeasonal = 'NonSeasonal',
-}
-
-/** Anime Source. */
-export enum Source {
-	FourKomaManga = 'FourKomaManga',
-	Book = 'Book',
-	CardGame = 'CardGame',
-	Game = 'Game',
-	LightNovel = 'LightNovel',
-	Manga = 'Manga',
-	MixedMedia = 'MixedMedia',
-	Music = 'Music',
-	Novel = 'Novel',
-	Original = 'Original',
-	PictureBook = 'PictureBook',
-	Radio = 'Radio',
-	VisialNovel = 'VisualNovel',
-	WebManga = 'WebManga',
-	WebNovel = 'WebNovel',
-	Other = 'Other',
-	Unknown = 'Unknown',
-}
-
-/** Rating. */
-export enum Rating {
-	G = 'G',
-	PG = 'PG',
-	PG_13 = 'PG_13',
-	R_17 = 'R_17',
-	R_PLUS = 'R_PLUS',
-	R_X = 'R_X',
-	Unknown = 'UNKNOWN',
 }
 
 /** Aired dates. */

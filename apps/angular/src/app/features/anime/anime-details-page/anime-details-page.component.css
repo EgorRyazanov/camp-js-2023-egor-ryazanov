@@ -14,16 +14,25 @@
   background-color: var(--spinner-background-color);
 }
 
-.anime__image {
+.anime__details {
+  display: flex;
+}
+
+.details__image {
   max-width: 350px;
   max-height: 350px;
   float: left;
   margin-right: var(--space-md);
   margin-bottom: var(--space-md);
   cursor: pointer;
-  outline: 1px solid var(--image-outline-color)
+  outline: 1px solid var(--image-outline-color);
 }
 
 .anime__title {
   text-align: center;
+}
+
+.anime__video {
+  display: block;
+  margin: 0 auto;
 }

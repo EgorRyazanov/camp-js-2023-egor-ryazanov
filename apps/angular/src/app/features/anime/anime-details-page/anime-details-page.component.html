@@ -1,13 +1,28 @@
 <div class="anime">
 	<ng-container *ngIf="anime$ | async as anime">
-		<h2 class="anime__title" *ngIf="anime.titleEnglish">{{ anime.titleEnglish }}</h2>
-		<h2 class="anime__title" *ngIf="anime.titleJapanese">{{ anime.titleJapanese }}</h2>
-		<img class="anime__image" [src]="anime.image" (click)="openDialog(anime.image)" />
-		<div class="anime__description">
-			<p>{{ anime.synopsis }}</p>
+		<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
+		<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
+		<div class="anime__details">
+			<img class="details__image" [src]="anime.image" (click)="openDialog(anime.image)" />
+			<div>
+				<p><strong>Season:</strong> {{ anime.season | readableSeason }}</p>
+				<p><strong>Synopsis:</strong> {{ anime.synopsis }}</p>
+				<p><strong>Airing:</strong> {{ anime.airing ? "Yes" : "No" }}</p>
+				<p><strong>Date start:</strong> {{ anime.aired.start | date | empty }}</p>
+				<p><strong>Date end:</strong> {{ anime.aired.end | date | empty }}</p>
+				<p><strong>Genres:</strong> {{ anime.genresData | readableGenres | empty }}</p>
+				<p><strong>Studios:</strong> {{ anime.studiosData | readableStudios | empty }}</p>
+				<p><strong>Rating:</strong> {{ anime.rating | readableRating | empty }}</p>
+				<p><strong>Source:</strong> {{ anime.source | readableSource | empty }}</p>
+				<p><strong>Type:</strong> {{ anime.type | readableAnimeType | empty }}</p>
+				<p><strong>Status:</strong> {{ anime.status | readableAnimeStatus | empty }}</p>
+				<p><strong>Created:</strong> {{ anime.created | date | empty }}</p>
+				<p><strong>Modified:</strong> {{ anime.modified | date | empty }}</p>
+			</div>
 		</div>
 		<ng-container *ngIf="saveVideoUrl$ | async as url">
 			<iframe
+				class="anime__video"
 				width="560"
 				height="315"
 				[src]="url"
