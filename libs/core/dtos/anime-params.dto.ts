@@ -36,6 +36,6 @@ export interface AnimeParametersDto {
 	/** Type. */
 	readonly type?: AnimeDtoTypes;
 
-	/** Type. */
-	readonly type__in?: AnimeDtoTypes;
+	/** Type in. */
+	readonly type__in?: string;
 }

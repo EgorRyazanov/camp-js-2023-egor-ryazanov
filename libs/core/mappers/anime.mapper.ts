@@ -1,23 +1,24 @@
 import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../dtos/anime.dto';
-import { Anime, AnimeTypes } from '../models/anime';
+import { Anime } from '../models/anime';
 import { AnimeStatus } from '../models/anime-status';
+import { AnimeType } from '../models/anime-type';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
-	const ANIME_TYPE_FROM_DTO: Readonly<Record<AnimeDtoTypes, AnimeTypes>> = {
-		[AnimeDtoTypes.MUSIC]: AnimeTypes.MUSIC,
-		[AnimeDtoTypes.OVA]: AnimeTypes.OVA,
-		[AnimeDtoTypes.ONA]: AnimeTypes.ONA,
-		[AnimeDtoTypes.SPECIAL]: AnimeTypes.SPECIAL,
-		[AnimeDtoTypes.TV]: AnimeTypes.TV,
-		[AnimeDtoTypes.UNKNOWN]: AnimeTypes.UNKNOWN,
-		[AnimeDtoTypes.MOVIE]: AnimeTypes.MOVIE,
+	const ANIME_TYPE_FROM_DTO: Readonly<Record<AnimeDtoTypes, AnimeType>> = {
+		[AnimeDtoTypes.Music]: AnimeType.Music,
+		[AnimeDtoTypes.Ova]: AnimeType.Ova,
+		[AnimeDtoTypes.Ona]: AnimeType.Ona,
+		[AnimeDtoTypes.Special]: AnimeType.Special,
+		[AnimeDtoTypes.Tv]: AnimeType.Tv,
+		[AnimeDtoTypes.Unknown]: AnimeType.Unknown,
+		[AnimeDtoTypes.Movie]: AnimeType.Movie,
 	};
 
 	const ANIME_STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
-		[AnimeStatusDto.FINISHED]: AnimeStatus.FINISHED,
-		[AnimeStatusDto.NOT_YET_AIRED]: AnimeStatus.NOT_YET_AIRED,
-		[AnimeStatusDto.AIRING]: AnimeStatus.AIRING,
+		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
+		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
+		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 	};
 
 	/**

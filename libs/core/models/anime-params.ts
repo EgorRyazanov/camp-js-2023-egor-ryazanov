@@ -1,51 +1,43 @@
-import { AnimeTypes, Rating } from './anime';
+import { Ordering } from '../mappers/ordering.mapper';
+
+import { Rating } from './anime';
+import { AnimeOrderingField } from './anime-ordering';
 import { AnimeStatus } from './anime-status';
+import { AnimeType } from './anime-type';
 
 /** Anime parameters. */
-export class AnimeParameters {
+export interface AnimeParameters {
+
 	/** Limit of elements in response. */
-	public readonly pageSize?: number;
+	readonly pageSize: number;
 
 	/** Offset. */
-	public readonly pageNumber?: number;
+	readonly pageNumber: number;
 
 	/** Ordering. */
-	public readonly ordering?: string;
+	readonly ordering?: Ordering<AnimeOrderingField>;
 
 	/** Rating. */
-	public readonly rating?: Rating;
+	readonly rating?: Rating;
 
 	/** Search. */
-	public readonly search?: string;
+	readonly search?: string;
 
 	/** Source. */
-	public readonly source?: string;
+	readonly source?: string;
 
 	/** Status. */
-	public readonly status?: AnimeStatus;
+	readonly status?: AnimeStatus;
 
 	/** English title. */
-	public readonly titleEnglish?: string;
+	readonly titleEnglish?: string;
 
 	/** Japanese title. */
-	public readonly titleJapanese?: string;
+	readonly titleJapanese?: string;
 
 	/** Type. */
-	public readonly type?: AnimeTypes;
+	readonly type?: AnimeType;
 
 	/** Type in. */
-	public readonly typeIn?: AnimeTypes;
-
-	public constructor(data: AnimeParameters) {
-		this.pageSize = data.pageSize;
-		this.pageNumber = data.pageNumber;
-		this.ordering = data.ordering;
-		this.rating = data.rating;
-		this.search = data.search;
-		this.source = data.source;
-		this.status = data.status;
-		this.titleEnglish = data.titleEnglish;
-		this.titleJapanese = data.titleJapanese;
-		this.type = data.type;
-	}
+	readonly typeIn?: readonly AnimeType[];
 }

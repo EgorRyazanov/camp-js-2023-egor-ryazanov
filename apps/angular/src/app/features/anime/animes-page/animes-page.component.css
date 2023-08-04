@@ -10,6 +10,17 @@
   height: 100vh;
 }
 
+.animes__form {
+  padding: var(--space-md);
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
 .animes__paginator {
   position: sticky;
   bottom: 0;

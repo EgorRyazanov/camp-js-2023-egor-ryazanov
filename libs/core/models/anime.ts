@@ -1,4 +1,5 @@
 import { AnimeStatus } from './anime-status';
+import { AnimeType } from './anime-type';
 import { Pagination } from './pagintation';
 
 /** Anime. */
@@ -31,7 +32,7 @@ export class Anime {
 	public readonly aired: Aired;
 
 	/** Type. */
-	public readonly type: AnimeTypes;
+	public readonly type: AnimeType;
 
 	/** Status. */
 	public readonly status: AnimeStatus;
@@ -60,17 +61,6 @@ export class Anime {
 /** Anime pagination. */
 export type AnimePagination = Pagination<Anime>;
 
-/** Anime type. */
-export enum AnimeTypes {
-	TV = 'TV',
-	OVA = 'OVA',
-	MOVIE = 'MOVIE',
-	SPECIAL = 'SPECIAL',
-	ONA = 'ONA',
-	MUSIC = 'MUSIC',
-	UNKNOWN = 'UNKNOWN',
-}
-
 /** Rating. */
 export enum Rating {
 	G = 'G',
@@ -79,7 +69,7 @@ export enum Rating {
 	R_17 = 'R_17',
 	R_PLUS = 'R_PLUS',
 	R_X = 'R_X',
-	UNKNOWN = 'UNKNOWN',
+	Unknown = 'UNKNOWN',
 }
 
 /** Aired dates. */

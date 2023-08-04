@@ -1,0 +1,21 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--background-primary-color);
+  color: var(--primary-contrast-color);
+}
+
+.error__text {
+  width: 100%;
+  text-align: center;
+}
+
+.error__text_subtitle {
+  font-weight: bold;
+}
+
+.error__text_link {
+  color: var(--primary-contrast-color);
+}
