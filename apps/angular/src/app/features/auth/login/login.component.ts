@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
@@ -6,7 +5,8 @@ import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
-import { AppError } from '@js-camp/core/models/app-error';
+import { ErrorMapper } from '@js-camp/core/mappers/error.mapper';
+import { AppError, ValidationError } from '@js-camp/core/models/app-error';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 
 /** Login page. */
@@ -23,7 +23,7 @@ export class LoginComponent {
 	protected readonly loginForm: FormGroup;
 
 	/** Common global form errors. */
-	protected readonly commonErrors$ = new BehaviorSubject<AppError[]>([]);
+	protected readonly commonErrors$ = new BehaviorSubject<ValidationError[]>([]);
 
 	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -52,8 +52,11 @@ export class LoginComponent {
 					first(),
 					catchFormErrors(this.loginForm),
 					catchError((errors: unknown) => {
-						if (errors instanceof HttpErrorResponse && errors.error instanceof Array) {
-							this.commonErrors$.next(errors.error);
+						if (errors instanceof AppError) {
+							const { validationErrors } = errors;
+							if (ErrorMapper.COMMON_ERROR_FIELD in validationErrors) {
+								this.commonErrors$.next(validationErrors[ErrorMapper.COMMON_ERROR_FIELD]);
+							}
 						}
 						return throwError(() => errors);
 					}),
@@ -66,6 +69,15 @@ export class LoginComponent {
 					this.router.navigate(['/']);
 				});
 		}
+	}
+
+	/**
+	 * Tracks errors by unique messages.
+	 * @param _ Index.
+	 * @param error Validation error.
+	 */
+	protected trackByErrors(_: number, error: ValidationError): ValidationError['message'] {
+		return error.message;
 	}
 
 	/** Initialize register form. */

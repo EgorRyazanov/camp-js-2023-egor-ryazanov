@@ -1,18 +1,24 @@
 /** App error. */
-export class AppError extends Error {
+export class AppError<T extends Record<string, ValidationError[]> = Record<string, ValidationError[]>> extends Error {
 	/** Message. */
 	public override readonly message: string;
 
-	/** Key. Example: password, email. */
-	public readonly key: string;
+	/** Validation errors. */
+	public validationErrors: T;
 
-	/** Code. Example: invalid, permission denied.  */
-	public readonly code: string;
-
-	public constructor(message: string, key: string, code: string) {
+	public constructor(message: string, validationErrors: T) {
 		super(message);
 		this.message = message;
-		this.key = key;
-		this.code = code;
+		this.validationErrors = validationErrors;
 	}
+}
+
+/** Validation error. */
+export interface ValidationError {
+
+	/** Code of error. Example: authentication_failed. */
+	readonly code: string;
+
+	/** Error message. */
+	readonly message: string;
 }

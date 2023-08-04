@@ -1,7 +1,7 @@
 <div class="auth-container">
 	<h1 class="auth-title">Register</h1>
 	<div class="auth-common-errors-container" *ngIf="commonErrors$ | async as errors">
-		<mat-error *ngFor="let error of errors">
+		<mat-error *ngFor="let error of errors; trackBy: trackByErrors">
 			{{ error.message }}
 		</mat-error>
 	</div>

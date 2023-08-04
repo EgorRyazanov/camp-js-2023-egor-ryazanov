@@ -1,9 +1,7 @@
 import { AnimeDetailDto, RatingDto, SeasonsDTO, SourceDTO } from '../../../core/dtos/anime-dto/anime-details.dto';
 import { AnimeDetail, Rating, Seasons, Source } from '../../../core/models/anime/anime-detail';
-
 import { GenreMapper } from '../genre/genre.mapper';
 import { StudioMapper } from '../studio/studio.mapper';
-
 import { AnimeMapper } from './anime.mapper';
 
 /** Anime Detail Mapper. */

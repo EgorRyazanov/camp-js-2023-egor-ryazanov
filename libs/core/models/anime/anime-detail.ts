@@ -2,8 +2,8 @@ import { Studio } from '../studio/studio';
 
 import { Genre } from '../genre/genre';
 
-import { AnimeTypes } from './anime-type';
 import { AnimeStatus } from './anime-status';
+import { AnimeType } from './anime-type';
 
 /** Anime Detail. */
 export class AnimeDetail {
@@ -35,7 +35,7 @@ export class AnimeDetail {
 	public readonly aired: Aired;
 
 	/** Type. */
-	public readonly type: AnimeTypes;
+	public readonly type: AnimeType;
 
 	/** Status. */
 	public readonly status: AnimeStatus;

@@ -36,6 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 		MatIconModule,
 		MatButtonModule,
 		MatDialogModule,
+		SharedModule,
 	],
 	providers: [AnimeDetailsService, AnimeService],
 })

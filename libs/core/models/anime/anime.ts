@@ -2,7 +2,7 @@ import { Pagination } from '../pagintation';
 import { Aired } from './anime-detail';
 
 import { AnimeStatus } from './anime-status';
-import { AnimeTypes } from './anime-type';
+import { AnimeType } from './anime-type';
 
 /** Anime. */
 export class Anime {
@@ -19,7 +19,7 @@ export class Anime {
 	public readonly image: string;
 
 	/** Type. */
-	public readonly type: AnimeTypes;
+	public readonly type: AnimeType;
 
 	/** Status. */
 	public readonly status: AnimeStatus;

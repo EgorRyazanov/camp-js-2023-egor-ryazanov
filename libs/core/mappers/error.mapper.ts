@@ -1,5 +1,5 @@
-import { ErrorDto } from '../dtos/error.dto';
-import { AppError } from '../models/app-error';
+import { ValidationErrorDto } from '../dtos/error.dto';
+import { AppError, ValidationError } from '../models/app-error';
 
 /** Error Mapper. */
 export namespace ErrorMapper {
@@ -14,11 +14,22 @@ export namespace ErrorMapper {
 
 	/**
 	 * Converts DTO errors to model.
-	 * @param errors DTO errors.
+	 * @param validationErrorsDto Validation Errors DTO.
+	 * @param errorMessage Error message.
 	 */
-	export function fromDto(errors: ErrorDto[]): AppError[] {
-		return errors.map(
-			error => new AppError(error.detail, FORM_FIELD_FROM_DTO[error.attr] ?? COMMON_ERROR_FIELD, error.code),
-		);
+	export function fromDto(validationErrorsDto: ValidationErrorDto[], errorMessage: string): AppError {
+		const validationErrors: Record<string, ValidationError[]> = {};
+		validationErrorsDto.forEach(error => {
+			const attribute = FORM_FIELD_FROM_DTO[error.attr] ?? COMMON_ERROR_FIELD;
+			if (!(attribute in validationErrors)) {
+				validationErrors[attribute] = [];
+			}
+			validationErrors[attribute].push({
+				code: error.code,
+				message: error.detail,
+			});
+		});
+
+		return new AppError(errorMessage, validationErrors);
 	}
 }

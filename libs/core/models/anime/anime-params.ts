@@ -2,34 +2,31 @@ import { Ordering } from '../../../core/mappers/ordering.mapper';
 
 import { AnimeOrderingField } from './anime-ordering';
 import { AnimeStatus } from './anime-status';
-import { AnimeTypes } from './anime-type';
+import { AnimeType } from './anime-type';
 
 /** Anime parameters. */
-export class AnimeParameters {
+export interface AnimeParameters {
 	/** Limit of elements in response. */
-	public readonly pageSize: number;
+	readonly pageSize: number;
 
 	/** Offset. */
-	public readonly pageNumber: number;
+	readonly pageNumber: number;
 
 	/** Ordering. */
-	public readonly ordering?: Ordering<AnimeOrderingField>;
+	readonly ordering?: Ordering<AnimeOrderingField>;
 
 	/** Search. */
-	public readonly search?: string;
+	readonly search?: string;
 
 	/** Status. */
-	public readonly status?: AnimeStatus;
+	readonly status?: AnimeStatus;
+
+	/** English title. */
+	readonly titleEnglish?: string;
+
+	/** Japanese title. */
+	readonly titleJapanese?: string;
 
 	/** Type in. */
-	public readonly typeIn?: readonly AnimeTypes[];
-
-	public constructor(data: AnimeParameters) {
-		this.pageSize = data.pageSize;
-		this.pageNumber = data.pageNumber;
-		this.ordering = data.ordering;
-		this.search = data.search;
-		this.status = data.status;
-		this.typeIn = data.typeIn;
-	}
+	readonly typeIn?: readonly AnimeType[];
 }

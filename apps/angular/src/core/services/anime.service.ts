@@ -12,8 +12,10 @@ import { UrlService } from './url.service';
 /** Anime service. */
 @Injectable()
 export class AnimeService {
+	/** HTTP service. */
 	private readonly httpService = inject(HttpClient);
 
+	/** Url service. */
 	private readonly urlService = inject(UrlService);
 
 	/**
@@ -23,7 +25,7 @@ export class AnimeService {
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.httpService
 			.get<AnimePaginationDto>(this.urlService.animeUrls.animes, {
-				params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(new AnimeParameters(parameters)) } }),
+				params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
 			})
 			.pipe(
 				map((animePaginationDto) => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto))

@@ -3,8 +3,8 @@ import { AnimeParametersDto } from '../../../core/dtos/anime-dto/anime-params.dt
 import { AnimeStatusDto } from '../../../core/dtos/anime-dto/anime.dto';
 import { deleteUndefinedProperties } from '../../../core/utils/delete-undefined-properties';
 import { AnimeStatus } from '../../../core/models/anime/anime-status';
-import { OrderingDirection, AnimeOrderingField } from '../../../core/models/anime/anime-ordering';
-import { AnimeOrderingDirectionDto, AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-ordering.dto';
+import { AnimeOrderingField } from '../../../core/models/anime/anime-ordering';
+import { AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-ordering.dto';
 
 import { OrderingMapper } from '../ordering.mapper';
 
@@ -20,13 +20,7 @@ export namespace AnimeParametersMapper {
 		[AnimeOrderingField.AiredStart]: AnimeOrderingFieldDto.AiredStart,
 	};
 
-	const ORDERING_DIRECTION_TO_DTO = {
-		[OrderingDirection.Ascending]: AnimeOrderingDirectionDto.Ascending,
-		[OrderingDirection.Descending]: AnimeOrderingDirectionDto.Descending,
-		[OrderingDirection.None]: AnimeOrderingDirectionDto.None,
-	};
-
-	export const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
+	const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
 		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
 		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
 		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
@@ -40,7 +34,7 @@ export namespace AnimeParametersMapper {
 		return deleteUndefinedProperties({
 			limit: model?.pageSize ?? defaultPageSize,
 			offset: model?.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
-			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_FIELD_TO_DTO, ORDERING_DIRECTION_TO_DTO),
+			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_FIELD_TO_DTO),
 			search: model?.search,
 			status: model?.status ? ANIME_STATUS_TO_DTO[model.status] : undefined,
 			type__in: model?.typeIn ? AnimeTypeMapper.toDto(model.typeIn) : undefined,
