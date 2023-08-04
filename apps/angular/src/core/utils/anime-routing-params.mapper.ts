@@ -1,5 +1,6 @@
 import { AnimeType } from '@js-camp/core/models/anime-type';
-import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
+import { AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
+import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
 
 /** Routing anime params mapper. */
 export namespace RoutingAnimeParamsMapper {
@@ -22,7 +23,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param value Value to check.
 	 * @param validatingEnum Inspector.
 	 */
-	function isType<T extends string>(value: T, validatingEnum: Enum): boolean {
+	function isType<T extends string>(value: T, validatingEnum: Record<string, string | number>): boolean {
 		return Object.values(validatingEnum).includes(value);
 	}
 
@@ -223,5 +224,3 @@ export interface IncomeValuesStatus {
 
 /** Anime routing query params with status that shows some of the initial values were converted to default. */
 export type IncomeStatusedQueryParams<T extends Partial<AnimeRoutingQueryParams>> = T & IncomeValuesStatus;
-
-type Enum = Record<string, string | number>;

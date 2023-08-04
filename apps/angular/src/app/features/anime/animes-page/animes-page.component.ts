@@ -21,8 +21,9 @@ import {
 	IncomeValuesStatus,
 	RoutingAnimeParamsMapper,
 } from '@js-camp/angular/core/utils/anime-routing-params.mapper';
-import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
+import { AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
 import { AnimeType } from '@js-camp/core/models/anime-type';
+import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 

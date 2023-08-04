@@ -1,3 +1,5 @@
+import { OrderingDirectionDto } from './ordering-direction.dto';
+
 /** Anime ordering DTO. */
 export interface AnimeOrderingDto {
 
@@ -13,12 +15,5 @@ export enum AnimeOrderingFieldDto {
 	TitleEnghlish = 'title_eng',
 	Status = 'status',
 	AiredStart = 'aired__startswith',
-	None = '',
-}
-
-/** Anime Ordering Direction DTO. */
-export enum OrderingDirectionDto {
-	Ascending = '-',
-	Descending = '',
 	None = '',
 }

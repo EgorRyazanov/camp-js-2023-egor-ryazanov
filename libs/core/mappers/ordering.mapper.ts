@@ -1,5 +1,5 @@
-import { OrderingDirectionDto } from '../dtos/anime-ordering.dto';
-import { OrderingDirection } from '../models/anime-ordering';
+import { OrderingDirectionDto } from '../dtos/ordering-direction.dto';
+import { OrderingDirection } from '../models/ordering-direction';
 
 /** Ordering. */
 export interface Ordering<Field> {

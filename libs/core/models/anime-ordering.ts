@@ -1,3 +1,5 @@
+import { OrderingDirection } from './ordering-direction';
+
 /** Anime ordering. */
 export interface AnimeOrdering {
 
@@ -13,12 +15,5 @@ export enum AnimeOrderingField {
 	TitleEnghlish = 'titleEnglish',
 	Status = 'status',
 	AiredStart = 'aired.start',
-	None = '',
-}
-
-/** Ordering Direction. */
-export enum OrderingDirection {
-	Ascending = 'asc',
-	Descending = 'desc',
 	None = '',
 }
