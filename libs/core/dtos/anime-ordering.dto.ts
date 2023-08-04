@@ -5,7 +5,7 @@ export interface AnimeOrderingDto {
 	readonly field: AnimeOrderingFieldDto;
 
 	/** Direction. */
-	readonly direction: AnimeOrderingDirectionDto;
+	readonly direction: OrderingDirectionDto;
 }
 
 /** Anime Ordering Field DTO. */
@@ -17,7 +17,7 @@ export enum AnimeOrderingFieldDto {
 }
 
 /** Anime Ordering Direction DTO. */
-export enum AnimeOrderingDirectionDto {
+export enum OrderingDirectionDto {
 	Ascending = '-',
 	Descending = '',
 	None = '',

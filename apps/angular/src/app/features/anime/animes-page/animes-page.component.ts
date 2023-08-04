@@ -92,7 +92,7 @@ export class AnimesPageComponent {
 	 * @param _index Index.
 	 * @param anime Anime.
 	 */
-	protected trackByAnime(_index: number, anime: Anime): number {
+	protected trackByAnime(_index: number, anime: Anime): Anime['id'] {
 		return anime.id;
 	}
 
@@ -155,12 +155,12 @@ export class AnimesPageComponent {
 	private createAnimesStream(): Observable<AnimePagination> {
 		return this.activeRoute.queryParams.pipe(
 			distinctUntilChanged(),
-			map(query => this.proccessQueries(query)),
+			map(query => this.mapQueryParamsToModel(query)),
 			tap(({ isValid, params }) => {
 				if (!isValid) {
 					this.setQueryParams(params);
 				}
-				this.fillOutForm(params);
+				this.setFormValues(params);
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
@@ -180,7 +180,7 @@ export class AnimesPageComponent {
 	 * Converts queries to anime routing query parameters.
 	 * @param query Qyery parameters.
 	 */
-	private proccessQueries(query: Params): StatusedRoutingParams {
+	private mapQueryParamsToModel(query: Params): StatusedRoutingParams {
 		const changedQueryParams = RoutingAnimeParamsMapper.toModel({
 			search: query['search'],
 			type: query['type'],
@@ -217,7 +217,7 @@ export class AnimesPageComponent {
 	 * Fill out the form with params.
 	 * @param params Anime routing query params.
 	 */
-	private fillOutForm(params: AnimeRoutingQueryParams): void {
+	private setFormValues(params: AnimeRoutingQueryParams): void {
 		this.form.patchValue({
 			search: params.search,
 			filters: params.type,
