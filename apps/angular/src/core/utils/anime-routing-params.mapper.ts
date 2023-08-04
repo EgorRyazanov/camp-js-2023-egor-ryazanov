@@ -1,8 +1,6 @@
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
 
-type Enum = Record<string, string | number>;
-
 /** Routing anime params mapper. */
 export namespace RoutingAnimeParamsMapper {
 
@@ -57,7 +55,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param page Unknown.
 	 * @returns Page and value was changed flag.
 	 */
-	export function pageToModel(page: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'pageNumber'>> {
+	export function pageToModel(page: unknown): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'pageNumber'>> {
 		if (typeof page === 'string') {
 			const pageNumber = Number(page);
 			if (!Number.isNaN(pageNumber)) {
@@ -73,7 +71,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param size Unknown.
 	 * @returns Size and value was changed flag.
 	 */
-	export function sizeToModel(size: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'pageSize'>> {
+	export function sizeToModel(size: unknown): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'pageSize'>> {
 		if (typeof size === 'string') {
 			const pageSize = Number(size);
 			if (!Number.isNaN(pageSize) && pageSizes.includes(pageSize)) {
@@ -89,7 +87,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param search Unknown.
 	 * @returns Search and value was changed flag.
 	 */
-	export function searchToModel(search: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'search'>> {
+	export function searchToModel(search: unknown): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'search'>> {
 		if (typeof search === 'string') {
 			return { search, isValid: true };
 		}
@@ -101,7 +99,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param type Unknown.
 	 * @returns Type and value was changed flag.
 	 */
-	export function typeToModel(type: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
+	export function typeToModel(type: unknown): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
 		if (typeof type === 'string') {
 			if (isAnimeType(type)) {
 				return { type: [type], isValid: true };
@@ -129,7 +127,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param field Unknown.
 	 * @returns Field and value was changed flag.
 	 */
-	export function fieldToModel(field: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
+	export function fieldToModel(field: unknown): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
 		if (typeof field === 'string') {
 			if (isOrderingFieldType(field)) {
 				return { field, isValid: true };
@@ -144,7 +142,9 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param direction Unknown.
 	 * @returns Direction and value was changed flag.
 	 */
-	export function directionToModel(direction: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
+	export function directionToModel(
+		direction: unknown,
+	): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
 		if (typeof direction === 'string') {
 			if (isOrderingDirectionType(direction)) {
 				return { direction, isValid: true };
@@ -159,7 +159,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param params Unknown params.
 	 * @returns Params and values were changed flag.
 	 */
-	export function toModel(params: QueryParams): ChangedQueryParams<AnimeRoutingQueryParams> {
+	export function toModel(params: QueryParams): IncomeStatusedQueryParams<AnimeRoutingQueryParams> {
 		const pageState = pageToModel(params.pageNumber);
 		const sizeState = sizeToModel(params.pageSize);
 		const fieldState = fieldToModel(params.field);
@@ -240,4 +240,6 @@ export interface IncomeValuesStatus {
 }
 
 /** Anime routing query params with status that shows some of the initial values were converted to default. */
-export type ChangedQueryParams<T extends Partial<AnimeRoutingQueryParams>> = T & IncomeValuesStatus;
+export type IncomeStatusedQueryParams<T extends Partial<AnimeRoutingQueryParams>> = T & IncomeValuesStatus;
+
+type Enum = Record<string, string | number>;
