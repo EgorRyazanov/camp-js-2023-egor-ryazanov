@@ -11,6 +11,6 @@ export function catchAppErrors<T>(): OperatorFunction<T, T> {
 					return throwError(() => ErrorMapper.fromDto(error.error.errors, error.message));
 				}
 				return throwError(() => error);
-			})
+			}),
 		);
 }

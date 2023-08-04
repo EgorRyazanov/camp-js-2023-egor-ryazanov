@@ -1,10 +1,10 @@
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
-import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
-
-type Enum = Record<string, string | number>;
+import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
+import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
 
 /** Routing anime params mapper. */
 export namespace RoutingAnimeParamsMapper {
+
 	/** Default routing query parameters. */
 	export const defaultQueryParams: AnimeRoutingQueryParams = {
 		pageSize: 5,
@@ -23,8 +23,8 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param value Value to check.
 	 * @param validatingEnum Inspector.
 	 */
-	function isType<T extends string>(value: string, validatingEnum: Enum): boolean {
-		return Object.values(validatingEnum).includes(value as T);
+	function isType<T extends string>(value: T, validatingEnum: Record<string, string | number>): boolean {
+		return Object.values(validatingEnum).includes(value);
 	}
 
 	/**
@@ -32,7 +32,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param type Value to check.
 	 */
 	function isAnimeType(type: string): type is AnimeType {
-		return isType<AnimeType>(type, AnimeType);
+		return isType(type, AnimeType);
 	}
 
 	/**
@@ -40,7 +40,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param type Value to check.
 	 */
 	function isOrderingDirectionType(type: string): type is OrderingDirection {
-		return isType<OrderingDirection>(type, OrderingDirection);
+		return isType(type, OrderingDirection);
 	}
 
 	/**
@@ -48,7 +48,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param type Value to check.
 	 */
 	function isOrderingFieldType(type: string): type is AnimeOrderingField {
-		return isType<AnimeOrderingField>(type, AnimeOrderingField);
+		return isType(type, AnimeOrderingField);
 	}
 
 	/**
@@ -56,15 +56,13 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param page Unknown.
 	 * @returns Page and value was changed flag.
 	 */
-	export function pageToModel(page: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'pageNumber'>> {
-		if (typeof page === 'string') {
-			const pageNumber = Number(page);
-			if (!Number.isNaN(pageNumber)) {
-				return { pageNumber, isChanged: false };
-			}
+	export function pageToModel(page: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'pageNumber'>> {
+		const pageNumber = Number(page);
+		if (Number.isNaN(pageNumber)) {
+			return { pageNumber: defaultQueryParams.pageNumber, isValid: false };
 		}
 
-		return { pageNumber: defaultQueryParams.pageNumber, isChanged: true };
+		return { pageNumber, isValid: true };
 	}
 
 	/**
@@ -72,15 +70,12 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param size Unknown.
 	 * @returns Size and value was changed flag.
 	 */
-	export function sizeToModel(size: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'pageSize'>> {
-		if (typeof size === 'string') {
-			const pageSize = Number(size);
-			if (!Number.isNaN(pageSize) && pageSizes.includes(pageSize)) {
-				return { pageSize, isChanged: false };
-			}
+	export function sizeToModel(size: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'pageSize'>> {
+		const pageSize = Number(size);
+		if (Number.isNaN(pageSize) || !pageSizes.includes(pageSize)) {
+			return { pageSize: defaultQueryParams.pageSize, isValid: false };
 		}
-
-		return { pageSize: defaultQueryParams.pageSize, isChanged: true };
+		return { pageSize, isValid: true };
 	}
 
 	/**
@@ -88,11 +83,12 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param search Unknown.
 	 * @returns Search and value was changed flag.
 	 */
-	export function searchToModel(search: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'search'>> {
-		if (typeof search === 'string') {
-			return { search, isChanged: false };
+	export function searchToModel(search: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'search'>> {
+		if (search instanceof Array) {
+			return { search: defaultQueryParams.search, isValid: false };
 		}
-		return { search: defaultQueryParams.search, isChanged: true };
+
+		return { search, isValid: true };
 	}
 
 	/**
@@ -100,27 +96,17 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param type Unknown.
 	 * @returns Type and value was changed flag.
 	 */
-	export function typeToModel(type: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
-		if (typeof type === 'string') {
-			if (isAnimeType(type)) {
-				return { type: [type], isChanged: false };
-			}
-		} else if (type instanceof Array) {
-			const newTypeModel: AnimeType[] = [];
-			let isChanged = false;
-
-			type.forEach((typeElement) => {
-				if (typeElement && typeof typeElement === 'string' && isAnimeType(typeElement)) {
-					newTypeModel.push(typeElement);
-				} else {
-					isChanged = true;
-				}
-			});
-
-			return { isChanged, type: newTypeModel };
+	export function typeToModel(type: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
+		if (type instanceof Array) {
+			const newTypeModel = type.filter(
+				typeElement => typeof typeElement === 'string' && isAnimeType(typeElement),
+			) as AnimeType[];
+			return { isValid: newTypeModel.length === type.length, type: newTypeModel };
+		} else if (isAnimeType(type)) {
+			return { type: [type], isValid: true };
 		}
 
-		return { type: defaultQueryParams.type, isChanged: true };
+		return { type: defaultQueryParams.type, isValid: false };
 	}
 
 	/**
@@ -128,14 +114,12 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param field Unknown.
 	 * @returns Field and value was changed flag.
 	 */
-	export function fieldToModel(field: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
-		if (typeof field === 'string') {
-			if (isOrderingFieldType(field)) {
-				return { field, isChanged: false };
-			}
+	export function fieldToModel(field: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
+		if (field instanceof Array || !isOrderingFieldType(field)) {
+			return { field: AnimeOrderingField.None, isValid: false };
 		}
 
-		return { field: AnimeOrderingField.None, isChanged: true };
+		return { field, isValid: true };
 	}
 
 	/**
@@ -143,14 +127,14 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param direction Unknown.
 	 * @returns Direction and value was changed flag.
 	 */
-	export function directionToModel(direction: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
-		if (typeof direction === 'string') {
-			if (isOrderingDirectionType(direction)) {
-				return { direction, isChanged: false };
-			}
+	export function directionToModel(
+		direction: Param,
+	): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
+		if (direction instanceof Array || !isOrderingDirectionType(direction)) {
+			return { direction: OrderingDirection.None, isValid: false };
 		}
 
-		return { direction: OrderingDirection.None, isChanged: true };
+		return { direction, isValid: true };
 	}
 
 	/**
@@ -158,23 +142,23 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param params Unknown params.
 	 * @returns Params and values were changed flag.
 	 */
-	export function toModel(params: UnknownAnimeRouringQueryParams): ChangedQueryParams<AnimeRoutingQueryParams> {
+	export function toModel(params: QueryParams): IncomeStatusedQueryParams<AnimeRoutingQueryParams> {
 		const pageState = pageToModel(params.pageNumber);
 		const sizeState = sizeToModel(params.pageSize);
 		const fieldState = fieldToModel(params.field);
 		const typeState = typeToModel(params.type);
 		const searchState = searchToModel(params.search);
 		const directionState = directionToModel(params.direction);
-		const isChanged =
-			pageState.isChanged ||
-			sizeState.isChanged ||
-			fieldState.isChanged ||
-			typeState.isChanged ||
-			searchState.isChanged ||
-			directionState.isChanged;
+		const isValid =
+			pageState.isValid &&
+			sizeState.isValid &&
+			fieldState.isValid &&
+			typeState.isValid &&
+			searchState.isValid &&
+			directionState.isValid;
 
 		return {
-			isChanged,
+			isValid,
 			pageNumber: pageState.pageNumber,
 			pageSize: sizeState.pageSize,
 			field: fieldState.field,
@@ -185,8 +169,9 @@ export namespace RoutingAnimeParamsMapper {
 	}
 }
 
-/** Routing query params. */
+/** Converted routing query params. */
 export interface AnimeRoutingQueryParams {
+
 	/** Page size. */
 	readonly pageSize: number;
 
@@ -206,32 +191,36 @@ export interface AnimeRoutingQueryParams {
 	readonly search: string;
 }
 
-/** Unknown routing query params. */
-export interface UnknownAnimeRouringQueryParams {
+type Param = string[] | string;
+
+/** Routing query params that goes from search input. */
+export interface QueryParams {
+
 	/** Page size. */
-	readonly pageSize: unknown;
+	readonly pageSize: Param;
 
 	/** Page number. */
-	readonly pageNumber: unknown;
+	readonly pageNumber: Param;
 
 	/** Filter type. */
-	readonly type: unknown;
+	readonly type: Param;
 
 	/** Soring field. */
-	readonly field: unknown;
+	readonly field: Param;
 
 	/** Sorting direction. */
-	readonly direction: unknown;
+	readonly direction: Param;
 
 	/** Search. */
-	readonly search: unknown;
+	readonly search: Param;
 }
 
-/** Changed. */
-export interface Changed {
-	/** Shows param was changed. */
-	readonly isChanged: boolean;
+/** Income values with status about change if values is incorrect. */
+export interface IncomeValuesStatus {
+
+	/** Shows status of validity of income value. */
+	readonly isValid: boolean;
 }
 
 /** Anime routing query params with status that shows some of the initial values were converted to default. */
-export type ChangedQueryParams<T extends Partial<AnimeRoutingQueryParams>> = T & Changed;
+export type IncomeStatusedQueryParams<T extends Partial<AnimeRoutingQueryParams>> = T & IncomeValuesStatus;

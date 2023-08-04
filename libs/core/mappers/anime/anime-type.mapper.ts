@@ -1,5 +1,5 @@
-import { AnimeDtoTypes } from '@js-camp/core/dtos/anime-dto/anime.dto';
-import { AnimeType } from '@js-camp/core/models/anime/anime-type';
+import { AnimeDtoTypes } from '../../../core/dtos/anime-dto/anime.dto';
+import { AnimeType } from '../../../core/models/anime/anime-type';
 
 export namespace AnimeTypeMapper {
 	export const ANIME_TYPE_TO_DTO: Readonly<Record<AnimeType, AnimeDtoTypes>> = {
@@ -17,6 +17,6 @@ export namespace AnimeTypeMapper {
 	 * @param types Array of anime status.
 	 */
 	export function toDto(types: readonly AnimeType[]): string {
-		return types.map((typeInElement) => ANIME_TYPE_TO_DTO[typeInElement]).join(', ');
+		return types.map(typeInElement => ANIME_TYPE_TO_DTO[typeInElement]).join(', ');
 	}
 }

@@ -3,6 +3,7 @@ export class AppError<T extends Record<string, ValidationError[]> = Record<strin
 	/** Message. */
 	public override readonly message: string;
 
+	/** Validation errors. */
 	public validationErrors: T;
 
 	public constructor(message: string, validationErrors: T) {
@@ -12,7 +13,12 @@ export class AppError<T extends Record<string, ValidationError[]> = Record<strin
 	}
 }
 
+/** Validation error. */
 export interface ValidationError {
+
+	/** Code of error. Example: authentication_failed. */
 	readonly code: string;
+
+	/** Error message. */
 	readonly message: string;
 }

@@ -1,6 +1,7 @@
-import { AnimeStatus } from './anime-status';
-import { AnimeType, AnimeTypes } from './anime-type';
 import { Pagination } from '../pagintation';
+
+import { AnimeStatus } from './anime-status';
+import { AnimeType } from './anime-type';
 
 /** Anime. */
 export class Anime {
@@ -74,6 +75,7 @@ export enum Rating {
 
 /** Aired dates. */
 export interface Aired {
+
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.

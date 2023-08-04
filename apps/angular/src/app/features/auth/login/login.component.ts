@@ -53,8 +53,9 @@ export class LoginComponent {
 					catchFormErrors(this.loginForm),
 					catchError((errors: unknown) => {
 						if (errors instanceof AppError) {
-							if (errors.validationErrors.hasOwnProperty(ErrorMapper.COMMON_ERROR_FIELD)) {
-								this.commonErrors$.next(errors.validationErrors[ErrorMapper.COMMON_ERROR_FIELD]);
+							const { validationErrors } = errors;
+							if (ErrorMapper.COMMON_ERROR_FIELD in validationErrors) {
+								this.commonErrors$.next(validationErrors[ErrorMapper.COMMON_ERROR_FIELD]);
 							}
 						}
 						return throwError(() => errors);
@@ -62,7 +63,7 @@ export class LoginComponent {
 					finalize(() => {
 						this.isLoading$.next(false);
 					}),
-					takeUntilDestroyed(this.destroyRef)
+					takeUntilDestroyed(this.destroyRef),
 				)
 				.subscribe(() => {
 					this.router.navigate(['/']);
@@ -70,7 +71,12 @@ export class LoginComponent {
 		}
 	}
 
-	protected trackByErrors(_: number, error: ValidationError) {
+	/**
+	 * Tracks errors by unique messages.
+	 * @param _ Index.
+	 * @param error Validation error.
+	 */
+	protected trackByErrors(_: number, error: ValidationError): ValidationError['message'] {
 		return error.message;
 	}
 

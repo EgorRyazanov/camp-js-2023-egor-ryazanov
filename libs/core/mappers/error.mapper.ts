@@ -14,13 +14,14 @@ export namespace ErrorMapper {
 
 	/**
 	 * Converts DTO errors to model.
-	 * @param errors DTO errors.
+	 * @param validationErrorsDto Validation Errors DTO.
+	 * @param errorMessage Error message.
 	 */
 	export function fromDto(validationErrorsDto: ValidationErrorDto[], errorMessage: string): AppError {
 		const validationErrors: Record<string, ValidationError[]> = {};
-		validationErrorsDto.forEach((error) => {
+		validationErrorsDto.forEach(error => {
 			const attribute = FORM_FIELD_FROM_DTO[error.attr] ?? COMMON_ERROR_FIELD;
-			if (!validationErrors.hasOwnProperty(error.attr)) {
+			if (!(attribute in validationErrors)) {
 				validationErrors[attribute] = [];
 			}
 			validationErrors[attribute].push({

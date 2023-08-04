@@ -11,16 +11,16 @@ export function catchFormErrors<T>(form: FormGroup): OperatorFunction<T, T> {
 		source$.pipe(
 			catchError((errors: unknown) => {
 				if (errors instanceof AppError) {
-					Object.keys(form.controls).forEach((key) => {
+					Object.keys(form.controls).forEach(key => {
 						form.controls[key].updateValueAndValidity();
-						if (errors.validationErrors.hasOwnProperty(key)) {
+						if (key in errors.validationErrors) {
 							const validationErrors: ValidationError[] = errors.validationErrors[key];
-							form.controls[key].setErrors({ invalid: validationErrors.map((error) => error.message) });
+							form.controls[key].setErrors({ invalid: validationErrors.map(error => error.message) });
 						}
 					});
 				}
 
 				return throwError(() => errors);
-			})
+			}),
 		);
 }

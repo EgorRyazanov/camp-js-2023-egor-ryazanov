@@ -28,10 +28,10 @@ export class AnimeService {
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.http
 			.get<AnimePaginationDto>(this.urlService.animeUrls.animes, {
-				params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
-			})
+			params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
+		})
 			.pipe(
-				map((animePaginationDto) => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto))
+				map(animePaginationDto => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
 			);
 	}
 }

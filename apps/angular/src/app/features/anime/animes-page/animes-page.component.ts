@@ -18,16 +18,16 @@ import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
 	AnimeRoutingQueryParams,
-	Changed,
+	IncomeValuesStatus,
 	RoutingAnimeParamsMapper,
-	UnknownAnimeRouringQueryParams,
 } from '@js-camp/angular/core/utils/anime-routing-params.mapper';
-import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
+import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
+import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
-type StatusedRoutingParams = Changed & { params: AnimeRoutingQueryParams };
+type StatusedRoutingParams = IncomeValuesStatus & { params: AnimeRoutingQueryParams; };
 
 /** Anime Component. */
 @Component({
@@ -93,7 +93,7 @@ export class AnimesPageComponent {
 	 * @param _index Index.
 	 * @param anime Anime.
 	 */
-	protected trackByAnime(_index: number, anime: Anime): number {
+	protected trackByAnime(_index: number, anime: Anime): Anime['id'] {
 		return anime.id;
 	}
 
@@ -148,7 +148,7 @@ export class AnimesPageComponent {
 	 * Sets query params.
 	 * @param params Changed params.
 	 */
-	private setQueryParams(params: Partial<UnknownAnimeRouringQueryParams>): void {
+	private setQueryParams(params: Partial<AnimeRoutingQueryParams>): void {
 		this.router.navigate(['/animes'], { queryParams: { ...this.queryParams, ...params } });
 	}
 
@@ -156,12 +156,12 @@ export class AnimesPageComponent {
 	private createAnimesStream(): Observable<AnimePagination> {
 		return this.activeRoute.queryParams.pipe(
 			distinctUntilChanged(),
-			map((query) => this.proccessQueries(query)),
-			tap(({ isChanged, params }) => {
-				if (isChanged) {
+			map(query => this.mapQueryParamsToModel(query)),
+			tap(({ isValid, params }) => {
+				if (!isValid) {
 					this.setQueryParams(params);
 				}
-				this.fillOutForm(params);
+				this.setFormValues(params);
 				this.isLoading$.next(true);
 			}),
 			debounceTime(DEBOUNCE_TIME),
@@ -173,7 +173,7 @@ export class AnimesPageComponent {
 			catchError((error: unknown) => {
 				this.isLoading$.next(false);
 				return throwError(() => error);
-			})
+			}),
 		);
 	}
 
@@ -181,7 +181,7 @@ export class AnimesPageComponent {
 	 * Converts queries to anime routing query parameters.
 	 * @param query Qyery parameters.
 	 */
-	private proccessQueries(query: Params): StatusedRoutingParams {
+	private mapQueryParamsToModel(query: Params): StatusedRoutingParams {
 		const changedQueryParams = RoutingAnimeParamsMapper.toModel({
 			search: query['search'],
 			type: query['type'],
@@ -190,10 +190,10 @@ export class AnimesPageComponent {
 			field: query['field'],
 			direction: query['direction'],
 		});
-		const { isChanged: _, ...params } = changedQueryParams;
+		const { isValid: _, ...params } = changedQueryParams;
 		return {
 			params,
-			isChanged: changedQueryParams.isChanged,
+			isValid: changedQueryParams.isValid,
 		};
 	}
 
@@ -218,7 +218,7 @@ export class AnimesPageComponent {
 	 * Fill out the form with params.
 	 * @param params Anime routing query params.
 	 */
-	private fillOutForm(params: AnimeRoutingQueryParams): void {
+	private setFormValues(params: AnimeRoutingQueryParams): void {
 		this.form.patchValue({
 			search: params.search,
 			filters: params.type,

@@ -4,8 +4,8 @@ import { AnimeStatusDto, RatingDto } from '../../../core/dtos/anime-dto/anime.dt
 import { Rating } from '../../../core/models/anime/anime';
 import { deleteUndefinedProperties } from '../../../core/utils/delete-undefined-properties';
 import { AnimeStatus } from '../../../core/models/anime/anime-status';
-import { OrderingDirection, AnimeOrderingField } from '../../../core/models/anime/anime-ordering';
-import { AnimeOrderingDirectionDto, AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-ordering.dto';
+import { AnimeOrderingField } from '../../../core/models/anime/anime-ordering';
+import { AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-ordering.dto';
 
 import { OrderingMapper } from '../ordering.mapper';
 
@@ -19,12 +19,6 @@ export namespace AnimeParametersMapper {
 		[AnimeOrderingField.TitleEnghlish]: AnimeOrderingFieldDto.TitleEnghlish,
 		[AnimeOrderingField.Status]: AnimeOrderingFieldDto.Status,
 		[AnimeOrderingField.AiredStart]: AnimeOrderingFieldDto.AiredStart,
-	};
-
-	const ORDERING_DIRECTION_TO_DTO = {
-		[OrderingDirection.Ascending]: AnimeOrderingDirectionDto.Ascending,
-		[OrderingDirection.Descending]: AnimeOrderingDirectionDto.Descending,
-		[OrderingDirection.None]: AnimeOrderingDirectionDto.None,
 	};
 
 	const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
@@ -51,7 +45,7 @@ export namespace AnimeParametersMapper {
 		return deleteUndefinedProperties({
 			limit: model?.pageSize ?? defaultPageSize,
 			offset: model?.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
-			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_FIELD_TO_DTO, ORDERING_DIRECTION_TO_DTO),
+			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_FIELD_TO_DTO),
 			rating: model?.rating ? ANIME_RATING_TO_DTO[model.rating] : undefined,
 			search: model?.search,
 			source: model?.source,

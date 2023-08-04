@@ -1,7 +1,7 @@
-import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '@js-camp/core/dtos/anime-dto/anime.dto';
-import { Anime } from '@js-camp/core/models/anime/anime';
-import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
-import { AnimeType } from '@js-camp/core/models/anime/anime-type';
+import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../../../core/dtos/anime-dto/anime.dto';
+import { Anime } from '../../../core/models/anime/anime';
+import { AnimeStatus } from '../../../core/models/anime/anime-status';
+import { AnimeType } from '../../../core/models/anime/anime-type';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
