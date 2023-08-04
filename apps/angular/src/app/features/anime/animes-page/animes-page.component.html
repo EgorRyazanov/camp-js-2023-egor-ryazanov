@@ -20,8 +20,8 @@
 			aria-label="Table of animes"
 			[trackBy]="trackByAnime"
 			[dataSource]="animePage.items"
-			[matSortActive]="getQueryParams()['field']"
-			[matSortDirection]="getQueryParams()['direction']"
+			[matSortActive]="queryParams.field"
+			[matSortDirection]="queryParams.direction"
 			(matSortChange)="changeSortParameter($event)"
 		>
 			<ng-container matColumnDef="image">
@@ -33,19 +33,19 @@
 			<ng-container matColumnDef="titleJapanese">
 				<th mat-header-cell *matHeaderCellDef>Japanese Title</th>
 				<td mat-cell *matCellDef="let anime">
-					<p *ngIf="anime.titleJapanese; else emptyCell">{{ anime.titleJapanese }}</p>
+					{{ anime.titleJapanese | empty }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="titleEnglish">
 				<th mat-sort-header="titleEnglish" mat-header-cell *matHeaderCellDef>English Title</th>
 				<td mat-cell *matCellDef="let anime">
-					<p *ngIf="anime.titleEnglish; else emptyCell">{{ anime.titleEnglish }}</p>
+					{{ anime.titleEnglish | empty }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="start aired">
 				<th mat-sort-header="aired.start" mat-header-cell *matHeaderCellDef>Start</th>
 				<td mat-cell *matCellDef="let anime">
-					<p *ngIf="anime.aired.start; else emptyCell">{{ anime.aired.start | date }}</p>
+					{{ anime.aired.start | date | empty }}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="status">
@@ -64,8 +64,8 @@
 			class="animes__paginator"
 			aria-label="Select page of Anime search results"
 			[length]="animePage.count"
-			[pageSize]="getQueryParams()['pageSize']"
-			[pageIndex]="getQueryParams()['pageNumber']"
+			[pageSize]="queryParams.pageSize"
+			[pageIndex]="queryParams.pageNumber"
 			[pageSizeOptions]="pageSizes"
 			(page)="setPageParameter($event)"
 		/>

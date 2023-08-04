@@ -1,18 +1,18 @@
-import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../../../core/dtos/anime-dto/anime.dto';
-import { Anime } from '../../../core/models/anime/anime';
-import { AnimeStatus } from '../../../core/models/anime/anime-status';
-import { AnimeTypes } from '../../../core/models/anime/anime-type';
+import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '@js-camp/core/dtos/anime-dto/anime.dto';
+import { Anime } from '@js-camp/core/models/anime/anime';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
+import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
-	const ANIME_TYPE_FROM_DTO: Readonly<Record<AnimeDtoTypes, AnimeTypes>> = {
-		[AnimeDtoTypes.Music]: AnimeTypes.Music,
-		[AnimeDtoTypes.Ova]: AnimeTypes.Ova,
-		[AnimeDtoTypes.Ona]: AnimeTypes.Ona,
-		[AnimeDtoTypes.Special]: AnimeTypes.Special,
-		[AnimeDtoTypes.Tv]: AnimeTypes.Tv,
-		[AnimeDtoTypes.Unknown]: AnimeTypes.Unknown,
-		[AnimeDtoTypes.Movie]: AnimeTypes.Movie,
+	const ANIME_TYPE_FROM_DTO: Readonly<Record<AnimeDtoTypes, AnimeType>> = {
+		[AnimeDtoTypes.Music]: AnimeType.Music,
+		[AnimeDtoTypes.Ova]: AnimeType.Ova,
+		[AnimeDtoTypes.Ona]: AnimeType.Ona,
+		[AnimeDtoTypes.Special]: AnimeType.Special,
+		[AnimeDtoTypes.Tv]: AnimeType.Tv,
+		[AnimeDtoTypes.Unknown]: AnimeType.Unknown,
+		[AnimeDtoTypes.Movie]: AnimeType.Movie,
 	};
 
 	const ANIME_STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
