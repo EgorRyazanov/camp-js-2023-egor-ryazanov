@@ -109,7 +109,7 @@ export namespace RoutingAnimeParamsMapper {
 			let isValid = true;
 
 			type.forEach(typeElement => {
-				if (typeElement && typeof typeElement === 'string' && isAnimeType(typeElement)) {
+				if (typeof typeElement === 'string' && isAnimeType(typeElement)) {
 					newTypeModel.push(typeElement);
 				} else {
 					isValid = false;
