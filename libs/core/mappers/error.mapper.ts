@@ -1,4 +1,3 @@
-import { error } from 'console';
 import { ValidationErrorDto } from '../dtos/error.dto';
 import { AppError, ValidationError } from '../models/app-error';
 

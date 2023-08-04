@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { AppError } from '@js-camp/core/models/app-error';
+import { AppError, ValidationError } from '@js-camp/core/models/app-error';
 import { Observable, OperatorFunction, catchError, throwError } from 'rxjs';
 
 /**
@@ -14,7 +14,8 @@ export function catchFormErrors<T>(form: FormGroup): OperatorFunction<T, T> {
 					Object.keys(form.controls).forEach((key) => {
 						form.controls[key].updateValueAndValidity();
 						if (errors.validationErrors.hasOwnProperty(key)) {
-							form.controls[key].setErrors(errors.validationErrors[key]);
+							const validationErrors: ValidationError[] = errors.validationErrors[key];
+							form.controls[key].setErrors({ invalid: validationErrors.map((error) => error.message) });
 						}
 					});
 				}
