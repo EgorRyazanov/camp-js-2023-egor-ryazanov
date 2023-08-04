@@ -170,7 +170,7 @@ export namespace RoutingAnimeParamsMapper {
 	}
 }
 
-/** Routing query params. */
+/** Converted routing query params. */
 export interface AnimeRoutingQueryParams {
 
 	/** Page size. */
@@ -194,7 +194,7 @@ export interface AnimeRoutingQueryParams {
 
 type Param = Record<string, string[] | string>;
 
-/** Unknown routing query params. */
+/** Routing query params that goes from search input. */
 export interface QueryParams {
 
 	/** Page size. */
@@ -216,10 +216,10 @@ export interface QueryParams {
 	readonly search: Param;
 }
 
-/** Changed. */
+/** Income values with status about change if values is incorrect. */
 export interface IncomeValuesStatus {
 
-	/** Shows param was changed. */
+	/** Shows status of validity of income value. */
 	readonly isValid: boolean;
 }
 
