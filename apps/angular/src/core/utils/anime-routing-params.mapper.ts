@@ -100,23 +100,11 @@ export namespace RoutingAnimeParamsMapper {
 	 * @returns Type and value was changed flag.
 	 */
 	export function typeToModel(type: unknown): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
-		if (typeof type === 'string') {
-			if (isAnimeType(type)) {
-				return { type: [type], isValid: true };
-			}
+		if (typeof type === 'string' && isAnimeType(type)) {
+			return { type: [type], isValid: true };
 		} else if (type instanceof Array) {
-			const newTypeModel: AnimeType[] = [];
-			let isValid = true;
-
-			type.forEach(typeElement => {
-				if (typeof typeElement === 'string' && isAnimeType(typeElement)) {
-					newTypeModel.push(typeElement);
-				} else {
-					isValid = false;
-				}
-			});
-
-			return { isValid, type: newTypeModel };
+			const newTypeModel = type.filter(typeElement => typeof typeElement === 'string' && isAnimeType(typeElement));
+			return { isValid: newTypeModel.length === type.length, type: newTypeModel };
 		}
 
 		return { type: defaultQueryParams.type, isValid: false };
@@ -128,10 +116,8 @@ export namespace RoutingAnimeParamsMapper {
 	 * @returns Field and value was changed flag.
 	 */
 	export function fieldToModel(field: unknown): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
-		if (typeof field === 'string') {
-			if (isOrderingFieldType(field)) {
-				return { field, isValid: true };
-			}
+		if (typeof field === 'string' && isOrderingFieldType(field)) {
+			return { field, isValid: true };
 		}
 
 		return { field: AnimeOrderingField.None, isValid: false };
@@ -145,10 +131,8 @@ export namespace RoutingAnimeParamsMapper {
 	export function directionToModel(
 		direction: unknown,
 	): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
-		if (typeof direction === 'string') {
-			if (isOrderingDirectionType(direction)) {
-				return { direction, isValid: true };
-			}
+		if (typeof direction === 'string' && isOrderingDirectionType(direction)) {
+			return { direction, isValid: true };
 		}
 
 		return { direction: OrderingDirection.None, isValid: false };
@@ -167,11 +151,11 @@ export namespace RoutingAnimeParamsMapper {
 		const searchState = searchToModel(params.search);
 		const directionState = directionToModel(params.direction);
 		const isValid =
-			pageState.isValid ||
-			sizeState.isValid ||
-			fieldState.isValid ||
-			typeState.isValid ||
-			searchState.isValid ||
+			pageState.isValid &&
+			sizeState.isValid &&
+			fieldState.isValid &&
+			typeState.isValid &&
+			searchState.isValid &&
 			directionState.isValid;
 
 		return {
