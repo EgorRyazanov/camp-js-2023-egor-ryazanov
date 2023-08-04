@@ -18,16 +18,15 @@ import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
 	AnimeRoutingQueryParams,
-	Changed,
+	IncomeValuesStatus,
 	RoutingAnimeParamsMapper,
-	UnknownAnimeRouringQueryParams,
 } from '@js-camp/angular/core/utils/anime-routing-params.mapper';
 import { OrderingDirection, AnimeOrderingField } from '@js-camp/core/models/anime-ordering';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
-type StatusedRoutingParams = Changed & { params: AnimeRoutingQueryParams; };
+type StatusedRoutingParams = IncomeValuesStatus & { params: AnimeRoutingQueryParams; };
 
 /** Anime Component. */
 @Component({
@@ -148,7 +147,7 @@ export class AnimesPageComponent {
 	 * Sets query params.
 	 * @param params Changed params.
 	 */
-	private setQueryParams(params: Partial<UnknownAnimeRouringQueryParams>): void {
+	private setQueryParams(params: Partial<AnimeRoutingQueryParams>): void {
 		this.router.navigate(['/'], { queryParams: { ...this.queryParams, ...params } });
 	}
 
@@ -157,8 +156,8 @@ export class AnimesPageComponent {
 		return this.activeRoute.queryParams.pipe(
 			distinctUntilChanged(),
 			map(query => this.proccessQueries(query)),
-			tap(({ isChanged, params }) => {
-				if (isChanged) {
+			tap(({ isValid, params }) => {
+				if (!isValid) {
 					this.setQueryParams(params);
 				}
 				this.fillOutForm(params);
@@ -190,10 +189,10 @@ export class AnimesPageComponent {
 			field: query['field'],
 			direction: query['direction'],
 		});
-		const { isChanged: _, ...params } = changedQueryParams;
+		const { isValid: _, ...params } = changedQueryParams;
 		return {
 			params,
-			isChanged: changedQueryParams.isChanged,
+			isValid: changedQueryParams.isValid,
 		};
 	}
 

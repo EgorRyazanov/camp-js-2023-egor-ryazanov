@@ -61,11 +61,11 @@ export namespace RoutingAnimeParamsMapper {
 		if (typeof page === 'string') {
 			const pageNumber = Number(page);
 			if (!Number.isNaN(pageNumber)) {
-				return { pageNumber, isChanged: false };
+				return { pageNumber, isValid: true };
 			}
 		}
 
-		return { pageNumber: defaultQueryParams.pageNumber, isChanged: true };
+		return { pageNumber: defaultQueryParams.pageNumber, isValid: false };
 	}
 
 	/**
@@ -77,11 +77,11 @@ export namespace RoutingAnimeParamsMapper {
 		if (typeof size === 'string') {
 			const pageSize = Number(size);
 			if (!Number.isNaN(pageSize) && pageSizes.includes(pageSize)) {
-				return { pageSize, isChanged: false };
+				return { pageSize, isValid: true };
 			}
 		}
 
-		return { pageSize: defaultQueryParams.pageSize, isChanged: true };
+		return { pageSize: defaultQueryParams.pageSize, isValid: false };
 	}
 
 	/**
@@ -91,9 +91,9 @@ export namespace RoutingAnimeParamsMapper {
 	 */
 	export function searchToModel(search: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'search'>> {
 		if (typeof search === 'string') {
-			return { search, isChanged: false };
+			return { search, isValid: true };
 		}
-		return { search: defaultQueryParams.search, isChanged: true };
+		return { search: defaultQueryParams.search, isValid: false };
 	}
 
 	/**
@@ -104,24 +104,24 @@ export namespace RoutingAnimeParamsMapper {
 	export function typeToModel(type: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
 		if (typeof type === 'string') {
 			if (isAnimeType(type)) {
-				return { type: [type], isChanged: false };
+				return { type: [type], isValid: true };
 			}
 		} else if (type instanceof Array) {
 			const newTypeModel: AnimeType[] = [];
-			let isChanged = false;
+			let isValid = true;
 
 			type.forEach(typeElement => {
 				if (typeElement && typeof typeElement === 'string' && isAnimeType(typeElement)) {
 					newTypeModel.push(typeElement);
 				} else {
-					isChanged = true;
+					isValid = false;
 				}
 			});
 
-			return { isChanged, type: newTypeModel };
+			return { isValid, type: newTypeModel };
 		}
 
-		return { type: defaultQueryParams.type, isChanged: true };
+		return { type: defaultQueryParams.type, isValid: false };
 	}
 
 	/**
@@ -132,11 +132,11 @@ export namespace RoutingAnimeParamsMapper {
 	export function fieldToModel(field: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
 		if (typeof field === 'string') {
 			if (isOrderingFieldType(field)) {
-				return { field, isChanged: false };
+				return { field, isValid: true };
 			}
 		}
 
-		return { field: AnimeOrderingField.None, isChanged: true };
+		return { field: AnimeOrderingField.None, isValid: false };
 	}
 
 	/**
@@ -147,11 +147,11 @@ export namespace RoutingAnimeParamsMapper {
 	export function directionToModel(direction: unknown): ChangedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
 		if (typeof direction === 'string') {
 			if (isOrderingDirectionType(direction)) {
-				return { direction, isChanged: false };
+				return { direction, isValid: true };
 			}
 		}
 
-		return { direction: OrderingDirection.None, isChanged: true };
+		return { direction: OrderingDirection.None, isValid: false };
 	}
 
 	/**
@@ -159,23 +159,23 @@ export namespace RoutingAnimeParamsMapper {
 	 * @param params Unknown params.
 	 * @returns Params and values were changed flag.
 	 */
-	export function toModel(params: UnknownAnimeRouringQueryParams): ChangedQueryParams<AnimeRoutingQueryParams> {
+	export function toModel(params: QueryParams): ChangedQueryParams<AnimeRoutingQueryParams> {
 		const pageState = pageToModel(params.pageNumber);
 		const sizeState = sizeToModel(params.pageSize);
 		const fieldState = fieldToModel(params.field);
 		const typeState = typeToModel(params.type);
 		const searchState = searchToModel(params.search);
 		const directionState = directionToModel(params.direction);
-		const isChanged =
-			pageState.isChanged ||
-			sizeState.isChanged ||
-			fieldState.isChanged ||
-			typeState.isChanged ||
-			searchState.isChanged ||
-			directionState.isChanged;
+		const isValid =
+			pageState.isValid ||
+			sizeState.isValid ||
+			fieldState.isValid ||
+			typeState.isValid ||
+			searchState.isValid ||
+			directionState.isValid;
 
 		return {
-			isChanged,
+			isValid,
 			pageNumber: pageState.pageNumber,
 			pageSize: sizeState.pageSize,
 			field: fieldState.field,
@@ -208,34 +208,36 @@ export interface AnimeRoutingQueryParams {
 	readonly search: string;
 }
 
+type Param = Record<string, string[] | string>;
+
 /** Unknown routing query params. */
-export interface UnknownAnimeRouringQueryParams {
+export interface QueryParams {
 
 	/** Page size. */
-	readonly pageSize: unknown;
+	readonly pageSize: Param;
 
 	/** Page number. */
-	readonly pageNumber: unknown;
+	readonly pageNumber: Param;
 
 	/** Filter type. */
-	readonly type: unknown;
+	readonly type: Param;
 
 	/** Soring field. */
-	readonly field: unknown;
+	readonly field: Param;
 
 	/** Sorting direction. */
-	readonly direction: unknown;
+	readonly direction: Param;
 
 	/** Search. */
-	readonly search: unknown;
+	readonly search: Param;
 }
 
 /** Changed. */
-export interface Changed {
+export interface IncomeValuesStatus {
 
 	/** Shows param was changed. */
-	readonly isChanged: boolean;
+	readonly isValid: boolean;
 }
 
 /** Anime routing query params with status that shows some of the initial values were converted to default. */
-export type ChangedQueryParams<T extends Partial<AnimeRoutingQueryParams>> = T & Changed;
+export type ChangedQueryParams<T extends Partial<AnimeRoutingQueryParams>> = T & IncomeValuesStatus;
