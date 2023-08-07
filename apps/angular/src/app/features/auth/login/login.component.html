@@ -1,8 +1,8 @@
 <div class="auth-container">
 	<h1 class="auth-title">Login</h1>
 	<div class="auth-common-errors-container" *ngIf="commonErrors$ | async as errors">
-		<mat-error *ngFor="let error of errors; trackBy: trackByErrors">
-			{{ error.message }}
+		<mat-error *ngIf="commonErrors$ | async as error">
+			{{ error }}
 		</mat-error>
 	</div>
 	<form [formGroup]="loginForm" (ngSubmit)="login()" class="auth-form">

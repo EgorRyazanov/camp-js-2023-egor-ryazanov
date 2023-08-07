@@ -1,8 +1,8 @@
 <div class="auth-container">
 	<h1 class="auth-title">Register</h1>
 	<div class="auth-common-errors-container" *ngIf="commonErrors$ | async as errors">
-		<mat-error *ngFor="let error of errors; trackBy: trackByErrors">
-			{{ error.message }}
+		<mat-error *ngIf="commonErrors$ | async as error">
+			{{ error }}
 		</mat-error>
 	</div>
 	<form [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form">
@@ -15,7 +15,7 @@
 			<mat-error *ngIf="registerForm.controls['email'].hasError('email') && registerForm.controls['email'].touched">
 				{{ "Email" | errorMessage : "email" }}
 			</mat-error>
-			<mat-error *ngFor="let error of registerForm.controls['email'].getError('invalid')">
+			<mat-error *ngIf="registerForm.controls['email'].getError('invalid') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
@@ -27,7 +27,7 @@
 			>
 				{{ "First name" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngFor="let error of registerForm.controls['firstName'].getError('invalid')">
+			<mat-error *ngIf="registerForm.controls['firstName'].getError('invalid') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
@@ -39,7 +39,7 @@
 			>
 				{{ "Last name" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngFor="let error of registerForm.controls['lastName'].getError('invalid')">
+			<mat-error *ngIf="registerForm.controls['lastName'].getError('invalid') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
@@ -56,7 +56,7 @@
 			>
 				{{ "Password" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngFor="let error of registerForm.controls['password'].getError('invalid')">
+			<mat-error *ngIf="registerForm.controls['password'].getError('invalid') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>

@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
-import { ErrorMapper } from '@js-camp/core/mappers/error.mapper';
-import { AppError, ValidationError } from '@js-camp/core/models/app-error';
+import { AppValidationError } from '@js-camp/core/models/app-error';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 
 /** Register page. */
@@ -23,7 +22,7 @@ export class RegisterComponent {
 	protected readonly registerForm: FormGroup;
 
 	/** Common global form errors. */
-	protected readonly commonErrors$ = new BehaviorSubject<ValidationError[]>([]);
+	protected readonly commonErrors$ = new BehaviorSubject('');
 
 	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -51,17 +50,16 @@ export class RegisterComponent {
 				.pipe(
 					first(),
 					catchFormErrors(this.registerForm),
+					finalize(() => {
+						this.isLoading$.next(false);
+					}),
 					catchError((errors: unknown) => {
-						if (errors instanceof AppError) {
-							const { validationErrors } = errors;
-							if (ErrorMapper.COMMON_ERROR_FIELD in validationErrors) {
-								this.commonErrors$.next(validationErrors[ErrorMapper.COMMON_ERROR_FIELD]);
+						if (errors instanceof AppValidationError) {
+							if (errors.validationData.nonFieldErrors != null) {
+								this.commonErrors$.next(errors.validationData.nonFieldErrors);
 							}
 						}
 						return throwError(() => errors);
-					}),
-					finalize(() => {
-						this.isLoading$.next(false);
 					}),
 					takeUntilDestroyed(this.destroyRef),
 				)
@@ -69,15 +67,6 @@ export class RegisterComponent {
 					this.router.navigate(['/']);
 				});
 		}
-	}
-
-	/**
-	 * Tracks errors by unique messages.
-	 * @param _ Index.
-	 * @param error Validation error.
-	 */
-	protected trackByErrors(_: number, error: ValidationError): ValidationError['message'] {
-		return error.message;
 	}
 
 	/** Initialize register form. */
