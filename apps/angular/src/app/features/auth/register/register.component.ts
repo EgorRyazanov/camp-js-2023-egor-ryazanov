@@ -10,6 +10,8 @@ import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Register } from '@js-camp/core/models/auth/register';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 
+import { MIN_PASSWORD_LENGTH } from '../utils/constants';
+
 type RegisterForm = ControlsOf<Register & { repeatPassword: string; }>;
 
 /** Register page. */
@@ -79,10 +81,10 @@ export class RegisterComponent {
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),
 			firstName: this.formBuilder.control('', [Validators.required]),
 			lastName: this.formBuilder.control('', [Validators.required]),
-			password: this.formBuilder.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
+			password: this.formBuilder.control('', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)]),
 			repeatPassword: this.formBuilder.control('', [
 				Validators.required,
-				Validators.minLength(AppValidators.MIN_LENGHT),
+				Validators.minLength(MIN_PASSWORD_LENGTH),
 				AppValidators.matchControl('password'),
 			]),
 		});

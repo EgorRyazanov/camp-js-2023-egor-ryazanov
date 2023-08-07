@@ -3,12 +3,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
-import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Login } from '@js-camp/core/models/auth/login';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
+
+import { MIN_PASSWORD_LENGTH } from '../utils/constants';
 
 type LoginForm = ControlsOf<Login>;
 
@@ -77,7 +78,7 @@ export class LoginComponent {
 	private initLoginForm(): FormGroup<LoginForm> {
 		return this.formBuilder.group<LoginForm>({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),
-			password: this.formBuilder.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
+			password: this.formBuilder.control('', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)]),
 		});
 	}
 }
