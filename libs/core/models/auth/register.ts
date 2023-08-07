@@ -3,10 +3,10 @@ export class Register {
 	/** Email. */
 	public readonly email: string;
 
-	/** First name. */
+	/** Firstname. */
 	public readonly firstName: string;
 
-	/** Last name. */
+	/** Lastname. */
 	public readonly lastName: string;
 
 	/** Password. */

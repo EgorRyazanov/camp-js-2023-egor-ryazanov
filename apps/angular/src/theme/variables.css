@@ -7,7 +7,7 @@
 
   /* margins and paddings */
   --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: calc(var(--space-md) * 2);
-  --space-xl: calc(var(--space-md) * 4);
+  --space-md: calc(var(--space-sm) * 2);
+  --space-lg: calc(var(--space-sm) * 4);
+  --space-xl: calc(var(--space-sm) * 8);
 }

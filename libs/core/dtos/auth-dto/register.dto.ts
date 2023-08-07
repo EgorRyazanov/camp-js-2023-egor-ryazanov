@@ -4,10 +4,10 @@ export interface RegisterDto {
 	/** Email. */
 	readonly email: string;
 
-	/** First name. */
+	/** Firstname. */
 	readonly first__name: string;
 
-	/** Last name. */
+	/** Lastname. */
 	readonly last__name: string;
 
 	/** Password. */

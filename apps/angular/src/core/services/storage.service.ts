@@ -36,8 +36,13 @@ export class StorageService {
 	public get<T>(key: string): Observable<T | null> {
 		return defer(() => {
 			const value = localStorage.getItem(key);
-			if (value) {
-				return of(JSON.parse(value));
+			if (value != null) {
+				try {
+					return of(JSON.parse(value));
+				} catch (error: unknown) {
+					console.error(error);
+					return of(null);
+				}
 			}
 
 			return of(null);
@@ -45,7 +50,7 @@ export class StorageService {
 	}
 
 	/**
-	 * Removed data from storage.
+	 * Removes data from storage.
 	 * @param key Key.
 	 */
 	public remove(key: string): Observable<void> {
