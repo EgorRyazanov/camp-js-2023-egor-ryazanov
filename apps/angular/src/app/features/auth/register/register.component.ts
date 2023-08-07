@@ -5,8 +5,12 @@ import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
+import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { AppValidationError } from '@js-camp/core/models/app-error';
+import { Register } from '@js-camp/core/models/auth/register';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
+
+type RegisterForm = ControlsOf<Register & { repeatPassword: string; }>;
 
 /** Register page. */
 @Component({
@@ -19,7 +23,7 @@ export class RegisterComponent {
 	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
 	/** Register form. */
-	protected readonly registerForm: FormGroup;
+	protected readonly registerForm: FormGroup<RegisterForm>;
 
 	/** Common global form errors. */
 	protected readonly commonErrors$ = new BehaviorSubject('');
@@ -46,7 +50,7 @@ export class RegisterComponent {
 		if (this.registerForm.invalid !== true) {
 			this.isLoading$.next(true);
 			this.userService
-				.register(this.registerForm.value)
+				.register(this.registerForm.value as Register)
 				.pipe(
 					first(),
 					catchFormErrors(this.registerForm),
@@ -70,8 +74,8 @@ export class RegisterComponent {
 	}
 
 	/** Initialize register form. */
-	private initRegisterForm(): FormGroup {
-		return this.formBuilder.group({
+	private initRegisterForm(): FormGroup<RegisterForm> {
+		return this.formBuilder.group<RegisterForm>({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),
 			firstName: this.formBuilder.control('', [Validators.required]),
 			lastName: this.formBuilder.control('', [Validators.required]),

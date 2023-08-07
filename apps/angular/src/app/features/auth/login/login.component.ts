@@ -5,8 +5,12 @@ import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
+import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { AppValidationError } from '@js-camp/core/models/app-error';
+import { Login } from '@js-camp/core/models/auth/login';
 import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
+
+type LoginForm = ControlsOf<Login>;
 
 /** Login page. */
 @Component({
@@ -19,7 +23,7 @@ export class LoginComponent {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Login form. */
-	protected readonly loginForm: FormGroup;
+	protected readonly loginForm: FormGroup<LoginForm>;
 
 	/** Common global form errors. */
 	protected readonly commonErrors$ = new BehaviorSubject('');
@@ -46,7 +50,7 @@ export class LoginComponent {
 		if (this.loginForm.invalid !== true) {
 			this.isLoading$.next(true);
 			this.userService
-				.login(this.loginForm.value)
+				.login(this.loginForm.value as Login)
 				.pipe(
 					first(),
 					catchFormErrors(this.loginForm),
@@ -70,8 +74,8 @@ export class LoginComponent {
 	}
 
 	/** Initialize register form. */
-	private initLoginForm(): FormGroup {
-		return this.formBuilder.group({
+	private initLoginForm(): FormGroup<LoginForm> {
+		return this.formBuilder.group<LoginForm>({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),
 			password: this.formBuilder.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
 		});
