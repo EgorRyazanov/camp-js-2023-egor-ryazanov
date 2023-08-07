@@ -10,6 +10,6 @@ export const unAuthorizedGuard: CanActivateFn = () => {
 	const router = inject(Router);
 
 	return userService.isAuthorized$.pipe(
-		tap(isAuthorized => (isAuthorized ? router.parseUrl('/') : true)
-		));
+		tap(isAuthorized => (isAuthorized ? router.parseUrl('/') : true)),
+	);
 };
