@@ -9,12 +9,11 @@ import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Register } from '@js-camp/core/models/auth/register';
 import { BehaviorSubject, catchError, throwError } from 'rxjs';
-
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { MIN_PASSWORD_LENGTH } from '../utils/constants';
 
-type RegisterForm = ControlsOf<Register & { repeatPassword: string; }>;
+type RegistrationForm = ControlsOf<Register & { repeatPassword: string; }>;
 
 /** Register page. */
 @Component({
@@ -27,7 +26,7 @@ export class RegisterComponent {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Register form. */
-	protected readonly registrationForm: FormGroup<RegisterForm>;
+	protected readonly registrationForm: FormGroup<RegistrationForm>;
 
 	/** Common global form errors. */
 	protected readonly commonErrors$ = new BehaviorSubject('');
@@ -76,9 +75,55 @@ export class RegisterComponent {
 			});
 	}
 
+	/**
+	 * Checks is conrols has required error.
+	 * @param controlName Name of control that need to be checked.
+	 */
+	protected hasRequiredError(controlName: string): boolean {
+		if (this.registrationForm.contains(controlName)) {
+			return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('required');
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks is conrols has min length error.
+	 * @param controlName Name of control that need to be checked.
+	 */
+	protected hasMinLengthError(controlName: string): boolean {
+		if (this.registrationForm.contains(controlName)) {
+			return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('minlength');
+		}
+
+		return false;
+	}
+
+	/** Checks validity of email . */
+	protected get isEmailValid(): boolean {
+		return this.registrationForm.controls.email.hasError('email');
+	}
+
+	/** Checks passwords are match. */
+	protected get hasPasswordMatch(): boolean {
+		return this.registrationForm.controls.repeatPassword.hasError('matchError');
+	}
+
+	/**
+	 * Checks is conrols has server error.
+	 * @param controlName Name of control that need to be checked.
+	 */
+	protected hasServerError(controlName: string): string | boolean {
+		if (this.registrationForm.contains(controlName)) {
+			return this.registrationForm.controls[controlName as keyof RegistrationForm].getError('invalid');
+		}
+
+		return false;
+	}
+
 	/** Initialize register form. */
-	private initRegisterForm(): FormGroup<RegisterForm> {
-		return this.formBuilder.group<RegisterForm>({
+	private initRegisterForm(): FormGroup<RegistrationForm> {
+		return this.formBuilder.group<RegistrationForm>({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),
 			firstName: this.formBuilder.control('', [Validators.required]),
 			lastName: this.formBuilder.control('', [Validators.required]),

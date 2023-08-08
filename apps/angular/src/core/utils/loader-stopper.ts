@@ -6,5 +6,7 @@ import { BehaviorSubject, Observable, OperatorFunction, tap } from 'rxjs';
  */
 export function stopLoadingStatus<T>(isLoading$: BehaviorSubject<boolean>): OperatorFunction<T, T> {
 	return (source$: Observable<T>) =>
-		source$.pipe(tap({ next: () => isLoading$.next(false), error: () => isLoading$.next(false) }));
+		source$.pipe(
+			tap({ next: () => isLoading$.next(false), error: () => isLoading$.next(false) }),
+			);
 }

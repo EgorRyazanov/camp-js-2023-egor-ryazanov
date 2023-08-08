@@ -9,29 +9,33 @@
 		<mat-form-field color="accent">
 			<mat-label color="accent">Email</mat-label>
 			<input formControlName="email" matInput />
-			<mat-error *ngIf="loginForm.controls.email.hasError('email') && loginForm.controls.email.touched">
+			<mat-error *ngIf="isEmailValid">
 				{{ "Email" | errorMessage : "email" }}
 			</mat-error>
-			<mat-error *ngFor="let error of loginForm.controls.email.getError('invalid')">
+			<mat-error *ngIf="hasRequiredError('email')">
+				{{ "Email" | errorMessage : "required" }}
+			</mat-error>
+			<mat-error *ngIf="hasServerError('email') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
 		<mat-form-field color="accent">
 			<mat-label color="accent">Password</mat-label>
 			<input type="password" formControlName="password" matInput />
-			<mat-error *ngIf="loginForm.controls.password.hasError('required') && loginForm.controls.password.touched">
+			<mat-error *ngIf="hasRequiredError('password')">
 				{{ "Password" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngIf="loginForm.controls.password.hasError('minlength') && loginForm.controls.password.touched">
+			<mat-error *ngIf="hasPasswordMinLengthError">
 				{{ "Password" | errorMessage : "minlength" }}
 			</mat-error>
-			<mat-error *ngIf="loginForm.controls.password.getError('invalid') as error">
+			<mat-error *ngIf="hasServerError('password') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
 		<button class="auth-submit" type="submit" mat-raised-button color="primary">Login</button>
 	</form>
 	<a routerLink="/auth/register" class="auth-link">Do not have an account yet?</a>
+	<a routerLink="/animes" class="auth-link">Go to main page</a>
 	<div *ngIf="isLoading$ | async" class="auth-spinner">
 		<camp-spinner />
 	</div>
