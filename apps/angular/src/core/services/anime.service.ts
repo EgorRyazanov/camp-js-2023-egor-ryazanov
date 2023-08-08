@@ -7,6 +7,7 @@ import { Observable, map } from 'rxjs';
 import { AnimeParametersMapper } from '@js-camp/core/mappers/anime/anime-params.mapper';
 import { AnimeParameters } from '@js-camp/core/models/anime/anime-params';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
+
 import { UrlService } from './url.service';
 
 /** Anime service. */
@@ -25,10 +26,10 @@ export class AnimeService {
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.httpService
 			.get<AnimePaginationDto>(this.urlService.animeUrls.animes, {
-				params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
-			})
+			params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
+		})
 			.pipe(
-				map((animePaginationDto) => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto))
+				map(animePaginationDto => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
 			);
 	}
 }

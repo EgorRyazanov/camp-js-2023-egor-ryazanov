@@ -3,13 +3,13 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Register } from '@js-camp/core/models/auth/register';
-import { RegisterMapper } from '@js-camp/core/mappers/auth/register.mapper';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Login } from '@js-camp/core/models/auth/login';
-import { LoginMapper } from '@js-camp/core/mappers/auth/login.mapper';
+import { LoginDataMapper } from '@js-camp/core/mappers/auth/login-data.mapper';
+import { RegisterDataMapper } from '@js-camp/core/mappers/auth/register-data.mapper';
 
-import { catchAppErrors } from '../utils/catch-app-error';
+import { AppErrorMapper } from '../utils/app-error.mapper';
 
 import { UrlService } from './url.service';
 
@@ -22,16 +22,25 @@ export class AuthApiService {
 	/**	API URL service. */
 	private readonly apiUrlService = inject(UrlService);
 
+	/** Login mapper. */
+	private readonly LoginMapper = inject(LoginDataMapper);
+
+	/** Register mapper. */
+	private readonly RegisterMapper = inject(RegisterDataMapper);
+
+	/** App error mapper. */
+	private readonly appErrorMapper = inject(AppErrorMapper);
+
 	/**
 	 * Register a user.
 	 * @param registerData Register data.
 	 */
 	public register(registerData: Register): Observable<UserSecret> {
 		return this.httpClient
-			.post<UserSecret>(this.apiUrlService.authUrls.register, RegisterMapper.toDto(registerData))
+			.post<UserSecret>(this.apiUrlService.authUrls.register, this.RegisterMapper.toDto(registerData))
 			.pipe(
 				map(secretDto => UserSecretMapper.fromDto(secretDto)),
-				catchAppErrors(),
+				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.RegisterMapper),
 			);
 	}
 
@@ -40,9 +49,9 @@ export class AuthApiService {
 	 * @param loginData Login data.
 	 */
 	public login(loginData: Login): Observable<UserSecret> {
-		return this.httpClient.post<UserSecret>(this.apiUrlService.authUrls.login, LoginMapper.toDto(loginData)).pipe(
+		return this.httpClient.post<UserSecret>(this.apiUrlService.authUrls.login, this.LoginMapper.toDto(loginData)).pipe(
 			map(secretDto => UserSecretMapper.fromDto(secretDto)),
-			catchAppErrors(),
+			this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.LoginMapper),
 		);
 	}
 

@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Seasons } from '@js-camp/core/models/season';
-import { Season } from '@js-camp/core/models/season';
+import { Seasons, Season } from '@js-camp/core/models/season';
 
 /** Season pipe. */
 @Pipe({

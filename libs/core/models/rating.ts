@@ -9,6 +9,7 @@ export enum Ratings {
 	Unknown = 'UNKNOWN',
 }
 
+/** Rating. */
 export namespace Rating {
 	const TO_TITLE_MAP: Record<Ratings, string> = {
 		[Ratings.G]: 'G',
@@ -20,7 +21,11 @@ export namespace Rating {
 		[Ratings.Unknown]: 'Unknown',
 	};
 
-	export function toReadable(value: Ratings): string {
-		return TO_TITLE_MAP[value];
+	/**
+	 * Makes rating readable.
+	 * @param rating Rating.
+	 */
+	export function toReadable(rating: Ratings): string {
+		return TO_TITLE_MAP[rating];
 	}
 }

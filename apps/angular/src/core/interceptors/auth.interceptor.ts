@@ -2,7 +2,6 @@ import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } fro
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 import { AppConfig } from '../services/app.config';
@@ -23,8 +22,8 @@ export class AuthInterceptor implements HttpInterceptor {
 	/** @inheritdoc */
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		if (this.shouldInterceptToken(req.url)) {
-			const userSecret$ = this.userSecretStorage.currentSecret$.pipe(first());
-			return userSecret$.pipe(
+			return this.userSecretStorage.currentSecret$.pipe(
+				first(),
 				map(userSecret =>
 					userSecret ? req.clone({ headers: this.appendAuthorizationHeader(req.headers, userSecret) }) : req),
 				switchMap(newReq => next.handle(newReq)),

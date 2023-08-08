@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { MIN_PASSWORD_LENGTH } from '@js-camp/angular/app/features/auth/utils/constants';
 
 export namespace AppValidators {
-	export const MIN_LENGHT = 8;
 
 	/**
 	 * Checks whether the current control matches another.
@@ -25,7 +25,7 @@ export namespace AppValidators {
 		const ERROR_TYPE_TO_MESSAGE: Record<string, string> = {
 			required: `${fieldName ?? 'Field'} is required`,
 			email: 'Email is incorrect',
-			minlength: `${fieldName} should contain minimum ${MIN_LENGHT} symbols`,
+			minlength: `${fieldName} should contain minimum ${MIN_PASSWORD_LENGTH} symbols`,
 			matchError: `${fieldName} do not match`,
 		};
 		return ERROR_TYPE_TO_MESSAGE[errorType];

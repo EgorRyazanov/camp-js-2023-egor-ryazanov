@@ -77,7 +77,7 @@ export class UserService {
 				const saveUserSecretSideEffect$ = this.userSecretStorage.saveSecret(secret);
 				return merge(this.isAuthorized$, saveUserSecretSideEffect$);
 			}),
-			first(isAuthorized => Boolean(isAuthorized)),
+			first(Boolean),
 			map(() => undefined),
 		);
 	}

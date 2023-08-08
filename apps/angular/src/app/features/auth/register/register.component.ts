@@ -5,9 +5,15 @@ import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
-import { ErrorMapper } from '@js-camp/core/mappers/error.mapper';
-import { AppError, ValidationError } from '@js-camp/core/models/app-error';
-import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
+import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
+import { AppValidationError } from '@js-camp/core/models/app-error';
+import { Register } from '@js-camp/core/models/auth/register';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
+
+import { MIN_PASSWORD_LENGTH } from '../utils/constants';
+
+type RegistrationForm = ControlsOf<Register & { repeatPassword: string; }>;
 
 /** Register page. */
 @Component({
@@ -17,13 +23,13 @@ import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
 })
 export class RegisterComponent {
 	/** Loading status. */
-	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
+	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Register form. */
-	protected readonly registerForm: FormGroup;
+	protected readonly registrationForm: FormGroup<RegistrationForm>;
 
 	/** Common global form errors. */
-	protected readonly commonErrors$ = new BehaviorSubject<ValidationError[]>([]);
+	protected readonly commonErrors$ = new BehaviorSubject('');
 
 	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -38,58 +44,93 @@ export class RegisterComponent {
 	private readonly router = inject(Router);
 
 	public constructor() {
-		this.registerForm = this.initRegisterForm();
+		this.registrationForm = this.initRegisterForm();
 	}
 
 	/** Registers user. */
-	protected register(): void {
-		this.registerForm.markAllAsTouched();
-		if (this.registerForm.invalid !== true) {
-			this.isLoading$.next(true);
-			this.userService
-				.register(this.registerForm.value)
-				.pipe(
-					first(),
-					catchFormErrors(this.registerForm),
-					catchError((errors: unknown) => {
-						if (errors instanceof AppError) {
-							const { validationErrors } = errors;
-							if (ErrorMapper.COMMON_ERROR_FIELD in validationErrors) {
-								this.commonErrors$.next(validationErrors[ErrorMapper.COMMON_ERROR_FIELD]);
-							}
-						}
-						return throwError(() => errors);
-					}),
-					finalize(() => {
-						this.isLoading$.next(false);
-					}),
-					takeUntilDestroyed(this.destroyRef),
-				)
-				.subscribe(() => {
-					this.router.navigate(['/']);
-				});
+	protected onSubmit(): void {
+		this.registrationForm.markAllAsTouched();
+		if (this.registrationForm.invalid) {
+			return;
 		}
+
+		this.isLoading$.next(true);
+		this.userService
+			.register(this.registrationForm.getRawValue())
+			.pipe(
+				catchFormErrors(this.registrationForm),
+				catchError((errors: unknown) => {
+					if (errors instanceof AppValidationError) {
+						if (errors.validationData.nonFieldErrors != null) {
+							this.commonErrors$.next(errors.validationData.nonFieldErrors);
+						}
+					}
+					return throwError(() => errors);
+				}),
+				stopLoadingStatus(this.isLoading$),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe(() => {
+				this.router.navigate(['/']);
+			});
 	}
 
 	/**
-	 * Tracks errors by unique messages.
-	 * @param _ Index.
-	 * @param error Validation error.
+	 * Checks is conrols has required error.
+	 * @param controlName Name of control that need to be checked.
 	 */
-	protected trackByErrors(_: number, error: ValidationError): ValidationError['message'] {
-		return error.message;
+	protected hasRequiredError(controlName: string): boolean {
+		if (this.registrationForm.contains(controlName)) {
+			return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('required');
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks is conrols has min length error.
+	 * @param controlName Name of control that need to be checked.
+	 */
+	protected hasMinLengthError(controlName: string): boolean {
+		if (this.registrationForm.contains(controlName)) {
+			return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('minlength');
+		}
+
+		return false;
+	}
+
+	/** Checks validity of email . */
+	protected get isEmailValid(): boolean {
+		return this.registrationForm.controls.email.hasError('email');
+	}
+
+	/** Checks passwords are match. */
+	protected get hasPasswordMatch(): boolean {
+		return this.registrationForm.controls.repeatPassword.hasError('matchError');
+	}
+
+	/**
+	 * Checks is conrols has server error.
+	 * @param controlName Name of control that need to be checked.
+	 */
+	protected hasServerError(controlName: string): string | boolean {
+		if (this.registrationForm.contains(controlName)) {
+			return this.registrationForm.controls[controlName as keyof RegistrationForm].getError('invalid');
+		}
+
+		return false;
 	}
 
 	/** Initialize register form. */
-	private initRegisterForm(): FormGroup {
-		return this.formBuilder.group({
+	private initRegisterForm(): FormGroup<RegistrationForm> {
+		return this.formBuilder.group<RegistrationForm>({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),
 			firstName: this.formBuilder.control('', [Validators.required]),
 			lastName: this.formBuilder.control('', [Validators.required]),
-			password: this.formBuilder.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
+			password: this.formBuilder.control('', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)]),
 			repeatPassword: this.formBuilder.control('', [
 				Validators.required,
-				Validators.minLength(AppValidators.MIN_LENGHT),
+				Validators.minLength(MIN_PASSWORD_LENGTH),
 				AppValidators.matchControl('password'),
 			]),
 		});

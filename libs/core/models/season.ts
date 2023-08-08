@@ -7,6 +7,7 @@ export enum Seasons {
 	NonSeasonal = 'NonSeasonal',
 }
 
+/** Season. */
 export namespace Season {
 	const TO_TITLE_MAP: Record<Seasons, string> = {
 		[Seasons.Fall]: 'Fail',
@@ -16,7 +17,11 @@ export namespace Season {
 		[Seasons.Winter]: 'Winter',
 	};
 
-	export function toReadable(value: Seasons): string {
-		return TO_TITLE_MAP[value];
+	/**
+	 * Makes season readable.
+	 * @param season Season.
+	 */
+	export function toReadable(season: Seasons): string {
+		return TO_TITLE_MAP[season];
 	}
 }

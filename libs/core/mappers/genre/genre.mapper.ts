@@ -10,8 +10,12 @@ export namespace GenreMapper {
 		[GenreTypesDto.Themes]: GenreTypes.Themes,
 	};
 
-	export function toReadable(genres: readonly Genre[]) {
-		return genres.map((genre) => genre.name).join(', ');
+	/**
+	 * Makes genres readable.
+	 * @param genres Array of genres.
+	 */
+	export function toReadable(genres: readonly Genre[]): string {
+		return genres.map(genre => genre.name).join(', ');
 	}
 
 	/**

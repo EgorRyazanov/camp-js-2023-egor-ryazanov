@@ -19,6 +19,7 @@ export enum Sources {
 	Unknown = 'Unknown',
 }
 
+/** Source. */
 export namespace Source {
 	const TO_TITLE_MAP: Record<Sources, string> = {
 		[Sources.Book]: 'Book',
@@ -40,6 +41,10 @@ export namespace Source {
 		[Sources.VisialNovel]: 'Visial novel',
 	};
 
+	/**
+	 * Makes source readable.
+	 * @param source Source.
+	 */
 	export function toReadable(source: Sources): string {
 		return TO_TITLE_MAP[source];
 	}

@@ -6,6 +6,7 @@ import { AnimeType } from './anime-type';
 
 /** Anime parameters. */
 export interface AnimeParameters {
+
 	/** Limit of elements in response. */
 	readonly pageSize: number;
 

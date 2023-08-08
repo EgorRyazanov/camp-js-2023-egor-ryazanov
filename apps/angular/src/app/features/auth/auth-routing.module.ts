@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { unAuthorizedGuard } from '@js-camp/angular/core/guards/unauthorized.guard';
+import { unauthorizedGuard } from '@js-camp/angular/core/guards/unauthorized.guard';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -10,12 +10,12 @@ const routes: Routes = [
 	{
 		path: 'login',
 		component: LoginComponent,
-		canActivate: [unAuthorizedGuard],
+		canActivate: [unauthorizedGuard],
 	},
 	{
 		path: 'register',
 		component: RegisterComponent,
-		canActivate: [unAuthorizedGuard],
+		canActivate: [unauthorizedGuard],
 	},
 ];
 

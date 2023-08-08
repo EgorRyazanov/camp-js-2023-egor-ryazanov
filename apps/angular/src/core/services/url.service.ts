@@ -24,7 +24,7 @@ export class UrlService {
 	} as const;
 
 	/**
-	 * URLs for auth.
+	 * Checks URL for accordance auth URLs.
 	 * @param url URL to check.
 	 */
 	public isAuthUrl(url: string): boolean {
@@ -32,7 +32,7 @@ export class UrlService {
 	}
 
 	/**
-	 * URLs for anime.
+	 * Checks URL for accordance anime URLs.
 	 * @param url URL to check.
 	 */
 	public isAnimeUrl(url: string): boolean {

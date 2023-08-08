@@ -1,11 +1,15 @@
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
+/** Image dialog data. */
 interface ImageDialogData {
+
+	/** Image URL. */
 	imageUrl: string;
 }
 
+/** Image dialog. */
 @Component({
 	selector: 'camp-image-dialog',
 	templateUrl: './image-dialog.component.html',
@@ -13,10 +17,6 @@ interface ImageDialogData {
 	standalone: true,
 	imports: [MatDialogModule, MatButtonModule],
 })
-export class ImageDialog {
-	constructor(public dialogRef: MatDialogRef<ImageDialog>, @Inject(MAT_DIALOG_DATA) public data: ImageDialogData) {}
-
-	public onNoClick(): void {
-		this.dialogRef.close();
-	}
+export class ImageDialogComponent {
+	public constructor(@Inject(MAT_DIALOG_DATA) public data: ImageDialogData) {}
 }

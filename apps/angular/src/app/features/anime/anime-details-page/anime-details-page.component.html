@@ -22,14 +22,11 @@
 		</div>
 		<ng-container *ngIf="saveVideoUrl$ | async as url">
 			<iframe
-				class="anime__video"
-				width="560"
-				height="315"
-				[src]="url"
-				title="YouTube video player"
-				frameborder="0"
-				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 				allowfullscreen
+				class="anime__video"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+				title="YouTube video player"
+				[src]="url"
 			></iframe>
 		</ng-container>
 	</ng-container>

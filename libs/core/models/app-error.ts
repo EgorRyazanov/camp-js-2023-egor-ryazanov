@@ -1,24 +1,43 @@
+/**
+ * Entity validation errors type.
+ * Describes validation items for target entity.
+ */
+export type EntityValidationErrors<T> = {
+
+	/** Error message for certain entity property. */
+	[P in keyof T]?: PropValidationMessage<T[P]> | string;
+} & {
+	nonFieldErrors?: string;
+};
+
+/**
+ * Validation message type for specific property type.
+ * Could be a just error message for simple field or nested validation error for composite fields.
+ */
+export type PropValidationMessage<T> = T extends unknown[]
+	? string
+	: T extends object
+		? EntityValidationErrors<T>
+		: string;
+
 /** App error. */
-export class AppError<T extends Record<string, ValidationError[]> = Record<string, ValidationError[]>> extends Error {
-	/** Message. */
+export class AppError extends Error {
+	/** Error message. */
 	public override readonly message: string;
 
-	/** Validation errors. */
-	public validationErrors: T;
-
-	public constructor(message: string, validationErrors: T) {
+	public constructor(message: string) {
 		super(message);
 		this.message = message;
-		this.validationErrors = validationErrors;
 	}
 }
 
-/** Validation error. */
-export interface ValidationError {
+/** Application validation error for certain Entity. */
+export class AppValidationError<TEntity extends object> extends AppError {
+	/** Validation errors for entity fields. */
+	public readonly validationData: EntityValidationErrors<TEntity>;
 
-	/** Code of error. Example: authentication_failed. */
-	readonly code: string;
-
-	/** Error message. */
-	readonly message: string;
+	public constructor(message: string, validationData: EntityValidationErrors<TEntity>) {
+		super(message);
+		this.validationData = validationData;
+	}
 }

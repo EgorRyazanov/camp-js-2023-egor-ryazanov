@@ -1,96 +1,74 @@
 <div class="auth-container">
 	<h1 class="auth-title">Register</h1>
-	<div class="auth-common-errors-container" *ngIf="commonErrors$ | async as errors">
-		<mat-error *ngFor="let error of errors; trackBy: trackByErrors">
-			{{ error.message }}
+	<div class="auth-common-errors-container">
+		<mat-error *ngIf="commonErrors$ | async as error">
+			{{ error }}
 		</mat-error>
 	</div>
-	<form [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form">
+	<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="auth-form">
 		<mat-form-field color="accent">
 			<mat-label color="accent">Email</mat-label>
 			<input formControlName="email" matInput />
-			<mat-error *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].touched">
+			<mat-error *ngIf="hasRequiredError('email')">
 				{{ "Email" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngIf="registerForm.controls['email'].hasError('email') && registerForm.controls['email'].touched">
+			<mat-error *ngIf="isEmailValid">
 				{{ "Email" | errorMessage : "email" }}
 			</mat-error>
-			<mat-error *ngFor="let error of registerForm.controls['email'].getError('invalid')">
+			<mat-error *ngIf="hasServerError('email') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
 		<mat-form-field color="accent">
 			<mat-label color="accent">First name</mat-label>
 			<input formControlName="firstName" matInput />
-			<mat-error
-				*ngIf="registerForm.controls['firstName'].hasError('required') && registerForm.controls['firstName'].touched"
-			>
+			<mat-error *ngIf="hasRequiredError('firstName')">
 				{{ "First name" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngFor="let error of registerForm.controls['firstName'].getError('invalid')">
+			<mat-error *ngIf="hasServerError('firstName') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
 		<mat-form-field color="accent">
 			<mat-label color="accent">Last name</mat-label>
 			<input formControlName="lastName" matInput />
-			<mat-error
-				*ngIf="registerForm.controls['lastName'].hasError('required') && registerForm.controls['lastName'].touched"
-			>
+			<mat-error *ngIf="hasRequiredError('lastName')">
 				{{ "Last name" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngFor="let error of registerForm.controls['lastName'].getError('invalid')">
+			<mat-error *ngIf="hasServerError('lastName') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
 		<mat-form-field color="accent">
 			<mat-label color="accent">Password</mat-label>
 			<input type="password" formControlName="password" matInput />
-			<mat-error
-				*ngIf="registerForm.controls['password'].hasError('minlength') && registerForm.controls['password'].touched"
-			>
+			<mat-error *ngIf="hasMinLengthError('password')">
 				{{ "Password" | errorMessage : "minlength" }}
 			</mat-error>
-			<mat-error
-				*ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched"
-			>
+			<mat-error *ngIf="hasRequiredError('password')">
 				{{ "Password" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngFor="let error of registerForm.controls['password'].getError('invalid')">
+			<mat-error *ngIf="hasServerError('password') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
 		<mat-form-field color="accent">
 			<mat-label color="accent">Repeat password</mat-label>
 			<input type="password" formControlName="repeatPassword" matInput />
-			<mat-error
-				*ngIf="
-					registerForm.controls['repeatPassword'].hasError('minlength') &&
-					registerForm.controls['repeatPassword'].touched
-				"
-			>
+			<mat-error *ngIf="hasMinLengthError('repeatPassword')">
 				{{ "Repeated password" | errorMessage : "minlength" }}
 			</mat-error>
-			<mat-error
-				*ngIf="
-					registerForm.controls['repeatPassword'].hasError('required') &&
-					registerForm.controls['repeatPassword'].touched
-				"
-			>
+			<mat-error *ngIf="hasRequiredError('repeatPassword')">
 				{{ "Repeated password" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error
-				*ngIf="
-					registerForm.controls['repeatPassword'].hasError('matchError') &&
-					registerForm.controls['repeatPassword'].touched
-				"
-			>
+			<mat-error *ngIf="hasPasswordMatch">
 				{{ "Passwords" | errorMessage : "matchError" }}
 			</mat-error>
 		</mat-form-field>
 		<button class="auth-submit" type="submit" mat-raised-button color="primary">Register</button>
 	</form>
-	<a routerLink="/auth/login" class="auth-link" href="">Уже есть аккаунт?</a>
+	<a routerLink="/auth/login" class="auth-link" href="">Already have an account?</a>
+	<a routerLink="/animes" class="auth-link">Go to main page</a>
 	<div *ngIf="isLoading$ | async" class="auth-spinner">
 		<camp-spinner />
 	</div>

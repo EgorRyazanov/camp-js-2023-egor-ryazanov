@@ -10,14 +10,14 @@ import { Observable } from 'rxjs';
 	styleUrls: ['./base-page.component.css'],
 })
 export class BasePageComponent {
+	/** Is user authorized. */
+	protected readonly isAuthorized$: Observable<boolean>;
+
 	/** User service. */
 	private readonly userService = inject(UserService);
 
 	/** Destroy ref. */
 	private readonly destroyRef = inject(DestroyRef);
-
-	/** Is user authorized. */
-	protected readonly isAuthorized$: Observable<boolean>;
 
 	public constructor() {
 		this.isAuthorized$ = this.userService.isAuthorized$;

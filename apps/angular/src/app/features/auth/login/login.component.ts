@@ -3,11 +3,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
-import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
-import { ErrorMapper } from '@js-camp/core/mappers/error.mapper';
-import { AppError, ValidationError } from '@js-camp/core/models/app-error';
-import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
+import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
+import { AppValidationError } from '@js-camp/core/models/app-error';
+import { Login } from '@js-camp/core/models/auth/login';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
+
+import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
+
+import { MIN_PASSWORD_LENGTH } from '../utils/constants';
+
+type LoginForm = ControlsOf<Login>;
 
 /** Login page. */
 @Component({
@@ -20,10 +26,10 @@ export class LoginComponent {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Login form. */
-	protected readonly loginForm: FormGroup;
+	protected readonly loginForm: FormGroup<LoginForm>;
 
 	/** Common global form errors. */
-	protected readonly commonErrors$ = new BehaviorSubject<ValidationError[]>([]);
+	protected readonly commonErrors$ = new BehaviorSubject('');
 
 	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -42,49 +48,72 @@ export class LoginComponent {
 	}
 
 	/** Handle 'submit' of the login form. */
-	protected login(): void {
+	protected onSubmit(): void {
 		this.loginForm.markAllAsTouched();
-		if (this.loginForm.invalid !== true) {
-			this.isLoading$.next(true);
-			this.userService
-				.login(this.loginForm.value)
-				.pipe(
-					first(),
-					catchFormErrors(this.loginForm),
-					catchError((errors: unknown) => {
-						if (errors instanceof AppError) {
-							const { validationErrors } = errors;
-							if (ErrorMapper.COMMON_ERROR_FIELD in validationErrors) {
-								this.commonErrors$.next(validationErrors[ErrorMapper.COMMON_ERROR_FIELD]);
-							}
-						}
-						return throwError(() => errors);
-					}),
-					finalize(() => {
-						this.isLoading$.next(false);
-					}),
-					takeUntilDestroyed(this.destroyRef),
-				)
-				.subscribe(() => {
-					this.router.navigate(['/']);
-				});
+		if (this.loginForm.invalid) {
+			return;
 		}
+
+		this.isLoading$.next(true);
+		this.userService
+			.login(this.loginForm.getRawValue())
+			.pipe(
+				catchFormErrors(this.loginForm),
+				catchError((errors: unknown) => {
+					if (errors instanceof AppValidationError) {
+						if (errors.validationData.nonFieldErrors != null) {
+							this.commonErrors$.next(errors.validationData.nonFieldErrors);
+						}
+					}
+					return throwError(() => errors);
+				}),
+				stopLoadingStatus(this.isLoading$),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe(() => {
+				this.router.navigate(['/']);
+			});
 	}
 
 	/**
-	 * Tracks errors by unique messages.
-	 * @param _ Index.
-	 * @param error Validation error.
+	 * Checks is conrols has required error.
+	 * @param controlName Name of control that need to be checked.
 	 */
-	protected trackByErrors(_: number, error: ValidationError): ValidationError['message'] {
-		return error.message;
+	protected hasRequiredError(controlName: string): boolean {
+		if (this.loginForm.contains(controlName)) {
+			return this.loginForm.controls[controlName as keyof LoginForm].hasError('required');
+		}
+
+		return false;
+	}
+
+	/** Checks is password has min length error. */
+	protected get hasPasswordMinLengthError(): boolean {
+		return this.loginForm.controls.password.hasError('minlength');
+	}
+
+	/** Checks validity of email . */
+	protected get isEmailValid(): boolean {
+		return this.loginForm.controls.email.hasError('email');
+	}
+
+	/**
+	 * Checks is conrols has server error.
+	 * @param controlName Name of control that need to be checked.
+	 */
+	protected hasServerError(controlName: string): string | boolean {
+		if (this.loginForm.contains(controlName)) {
+			return this.loginForm.controls[controlName as keyof LoginForm].getError('invalid');
+		}
+
+		return false;
 	}
 
 	/** Initialize register form. */
-	private initLoginForm(): FormGroup {
-		return this.formBuilder.group({
+	private initLoginForm(): FormGroup<LoginForm> {
+		return this.formBuilder.group<LoginForm>({
 			email: this.formBuilder.control('', [Validators.required, Validators.email]),
-			password: this.formBuilder.control('', [Validators.required, Validators.minLength(AppValidators.MIN_LENGHT)]),
+			password: this.formBuilder.control('', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)]),
 		});
 	}
 }

@@ -1,4 +1,5 @@
 import { Pagination } from '../pagintation';
+
 import { Aired } from './anime-detail';
 
 import { AnimeStatus } from './anime-status';

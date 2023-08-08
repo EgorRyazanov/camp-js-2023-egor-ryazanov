@@ -4,6 +4,7 @@ import { GenreDto } from '../genre-dto/genre.dto';
 import { AnimeDtoTypes, AnimeStatusDto } from './anime.dto';
 
 export interface AnimeDetailDto {
+
 	/** ID. */
 	readonly id: number;
 
@@ -93,6 +94,7 @@ export enum SourceDTO {
 
 /** Aired dates. */
 export interface AiredDto {
+
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.

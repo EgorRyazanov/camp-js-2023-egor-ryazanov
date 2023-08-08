@@ -6,12 +6,12 @@ export namespace UserSecretMapper {
 
 	/**
 	 * Converts secret model to DTO.
-	 * @param modal User Secret model.
+	 * @param model User Secret model.
 	 */
-	export function toDto(modal: UserSecret): UserSecretDto {
+	export function toDto(model: UserSecret): UserSecretDto {
 		return {
-			access: modal.access,
-			refresh: modal.refresh,
+			access: model.access,
+			refresh: model.refresh,
 		};
 	}
 

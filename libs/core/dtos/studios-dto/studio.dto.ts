@@ -1,4 +1,5 @@
 export interface StudioDTO {
+
 	/** ID. */
 	readonly id: number;
 
