@@ -3,30 +3,30 @@ import { Injectable } from '@angular/core';
 import { ValidationErrorDto } from '../../../core/dtos/error.dto';
 import { Register } from '../../../core/models/auth/register';
 import { RegisterDto } from '../../../core/dtos/auth-dto/register.dto';
-import { IMapperToDto, IValidationErrorMapper } from '../mappers';
+import { MapperToDto, ValidationErrorMapper } from '../mappers';
 import { EntityValidationErrors } from '../../models/app-error';
 import { extractErrorMessages } from '../../utils/extract-error-message';
 
 /** Register DTO fields. */
 enum RegisterDtoFields {
-	email = 'email',
-	password = 'password',
-	lastName = 'last__name',
-	firstName = 'first__name',
+	Email = 'email',
+	Password = 'password',
+	LastName = 'last__name',
+	FirstName = 'first__name',
 }
 
 /** Register data mapper. */
 @Injectable({
 	providedIn: 'root',
 })
-export class RegisterDataMapper implements IMapperToDto<RegisterDto, Register>, IValidationErrorMapper<Register> {
+export class RegisterDataMapper implements MapperToDto<RegisterDto, Register>, ValidationErrorMapper<Register> {
 	/** @inheritdoc */
 	public validationErrorFromDto(errorsDto: ValidationErrorDto[] | null | undefined): EntityValidationErrors<Register> {
 		return {
-			email: extractErrorMessages(errorsDto, RegisterDtoFields.email),
-			password: extractErrorMessages(errorsDto, RegisterDtoFields.password),
-			lastName: extractErrorMessages(errorsDto, RegisterDtoFields.lastName),
-			firstName: extractErrorMessages(errorsDto, RegisterDtoFields.firstName),
+			email: extractErrorMessages(errorsDto, RegisterDtoFields.Email),
+			password: extractErrorMessages(errorsDto, RegisterDtoFields.Password),
+			lastName: extractErrorMessages(errorsDto, RegisterDtoFields.LastName),
+			firstName: extractErrorMessages(errorsDto, RegisterDtoFields.FirstName),
 			nonFieldErrors: extractErrorMessages(errorsDto, null),
 		};
 	}

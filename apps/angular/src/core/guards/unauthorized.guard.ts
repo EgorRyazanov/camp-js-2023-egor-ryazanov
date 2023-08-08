@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 
 /** Unauthorized guard. */
-export const UnauthorizedGuard: CanActivateFn = () => {
+export const unauthorizedGuard: CanActivateFn = () => {
 	const userService = inject(UserService);
 	const router = inject(Router);
 

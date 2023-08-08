@@ -8,7 +8,7 @@ import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Register } from '@js-camp/core/models/auth/register';
-import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 
 import { MIN_PASSWORD_LENGTH } from '../utils/constants';
 
@@ -22,10 +22,10 @@ type RegisterForm = ControlsOf<Register & { repeatPassword: string; }>;
 })
 export class RegisterComponent {
 	/** Loading status. */
-	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
+	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Register form. */
-	protected readonly registerForm: FormGroup<RegisterForm>;
+	protected readonly registrationForm: FormGroup<RegisterForm>;
 
 	/** Common global form errors. */
 	protected readonly commonErrors$ = new BehaviorSubject('');
@@ -43,36 +43,37 @@ export class RegisterComponent {
 	private readonly router = inject(Router);
 
 	public constructor() {
-		this.registerForm = this.initRegisterForm();
+		this.registrationForm = this.initRegisterForm();
 	}
 
 	/** Registers user. */
-	protected register(): void {
-		this.registerForm.markAllAsTouched();
-		if (this.registerForm.invalid !== true) {
-			this.isLoading$.next(true);
-			this.userService
-				.register(this.registerForm.value as Register)
-				.pipe(
-					first(),
-					catchFormErrors(this.registerForm),
-					finalize(() => {
-						this.isLoading$.next(false);
-					}),
-					catchError((errors: unknown) => {
-						if (errors instanceof AppValidationError) {
-							if (errors.validationData.nonFieldErrors != null) {
-								this.commonErrors$.next(errors.validationData.nonFieldErrors);
-							}
-						}
-						return throwError(() => errors);
-					}),
-					takeUntilDestroyed(this.destroyRef),
-				)
-				.subscribe(() => {
-					this.router.navigate(['/']);
-				});
+	protected onSubmit(): void {
+		this.registrationForm.markAllAsTouched();
+		if (this.registrationForm.invalid) {
+			return;
 		}
+
+		this.isLoading$.next(true);
+		this.userService
+			.register(this.registrationForm.getRawValue())
+			.pipe(
+				catchFormErrors(this.registrationForm),
+				catchError((errors: unknown) => {
+					if (errors instanceof AppValidationError) {
+						if (errors.validationData.nonFieldErrors != null) {
+							this.commonErrors$.next(errors.validationData.nonFieldErrors);
+						}
+					}
+					return throwError(() => errors);
+				}),
+				tap(() => {
+					this.isLoading$.next(false);
+				}),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe(() => {
+				this.router.navigate(['/']);
+			});
 	}
 
 	/** Initialize register form. */

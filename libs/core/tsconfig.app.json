@@ -5,5 +5,5 @@
 		"outDir": "../../dist/out-tsc",
 		"types": ["node"]
 	},
-	"include": ["**/*.ts", "../../apps/angular/src/core/utils/app-error.mapper.ts", "mappers/auth/login-data.mapper.ts"]
+	"include": ["**/*.ts"]
 }

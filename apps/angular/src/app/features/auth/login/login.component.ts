@@ -7,7 +7,7 @@ import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Login } from '@js-camp/core/models/auth/login';
-import { BehaviorSubject, catchError, finalize, first, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 
 import { MIN_PASSWORD_LENGTH } from '../utils/constants';
 
@@ -46,32 +46,33 @@ export class LoginComponent {
 	}
 
 	/** Handle 'submit' of the login form. */
-	protected login(): void {
+	protected onSubmit(): void {
 		this.loginForm.markAllAsTouched();
-		if (this.loginForm.invalid !== true) {
-			this.isLoading$.next(true);
-			this.userService
-				.login(this.loginForm.value as Login)
-				.pipe(
-					first(),
-					catchFormErrors(this.loginForm),
-					catchError((errors: unknown) => {
-						if (errors instanceof AppValidationError) {
-							if (errors.validationData.nonFieldErrors != null) {
-								this.commonErrors$.next(errors.validationData.nonFieldErrors);
-							}
-						}
-						return throwError(() => errors);
-					}),
-					finalize(() => {
-						this.isLoading$.next(false);
-					}),
-					takeUntilDestroyed(this.destroyRef),
-				)
-				.subscribe(() => {
-					this.router.navigate(['/']);
-				});
+		if (this.loginForm.invalid) {
+			return;
 		}
+
+		this.isLoading$.next(true);
+		this.userService
+			.login(this.loginForm.getRawValue())
+			.pipe(
+				catchFormErrors(this.loginForm),
+				catchError((errors: unknown) => {
+					if (errors instanceof AppValidationError) {
+						if (errors.validationData.nonFieldErrors != null) {
+							this.commonErrors$.next(errors.validationData.nonFieldErrors);
+						}
+					}
+					return throwError(() => errors);
+				}),
+				tap(() => {
+					this.isLoading$.next(false);
+				}),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe(() => {
+				this.router.navigate(['/']);
+			});
 	}
 
 	/** Initialize register form. */
