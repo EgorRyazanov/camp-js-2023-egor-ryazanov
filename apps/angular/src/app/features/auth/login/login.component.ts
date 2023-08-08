@@ -7,7 +7,9 @@ import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Login } from '@js-camp/core/models/auth/login';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
+
+import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { MIN_PASSWORD_LENGTH } from '../utils/constants';
 
@@ -65,9 +67,7 @@ export class LoginComponent {
 					}
 					return throwError(() => errors);
 				}),
-				tap(() => {
-					this.isLoading$.next(false);
-				}),
+				stopLoadingStatus(this.isLoading$),
 				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe(() => {

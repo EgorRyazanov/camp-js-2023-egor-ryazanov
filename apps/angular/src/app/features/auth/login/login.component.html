@@ -9,9 +9,6 @@
 		<mat-form-field color="accent">
 			<mat-label color="accent">Email</mat-label>
 			<input formControlName="email" matInput />
-			<mat-error *ngIf="loginForm.controls.email.hasError('required') && loginForm.controls.email.touched">
-				{{ "Email" | errorMessage : "required" }}
-			</mat-error>
 			<mat-error *ngIf="loginForm.controls.email.hasError('email') && loginForm.controls.email.touched">
 				{{ "Email" | errorMessage : "email" }}
 			</mat-error>

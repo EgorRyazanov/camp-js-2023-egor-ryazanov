@@ -1,16 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Anime, AnimePagination } from '@js-camp/core/models/anime/anime';
-import {
-	BehaviorSubject,
-	Observable,
-	catchError,
-	debounceTime,
-	distinctUntilChanged,
-	map,
-	switchMap,
-	tap,
-	throwError,
-} from 'rxjs';
+import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { Sort } from '@angular/material/sort';
@@ -24,6 +14,8 @@ import {
 import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
+
+import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
@@ -149,7 +141,10 @@ export class AnimesPageComponent {
 	 * @param params Changed params.
 	 */
 	private setQueryParams(params: Partial<AnimeRoutingQueryParams>): void {
-		this.router.navigate(['/animes'], { queryParams: { ...this.queryParams, ...params } });
+		const urlWithoutParams = this.router.url.split('?')[0];
+		this.router.navigate([urlWithoutParams], {
+			queryParams: { ...this.queryParams, ...params },
+		});
 	}
 
 	/** Stream of animes. */
@@ -166,13 +161,9 @@ export class AnimesPageComponent {
 			}),
 			debounceTime(DEBOUNCE_TIME),
 			switchMap(({ params }) => this.getAnimePage(params)),
+			stopLoadingStatus(this.isLoading$),
 			tap(() => {
-				this.isLoading$.next(false);
 				window.scroll({ top: 0, behavior: 'smooth' });
-			}),
-			catchError((error: unknown) => {
-				this.isLoading$.next(false);
-				return throwError(() => error);
 			}),
 		);
 	}
