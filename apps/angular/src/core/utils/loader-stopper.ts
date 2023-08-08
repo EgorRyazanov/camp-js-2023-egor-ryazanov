@@ -8,5 +8,5 @@ export function stopLoadingStatus<T>(isLoading$: BehaviorSubject<boolean>): Oper
 	return (source$: Observable<T>) =>
 		source$.pipe(
 			tap({ next: () => isLoading$.next(false), error: () => isLoading$.next(false) }),
-			);
+		);
 }
