@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, concatMap, map, of, switchMap, tap, throwError } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
+import { ConfirmService } from '@js-camp/angular/core/services/confirm.service';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
+
+const homeUrl = '';
 
 /** Anime details page. */
 @Component({
@@ -18,6 +20,9 @@ import { ImageDialogComponent } from './components/dialog/image-dialog.component
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDetailsPageComponent {
+	/** ID. */
+	protected readonly id$: Observable<string>;
+
 	/** Anime. */
 	protected readonly anime$: Observable<AnimeDetail>;
 
@@ -36,41 +41,76 @@ export class AnimeDetailsPageComponent {
 	/** Dialog service. */
 	private readonly dialogService = inject(MatDialog);
 
-	/** Active route service. */
-	private readonly activeRouteService = inject(ActivatedRoute);
+	/** Confirmation service. */
+	private readonly confirmationService = inject(ConfirmService);
 
-	/** Destroy reference. */
-	private readonly destroyRef = inject(DestroyRef);
+	/** Router. */
+	private readonly router = inject(Router);
+
+	/** Active route. */
+	private readonly activeRoute = inject(ActivatedRoute);
 
 	public constructor() {
-		const id = this.activeRouteService.snapshot.paramMap.get('id') as string;
-		this.anime$ = this.createAnimeStream(id);
+		this.id$ = this.createIdParamStream();
+		this.anime$ = this.createAnimeStream();
 	}
 
 	/**
 	 * Opens image dialog.
 	 * @param imageUrl URL of image.
 	 */
-	public openDialog(imageUrl: string): void {
+	protected openImageDialog(imageUrl: string): void {
 		this.dialogService.open(ImageDialogComponent, {
 			data: { imageUrl },
 		});
+	}
+
+	/** Opens delete confirm dialog. */
+	protected openDeleteConfirmationDialog(): void {
+		this.confirmationService
+			.openDialog('Are you sure you want to delete this?')
+			.afterClosed()
+			.pipe(
+				concatMap(result => {
+					if (result) {
+						return this.id$.pipe(
+							switchMap(id => this.animeDetailsService.deleteAnime(id)),
+							tap(() => {
+								this.router.navigate([homeUrl]);
+							}),
+						);
+					}
+					return of(result);
+				}),
+			)
+			.subscribe();
+	}
+
+	/** Creates id stream. */
+	private createIdParamStream(): Observable<string> {
+		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 	}
 
 	/**
 	 * Creates anime stream.
 	 * @param id ID of anime.
 	 */
-	private createAnimeStream(id: string): Observable<AnimeDetail> {
-		this.isLoading$.next(true);
-		return this.animeDetailsService.getAnime(id).pipe(
+	private createAnimeStream(): Observable<AnimeDetail> {
+		return this.id$.pipe(
+			tap(() => {
+				this.isLoading$.next(true);
+			}),
+			switchMap(id => this.animeDetailsService.getAnime(id)),
 			tap(animeDetail => {
 				if (animeDetail.trailerYoutubeUrl != null) {
 					this.saveVideoUrl$.next(this.sanitizer.bypassSecurityTrustResourceUrl(animeDetail.trailerYoutubeUrl));
 				}
 			}),
+			catchError((error: unknown) => {
+				this.router.navigate([homeUrl]);
+				return throwError(() => error);
+			}),
 			stopLoadingStatus(this.isLoading$),
-			takeUntilDestroyed(this.destroyRef),
 		);
 	}
 }

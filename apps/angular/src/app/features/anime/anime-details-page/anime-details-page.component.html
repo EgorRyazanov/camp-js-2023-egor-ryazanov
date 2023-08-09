@@ -1,9 +1,12 @@
 <div class="anime">
 	<ng-container *ngIf="anime$ | async as anime">
+		<button mat-icon-button type="button" (click)="openDeleteConfirmationDialog()">
+			<mat-icon color="warn" aria-label="login">delete</mat-icon>
+		</button>
 		<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
 		<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
 		<div class="anime__details">
-			<img class="details__image" [src]="anime.image" (click)="openDialog(anime.image)" />
+			<img class="details__image" [src]="anime.image" (click)="openImageDialog(anime.image)" />
 			<div>
 				<p><strong>Season:</strong> {{ anime.season | readableSeason }}</p>
 				<p><strong>Synopsis:</strong> {{ anime.synopsis }}</p>
