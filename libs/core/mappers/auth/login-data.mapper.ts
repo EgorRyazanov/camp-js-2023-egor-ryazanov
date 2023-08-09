@@ -21,10 +21,11 @@ enum LoginDtoFields {
 export class LoginDataMapper implements MapperToDto<LoginDto, Login>, ValidationErrorMapper<Login> {
 	/** @inheritdoc */
 	public validationErrorFromDto(errorsDto: ValidationErrorDto[] | null | undefined): EntityValidationErrors<Login> {
+		const emailErrors = extractErrorMessages(errorsDto, LoginDtoFields.Email);
+		const nonFieldErrors = extractErrorMessages(errorsDto, null);
 		return {
-			email: extractErrorMessages(errorsDto, LoginDtoFields.Email),
-			password: extractErrorMessages(errorsDto, LoginDtoFields.Password),
-			nonFieldErrors: extractErrorMessages(errorsDto, null),
+			email: nonFieldErrors ? nonFieldErrors : emailErrors,
+			password: extractErrorMessages(errorsDto, LoginDtoFields.Email),
 		};
 	}
 

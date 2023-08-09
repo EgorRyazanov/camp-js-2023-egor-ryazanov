@@ -35,9 +35,13 @@
   align-items: center;
   justify-content: center;
   z-index: 100;
-  background-color: var(--spinner-background-color);
+  background-color: var(--background-alternative-background-color);
 }
 
-.table__row_navigation {
+.table__row {
   cursor: pointer;
+}
+
+tr.table__row:hover {
+  background-color: var(--background-alternative-background-color);
 }

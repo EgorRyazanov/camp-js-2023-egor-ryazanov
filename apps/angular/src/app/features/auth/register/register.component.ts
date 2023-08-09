@@ -6,9 +6,8 @@ import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
-import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Register } from '@js-camp/core/models/auth/register';
-import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { MIN_PASSWORD_LENGTH } from '../utils/constants';
@@ -27,9 +26,6 @@ export class RegisterComponent {
 
 	/** Register form. */
 	protected readonly registrationForm: FormGroup<RegistrationForm>;
-
-	/** Common global form errors. */
-	protected readonly commonErrors$ = new BehaviorSubject('');
 
 	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -59,14 +55,6 @@ export class RegisterComponent {
 			.register(this.registrationForm.getRawValue())
 			.pipe(
 				catchFormErrors(this.registrationForm),
-				catchError((errors: unknown) => {
-					if (errors instanceof AppValidationError) {
-						if (errors.validationData.nonFieldErrors != null) {
-							this.commonErrors$.next(errors.validationData.nonFieldErrors);
-						}
-					}
-					return throwError(() => errors);
-				}),
 				stopLoadingStatus(this.isLoading$),
 				takeUntilDestroyed(this.destroyRef),
 			)

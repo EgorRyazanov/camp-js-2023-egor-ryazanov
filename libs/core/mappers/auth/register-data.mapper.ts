@@ -22,12 +22,13 @@ enum RegisterDtoFields {
 export class RegisterDataMapper implements MapperToDto<RegisterDto, Register>, ValidationErrorMapper<Register> {
 	/** @inheritdoc */
 	public validationErrorFromDto(errorsDto: ValidationErrorDto[] | null | undefined): EntityValidationErrors<Register> {
+		const emailErrors = extractErrorMessages(errorsDto, RegisterDtoFields.Email);
+		const nonFieldErrors = extractErrorMessages(errorsDto, null);
 		return {
-			email: extractErrorMessages(errorsDto, RegisterDtoFields.Email),
+			email: nonFieldErrors ? nonFieldErrors : emailErrors,
 			password: extractErrorMessages(errorsDto, RegisterDtoFields.Password),
 			lastName: extractErrorMessages(errorsDto, RegisterDtoFields.LastName),
 			firstName: extractErrorMessages(errorsDto, RegisterDtoFields.FirstName),
-			nonFieldErrors: extractErrorMessages(errorsDto, null),
 		};
 	}
 
