@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -6,7 +6,6 @@ import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-detail
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
@@ -16,6 +15,7 @@ import { ImageDialogComponent } from './components/dialog/image-dialog.component
 	selector: 'camp-anime-details-page',
 	templateUrl: './anime-details-page.component.html',
 	styleUrls: ['./anime-details-page.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDetailsPageComponent {
 	/** Anime. */

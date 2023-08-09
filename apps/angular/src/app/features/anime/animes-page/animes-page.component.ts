@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Anime, AnimePagination } from '@js-camp/core/models/anime/anime';
 import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
@@ -14,7 +14,6 @@ import {
 import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
-
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { AnimeService } from '../../../../core/services/anime.service';
@@ -26,6 +25,7 @@ type StatusedRoutingParams = IncomeValuesStatus & { params: AnimeRoutingQueryPar
 	selector: 'camp-anime-page',
 	templateUrl: './animes-page.component.html',
 	styleUrls: ['./animes-page.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimesPageComponent {
 	/** Router. */

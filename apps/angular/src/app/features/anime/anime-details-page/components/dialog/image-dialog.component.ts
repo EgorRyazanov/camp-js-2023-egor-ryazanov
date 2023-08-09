@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
@@ -15,6 +15,7 @@ interface ImageDialogData {
 	templateUrl: './image-dialog.component.html',
 	styleUrls: ['./image-dialog.component.css'],
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [MatDialogModule, MatButtonModule],
 })
 export class ImageDialogComponent {

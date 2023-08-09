@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,6 +19,7 @@ type RegistrationForm = ControlsOf<Register & { repeatPassword: string; }>;
 	selector: 'camp-login',
 	templateUrl: './register.component.html',
 	styleUrls: ['../auth.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
 	/** Loading status. */
