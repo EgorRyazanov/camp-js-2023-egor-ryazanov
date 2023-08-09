@@ -19,7 +19,7 @@ export class UrlService {
 
 	/** Anime urls. */
 	public readonly animeUrls = {
-		animes: this.generateURL('/api/v1/anime/anime/123'),
+		animes: this.generateURL('/api/v1/anime/anime/'),
 	} as const;
 
 	/**
