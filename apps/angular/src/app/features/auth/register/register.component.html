@@ -1,10 +1,5 @@
 <div class="auth-container">
 	<h1 class="auth-title">Register</h1>
-	<div class="auth-common-errors-container">
-		<mat-error *ngIf="commonErrors$ | async as error">
-			{{ error }}
-		</mat-error>
-	</div>
 	<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="auth-form">
 		<mat-form-field color="accent">
 			<mat-label color="accent">Email</mat-label>

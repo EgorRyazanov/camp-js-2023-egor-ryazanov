@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Login } from '../../../core/models/auth/login';
 import { LoginDto } from '../../../core/dtos/auth-dto/login.dto';
 import { ValidationErrorDto } from '../../../core/dtos/error.dto';
-
 import { EntityValidationErrors } from '../../models/app-error';
 import { MapperToDto, ValidationErrorMapper } from '../mappers';
 import { extractErrorMessages } from '../../utils/extract-error-message';
@@ -21,10 +20,11 @@ enum LoginDtoFields {
 export class LoginDataMapper implements MapperToDto<LoginDto, Login>, ValidationErrorMapper<Login> {
 	/** @inheritdoc */
 	public validationErrorFromDto(errorsDto: ValidationErrorDto[] | null | undefined): EntityValidationErrors<Login> {
+		const emailErrors = extractErrorMessages(errorsDto, LoginDtoFields.Email);
+		const nonFieldErrors = extractErrorMessages(errorsDto, null);
 		return {
-			email: extractErrorMessages(errorsDto, LoginDtoFields.Email),
-			password: extractErrorMessages(errorsDto, LoginDtoFields.Password),
-			nonFieldErrors: extractErrorMessages(errorsDto, null),
+			email: nonFieldErrors ? nonFieldErrors : emailErrors,
+			password: extractErrorMessages(errorsDto, LoginDtoFields.Email),
 		};
 	}
 

@@ -5,9 +5,8 @@ import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
-import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Login } from '@js-camp/core/models/auth/login';
-import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
@@ -57,19 +56,7 @@ export class LoginComponent {
 		this.isLoading$.next(true);
 		this.userService
 			.login(this.loginForm.getRawValue())
-			.pipe(
-				catchFormErrors(this.loginForm),
-				catchError((errors: unknown) => {
-					if (errors instanceof AppValidationError) {
-						if (errors.validationData.nonFieldErrors != null) {
-							this.commonErrors$.next(errors.validationData.nonFieldErrors);
-						}
-					}
-					return throwError(() => errors);
-				}),
-				stopLoadingStatus(this.isLoading$),
-				takeUntilDestroyed(this.destroyRef),
-			)
+			.pipe(catchFormErrors(this.loginForm), stopLoadingStatus(this.isLoading$), takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.router.navigate(['/']);
 			});
