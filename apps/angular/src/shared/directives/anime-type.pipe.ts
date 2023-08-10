@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AnimeType, AnimeTypes } from '@js-camp/core/models/anime-type';
+import { AnimeType, AnimeTypes } from '@js-camp/core/models/anime/anime-type';
 
 /** Anime type pipe. */
 @Pipe({

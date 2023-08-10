@@ -1,4 +1,4 @@
-import { Ordering } from '../mappers/ordering.mapper';
+import { Ordering } from '../../../core/mappers/ordering.mapper';
 
 import { Rating } from './anime';
 import { AnimeOrderingField } from './anime-ordering';

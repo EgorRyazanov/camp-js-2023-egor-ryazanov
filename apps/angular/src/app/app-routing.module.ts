@@ -1,13 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AnimesPageComponent } from './features/anime/animes-page/animes-page.component';
 import { ErrorPageComponent } from './features/error-page/error-page.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		component: AnimesPageComponent,
+		redirectTo: '/animes',
+		pathMatch: 'full',
+	},
+	{
+		path: 'animes',
+		loadChildren: () => import('./features/anime/anime.module').then(module => module.AnimeModule),
+	},
+	{
+		path: 'auth',
+		loadChildren: () => import('./features/auth/auth.module').then(module => module.AuthModule),
 	},
 	{
 		path: '**',

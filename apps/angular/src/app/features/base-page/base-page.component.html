@@ -1,0 +1,20 @@
+<header class="header">
+	<h2 class="header__title">AnimeHub</h2>
+	<button
+		mat-icon-button
+		type="button"
+		class="header__button"
+		*ngIf="isAuthorized$ | async; else login"
+		(click)="handleLogout()"
+	>
+		<mat-icon color="accent" aria-label="Logout">logout</mat-icon>
+	</button>
+	<ng-template #login>
+		<a mat-icon-button class="header__link" routerLink="/auth/login">
+			<mat-icon color="accent" aria-label="Login">login</mat-icon>
+		</a>
+	</ng-template>
+</header>
+<main>
+	<router-outlet></router-outlet>
+</main>

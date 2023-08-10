@@ -1,38 +1,36 @@
-import { NgModule } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '@js-camp/angular/shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 
-import { AnimesPageComponent } from './animes-page/animes-page.component';
-import { AnimeRoutingModule } from './anime-routing.module';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthRoutingModule } from './auth-routing.module';
 
-/** Anime Module. */
+/** Auth Module. */
 @NgModule({
-	declarations: [AnimesPageComponent],
+	declarations: [LoginComponent, RegisterComponent],
 	imports: [
-		AnimeRoutingModule,
+		ReactiveFormsModule,
+		RouterLink,
 		CommonModule,
 		SharedModule,
 		MatTableModule,
 		MatProgressSpinnerModule,
 		MatSortModule,
 		MatPaginatorModule,
-		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatSelectModule,
-		MatIconModule,
 		MatButtonModule,
-		SharedModule,
+		AuthRoutingModule,
 	],
 })
-export class AnimeModule {}
+export class AuthModule {}

@@ -1,4 +1,4 @@
-import { OrderingDirectionDto } from './ordering-direction.dto';
+import { OrderingDirectionDto } from '../ordering-direction.dto';
 
 /** Anime ordering DTO. */
 export interface AnimeOrderingDto {

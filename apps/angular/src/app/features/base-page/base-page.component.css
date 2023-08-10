@@ -1,0 +1,11 @@
+.header {
+  background-color: var(--primary-alternative-contrast-color);
+  padding: var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__title {
+  margin: 0;
+}

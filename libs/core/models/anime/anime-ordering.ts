@@ -1,4 +1,4 @@
-import { OrderingDirection } from './ordering-direction';
+import { OrderingDirection } from '../ordering-direction';
 
 /** Anime ordering. */
 export interface AnimeOrdering {

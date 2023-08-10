@@ -1,13 +1,14 @@
-import { AnimeParameters } from '../models/anime-params';
-import { AnimeParametersDto } from '../dtos/anime-params.dto';
-import { AnimeStatusDto, RatingDto } from '../dtos/anime.dto';
-import { Rating } from '../models/anime';
-import { deleteUndefinedProperties } from '../utils/delete-undefined-properties';
-import { AnimeStatus } from '../models/anime-status';
-import { AnimeOrderingField } from '../models/anime-ordering';
-import { AnimeOrderingFieldDto } from '../dtos/anime-ordering.dto';
+import { AnimeParameters } from '../../../core/models/anime/anime-params';
+import { AnimeParametersDto } from '../../../core/dtos/anime-dto/anime-params.dto';
+import { AnimeStatusDto, RatingDto } from '../../../core/dtos/anime-dto/anime.dto';
+import { Rating } from '../../../core/models/anime/anime';
+import { deleteUndefinedProperties } from '../../../core/utils/delete-undefined-properties';
+import { AnimeStatus } from '../../../core/models/anime/anime-status';
+import { AnimeOrderingField } from '../../../core/models/anime/anime-ordering';
+import { AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-ordering.dto';
 
-import { OrderingMapper } from './ordering.mapper';
+import { OrderingMapper } from '../ordering.mapper';
+
 import { AnimeTypeMapper } from './anime-type.mapper';
 
 /** Anime Parameters Mapper. */

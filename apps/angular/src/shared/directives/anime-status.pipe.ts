@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AnimeStatus } from '@js-camp/core/models/anime-status';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 
 /** Anime status pipe. */
 @Pipe({
