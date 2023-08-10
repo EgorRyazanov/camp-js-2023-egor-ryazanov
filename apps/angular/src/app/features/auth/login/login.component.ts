@@ -7,7 +7,6 @@ import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { Login } from '@js-camp/core/models/auth/login';
 import { BehaviorSubject } from 'rxjs';
-
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { MIN_PASSWORD_LENGTH } from '../utils/constants';

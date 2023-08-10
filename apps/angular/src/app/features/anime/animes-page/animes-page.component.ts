@@ -14,7 +14,6 @@ import {
 import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
-
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { AnimeService } from '../../../../core/services/anime.service';
