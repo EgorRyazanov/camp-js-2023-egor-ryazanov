@@ -66,12 +66,8 @@ export class LoginComponent {
 	 * Checks is conrols has required error.
 	 * @param controlName Name of control that need to be checked.
 	 */
-	protected hasRequiredError(controlName: string): boolean {
-		if (this.loginForm.contains(controlName)) {
-			return this.loginForm.controls[controlName as keyof LoginForm].hasError('required');
-		}
-
-		return false;
+	protected hasRequiredError(controlName: keyof LoginForm): boolean {
+		return this.loginForm.controls[controlName].hasError('required');
 	}
 
 	/** Checks is password has min length error. */
@@ -88,12 +84,12 @@ export class LoginComponent {
 	 * Checks is conrols has server error.
 	 * @param controlName Name of control that need to be checked.
 	 */
-	protected hasServerError(controlName: string): string | boolean {
-		if (this.loginForm.contains(controlName)) {
-			return this.loginForm.controls[controlName as keyof LoginForm].getError('invalid');
+	protected getGeneralFieldErrors(controlName: keyof LoginForm): string | null {
+		if (this.loginForm.controls[controlName].hasError('invalid')) {
+			return this.loginForm.controls[controlName].getError('invalid');
 		}
 
-		return false;
+		return null;
 	}
 
 	/** Initialize register form. */

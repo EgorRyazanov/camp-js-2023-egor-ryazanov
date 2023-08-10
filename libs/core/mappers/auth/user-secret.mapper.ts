@@ -10,8 +10,8 @@ export namespace UserSecretMapper {
 	 */
 	export function toDto(model: UserSecret): UserSecretDto {
 		return {
-			access: model.access,
-			refresh: model.refresh,
+			accessToken: model.accessToken,
+			refreshToken: model.refreshToken,
 		};
 	}
 
@@ -21,8 +21,8 @@ export namespace UserSecretMapper {
 	 */
 	export function fromDto(dto: UserSecretDto): UserSecret {
 		return {
-			access: dto.access,
-			refresh: dto.refresh,
+			accessToken: dto.accessToken,
+			refreshToken: dto.refreshToken,
 		};
 	}
 }

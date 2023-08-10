@@ -6,13 +6,13 @@ import { UserService } from '@js-camp/angular/core/services/user.service';
 import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
-import { Register } from '@js-camp/core/models/auth/register';
+import { Registration } from '@js-camp/core/models/auth/registration';
 import { BehaviorSubject } from 'rxjs';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { MIN_PASSWORD_LENGTH } from '../utils/constants';
 
-type RegistrationForm = ControlsOf<Register & { repeatPassword: string; }>;
+type RegistrationForm = ControlsOf<Registration & { repeatPassword: string; }>;
 
 /** Register page. */
 @Component({
@@ -67,24 +67,16 @@ export class RegisterComponent {
 	 * Checks is conrols has required error.
 	 * @param controlName Name of control that need to be checked.
 	 */
-	protected hasRequiredError(controlName: string): boolean {
-		if (this.registrationForm.contains(controlName)) {
-			return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('required');
-		}
-
-		return false;
+	protected hasRequiredError(controlName: keyof RegistrationForm): boolean {
+		return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('required');
 	}
 
 	/**
 	 * Checks is conrols has min length error.
 	 * @param controlName Name of control that need to be checked.
 	 */
-	protected hasMinLengthError(controlName: string): boolean {
-		if (this.registrationForm.contains(controlName)) {
-			return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('minlength');
-		}
-
-		return false;
+	protected hasMinLengthError(controlName: keyof RegistrationForm): boolean {
+		return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('minlength');
 	}
 
 	/** Checks validity of email . */
@@ -101,12 +93,8 @@ export class RegisterComponent {
 	 * Checks is conrols has server error.
 	 * @param controlName Name of control that need to be checked.
 	 */
-	protected hasServerError(controlName: string): string | boolean {
-		if (this.registrationForm.contains(controlName)) {
-			return this.registrationForm.controls[controlName as keyof RegistrationForm].getError('invalid');
-		}
-
-		return false;
+	protected getGeneralFieldErrors(controlName: keyof RegistrationForm): string | boolean {
+		return this.registrationForm.controls[controlName as keyof RegistrationForm].getError('invalid');
 	}
 
 	/** Initialize register form. */

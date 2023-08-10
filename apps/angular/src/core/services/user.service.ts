@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { catchError, concat, first, map, merge, Observable, OperatorFunction, pipe, switchMap, throwError } from 'rxjs';
 import { Login } from '@js-camp/core/models/auth/login';
-import { Register } from '@js-camp/core/models/auth/register';
+import { Registration } from '@js-camp/core/models/auth/registration';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 import { AuthApiService } from './auth-api.service';
@@ -39,7 +39,7 @@ export class UserService {
 	 * Register a user.
 	 * @param registerData Register data.
 	 */
-	public register(registerData: Register): Observable<void> {
+	public register(registerData: Registration): Observable<void> {
 		return this.authService.register(registerData).pipe(this.saveSecretAndWaitForAuthorized());
 	}
 

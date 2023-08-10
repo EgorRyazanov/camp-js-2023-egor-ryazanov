@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { ValidationErrorDto } from '../../../core/dtos/error.dto';
-import { Register } from '../../../core/models/auth/register';
-import { RegisterDto } from '../../../core/dtos/auth-dto/register.dto';
+import { Registration } from '../../models/auth/registration';
+import { RegistrationDto } from '../../dtos/auth-dto/registration.dto';
 import { MapperToDto, ValidationErrorMapper } from '../mappers';
 import { EntityValidationErrors } from '../../models/app-error';
 import { extractErrorMessages } from '../../utils/extract-error-message';
@@ -19,9 +19,12 @@ enum RegisterDtoFields {
 @Injectable({
 	providedIn: 'root',
 })
-export class RegisterDataMapper implements MapperToDto<RegisterDto, Register>, ValidationErrorMapper<Register> {
+export class RegistrationDataMapper
+implements MapperToDto<RegistrationDto, Registration>, ValidationErrorMapper<Registration> {
 	/** @inheritdoc */
-	public validationErrorFromDto(errorsDto: ValidationErrorDto[] | null | undefined): EntityValidationErrors<Register> {
+	public validationErrorFromDto(
+		errorsDto: ValidationErrorDto[] | null | undefined,
+	): EntityValidationErrors<Registration> {
 		const emailErrors = extractErrorMessages(errorsDto, RegisterDtoFields.Email);
 		const nonFieldErrors = extractErrorMessages(errorsDto, null);
 		return {
@@ -33,7 +36,7 @@ export class RegisterDataMapper implements MapperToDto<RegisterDto, Register>, V
 	}
 
 	/** @inheritdoc */
-	public toDto(data: Register): RegisterDto {
+	public toDto(data: Registration): RegistrationDto {
 		return {
 			email: data.email,
 			first__name: data.firstName,
