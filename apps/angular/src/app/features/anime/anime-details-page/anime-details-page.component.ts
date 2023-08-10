@@ -71,24 +71,28 @@ export class AnimeDetailsPageComponent {
 			.openDialog('Are you sure you want to delete this?')
 			.afterClosed()
 			.pipe(
-				concatMap(result => {
+				concatMap((result) => {
 					if (result) {
 						return this.id$.pipe(
-							switchMap(id => this.animeDetailsService.deleteAnime(id)),
+							switchMap((id) => this.animeDetailsService.deleteAnime(id)),
 							tap(() => {
 								this.router.navigate([homeUrl]);
-							}),
+							})
 						);
 					}
 					return of(result);
-				}),
+				})
 			)
 			.subscribe();
 	}
 
+	protected navigateToEditPage() {
+		return this.router.navigate([`${this.router.url}/edit`]);
+	}
+
 	/** Creates id stream. */
 	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
+		return this.activeRoute.paramMap.pipe(map((params) => params.get('id') ?? ''));
 	}
 
 	/**
@@ -100,8 +104,8 @@ export class AnimeDetailsPageComponent {
 			tap(() => {
 				this.isLoading$.next(true);
 			}),
-			switchMap(id => this.animeDetailsService.getAnime(id)),
-			tap(animeDetail => {
+			switchMap((id) => this.animeDetailsService.getAnime(id)),
+			tap((animeDetail) => {
 				if (animeDetail.trailerYoutubeUrl != null) {
 					this.saveVideoUrl$.next(this.sanitizer.bypassSecurityTrustResourceUrl(animeDetail.trailerYoutubeUrl));
 				}
@@ -110,7 +114,7 @@ export class AnimeDetailsPageComponent {
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
 			}),
-			stopLoadingStatus(this.isLoading$),
+			stopLoadingStatus(this.isLoading$)
 		);
 	}
 }

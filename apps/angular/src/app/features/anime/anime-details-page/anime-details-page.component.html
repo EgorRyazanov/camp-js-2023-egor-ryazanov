@@ -1,7 +1,10 @@
 <div class="anime">
 	<ng-container *ngIf="anime$ | async as anime">
 		<button mat-icon-button type="button" (click)="openDeleteConfirmationDialog()">
-			<mat-icon color="warn" aria-label="login">delete</mat-icon>
+			<mat-icon color="warn" aria-label="delete">delete</mat-icon>
+		</button>
+		<button mat-icon-button type="button" (click)="navigateToEditPage()">
+			<mat-icon aria-label="edit">edit</mat-icon>
 		</button>
 		<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
 		<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
