@@ -141,9 +141,7 @@ export class AnimesPageComponent {
 	 */
 	private setQueryParams(params: Partial<AnimeRoutingQueryParams>): void {
 		const urlWithoutParams = this.router.url.split('?')[0];
-		this.router.navigate([urlWithoutParams], {
-			queryParams: { ...this.queryParams, ...params },
-		});
+		this.router.navigate([urlWithoutParams], { queryParams: { ...this.queryParams, ...params } });
 	}
 
 	/** Stream of animes. */
