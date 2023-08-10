@@ -2,8 +2,8 @@
 export interface UserSecretDto {
 
 	/** Access token. */
-	readonly accessToken: string;
+	readonly access: string;
 
 	/** Refresh token. */
-	readonly refreshToken: string;
+	readonly refresh: string;
 }

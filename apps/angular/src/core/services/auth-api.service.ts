@@ -9,6 +9,8 @@ import { Login } from '@js-camp/core/models/auth/login';
 import { LoginDataMapper } from '@js-camp/core/mappers/auth/login-data.mapper';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/auth/register-data.mapper';
 
+import { UserSecretDto } from '@js-camp/core/dtos/auth-dto/user-secret-dto';
+
 import { AppErrorMapper } from '../utils/app-error.mapper';
 
 import { UrlService } from './url.service';
@@ -37,7 +39,7 @@ export class AuthApiService {
 	 */
 	public register(registerData: Registration): Observable<UserSecret> {
 		return this.httpClient
-			.post<UserSecret>(this.apiUrlService.authUrls.register, this.registrationDataMapper.toDto(registerData))
+			.post<UserSecretDto>(this.apiUrlService.authUrls.register, this.registrationDataMapper.toDto(registerData))
 			.pipe(
 				map(secretDto => UserSecretMapper.fromDto(secretDto)),
 				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.registrationDataMapper),
@@ -49,10 +51,12 @@ export class AuthApiService {
 	 * @param loginData Login data.
 	 */
 	public login(loginData: Login): Observable<UserSecret> {
-		return this.httpClient.post<UserSecret>(this.apiUrlService.authUrls.login, this.loginMapper.toDto(loginData)).pipe(
-			map(secretDto => UserSecretMapper.fromDto(secretDto)),
-			this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.loginMapper),
-		);
+		return this.httpClient
+			.post<UserSecretDto>(this.apiUrlService.authUrls.login, this.loginMapper.toDto(loginData))
+			.pipe(
+				map(secretDto => UserSecretMapper.fromDto(secretDto)),
+				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.loginMapper),
+			);
 	}
 
 	/**
@@ -61,7 +65,7 @@ export class AuthApiService {
 	 */
 	public refreshSecret(secret: UserSecret): Observable<UserSecret> {
 		return this.httpClient
-			.post<UserSecret>(this.apiUrlService.authUrls.refreshToken, UserSecretMapper.toDto(secret))
+			.post<UserSecretDto>(this.apiUrlService.authUrls.refreshToken, UserSecretMapper.toDto(secret))
 			.pipe(map(secretDto => UserSecretMapper.fromDto(secretDto)));
 	}
 }
