@@ -3,15 +3,14 @@ import { UserSecret } from '../../../core/models/auth/user-secret';
 
 /** User secret mapper. */
 export namespace UserSecretMapper {
-
 	/**
 	 * Converts secret model to DTO.
 	 * @param model User Secret model.
 	 */
 	export function toDto(model: UserSecret): UserSecretDto {
 		return {
-			access: model.access,
-			refresh: model.refresh,
+			access: model.accessToken,
+			refresh: model.refreshToken,
 		};
 	}
 
@@ -21,8 +20,8 @@ export namespace UserSecretMapper {
 	 */
 	export function fromDto(dto: UserSecretDto): UserSecret {
 		return {
-			access: dto.access,
-			refresh: dto.refresh,
+			accessToken: dto.access,
+			refreshToken: dto.refresh,
 		};
 	}
 }

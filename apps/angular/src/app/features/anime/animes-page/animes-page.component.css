@@ -34,6 +34,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* It is necessary, since the elements of the table overlap the element. */
   z-index: 100;
   background-color: var(--background-alternative-background-color);
 }

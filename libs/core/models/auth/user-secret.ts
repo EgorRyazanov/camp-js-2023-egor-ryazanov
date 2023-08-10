@@ -1,13 +1,13 @@
 /** User secret. */
 export class UserSecret {
 	/** Access token. */
-	public readonly access: string;
+	public readonly accessToken: string;
 
 	/** Refresh token. */
-	public readonly refresh: string;
+	public readonly refreshToken: string;
 
 	public constructor(data: UserSecret) {
-		this.access = data.access;
-		this.refresh = data.refresh;
+		this.accessToken = data.accessToken;
+		this.refreshToken = data.refreshToken;
 	}
 }

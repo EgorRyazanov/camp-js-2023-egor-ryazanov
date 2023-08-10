@@ -26,7 +26,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
   background-color: var(--background-alternative-background-color);
 }
 
@@ -37,8 +36,4 @@
 .auth-link {
   text-decoration: none;
   color: var(--primary-contrast-color);
-}
-
-.auth-common-errors-container {
-  margin-bottom: var(--space-md);
 }

@@ -1,5 +1,5 @@
 /** Register DTO. */
-export interface RegisterDto {
+export interface RegistrationDto {
 
 	/** Email. */
 	readonly email: string;

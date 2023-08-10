@@ -10,7 +10,7 @@
 			<mat-error *ngIf="isEmailValid">
 				{{ "Email" | errorMessage : "email" }}
 			</mat-error>
-			<mat-error *ngIf="hasServerError('email') as error">
+			<mat-error *ngIf="getGeneralFieldErrors('email') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
@@ -20,7 +20,7 @@
 			<mat-error *ngIf="hasRequiredError('firstName')">
 				{{ "First name" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngIf="hasServerError('firstName') as error">
+			<mat-error *ngIf="getGeneralFieldErrors('firstName') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
@@ -30,7 +30,7 @@
 			<mat-error *ngIf="hasRequiredError('lastName')">
 				{{ "Last name" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngIf="hasServerError('lastName') as error">
+			<mat-error *ngIf="getGeneralFieldErrors('lastName') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
@@ -43,7 +43,7 @@
 			<mat-error *ngIf="hasRequiredError('password')">
 				{{ "Password" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngIf="hasServerError('password') as error">
+			<mat-error *ngIf="getGeneralFieldErrors('password') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>

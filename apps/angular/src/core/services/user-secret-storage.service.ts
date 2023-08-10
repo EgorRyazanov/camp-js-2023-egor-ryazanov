@@ -20,7 +20,7 @@ export class UserSecretStorageService {
 
 	public constructor() {
 		this.currentSecret$ = this.shouldUpdateKeyInStorage$.pipe(
-			switchMap(() => this.storageService.get<UserSecret | null>(USER_SECRET_STORAGE_KEY)),
+			switchMap(() => this.storageService.get<UserSecret | null>(USER_SECRET_STORAGE_KEY))
 		);
 	}
 
@@ -29,11 +29,12 @@ export class UserSecretStorageService {
 	 * @param secret Secret to save.
 	 */
 	public saveSecret(secret: UserSecret): Observable<UserSecret> {
+		console.log(secret);
 		return this.storageService.save(USER_SECRET_STORAGE_KEY, secret).pipe(
 			map(() => {
 				this.shouldUpdateKeyInStorage$.next();
 				return secret;
-			}),
+			})
 		);
 	}
 
