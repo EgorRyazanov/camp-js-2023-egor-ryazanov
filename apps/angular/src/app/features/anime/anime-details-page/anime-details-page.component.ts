@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
+
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
@@ -28,7 +29,7 @@ export class AnimeDetailsPageComponent {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Anime details service. */
-	private readonly animeDetailsService = inject(AnimeDetailsService);
+	private readonly animeDetailsService = inject(AnimeService);
 
 	/** Sanitizer to make URL of video safe. */
 	private readonly sanitizer = inject(DomSanitizer);

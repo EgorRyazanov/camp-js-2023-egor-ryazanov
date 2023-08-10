@@ -3,6 +3,7 @@ import { UserSecret } from '../../../core/models/auth/user-secret';
 
 /** User secret mapper. */
 export namespace UserSecretMapper {
+
 	/**
 	 * Converts secret model to DTO.
 	 * @param model User Secret model.

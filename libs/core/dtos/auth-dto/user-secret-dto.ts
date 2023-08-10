@@ -1,5 +1,6 @@
 /** User Secret DTO. */
 export interface UserSecretDto {
+
 	/** Access token. */
 	readonly access: string;
 

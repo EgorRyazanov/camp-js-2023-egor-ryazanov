@@ -4,15 +4,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { ReadableAnimeStatus } from './directives/anime-status.pipe';
-import { ReadableAnimeType } from './directives/anime-type.pipe';
+import { ReadableAnimeStatus } from './directives/readable-anime-status.pipe';
+import { ReadableAnimeType } from './directives/readable-anime-type.pipe';
 import { Empty } from './directives/empty.pipe';
-import { ErrorMessage } from './directives/error-message.pipe';
-import { ReadableGenres } from './directives/genres.pipe';
-import { ReadableSeason } from './directives/seasons.pipe';
-import { ReadableStudios } from './directives/studios.pipe';
-import { ReadableRating } from './directives/ratings.pipe';
-import { ReadableSource } from './directives/source.pipe';
+import { ErrorMessage } from './directives/readable-error-message.pipe';
+import { ReadableGenres } from './directives/readable-genres.pipe';
+import { ReadableSeason } from './directives/readable-seasons.pipe';
+import { ReadableStudios } from './directives/readable-studios.pipe';
+import { ReadableRating } from './directives/readable-ratings.pipe';
+import { ReadableSource } from './directives/readable-source.pipe';
+import { YesNo } from './directives/yes-no.pipe';
 
 /** Shared module. */
 @NgModule({
@@ -27,6 +28,7 @@ import { ReadableSource } from './directives/source.pipe';
 		ReadableStudios,
 		ReadableRating,
 		ReadableSource,
+		YesNo,
 	],
 	imports: [CommonModule, MatProgressSpinnerModule, HttpClientModule],
 	exports: [
@@ -41,6 +43,7 @@ import { ReadableSource } from './directives/source.pipe';
 		ReadableStudios,
 		ReadableRating,
 		ReadableSource,
+		YesNo,
 	],
 })
 export class SharedModule {}

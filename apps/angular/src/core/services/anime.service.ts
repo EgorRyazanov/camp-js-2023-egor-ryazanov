@@ -8,6 +8,10 @@ import { AnimeParametersMapper } from '@js-camp/core/mappers/anime/anime-params.
 import { AnimeParameters } from '@js-camp/core/models/anime/anime-params';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
+import { AnimeDetailDto } from '@js-camp/core/dtos/anime-dto/anime-details.dto';
+import { AnimeDetailMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
+import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
+
 import { UrlService } from './url.service';
 
 /** Anime service. */
@@ -31,5 +35,15 @@ export class AnimeService {
 			.pipe(
 				map(animePaginationDto => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
 			);
+	}
+
+	/**
+	 * Gets anime by ID.
+	 * @param id ID of anime.
+	 */
+	public getAnime(id: string): Observable<AnimeDetail> {
+		return this.httpService
+			.get<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id))
+			.pipe(map(dto => AnimeDetailMapper.fromDto(dto)));
 	}
 }

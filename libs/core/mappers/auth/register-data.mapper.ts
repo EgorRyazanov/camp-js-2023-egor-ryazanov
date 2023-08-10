@@ -20,11 +20,10 @@ enum RegisterDtoFields {
 	providedIn: 'root',
 })
 export class RegistrationDataMapper
-	implements MapperToDto<RegistrationDto, Registration>, ValidationErrorMapper<Registration>
-{
+implements MapperToDto<RegistrationDto, Registration>, ValidationErrorMapper<Registration> {
 	/** @inheritdoc */
 	public validationErrorFromDto(
-		errorsDto: ValidationErrorDto[] | null | undefined
+		errorsDto: ValidationErrorDto[] | null | undefined,
 	): EntityValidationErrors<Registration> {
 		const emailErrors = extractErrorMessages(errorsDto, RegisterDtoFields.Email);
 		const nonFieldErrors = extractErrorMessages(errorsDto, null);

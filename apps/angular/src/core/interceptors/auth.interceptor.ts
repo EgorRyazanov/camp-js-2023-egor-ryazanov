@@ -24,10 +24,9 @@ export class AuthInterceptor implements HttpInterceptor {
 		if (this.shouldInterceptToken(req.url)) {
 			return this.userSecretStorage.currentSecret$.pipe(
 				first(),
-				map((userSecret) =>
-					userSecret ? req.clone({ headers: this.appendAuthorizationHeader(req.headers, userSecret) }) : req
-				),
-				switchMap((newReq) => next.handle(newReq))
+				map(userSecret =>
+					userSecret ? req.clone({ headers: this.appendAuthorizationHeader(req.headers, userSecret) }) : req),
+				switchMap(newReq => next.handle(newReq)),
 			);
 		}
 		return next.handle(req);

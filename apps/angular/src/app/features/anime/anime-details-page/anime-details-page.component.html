@@ -7,7 +7,7 @@
 			<div>
 				<p><strong>Season:</strong> {{ anime.season | readableSeason }}</p>
 				<p><strong>Synopsis:</strong> {{ anime.synopsis }}</p>
-				<p><strong>Airing:</strong> {{ anime.airing ? "Yes" : "No" }}</p>
+				<p><strong>Airing:</strong> {{ anime.airing | yesOrNo | empty }}</p>
 				<p><strong>Date start:</strong> {{ anime.aired.start | date | empty }}</p>
 				<p><strong>Date end:</strong> {{ anime.aired.end | date | empty }}</p>
 				<p><strong>Genres:</strong> {{ anime.genresData | readableGenres | empty }}</p>

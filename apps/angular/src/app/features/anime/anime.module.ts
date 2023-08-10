@@ -12,8 +12,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
-
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 import { MatDialogModule } from '@angular/material/dialog';
@@ -43,6 +41,6 @@ import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-pa
 		MatDialogModule,
 		SharedModule,
 	],
-	providers: [AnimeDetailsService, AnimeService],
+	providers: [AnimeService],
 })
 export class AnimeModule {}

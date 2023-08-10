@@ -12,7 +12,7 @@ import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { MIN_PASSWORD_LENGTH } from '../utils/constants';
 
-type RegistrationForm = ControlsOf<Registration & { repeatPassword: string }>;
+type RegistrationForm = ControlsOf<Registration & { repeatPassword: string; }>;
 
 /** Register page. */
 @Component({
@@ -57,7 +57,7 @@ export class RegisterComponent {
 			.pipe(
 				catchFormErrors(this.registrationForm),
 				stopLoadingStatus(this.isLoading$),
-				takeUntilDestroyed(this.destroyRef)
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe(() => {
 				this.router.navigate(['/']);
