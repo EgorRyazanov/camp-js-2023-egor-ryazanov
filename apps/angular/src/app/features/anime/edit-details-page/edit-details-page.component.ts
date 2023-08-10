@@ -58,6 +58,7 @@ export class EditDetailsPageComponent implements OnInit {
 
 	protected readonly types = convertEnumToArray(AnimeType) as AnimeType[];
 
+	protected readonly sources = convertEnumToArray(Sources) as Sources[];
 	/** Save video URL.  */
 	protected readonly saveVideoUrl$ = new BehaviorSubject<SafeResourceUrl | null>(null);
 
