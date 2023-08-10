@@ -68,7 +68,7 @@ export class RegisterComponent {
 	 * @param controlName Name of control that need to be checked.
 	 */
 	protected hasRequiredError(controlName: keyof RegistrationForm): boolean {
-		return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('required');
+		return this.registrationForm.controls[controlName].hasError('required');
 	}
 
 	/**
@@ -76,7 +76,7 @@ export class RegisterComponent {
 	 * @param controlName Name of control that need to be checked.
 	 */
 	protected hasMinLengthError(controlName: keyof RegistrationForm): boolean {
-		return this.registrationForm.controls[controlName as keyof RegistrationForm].hasError('minlength');
+		return this.registrationForm.controls[controlName].hasError('minlength');
 	}
 
 	/** Checks validity of email . */
@@ -93,8 +93,12 @@ export class RegisterComponent {
 	 * Checks is conrols has server error.
 	 * @param controlName Name of control that need to be checked.
 	 */
-	protected getGeneralFieldErrors(controlName: keyof RegistrationForm): string | boolean {
-		return this.registrationForm.controls[controlName as keyof RegistrationForm].getError('invalid');
+	protected getGeneralFieldErrors(controlName: keyof RegistrationForm): string | null {
+		if (this.registrationForm.controls[controlName].hasError('invalid')) {
+			return this.registrationForm.controls[controlName].getError('invalid');
+		}
+
+		return null;
 	}
 
 	/** Initialize register form. */
