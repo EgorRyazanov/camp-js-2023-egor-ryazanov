@@ -59,10 +59,12 @@ export class AnimeDetailsPageComponent {
 	 * Opens image dialog.
 	 * @param imageUrl URL of image.
 	 */
-	protected openImageDialog(imageUrl: string): void {
-		this.dialogService.open(ImageDialogComponent, {
-			data: { imageUrl },
-		});
+	protected openImageDialog(imageUrl: string | null): void {
+		if (imageUrl != null) {
+			this.dialogService.open(ImageDialogComponent, {
+				data: { imageUrl },
+			});
+		}
 	}
 
 	/** Opens delete confirm dialog. */

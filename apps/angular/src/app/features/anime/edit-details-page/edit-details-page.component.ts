@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
 import { Observable, map } from 'rxjs';
+import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 
 @Component({
 	selector: 'camp-edit-details-page',
@@ -15,7 +16,7 @@ import { Observable, map } from 'rxjs';
 export class EditDetailsPageComponent {
 	private readonly id$: Observable<string>;
 
-	private;
+	private readonly anime$: Observable<AnimeDetail>;
 	/** Anime details service. */
 	private readonly animeDetailsService = inject(AnimeDetailsService);
 

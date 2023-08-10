@@ -1,10 +1,9 @@
 import { StudioDTO } from '../studios-dto/studio.dto';
 import { GenreDto } from '../genre-dto/genre.dto';
-
 import { AnimeDtoTypes, AnimeStatusDto } from './anime.dto';
 
+/** Anime detail DTO. */
 export interface AnimeDetailDto {
-
 	/** ID. */
 	readonly id: number;
 
@@ -27,7 +26,7 @@ export interface AnimeDetailDto {
 	readonly title_jpn: string;
 
 	/** Image URL. */
-	readonly image: string;
+	readonly image: string | null;
 
 	/** Aired dates. */
 	readonly aired: AiredDto;
@@ -48,7 +47,7 @@ export interface AnimeDetailDto {
 	readonly season: SeasonsDTO;
 
 	/** Youtube trialer's ID. */
-	readonly trailer_youtube_id: string;
+	readonly trailer_youtube_id: string | null;
 
 	/** Airing. */
 	readonly airing: boolean;
@@ -56,8 +55,14 @@ export interface AnimeDetailDto {
 	/** Synopsis. */
 	readonly synopsis: string;
 
+	/** Studios IDs. */
+	readonly studios: readonly number[];
+
 	/** Studios. */
 	readonly studios_data: readonly StudioDTO[];
+
+	/** Genres IDs. */
+	readonly genres: readonly number[];
 
 	/** Genres. */
 	readonly genres_data: readonly GenreDto[];
@@ -94,7 +99,6 @@ export enum SourceDTO {
 
 /** Aired dates. */
 export interface AiredDto {
-
 	/**
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.
