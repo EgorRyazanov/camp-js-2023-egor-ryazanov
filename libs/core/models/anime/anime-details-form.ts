@@ -1,6 +1,6 @@
 import { Seasons } from '../season';
 import { Ratings } from '../rating';
-import { AnimeStatus } from './anime-status';
+import { AnimeStatuses } from './anime-status';
 import { AnimeType } from './anime-type';
 import { Sources } from './anime-source';
 import { Aired } from './anime-detail';
@@ -11,13 +11,13 @@ export class AnimeDetailForm {
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
 	 */
-	public readonly created: Date;
+	public readonly created: Date | null;
 
 	/**
 	 * Modified date.
 	 * @example 2023-07-13T08:25:29.562276Z.
 	 */
-	public readonly modified: Date;
+	public readonly modified: Date | null;
 
 	/** English title. */
 	public readonly titleEnglish: string;
@@ -35,7 +35,7 @@ export class AnimeDetailForm {
 	public readonly type: AnimeType;
 
 	/** Status. */
-	public readonly status: AnimeStatus;
+	public readonly status: AnimeStatuses;
 
 	/** Rating. */
 	public readonly rating: Ratings;
@@ -47,7 +47,7 @@ export class AnimeDetailForm {
 	public readonly season: Seasons;
 
 	/** Youtube trialer's ID. */
-	public readonly trailerYoutubeId: string | null;
+	public readonly trailerYoutubeUrl: string | null;
 
 	/** Airing. */
 	public readonly airing: boolean;
@@ -74,7 +74,7 @@ export class AnimeDetailForm {
 		this.synopsis = animeDetailData.synopsis;
 		this.titleEnglish = animeDetailData.titleEnglish;
 		this.titleJapanese = animeDetailData.titleJapanese;
-		this.trailerYoutubeId = animeDetailData.trailerYoutubeId;
+		this.trailerYoutubeUrl = animeDetailData.trailerYoutubeUrl;
 		this.type = animeDetailData.type;
 		this.genres = animeDetailData.genres;
 		this.studios = animeDetailData.studios;

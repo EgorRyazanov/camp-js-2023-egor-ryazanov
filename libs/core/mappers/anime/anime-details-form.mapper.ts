@@ -6,7 +6,8 @@ import { AnimeDetailFormDto } from '@js-camp/core/dtos/anime-dto/anime-details-f
 import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
 import { AnimeDtoTypes, AnimeStatusDto } from '@js-camp/core/dtos/anime-dto/anime.dto';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
-import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
+import { AnimeStatuses } from '@js-camp/core/models/anime/anime-status';
+import { BASE_SHARE_YOUTUBE_URL } from '@js-camp/core/utils/contansts';
 
 /** Anime Detail Form Mapper. */
 export namespace AnimeDetailFormMapper {
@@ -58,10 +59,10 @@ export namespace AnimeDetailFormMapper {
 		[AnimeType.Movie]: AnimeDtoTypes.Movie,
 	};
 
-	export const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
-		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
-		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
-		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
+	export const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatuses, AnimeStatusDto>> = {
+		[AnimeStatuses.Finished]: AnimeStatusDto.Finished,
+		[AnimeStatuses.NotYetAired]: AnimeStatusDto.NotYetAired,
+		[AnimeStatuses.Airing]: AnimeStatusDto.Airing,
 	};
 
 	/**
@@ -75,9 +76,9 @@ export namespace AnimeDetailFormMapper {
 				end: model.aired.end?.toString() ?? null,
 			},
 			airing: model.airing,
-			created: model.created.toString(),
+			created: model.created?.toString() ?? null,
 			image: model.image,
-			modified: model.modified.toString(),
+			modified: model.modified?.toString() ?? null,
 			rating: ANIME_RATING_TO_DTO[model.rating],
 			season: SEASON_TO_DTO[model.season],
 			source: SOURCE_TO_DTO[model.source],
@@ -85,7 +86,7 @@ export namespace AnimeDetailFormMapper {
 			synopsis: model.synopsis,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
-			trailer_youtube_id: model.trailerYoutubeId,
+			trailer_youtube_id: model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '') ?? null,
 			type: ANIME_TYPE_TO_DTO[model.type],
 			studios: model.studios,
 			genres: model.genres,

@@ -14,14 +14,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { AnimesPageComponent } from './animes-page/animes-page.component';
 import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
+import { EditDetailsPageComponent } from './edit-details-page/edit-details-page.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 /** Anime Module. */
 @NgModule({
-	declarations: [AnimesPageComponent, AnimeDetailsPageComponent],
+	declarations: [AnimesPageComponent, AnimeDetailsPageComponent, EditDetailsPageComponent],
 	imports: [
 		AnimeRoutingModule,
 		CommonModule,
@@ -38,6 +41,8 @@ import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-pa
 		MatButtonModule,
 		MatDialogModule,
 		SharedModule,
+		MatNativeDateModule,
+		MatDatepickerModule,
 	],
 	providers: [AnimeDetailsService, AnimeService],
 })

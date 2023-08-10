@@ -1,6 +1,6 @@
 import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../../../core/dtos/anime-dto/anime.dto';
 import { Anime } from '../../../core/models/anime/anime';
-import { AnimeStatus } from '../../../core/models/anime/anime-status';
+import { AnimeStatuses } from '../../../core/models/anime/anime-status';
 import { AnimeType } from '../../../core/models/anime/anime-type';
 
 /** Anime Mapper. */
@@ -15,10 +15,10 @@ export namespace AnimeMapper {
 		[AnimeDtoTypes.Movie]: AnimeType.Movie,
 	};
 
-	export const ANIME_STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
-		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
-		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
-		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
+	export const ANIME_STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatuses>> = {
+		[AnimeStatusDto.Finished]: AnimeStatuses.Finished,
+		[AnimeStatusDto.NotYetAired]: AnimeStatuses.NotYetAired,
+		[AnimeStatusDto.Airing]: AnimeStatuses.Airing,
 	};
 
 	/**

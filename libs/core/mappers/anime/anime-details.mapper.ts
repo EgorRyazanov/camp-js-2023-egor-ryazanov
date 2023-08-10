@@ -7,6 +7,7 @@ import { GenreMapper } from '../genre/genre.mapper';
 import { StudioMapper } from '../studio/studio.mapper';
 
 import { AnimeMapper } from './anime.mapper';
+import { BASE_SHARE_YOUTUBE_URL } from '@js-camp/core/utils/contansts';
 
 /** Anime Detail Mapper. */
 export namespace AnimeDetailMapper {
@@ -72,7 +73,7 @@ export namespace AnimeDetailMapper {
 			synopsis: dto.synopsis,
 			titleEnglish: dto.title_eng,
 			titleJapanese: dto.title_jpn,
-			trailerYoutubeUrl: dto.trailer_youtube_id ? `https://www.youtube.com/embed/${dto.trailer_youtube_id}` : null,
+			trailerYoutubeUrl: dto.trailer_youtube_id ? `${BASE_SHARE_YOUTUBE_URL}${dto.trailer_youtube_id}` : null,
 			type: AnimeMapper.ANIME_TYPE_FROM_DTO[dto.type],
 			studios: dto.studios,
 			genres: dto.genres,

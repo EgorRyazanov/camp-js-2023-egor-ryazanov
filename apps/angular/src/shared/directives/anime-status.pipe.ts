@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
+import { AnimeStatus, AnimeStatuses } from '@js-camp/core/models/anime/anime-status';
 
 /** Anime status pipe. */
 @Pipe({
@@ -10,7 +10,7 @@ export class ReadableAnimeStatus implements PipeTransform {
 	 * Makes anime status readable.
 	 * @param value Anime status.
 	 */
-	public transform(value: AnimeStatus): string {
+	public transform(value: AnimeStatuses): string {
 		return AnimeStatus.toReadable(value);
 	}
 }

@@ -2,7 +2,7 @@ import { Studio } from '../studio/studio';
 import { Genre } from '../genre/genre';
 import { Seasons } from '../season';
 import { Ratings } from '../rating';
-import { AnimeStatus } from './anime-status';
+import { AnimeStatuses } from './anime-status';
 import { AnimeType } from './anime-type';
 
 import { Sources } from './anime-source';
@@ -40,7 +40,7 @@ export class AnimeDetail {
 	public readonly type: AnimeType;
 
 	/** Status. */
-	public readonly status: AnimeStatus;
+	public readonly status: AnimeStatuses;
 
 	/** Rating. */
 	public readonly rating: Ratings;

@@ -1,12 +1,11 @@
 import { Ordering } from '../../../core/mappers/ordering.mapper';
 
 import { AnimeOrderingField } from './anime-ordering';
-import { AnimeStatus } from './anime-status';
+import { AnimeStatuses } from './anime-status';
 import { AnimeType } from './anime-type';
 
 /** Anime parameters. */
 export interface AnimeParameters {
-
 	/** Limit of elements in response. */
 	readonly pageSize: number;
 
@@ -20,7 +19,7 @@ export interface AnimeParameters {
 	readonly search?: string;
 
 	/** Status. */
-	readonly status?: AnimeStatus;
+	readonly status?: AnimeStatuses;
 
 	/** English title. */
 	readonly titleEnglish?: string;

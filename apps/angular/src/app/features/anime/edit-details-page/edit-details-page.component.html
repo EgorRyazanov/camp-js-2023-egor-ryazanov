@@ -1,0 +1,43 @@
+<h1>Edit</h1>
+<form [formGroup]="form">
+	<mat-form-field appearance="fill">
+		<mat-label>Status</mat-label>
+		<mat-select formControlName="status">
+			<mat-option *ngFor="let status of statuses" [value]="status">
+				{{ status | readableAnimeStatus }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field appearance="fill">
+		<mat-label>Seasons</mat-label>
+		<mat-select formControlName="season">
+			<mat-option *ngFor="let season of seasons" [value]="season">
+				{{ season | readableSeason }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field appearance="fill">
+		<mat-label>Ratings</mat-label>
+		<mat-select formControlName="rating">
+			<mat-option *ngFor="let rating of ratings" [value]="rating">
+				{{ rating | readableRating }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field>
+		<mat-label>Leave a comment</mat-label>
+		<textarea formControlName="synopsis" matInput placeholder="My opinion is..."></textarea>
+	</mat-form-field>
+	<mat-form-field appearance="fill">
+		<mat-label>Enter a date range</mat-label>
+		<mat-date-range-input [formGroup]="form.controls.aired" [rangePicker]="picker">
+			<input matStartDate [formControl]="form.controls.aired.controls.start" placeholder="Start date" />
+			<input matEndDate [formControl]="form.controls.aired.controls.end" placeholder="End date" />
+		</mat-date-range-input>
+		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		<mat-date-range-picker #picker></mat-date-range-picker>
+	</mat-form-field>
+</form>
+<div *ngIf="isLoading$ | async" class="animes__spinner">
+	<camp-spinner />
+</div>
