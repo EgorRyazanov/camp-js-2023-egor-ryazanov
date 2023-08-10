@@ -10,8 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
-  background-color: var(--background-alternative-background-color);
+  background-color: var(--background-alternative-primary-color);
 }
 
 .anime__details {

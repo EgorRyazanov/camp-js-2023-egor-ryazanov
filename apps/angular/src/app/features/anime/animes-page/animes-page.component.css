@@ -37,7 +37,7 @@
 
   /* It is necessary, since the elements of the table overlap the element. */
   z-index: 100;
-  background-color: var(--background-alternative-background-color);
+  background-color: var(--background-alternative-primary-color);
 }
 
 .table__row {
@@ -45,5 +45,5 @@
 }
 
 tr.table__row:hover {
-  background-color: var(--background-alternative-background-color);
+  background-color: var(--background-alternative-primary-color);
 }
