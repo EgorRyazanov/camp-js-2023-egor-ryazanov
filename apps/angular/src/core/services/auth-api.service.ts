@@ -23,10 +23,10 @@ export class AuthApiService {
 	private readonly apiUrlService = inject(UrlService);
 
 	/** Login mapper. */
-	private readonly LoginMapper = inject(LoginDataMapper);
+	private readonly loginMapper = inject(LoginDataMapper);
 
 	/** Register mapper. */
-	private readonly RegistrationDataMapper = inject(RegistrationDataMapper);
+	private readonly registrationDataMapper = inject(RegistrationDataMapper);
 
 	/** App error mapper. */
 	private readonly appErrorMapper = inject(AppErrorMapper);
@@ -37,10 +37,10 @@ export class AuthApiService {
 	 */
 	public register(registerData: Registration): Observable<UserSecret> {
 		return this.httpClient
-			.post<UserSecret>(this.apiUrlService.authUrls.register, this.RegistrationDataMapper.toDto(registerData))
+			.post<UserSecret>(this.apiUrlService.authUrls.register, this.registrationDataMapper.toDto(registerData))
 			.pipe(
 				map(secretDto => UserSecretMapper.fromDto(secretDto)),
-				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.RegistrationDataMapper),
+				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.registrationDataMapper),
 			);
 	}
 
@@ -49,9 +49,9 @@ export class AuthApiService {
 	 * @param loginData Login data.
 	 */
 	public login(loginData: Login): Observable<UserSecret> {
-		return this.httpClient.post<UserSecret>(this.apiUrlService.authUrls.login, this.LoginMapper.toDto(loginData)).pipe(
+		return this.httpClient.post<UserSecret>(this.apiUrlService.authUrls.login, this.loginMapper.toDto(loginData)).pipe(
 			map(secretDto => UserSecretMapper.fromDto(secretDto)),
-			this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.LoginMapper),
+			this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.loginMapper),
 		);
 	}
 
