@@ -61,15 +61,12 @@ export class AnimeDetailsPageComponent {
 		});
 	}
 
-	/** Creates id stream. */
+	/** Creates ID stream. */
 	private createIdParamStream(): Observable<string> {
 		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 	}
 
-	/**
-	 * Creates anime stream.
-	 * @param id ID of anime.
-	 */
+	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
 		return this.id$.pipe(
 			tap(() => {
