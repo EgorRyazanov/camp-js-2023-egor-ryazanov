@@ -9,6 +9,10 @@ import { AnimeParameters } from '@js-camp/core/models/anime/anime-params';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
 import { UrlService } from './url.service';
+import { AnimeDetailDto } from '@js-camp/core/dtos/anime-dto/anime-details.dto';
+import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
+import { AnimeDetailMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
+import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
 
 /** Anime service. */
 @Injectable()
@@ -26,10 +30,40 @@ export class AnimeService {
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.httpService
 			.get<AnimePaginationDto>(this.urlService.animeUrls.animes, {
-			params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
-		})
+				params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
+			})
 			.pipe(
-				map(animePaginationDto => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
+				map((animePaginationDto) => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto))
 			);
+	}
+
+	/**
+	 * Gets anime by ID.
+	 * @param id ID of anime.
+	 */
+	public getAnime(id: string): Observable<AnimeDetail> {
+		return this.httpService
+			.get<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id))
+			.pipe(map((dto) => AnimeDetailMapper.fromDto(dto)));
+	}
+
+	/**
+	 * Gets anime by ID.
+	 * @param id ID of anime.
+	 */
+	public deleteAnime(id: string): Observable<void> {
+		return this.httpService.delete<void>(this.urlService.animeUrls.animesDetail(id));
+	}
+
+	public changeAnime(id: string, body: AnimeDetailForm): Observable<AnimeDetail> {
+		return this.httpService
+			.put<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id), body)
+			.pipe(map((dto) => AnimeDetailMapper.fromDto(dto)));
+	}
+
+	public createAnime(body: AnimeDetailForm): Observable<AnimeDetail> {
+		return this.httpService
+			.post<AnimeDetailDto>(this.urlService.animeUrls.animes, body)
+			.pipe(map((dto) => AnimeDetailMapper.fromDto(dto)));
 	}
 }

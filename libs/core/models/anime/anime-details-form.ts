@@ -4,6 +4,8 @@ import { AnimeStatuses } from './anime-status';
 import { AnimeType } from './anime-type';
 import { Sources } from './anime-source';
 import { Aired } from './anime-detail';
+import { Studio } from '../studio/studio';
+import { Genre } from '../genre/genre';
 
 /** Anime Detail. */
 export class AnimeDetailForm {
@@ -55,11 +57,11 @@ export class AnimeDetailForm {
 	/** Synopsis. */
 	public readonly synopsis: string;
 
-	/** Studios IDs. */
-	public readonly studios: readonly number[];
+	/** Studios. */
+	public readonly studiosData: readonly Studio[];
 
-	/** Genres IDs. */
-	public readonly genres: readonly number[];
+	/** Genres. */
+	public readonly genresData: readonly Genre[];
 
 	public constructor(animeDetailData: AnimeDetailForm) {
 		this.aired = animeDetailData.aired;
@@ -76,7 +78,7 @@ export class AnimeDetailForm {
 		this.titleJapanese = animeDetailData.titleJapanese;
 		this.trailerYoutubeUrl = animeDetailData.trailerYoutubeUrl;
 		this.type = animeDetailData.type;
-		this.genres = animeDetailData.genres;
-		this.studios = animeDetailData.studios;
+		this.genresData = animeDetailData.genresData;
+		this.studiosData = animeDetailData.studiosData;
 	}
 }

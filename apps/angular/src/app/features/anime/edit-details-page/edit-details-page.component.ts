@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
 import { BehaviorSubject, Observable, map, switchMap, tap } from 'rxjs';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
@@ -14,6 +13,7 @@ import { Sources } from '@js-camp/core/models/anime/anime-source';
 import { AnimeStatuses } from '@js-camp/core/models/anime/anime-status';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { convertEnumToArray } from '@js-camp/core/utils/convert-enum-to-array';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 type AnimeDetailControls = ControlsOf<AnimeDetailForm>;
 
@@ -35,8 +35,8 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	titleJapanese: '',
 	trailerYoutubeUrl: null,
 	type: AnimeType.Unknown,
-	genres: [],
-	studios: [],
+	genresData: [],
+	studiosData: [],
 };
 
 @Component({
@@ -65,7 +65,7 @@ export class EditDetailsPageComponent implements OnInit {
 	protected readonly form: FormGroup<AnimeDetailControls>;
 
 	/** Anime details service. */
-	private readonly animeDetailsService = inject(AnimeDetailsService);
+	private readonly animeDetailsService = inject(AnimeService);
 
 	/** Sanitizer to make URL of video safe. */
 	private readonly sanitizer = inject(DomSanitizer);
@@ -85,6 +85,10 @@ export class EditDetailsPageComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.createAnimeStream();
+	}
+
+	protected onSubmit() {
+		console.log(this.form.getRawValue());
 	}
 
 	/** Creates id stream. */
@@ -127,14 +131,14 @@ export class EditDetailsPageComponent implements OnInit {
 			}),
 			airing: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.airing),
 			rating: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.rating),
-			genres: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genres),
+			genresData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genresData),
 			image: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.image),
 			created: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.created),
 			modified: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.modified),
 			season: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.season),
 			source: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.source),
 			status: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.status),
-			studios: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.studios),
+			studiosData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.studiosData),
 			titleJapanese: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.titleJapanese),
 			trailerYoutubeUrl: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.trailerYoutubeUrl),
 			type: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.type),

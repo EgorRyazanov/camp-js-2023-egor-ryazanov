@@ -23,6 +23,10 @@ export class UrlService {
 		animesDetail: (id: string) => this.generateURL(`/api/v1/anime/anime/${id}/`),
 	} as const;
 
+	public readonly genresUrls = {
+		genres: this.generateURL('/api/v1/anime/genres/'),
+	};
+
 	/**
 	 * Checks URL for accordance auth URLs.
 	 * @param url URL to check.
@@ -37,6 +41,14 @@ export class UrlService {
 	 */
 	public isAnimeUrl(url: string): boolean {
 		return url.startsWith(this.animeUrls.animes);
+	}
+
+	/**
+	 * Checks URL for accordance genres URLs.
+	 * @param url URL to check.
+	 */
+	public isGenresUrl(url: string): boolean {
+		return url.startsWith(this.genresUrls.genres);
 	}
 
 	/**

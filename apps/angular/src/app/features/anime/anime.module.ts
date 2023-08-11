@@ -11,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -21,6 +20,8 @@ import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
 import { EditDetailsPageComponent } from './edit-details-page/edit-details-page.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { GenresFormInputComponent } from '@js-camp/angular/shared/components/genres-form-input/genres-form-input.component';
+import { GenresService } from '@js-camp/angular/core/services/genres.service';
 
 /** Anime Module. */
 @NgModule({
@@ -43,7 +44,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 		SharedModule,
 		MatNativeDateModule,
 		MatDatepickerModule,
+		GenresFormInputComponent,
 	],
-	providers: [AnimeDetailsService, AnimeService],
+	providers: [AnimeService, GenresService],
 })
 export class AnimeModule {}

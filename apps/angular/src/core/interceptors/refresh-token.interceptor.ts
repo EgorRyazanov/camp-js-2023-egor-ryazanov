@@ -35,9 +35,9 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 					tap(() => {
 						this.refreshSecretRequest$ = null;
 					}),
-					switchMap(() => next.handle(req)),
+					switchMap(() => next.handle(req))
 				);
-			}),
+			})
 		);
 	}
 
@@ -55,6 +55,8 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 	 * @param url URL to check.
 	 */
 	private shouldRefreshTokenForUrl(url: string): boolean {
-		return !this.apiUrlsConfig.isAuthUrl(url) && this.apiUrlsConfig.isAnimeUrl(url);
+		return (
+			!this.apiUrlsConfig.isAuthUrl(url) && (this.apiUrlsConfig.isAnimeUrl(url) || this.apiUrlsConfig.isGenresUrl(url))
+		);
 	}
 }

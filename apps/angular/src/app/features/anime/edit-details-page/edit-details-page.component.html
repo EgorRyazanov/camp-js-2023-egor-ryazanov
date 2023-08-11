@@ -1,6 +1,6 @@
 <div>
 	<h1>Edit</h1>
-	<form [formGroup]="form" class="form">
+	<form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
 		<mat-form-field>
 			<mat-label>Status</mat-label>
 			<mat-select formControlName="status">
@@ -86,6 +86,9 @@
 			<mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
 			<mat-datepicker #picker2></mat-datepicker>
 		</mat-form-field>
+
+		<camp-genres-form-input [required]="true" [formControl]="form.controls.genresData" />
+		<button type="submit">Save</button>
 	</form>
 	<div *ngIf="isLoading$ | async" class="animes__spinner">
 		<camp-spinner />

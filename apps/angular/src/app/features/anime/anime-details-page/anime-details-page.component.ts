@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AnimeDetailsService } from '@js-camp/angular/core/services/anime-details.service';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { BehaviorSubject, Observable, catchError, concatMap, map, of, switchMap, tap, throwError } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { ConfirmService } from '@js-camp/angular/core/services/confirm.service';
-
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 const homeUrl = '';
 
@@ -33,7 +32,7 @@ export class AnimeDetailsPageComponent {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Anime details service. */
-	private readonly animeDetailsService = inject(AnimeDetailsService);
+	private readonly animeDetailsService = inject(AnimeService);
 
 	/** Sanitizer to make URL of video safe. */
 	private readonly sanitizer = inject(DomSanitizer);
