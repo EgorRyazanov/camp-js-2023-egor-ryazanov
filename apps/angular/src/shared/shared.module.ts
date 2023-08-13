@@ -4,16 +4,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { ReadableAnimeStatus } from './directives/readable-anime-status.pipe';
-import { ReadableAnimeType } from './directives/readable-anime-type.pipe';
-import { Empty } from './directives/empty.pipe';
-import { ErrorMessage } from './directives/readable-error-message.pipe';
-import { ReadableGenres } from './directives/readable-genres.pipe';
-import { ReadableSeason } from './directives/readable-seasons.pipe';
-import { ReadableStudios } from './directives/readable-studios.pipe';
-import { ReadableRating } from './directives/readable-ratings.pipe';
-import { ReadableSource } from './directives/readable-source.pipe';
-import { YesNo } from './directives/yes-no.pipe';
+import { ReadableAnimeStatus } from './pipes/readable-anime-status.pipe';
+import { ReadableAnimeType } from './pipes/readable-anime-type.pipe';
+import { Empty } from './pipes/empty.pipe';
+import { ErrorMessage } from './pipes/readable-error-message.pipe';
+import { ReadableGenres } from './pipes/readable-genres.pipe';
+import { ReadableSeason } from './pipes/readable-seasons.pipe';
+import { ReadableStudios } from './pipes/readable-studios.pipe';
+import { ReadableRating } from './pipes/readable-ratings.pipe';
+import { ReadableSource } from './pipes/readable-source.pipe';
+import { YesNo } from './pipes/yes-no.pipe';
 
 /** Shared module. */
 @NgModule({

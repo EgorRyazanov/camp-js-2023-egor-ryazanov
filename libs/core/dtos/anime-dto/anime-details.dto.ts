@@ -1,8 +1,9 @@
-import { StudioDTO } from '../studios-dto/studio.dto';
+import { StudioDto } from '../studios-dto/studio.dto';
 import { GenreDto } from '../genre-dto/genre.dto';
 
 import { AnimeDtoTypes, AnimeStatusDto } from './anime.dto';
 
+/** Anime Detail DTO. */
 export interface AnimeDetailDto {
 
 	/** ID. */
@@ -42,10 +43,10 @@ export interface AnimeDetailDto {
 	readonly rating: RatingDto;
 
 	/** Source. */
-	readonly source: SourceDTO;
+	readonly source: SourceDto;
 
 	/** Season. */
-	readonly season: SeasonsDTO;
+	readonly season: SeasonsDto;
 
 	/** Youtube trialer's ID. */
 	readonly trailer_youtube_id: string;
@@ -57,14 +58,14 @@ export interface AnimeDetailDto {
 	readonly synopsis: string;
 
 	/** Studios. */
-	readonly studios_data: readonly StudioDTO[];
+	readonly studios_data: readonly StudioDto[];
 
 	/** Genres. */
 	readonly genres_data: readonly GenreDto[];
 }
 
 /** Seasons DTO. */
-export enum SeasonsDTO {
+export enum SeasonsDto {
 	Summer = 'SUMMER',
 	Winter = 'WINTER',
 	Spring = 'SPRING',
@@ -72,7 +73,8 @@ export enum SeasonsDTO {
 	NonSeasonal = 'NON_SEASONAL',
 }
 
-export enum SourceDTO {
+/** Source DTO. */
+export enum SourceDto {
 	FourKomaManga = 'FOUR_KOMA_MANGA',
 	Book = 'BOOK',
 	CardGame = 'CARD_GAME',
@@ -108,7 +110,7 @@ export interface AiredDto {
 	readonly end: string | null;
 }
 
-/** Rating. */
+/** Rating DTO. */
 export enum RatingDto {
 	G = 'G',
 	PG = 'PG',

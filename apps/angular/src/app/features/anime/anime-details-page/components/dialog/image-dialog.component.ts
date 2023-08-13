@@ -6,7 +6,10 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 interface ImageDialogData {
 
 	/** Image URL. */
-	imageUrl: string;
+	readonly imageUrl: string;
+
+	/** English title. */
+	readonly titleEnglish: string;
 }
 
 /** Image dialog. */

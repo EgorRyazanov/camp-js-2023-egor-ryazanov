@@ -1,13 +1,10 @@
 import { Studio } from '../studio/studio';
 import { Genre } from '../genre/genre';
-
 import { Seasons } from '../season';
-
 import { Ratings } from '../rating';
 
 import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
-
 import { Sources } from './anime-source';
 
 /** Anime Detail. */
@@ -97,11 +94,11 @@ export interface Aired {
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	start: Date | null;
+	readonly start: Date | null;
 
 	/**
 	 *  End date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	end: Date | null;
+	readonly end: Date | null;
 }

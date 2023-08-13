@@ -30,7 +30,7 @@ export interface AnimeDto {
 /** Anime DTO with pagination fields. */
 export type AnimePaginationDto = PaginationDto<AnimeDto>;
 
-/** Anime type. */
+/** Anime type DTO. */
 export enum AnimeDtoTypes {
 	Tv = 'TV',
 	Ova = 'OVA',
@@ -41,7 +41,7 @@ export enum AnimeDtoTypes {
 	Unknown = 'UNKNOWN',
 }
 
-/** Status. */
+/** Status DTO. */
 export enum AnimeStatusDto {
 	Finished = 'FINISHED',
 	Airing = 'AIRING',

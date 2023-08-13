@@ -3,7 +3,12 @@
 		<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
 		<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
 		<div class="anime__details">
-			<img class="details__image" [alt]="anime.titleEnglish" [src]="anime.image" (click)="openDialog(anime.image)" />
+			<img
+				class="anime__details-image"
+				[alt]="anime.titleEnglish"
+				[src]="anime.image"
+				(click)="openDialog(anime.image, anime.titleEnglish)"
+			/>
 			<div>
 				<p><strong>Season:</strong> {{ anime.season | readableSeason }}</p>
 				<p><strong>Synopsis:</strong> {{ anime.synopsis }}</p>

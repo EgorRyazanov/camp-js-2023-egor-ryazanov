@@ -54,10 +54,11 @@ export class AnimeDetailsPageComponent {
 	/**
 	 * Opens image dialog.
 	 * @param imageUrl URL of image.
+	 * @param titleEnglish English title.
 	 */
-	public openDialog(imageUrl: string): void {
+	public openDialog(imageUrl: string, titleEnglish: string): void {
 		this.dialogService.open(ImageDialogComponent, {
-			data: { imageUrl },
+			data: { imageUrl, titleEnglish },
 		});
 	}
 

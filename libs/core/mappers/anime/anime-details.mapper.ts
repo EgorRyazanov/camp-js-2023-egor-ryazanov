@@ -1,7 +1,7 @@
 import { Seasons } from '../../../core/models/season';
 import { Ratings } from '../../../core/models/rating';
 import { Sources } from '../../../core/models/anime/anime-source';
-import { AnimeDetailDto, RatingDto, SeasonsDTO, SourceDTO } from '../../../core/dtos/anime-dto/anime-details.dto';
+import { AnimeDetailDto, RatingDto, SeasonsDto, SourceDto } from '../../../core/dtos/anime-dto/anime-details.dto';
 import { AnimeDetail } from '../../../core/models/anime/anime-detail';
 import { GenreMapper } from '../genre/genre.mapper';
 import { StudioMapper } from '../studio/studio.mapper';
@@ -20,32 +20,32 @@ export namespace AnimeDetailMapper {
 		[RatingDto.Unknown]: Ratings.Unknown,
 	};
 
-	export const SEASON_FROM_DTO: Readonly<Record<SeasonsDTO, Seasons>> = {
-		[SeasonsDTO.Fall]: Seasons.Fall,
-		[SeasonsDTO.NonSeasonal]: Seasons.NonSeasonal,
-		[SeasonsDTO.Spring]: Seasons.Spring,
-		[SeasonsDTO.Summer]: Seasons.Summer,
-		[SeasonsDTO.Winter]: Seasons.Winter,
+	export const SEASON_FROM_DTO: Readonly<Record<SeasonsDto, Seasons>> = {
+		[SeasonsDto.Fall]: Seasons.Fall,
+		[SeasonsDto.NonSeasonal]: Seasons.NonSeasonal,
+		[SeasonsDto.Spring]: Seasons.Spring,
+		[SeasonsDto.Summer]: Seasons.Summer,
+		[SeasonsDto.Winter]: Seasons.Winter,
 	};
 
-	export const SOURCE_FROM_DTO: Readonly<Record<SourceDTO, Sources>> = {
-		[SourceDTO.Book]: Sources.Book,
-		[SourceDTO.CardGame]: Sources.CardGame,
-		[SourceDTO.FourKomaManga]: Sources.FourKomaManga,
-		[SourceDTO.Game]: Sources.Game,
-		[SourceDTO.LightNovel]: Sources.LightNovel,
-		[SourceDTO.Manga]: Sources.Manga,
-		[SourceDTO.MixedMedia]: Sources.MixedMedia,
-		[SourceDTO.Music]: Sources.Music,
-		[SourceDTO.Novel]: Sources.Novel,
-		[SourceDTO.Original]: Sources.Original,
-		[SourceDTO.Other]: Sources.Other,
-		[SourceDTO.PictureBook]: Sources.PictureBook,
-		[SourceDTO.WebNovel]: Sources.WebNovel,
-		[SourceDTO.WebManga]: Sources.WebManga,
-		[SourceDTO.VisialNovel]: Sources.VisialNovel,
-		[SourceDTO.Unknown]: Sources.Unknown,
-		[SourceDTO.Radio]: Sources.Radio,
+	export const SOURCE_FROM_DTO: Readonly<Record<SourceDto, Sources>> = {
+		[SourceDto.Book]: Sources.Book,
+		[SourceDto.CardGame]: Sources.CardGame,
+		[SourceDto.FourKomaManga]: Sources.FourKomaManga,
+		[SourceDto.Game]: Sources.Game,
+		[SourceDto.LightNovel]: Sources.LightNovel,
+		[SourceDto.Manga]: Sources.Manga,
+		[SourceDto.MixedMedia]: Sources.MixedMedia,
+		[SourceDto.Music]: Sources.Music,
+		[SourceDto.Novel]: Sources.Novel,
+		[SourceDto.Original]: Sources.Original,
+		[SourceDto.Other]: Sources.Other,
+		[SourceDto.PictureBook]: Sources.PictureBook,
+		[SourceDto.WebNovel]: Sources.WebNovel,
+		[SourceDto.WebManga]: Sources.WebManga,
+		[SourceDto.VisialNovel]: Sources.VisialNovel,
+		[SourceDto.Unknown]: Sources.Unknown,
+		[SourceDto.Radio]: Sources.Radio,
 	};
 
 	/**

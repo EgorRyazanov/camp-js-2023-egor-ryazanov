@@ -15,14 +15,13 @@
 
 .anime__details {
   display: flex;
+  gap: var(--space-md);
 }
 
-.details__image {
+.anime__details-image {
   max-width: 350px;
   max-height: 350px;
   float: left;
-  margin-right: var(--space-md);
-  margin-bottom: var(--space-md);
   cursor: pointer;
   outline: 1px solid var(--image-outline-color);
 }
