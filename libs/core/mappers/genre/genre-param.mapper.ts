@@ -9,7 +9,7 @@ export namespace GenreParamsMapper {
 		return deleteUndefinedProperties({
 			search: model.search,
 			limit: model.pageNumber != undefined ? model.pageSize ?? defaultPageSize : undefined,
-			offset: model.pageNumber,
+			offset: model.pageNumber * (model.pageSize ?? defaultPageSize),
 			name: model.name,
 		});
 	}

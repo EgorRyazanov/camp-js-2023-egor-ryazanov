@@ -87,7 +87,13 @@
 			<mat-datepicker #picker2></mat-datepicker>
 		</mat-form-field>
 
-		<camp-genres-form-input [required]="true" [formControl]="form.controls.genresData" />
+		<camp-custom-form-select
+			(getAddedItem)="createGenres($event)"
+			[addedItem]="addedGenre$ | async"
+			(getItems)="getGenres($event)"
+			[items]="genres$ | async"
+			formControlName="genresData"
+		/>
 		<button type="submit">Save</button>
 	</form>
 	<div *ngIf="isLoading$ | async" class="animes__spinner">

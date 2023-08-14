@@ -20,8 +20,8 @@ import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
 import { EditDetailsPageComponent } from './edit-details-page/edit-details-page.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import { GenresFormInputComponent } from '@js-camp/angular/shared/components/genres-form-input/genres-form-input.component';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
+import { CustomFormSelectComponent } from '@js-camp/angular/shared/components/custom-form-select/custom-form-select.component';
 
 /** Anime Module. */
 @NgModule({
@@ -44,7 +44,7 @@ import { GenresService } from '@js-camp/angular/core/services/genres.service';
 		SharedModule,
 		MatNativeDateModule,
 		MatDatepickerModule,
-		GenresFormInputComponent,
+		CustomFormSelectComponent,
 	],
 	providers: [AnimeService, GenresService],
 })

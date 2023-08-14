@@ -13,6 +13,7 @@ import { ReadableSeason } from './directives/seasons.pipe';
 import { ReadableStudios } from './directives/studios.pipe';
 import { ReadableRating } from './directives/ratings.pipe';
 import { ReadableSource } from './directives/source.pipe';
+import { ReadableObject } from './directives/readable-object.pipe';
 
 /** Shared module. */
 @NgModule({
@@ -27,6 +28,7 @@ import { ReadableSource } from './directives/source.pipe';
 		ReadableStudios,
 		ReadableRating,
 		ReadableSource,
+		ReadableObject,
 	],
 	imports: [CommonModule, MatProgressSpinnerModule, HttpClientModule],
 	exports: [
@@ -35,6 +37,7 @@ import { ReadableSource } from './directives/source.pipe';
 		ReadableAnimeStatus,
 		ReadableAnimeType,
 		Empty,
+		ReadableObject,
 		ErrorMessage,
 		ReadableGenres,
 		ReadableSeason,

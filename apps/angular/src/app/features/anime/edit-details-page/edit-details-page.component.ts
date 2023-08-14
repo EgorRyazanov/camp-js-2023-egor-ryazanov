@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, first, map, of, switchMap, tap } from 'rxjs';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
 import { Ratings } from '@js-camp/core/models/rating';
@@ -14,8 +14,17 @@ import { AnimeStatuses } from '@js-camp/core/models/anime/anime-status';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { convertEnumToArray } from '@js-camp/core/utils/convert-enum-to-array';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { GenresService } from '@js-camp/angular/core/services/genres.service';
+import { Genre } from '@js-camp/core/models/genre/genre';
 
 type AnimeDetailControls = ControlsOf<AnimeDetailForm>;
+
+type DefaultParams = {
+	name?: string;
+	pageNumber: number;
+	search?: string;
+	pageSize?: number;
+};
 
 const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	aired: {
@@ -46,6 +55,7 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditDetailsPageComponent implements OnInit {
+	protected readonly genresService = inject(GenresService);
 	private readonly id$: Observable<string>;
 
 	protected readonly isLoading$ = new BehaviorSubject(false);
@@ -78,6 +88,10 @@ export class EditDetailsPageComponent implements OnInit {
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
+	protected genres$ = new BehaviorSubject<readonly Genre[] | null>(null);
+
+	protected addedGenre$ = new BehaviorSubject<Genre | null>(null);
+
 	public constructor() {
 		this.form = this.initAnimeDetailsForm();
 		this.id$ = this.createIdParamStream();
@@ -88,7 +102,7 @@ export class EditDetailsPageComponent implements OnInit {
 	}
 
 	protected onSubmit() {
-		console.log(this.form.getRawValue());
+		console.log(this.form.controls.genresData.invalid);
 	}
 
 	/** Creates id stream. */
@@ -121,6 +135,41 @@ export class EditDetailsPageComponent implements OnInit {
 		this.form.patchValue({ ...animeDetail });
 	}
 
+	protected getGenres(params: DefaultParams): void {
+		this.genresService
+			.get(params)
+			.pipe(
+				first(),
+				map((pagination) => pagination?.items),
+				tap((genres) => {
+					if (genres.length > 0) {
+						this.genres$.next(genres);
+					} else {
+						this.genres$.next(null);
+					}
+				})
+			)
+			.subscribe();
+	}
+
+	protected createGenres(params: DefaultParams): void {
+		this.genresService
+			.get(params)
+			.pipe(
+				first(),
+				switchMap((genres) => {
+					if (genres.count !== 0) {
+						of(genres.items[0]);
+					}
+
+					return this.genresService.create({ name: params.name, pageNumber: params.pageNumber });
+				})
+			)
+			.subscribe((genre) => {
+				this.addedGenre$.next(genre);
+			});
+	}
+
 	private initAnimeDetailsForm(): FormGroup<AnimeDetailControls> {
 		return this.formBuilder.group<AnimeDetailControls>({
 			synopsis: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.synopsis),
@@ -131,7 +180,7 @@ export class EditDetailsPageComponent implements OnInit {
 			}),
 			airing: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.airing),
 			rating: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.rating),
-			genresData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genresData),
+			genresData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genresData, [Validators.required]),
 			image: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.image),
 			created: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.created),
 			modified: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.modified),
