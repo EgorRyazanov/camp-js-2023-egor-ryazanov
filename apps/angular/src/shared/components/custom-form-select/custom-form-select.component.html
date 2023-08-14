@@ -29,8 +29,8 @@
 		>
 			<li
 				class="auto-complete__item"
-				(click)="selected(element)"
 				*ngFor="let element of filteredItems | async; let index = index"
+				(click)="selected(element)"
 			>
 				{{ element | readableObject : index }}
 			</li>

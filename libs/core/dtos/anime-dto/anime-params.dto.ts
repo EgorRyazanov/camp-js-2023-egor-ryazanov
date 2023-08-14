@@ -1,19 +1,10 @@
 import { AnimeStatusDto } from './anime.dto';
+import { DefaultParamsDto } from '../default-params';
 
 /** Anime parameters DTO. */
-export interface AnimeParametersDto {
-
-	/** Limit of elements in response. */
-	readonly limit?: number;
-
-	/** Offset. */
-	readonly offset?: number;
-
+export interface AnimeParametersDto extends DefaultParamsDto {
 	/** Ordering. */
 	readonly ordering?: string;
-
-	/** Search. */
-	readonly search?: string;
 
 	/** Status. */
 	readonly status?: AnimeStatusDto;

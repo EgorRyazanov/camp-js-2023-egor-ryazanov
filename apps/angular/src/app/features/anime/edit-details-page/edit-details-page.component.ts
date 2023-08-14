@@ -16,15 +16,11 @@ import { convertEnumToArray } from '@js-camp/core/utils/convert-enum-to-array';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
 import { Genre } from '@js-camp/core/models/genre/genre';
+import { DefaultParams } from '@js-camp/core/models/default-params';
+import { StudiosService } from '@js-camp/angular/core/services/studios.service';
+import { Studio } from '@js-camp/core/models/studio/studio';
 
 type AnimeDetailControls = ControlsOf<AnimeDetailForm>;
-
-type DefaultParams = {
-	name?: string;
-	pageNumber: number;
-	search?: string;
-	pageSize?: number;
-};
 
 const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	aired: {
@@ -55,7 +51,10 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditDetailsPageComponent implements OnInit {
-	protected readonly genresService = inject(GenresService);
+	private readonly genresService = inject(GenresService);
+
+	private readonly studiosService = inject(StudiosService);
+
 	private readonly id$: Observable<string>;
 
 	protected readonly isLoading$ = new BehaviorSubject(false);
@@ -91,6 +90,10 @@ export class EditDetailsPageComponent implements OnInit {
 	protected genres$ = new BehaviorSubject<readonly Genre[] | null>(null);
 
 	protected addedGenre$ = new BehaviorSubject<Genre | null>(null);
+
+	protected studios$ = new BehaviorSubject<readonly Studio[] | null>(null);
+
+	protected addedStudio$ = new BehaviorSubject<Studio | null>(null);
 
 	public constructor() {
 		this.form = this.initAnimeDetailsForm();
@@ -135,6 +138,41 @@ export class EditDetailsPageComponent implements OnInit {
 		this.form.patchValue({ ...animeDetail });
 	}
 
+	protected getStudios(params: DefaultParams): void {
+		this.studiosService
+			.get(params)
+			.pipe(
+				first(),
+				map((pagination) => pagination?.items),
+				tap((studios) => {
+					if (studios.length > 0) {
+						this.studios$.next(studios);
+					} else {
+						this.studios$.next(null);
+					}
+				})
+			)
+			.subscribe();
+	}
+
+	protected createGenres(params: DefaultParams): void {
+		this.studiosService
+			.get(params)
+			.pipe(
+				first(),
+				switchMap((studios) => {
+					if (studios.count !== 0) {
+						of(studios.items[0]);
+					}
+
+					return this.studiosService.create({ name: params.name, pageNumber: params.pageNumber });
+				})
+			)
+			.subscribe((studio) => {
+				this.addedStudio$.next(studio);
+			});
+	}
+
 	protected getGenres(params: DefaultParams): void {
 		this.genresService
 			.get(params)
@@ -152,7 +190,7 @@ export class EditDetailsPageComponent implements OnInit {
 			.subscribe();
 	}
 
-	protected createGenres(params: DefaultParams): void {
+	protected createStudios(params: DefaultParams): void {
 		this.genresService
 			.get(params)
 			.pipe(
@@ -187,7 +225,7 @@ export class EditDetailsPageComponent implements OnInit {
 			season: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.season),
 			source: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.source),
 			status: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.status),
-			studiosData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.studiosData),
+			studiosData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.studiosData, [Validators.required]),
 			titleJapanese: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.titleJapanese),
 			trailerYoutubeUrl: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.trailerYoutubeUrl),
 			type: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.type),

@@ -9,11 +9,10 @@ import { AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-orderi
 import { OrderingMapper } from '../ordering.mapper';
 
 import { AnimeTypeMapper } from './anime-type.mapper';
+import { DefaultParamsMapper } from '../default-params.mapper';
 
 /** Anime Parameters Mapper. */
 export namespace AnimeParametersMapper {
-	const defaultPageSize = 25;
-
 	const ORDERING_FIELD_TO_DTO = {
 		[AnimeOrderingField.TitleEnghlish]: AnimeOrderingFieldDto.TitleEnghlish,
 		[AnimeOrderingField.Status]: AnimeOrderingFieldDto.Status,
@@ -32,10 +31,13 @@ export namespace AnimeParametersMapper {
 	 */
 	export function toDto(model: AnimeParameters): AnimeParametersDto {
 		return deleteUndefinedProperties({
-			limit: model?.pageSize ?? defaultPageSize,
-			offset: model?.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
+			...DefaultParamsMapper.toDto({
+				pageSize: model?.pageSize,
+				pageNumber: model.pageNumber,
+				search: model?.search,
+				name: model?.name,
+			}),
 			ordering: OrderingMapper.toDto(model?.ordering, ORDERING_FIELD_TO_DTO),
-			search: model?.search,
 			status: model?.status ? ANIME_STATUS_TO_DTO[model.status] : undefined,
 			type__in: model?.typeIn ? AnimeTypeMapper.toDto(model.typeIn) : undefined,
 		});

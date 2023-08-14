@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 
 import { AppConfig } from './app.config';
+import { Studio } from '@js-camp/core/models/studio/studio';
 
 /** URL service. */
 @Injectable({
@@ -27,6 +28,10 @@ export class UrlService {
 		genres: this.generateURL('/api/v1/anime/genres/'),
 	};
 
+	public readonly studiosUrls = {
+		studios: this.generateURL('/api/v1/anime/studios/'),
+	};
+
 	/**
 	 * Checks URL for accordance auth URLs.
 	 * @param url URL to check.
@@ -49,6 +54,14 @@ export class UrlService {
 	 */
 	public isGenresUrl(url: string): boolean {
 		return url.startsWith(this.genresUrls.genres);
+	}
+
+	/**
+	 * Checks URL for accordance studio URLs.
+	 * @param url URL to check.
+	 */
+	public isStudioUrl(url: string): boolean {
+		return url.startsWith(this.studiosUrls.studios);
 	}
 
 	/**

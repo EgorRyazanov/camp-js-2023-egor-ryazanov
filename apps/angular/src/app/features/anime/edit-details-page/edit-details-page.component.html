@@ -88,12 +88,25 @@
 		</mat-form-field>
 
 		<camp-custom-form-select
-			(getAddedItem)="createGenres($event)"
+			placeholder="Studios"
+			formControlName="studiosData"
+			[items]="studios$ | async"
+			[addedItem]="addedStudio$ | async"
+			(getItems)="getStudios($event)"
+			(getAddedItem)="createStudios($event)"
+		/>
+
+		<camp-custom-form-select
+			placeholder="Genres"
+			formControlName="genresData"
+			[items]="genres$ | async"
 			[addedItem]="addedGenre$ | async"
 			(getItems)="getGenres($event)"
-			[items]="genres$ | async"
-			formControlName="genresData"
+			(getAddedItem)="createGenres($event)"
 		/>
+		<mat-error *ngIf="form.controls.genresData.hasError('required') as error">
+			{{ error }}
+		</mat-error>
 		<button type="submit">Save</button>
 	</form>
 	<div *ngIf="isLoading$ | async" class="animes__spinner">

@@ -1,22 +1,14 @@
 import { Ordering } from '../../../core/mappers/ordering.mapper';
+import { DefaultParams } from '../default-params';
 
 import { AnimeOrderingField } from './anime-ordering';
 import { AnimeStatuses } from './anime-status';
 import { AnimeType } from './anime-type';
 
 /** Anime parameters. */
-export interface AnimeParameters {
-	/** Limit of elements in response. */
-	readonly pageSize: number;
-
-	/** Offset. */
-	readonly pageNumber: number;
-
+export interface AnimeParameters extends DefaultParams {
 	/** Ordering. */
 	readonly ordering?: Ordering<AnimeOrderingField>;
-
-	/** Search. */
-	readonly search?: string;
 
 	/** Status. */
 	readonly status?: AnimeStatuses;

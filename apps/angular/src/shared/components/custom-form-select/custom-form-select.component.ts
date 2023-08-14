@@ -12,18 +12,12 @@ import { SharedModule } from '../../shared.module';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { BaseFormControl } from '../base-form-control/base-form-control';
 import { EventEmitter } from '@angular/core';
+import { DefaultParams } from '@js-camp/core/models/default-params';
 
 const defaultParams: DefaultParams = {
 	name: '',
 	pageNumber: 0,
 	search: '',
-};
-
-type DefaultParams = {
-	name?: string;
-	pageNumber: number;
-	search?: string;
-	pageSize?: number;
 };
 
 @Component({

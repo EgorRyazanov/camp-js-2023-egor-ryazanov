@@ -1,4 +1,4 @@
-export interface GenreParams {
+export interface DefaultParams {
 	readonly pageSize?: number;
 	readonly pageNumber: number;
 	readonly search?: string;

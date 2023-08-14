@@ -1,4 +1,4 @@
-export interface GenreParamsDto {
+export interface DefaultParamsDto {
 	readonly limit?: number;
 	readonly offset: number;
 	readonly search?: string;

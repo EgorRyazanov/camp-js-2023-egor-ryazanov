@@ -1,3 +1,5 @@
+import { Pagination } from '../pagintation';
+
 /** Studio. */
 export class Studio {
 	/** ID. */
@@ -25,3 +27,6 @@ export class Studio {
 		this.name = studioData.name;
 	}
 }
+
+/** Studio pagination. */
+export type StudioPagination = Pagination<Studio>;
