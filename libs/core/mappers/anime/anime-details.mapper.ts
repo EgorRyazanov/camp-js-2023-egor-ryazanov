@@ -6,6 +6,8 @@ import { AnimeDetail } from '../../../core/models/anime/anime-detail';
 import { GenreMapper } from '../genre/genre.mapper';
 import { StudioMapper } from '../studio/studio.mapper';
 
+import { Airing } from '../aired.mapper';
+
 import { AnimeMapper } from './anime.mapper';
 
 /** Anime Detail Mapper. */
@@ -55,14 +57,11 @@ export namespace AnimeDetailMapper {
 	export function fromDto(dto: AnimeDetailDto): AnimeDetail {
 		return {
 			id: dto.id,
-			aired: {
-				start: dto.aired.start ? new Date(dto.aired.start) : null,
-				end: dto.aired.end ? new Date(dto.aired.end) : null,
-			},
+			aired: Airing.fromDto(dto.aired),
 			airing: dto.airing,
 			created: new Date(dto.created),
 			genresData: dto.genres_data.map(genresDto => GenreMapper.fromDto(genresDto)),
-			image: dto.image,
+			imageUrl: dto.image,
 			modified: new Date(dto.modified),
 			rating: ANIME_RATING_FROM_DTO[dto.rating],
 			season: SEASON_FROM_DTO[dto.season],

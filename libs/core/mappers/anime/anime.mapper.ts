@@ -2,6 +2,7 @@ import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../../../core/dtos/anim
 import { Anime } from '../../../core/models/anime/anime';
 import { AnimeStatuses } from '../../../core/models/anime/anime-status';
 import { AnimeType } from '../../../core/models/anime/anime-type';
+import { Airing } from '../aired.mapper';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
@@ -30,13 +31,10 @@ export namespace AnimeMapper {
 			id: dto.id,
 			titleEnglish: dto.title_eng,
 			titleJapanese: dto.title_jpn,
-			image: dto.image,
+			imageUrl: dto.image,
 			type: ANIME_TYPE_FROM_DTO[dto.type],
 			status: ANIME_STATUS_FROM_DTO[dto.status],
-			aired: {
-				start: new Date(dto.aired.start ?? ''),
-				end: new Date(dto.aired.end ?? ''),
-			},
+			aired: Airing.fromDto(dto.aired),
 		});
 	}
 }

@@ -1,6 +1,6 @@
 import { PaginationDto } from '../pagination.dto';
 
-import { AiredDto } from './anime-details.dto';
+import { AiredDto } from '../aired-dto';
 
 /** Anime DTO. */
 export interface AnimeDto {

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { authorizedGuard } from '@js-camp/angular/core/guards/authorized.guard';
 
 import { BasePageComponent } from '../base-page/base-page.component';

@@ -6,8 +6,8 @@
 			<img
 				class="anime__details-image"
 				[alt]="anime.titleEnglish"
-				[src]="anime.image"
-				(click)="openDialog(anime.image, anime.titleEnglish)"
+				[src]="anime.imageUrl"
+				(click)="openDialog(anime.imageUrl, anime.titleEnglish)"
 			/>
 			<div>
 				<p><strong>Season:</strong> {{ anime.season | readable }}</p>

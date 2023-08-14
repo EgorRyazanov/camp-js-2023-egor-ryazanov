@@ -14,7 +14,7 @@ import { isType } from '@js-camp/core/utils/is-type';
 @Pipe({
 	name: 'readable',
 })
-export class Readable implements PipeTransform {
+export class ReadablePipe implements PipeTransform {
 	/**
 	 * Checks value is studio array.
 	 * @param type Value to check.

@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
 	name: 'yesOrNo',
 })
-export class YesNo implements PipeTransform {
+export class YesNoPipe implements PipeTransform {
 	/**
 	 * Converts boolean to yes or no.
 	 * @param value Boolean type value.

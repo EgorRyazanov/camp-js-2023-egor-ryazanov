@@ -31,7 +31,7 @@ export class AnimeDetail {
 	public readonly titleJapanese: string;
 
 	/** Image URL. */
-	public readonly image: string;
+	public readonly imageUrl: string;
 
 	/** Aired dates. */
 	public readonly aired: Aired;
@@ -72,7 +72,7 @@ export class AnimeDetail {
 		this.airing = animeDetailData.airing;
 		this.created = animeDetailData.created;
 		this.genresData = animeDetailData.genresData;
-		this.image = animeDetailData.image;
+		this.imageUrl = animeDetailData.imageUrl;
 		this.modified = animeDetailData.modified;
 		this.rating = animeDetailData.rating;
 		this.season = animeDetailData.season;

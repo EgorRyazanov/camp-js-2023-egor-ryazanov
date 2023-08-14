@@ -7,7 +7,6 @@
 
 .animes {
   background-color: var(--background-primary-color);
-  min-height: 100vh;
 }
 
 .animes__form {

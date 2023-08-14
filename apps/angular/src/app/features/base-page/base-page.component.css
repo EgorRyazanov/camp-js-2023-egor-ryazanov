@@ -6,13 +6,13 @@
   align-items: center;
 }
 
-.header__title_link,
-.header__title_link:visited {
+.header__title-link,
+.header__title-link:visited {
   text-decoration: none;
   color: var(--primary-contrast-color);
 }
 
-.header__title_link:hover {
+.header__title-link:hover {
   color: var(--font-hover-color);
 }
 

@@ -4,15 +4,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { Empty } from './pipes/empty.pipe';
-import { ErrorMessage } from './pipes/error-message.pipe';
-import { YesNo } from './pipes/yes-no.pipe';
-import { Readable } from './pipes/readable.pipe';
+import { EmptyPipe } from './pipes/empty.pipe';
+import { ErrorMessagePipe } from './pipes/error-message.pipe';
+import { YesNoPipe } from './pipes/yes-no.pipe';
+import { ReadablePipe } from './pipes/readable.pipe';
 
 /** Shared module. */
 @NgModule({
-	declarations: [SpinnerComponent, Empty, ErrorMessage, YesNo, Readable],
+	declarations: [SpinnerComponent, EmptyPipe, ErrorMessagePipe, YesNoPipe, ReadablePipe],
 	imports: [CommonModule, MatProgressSpinnerModule, HttpClientModule],
-	exports: [SpinnerComponent, HttpClientModule, Empty, ErrorMessage, YesNo, Readable],
+	exports: [SpinnerComponent, HttpClientModule, EmptyPipe, ErrorMessagePipe, YesNoPipe, ReadablePipe],
 })
 export class SharedModule {}

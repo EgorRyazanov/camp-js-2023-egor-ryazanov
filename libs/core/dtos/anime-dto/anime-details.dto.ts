@@ -1,6 +1,8 @@
 import { StudioDto } from '../studios-dto/studio.dto';
 import { GenreDto } from '../genre-dto/genre.dto';
 
+import { AiredDto } from '../aired-dto';
+
 import { AnimeDtoTypes, AnimeStatusDto } from './anime.dto';
 
 /** Anime Detail DTO. */
@@ -92,22 +94,6 @@ export enum SourceDto {
 	WebNovel = 'WEB_NOVEL',
 	Other = 'OTHER',
 	Unknown = 'UNKNOWN',
-}
-
-/** Aired dates. */
-export interface AiredDto {
-
-	/**
-	 *  Start date.
-	 *  @example 1975-01-01T00:00:00Z.
-	 */
-	readonly start: string | null;
-
-	/**
-	 *  End date.
-	 *  @example 1975-01-01T00:00:00Z.
-	 */
-	readonly end: string | null;
 }
 
 /** Rating DTO. */
