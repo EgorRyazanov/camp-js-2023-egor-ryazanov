@@ -4,46 +4,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { ReadableAnimeStatus } from './pipes/readable-anime-status.pipe';
-import { ReadableAnimeType } from './pipes/readable-anime-type.pipe';
 import { Empty } from './pipes/empty.pipe';
-import { ErrorMessage } from './pipes/readable-error-message.pipe';
-import { ReadableGenres } from './pipes/readable-genres.pipe';
-import { ReadableSeason } from './pipes/readable-seasons.pipe';
-import { ReadableStudios } from './pipes/readable-studios.pipe';
-import { ReadableRating } from './pipes/readable-ratings.pipe';
-import { ReadableSource } from './pipes/readable-source.pipe';
+import { ErrorMessage } from './pipes/error-message.pipe';
 import { YesNo } from './pipes/yes-no.pipe';
+import { Readable } from './pipes/readable.pipe';
 
 /** Shared module. */
 @NgModule({
-	declarations: [
-		SpinnerComponent,
-		ReadableAnimeStatus,
-		ReadableAnimeType,
-		Empty,
-		ErrorMessage,
-		ReadableGenres,
-		ReadableSeason,
-		ReadableStudios,
-		ReadableRating,
-		ReadableSource,
-		YesNo,
-	],
+	declarations: [SpinnerComponent, Empty, ErrorMessage, YesNo, Readable],
 	imports: [CommonModule, MatProgressSpinnerModule, HttpClientModule],
-	exports: [
-		SpinnerComponent,
-		HttpClientModule,
-		ReadableAnimeStatus,
-		ReadableAnimeType,
-		Empty,
-		ErrorMessage,
-		ReadableGenres,
-		ReadableSeason,
-		ReadableStudios,
-		ReadableRating,
-		ReadableSource,
-		YesNo,
-	],
+	exports: [SpinnerComponent, HttpClientModule, Empty, ErrorMessage, YesNo, Readable],
 })
 export class SharedModule {}

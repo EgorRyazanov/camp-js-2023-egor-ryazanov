@@ -1,6 +1,7 @@
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
+import { isType } from '@js-camp/core/utils/is-type';
 
 /** Routing anime params mapper. */
 export namespace RoutingAnimeParamsMapper {
@@ -17,15 +18,6 @@ export namespace RoutingAnimeParamsMapper {
 
 	/** Page sizes. */
 	export const pageSizes: readonly number[] = [5, 10, 25];
-
-	/**
-	 * Checks that value contains in enum.
-	 * @param value Value to check.
-	 * @param validatingEnum Inspector.
-	 */
-	function isType<T extends string>(value: T, validatingEnum: Record<string, string | number>): boolean {
-		return Object.values(validatingEnum).includes(value);
-	}
 
 	/**
 	 * Checks that type of value is AnimeType.
