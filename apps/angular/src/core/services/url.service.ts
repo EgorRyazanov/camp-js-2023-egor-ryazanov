@@ -32,6 +32,10 @@ export class UrlService {
 		studios: this.generateURL('/api/v1/anime/studios/'),
 	};
 
+	public readonly imageUrls = {
+		getParams: this.generateURL('/api/v1/s3direct/get_params/'),
+	};
+
 	/**
 	 * Checks URL for accordance auth URLs.
 	 * @param url URL to check.
@@ -54,6 +58,10 @@ export class UrlService {
 	 */
 	public isGenresUrl(url: string): boolean {
 		return url.startsWith(this.genresUrls.genres);
+	}
+
+	public isImageUrl(url: string): boolean {
+		return url.startsWith(this.imageUrls.getParams);
 	}
 
 	/**

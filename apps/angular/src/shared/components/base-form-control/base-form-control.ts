@@ -4,16 +4,16 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 
 @Directive()
-export abstract class BaseFormControl<T> implements MatFormFieldControl<T[]>, ControlValueAccessor, OnDestroy, DoCheck {
+export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, ControlValueAccessor, OnDestroy, DoCheck {
 	@Optional()
 	private readonly formGroup = inject(FormGroupDirective);
 
-	private _value: T[] | null = null;
+	private _value: T | null = null;
 
 	public stateChanges = new Subject<void>();
 
 	// eslint-disable-next-line no-empty-function
-	public onChange = (_value: T[] | null) => {};
+	public onChange = (_value: T | null) => {};
 
 	/** Touch field.*/
 	public onTouched!: () => void;
@@ -27,7 +27,7 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T[]>, Co
 	public controlType = 'base-input';
 
 	/** @inheritdoc */
-	public writeValue(value: T[]): void {
+	public writeValue(value: T): void {
 		this.value = value;
 	}
 
@@ -50,10 +50,12 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T[]>, Co
 		return this._value;
 	}
 
-	set value(newValue: T[] | null) {
+	set value(newValue: T | null) {
 		this._value = newValue;
-		this.onChange(newValue);
 		this.stateChanges.next();
+		if (this.onChange != null) {
+			this.onChange(newValue);
+		}
 	}
 
 	ngOnDestroy() {

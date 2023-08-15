@@ -12,3 +12,7 @@
 .auto-complete__item:hover {
   color: var(--primary-color);
 }
+
+.custom-select {
+  width: 100%;
+}

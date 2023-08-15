@@ -2,7 +2,6 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MIN_PASSWORD_LENGTH } from '@js-camp/angular/app/features/auth/utils/constants';
 
 export namespace AppValidators {
-
 	/**
 	 * Checks whether the current control matches another.
 	 * @param controlName Control name to check matching with.
@@ -27,6 +26,7 @@ export namespace AppValidators {
 			email: 'Email is incorrect',
 			minlength: `${fieldName} should contain minimum ${MIN_PASSWORD_LENGTH} symbols`,
 			matchError: `${fieldName} do not match`,
+			uploadImage: `Upload was failed.`,
 		};
 		return ERROR_TYPE_TO_MESSAGE[errorType];
 	}

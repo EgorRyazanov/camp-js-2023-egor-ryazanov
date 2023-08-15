@@ -1,93 +1,9 @@
 <div>
 	<h1>Edit</h1>
 	<form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
-		<mat-form-field>
-			<mat-label>Status</mat-label>
-			<mat-select formControlName="status">
-				<mat-option *ngFor="let status of statuses" [value]="status">
-					{{ status | readableAnimeStatus }}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
-
-		<mat-form-field>
-			<mat-label>Seasons</mat-label>
-			<mat-select formControlName="season">
-				<mat-option *ngFor="let season of seasons" [value]="season">
-					{{ season | readableSeason }}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
-
-		<mat-form-field appearance="fill">
-			<mat-label>Ratings</mat-label>
-			<mat-select formControlName="rating">
-				<mat-option *ngFor="let rating of ratings" [value]="rating">
-					{{ rating | readableRating }}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
-
-		<mat-form-field appearance="fill">
-			<mat-label>Source</mat-label>
-			<mat-select formControlName="source">
-				<mat-option *ngFor="let source of sources" [value]="source">
-					{{ source | readableSource }}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
-
-		<mat-form-field appearance="fill">
-			<mat-label>Types</mat-label>
-			<mat-select formControlName="type">
-				<mat-option *ngFor="let type of types" [value]="type">
-					{{ type | readableAnimeType }}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
-
-		<mat-form-field>
-			<mat-label>Synopsis</mat-label>
-			<textarea formControlName="synopsis" matInput placeholder="My opinion is..."></textarea>
-		</mat-form-field>
-
-		<mat-form-field>
-			<input matInput formControlName="titleEnglish" placeholder="English title" />
-		</mat-form-field>
-
-		<mat-form-field>
-			<input matInput formControlName="titleJapanese" placeholder="Japanese food" />
-		</mat-form-field>
-
-		<mat-form-field>
-			<input matInput formControlName="trailerYoutubeUrl" placeholder="Youtube trailer url" />
-		</mat-form-field>
-
-		<mat-form-field appearance="fill">
-			<mat-label>Enter an aired dates</mat-label>
-			<mat-date-range-input [formGroup]="form.controls.aired" [rangePicker]="picker">
-				<input matStartDate [formControl]="form.controls.aired.controls.start" placeholder="Start date" />
-				<input matEndDate [formControl]="form.controls.aired.controls.end" placeholder="End date" />
-			</mat-date-range-input>
-			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-			<mat-date-range-picker #picker></mat-date-range-picker>
-		</mat-form-field>
-
-		<mat-form-field>
-			<mat-label>Was created in...</mat-label>
-			<input matInput formControlName="created" [matDatepicker]="picker1" />
-			<mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-			<mat-datepicker #picker1></mat-datepicker>
-		</mat-form-field>
-
-		<mat-form-field>
-			<mat-label>Was moodified in...</mat-label>
-			<input matInput formControlName="modified" [matDatepicker]="picker2" />
-			<mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-			<mat-datepicker #picker2></mat-datepicker>
-		</mat-form-field>
-
+		<img [src]="" />
 		<camp-custom-form-select
+			class="form__item"
 			placeholder="Studios"
 			formControlName="studiosData"
 			[items]="studios$ | async"
@@ -97,6 +13,7 @@
 		/>
 
 		<camp-custom-form-select
+			class="form__item"
 			placeholder="Genres"
 			formControlName="genresData"
 			[items]="genres$ | async"
@@ -104,10 +21,110 @@
 			(getItems)="getGenres($event)"
 			(getAddedItem)="createGenres($event)"
 		/>
-		<mat-error *ngIf="form.controls.genresData.hasError('required') as error">
-			{{ error }}
+
+		<mat-form-field class="form__item">
+			<mat-label>Status</mat-label>
+			<mat-select formControlName="status">
+				<mat-option *ngFor="let status of statuses" [value]="status">
+					{{ status | readableAnimeStatus }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Seasons</mat-label>
+			<mat-select formControlName="season">
+				<mat-option *ngFor="let season of seasons" [value]="season">
+					{{ season | readableSeason }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Ratings</mat-label>
+			<mat-select formControlName="rating">
+				<mat-option *ngFor="let rating of ratings" [value]="rating">
+					{{ rating | readableRating }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Source</mat-label>
+			<mat-select formControlName="source">
+				<mat-option *ngFor="let source of sources" [value]="source">
+					{{ source | readableSource }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Types</mat-label>
+			<mat-select formControlName="type">
+				<mat-option *ngFor="let type of types" [value]="type">
+					{{ type | readableAnimeType }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<input matInput formControlName="trailerYoutubeUrl" placeholder="Youtube trailer url" />
+		</mat-form-field>
+
+		<mat-form-field class="form__item form__item_synopsis">
+			<mat-label>Synopsis</mat-label>
+			<textarea
+				class="form__item-textarea"
+				formControlName="synopsis"
+				matInput
+				placeholder="My opinion is..."
+			></textarea>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<input matInput formControlName="titleEnglish" placeholder="English title" />
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<input matInput formControlName="titleJapanese" placeholder="Japanese food" />
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Enter an aired dates</mat-label>
+			<mat-date-range-input [formGroup]="form.controls.aired" [rangePicker]="picker">
+				<input matStartDate [formControl]="form.controls.aired.controls.start" placeholder="Start date" />
+				<input matEndDate [formControl]="form.controls.aired.controls.end" placeholder="End date" />
+			</mat-date-range-input>
+			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-date-range-picker #picker></mat-date-range-picker>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Was created in...</mat-label>
+			<input matInput formControlName="created" [matDatepicker]="picker1" />
+			<mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+			<mat-datepicker #picker1></mat-datepicker>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Was moodified in...</mat-label>
+			<input matInput formControlName="modified" [matDatepicker]="picker2" />
+			<mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+			<mat-datepicker #picker2></mat-datepicker>
+		</mat-form-field>
+
+		<mat-checkbox [formControl]="form.controls.airing">Airing</mat-checkbox>
+
+		<camp-custom-image-uploader
+			[defaultImage]="form.controls.image.getRawValue()"
+			[formControl]="form.controls.image"
+		/>
+
+		<mat-error *ngIf="form.controls.image.hasError('uploadImage')">
+			{{ "Image" | errorMessage : "uploadImage" }}
 		</mat-error>
-		<button type="submit">Save</button>
+
+		<button mat-raised-button color="primary" type="submit">Save</button>
 	</form>
 	<div *ngIf="isLoading$ | async" class="animes__spinner">
 		<camp-spinner />

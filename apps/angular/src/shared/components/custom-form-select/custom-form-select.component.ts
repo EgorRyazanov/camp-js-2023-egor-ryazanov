@@ -38,7 +38,7 @@ const defaultParams: DefaultParams = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [{ provide: MatFormFieldControl, useExisting: CustomFormSelectComponent }],
 })
-export class CustomFormSelectComponent<T extends object> extends BaseFormControl<T> implements OnInit {
+export class CustomFormSelectComponent<T extends object> extends BaseFormControl<T[]> implements OnInit {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	protected separatorKeysCodes: number[] = [ENTER, COMMA];

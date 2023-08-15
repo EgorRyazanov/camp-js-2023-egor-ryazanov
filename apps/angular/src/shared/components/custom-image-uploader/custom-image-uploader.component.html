@@ -1,0 +1,2 @@
+<img *ngIf="imageUrl | async as imageUrl" [src]="imageUrl" alt="image .... (add title)" />
+<input accept="image/*" type="file" [formControl]="innerControl" (change)="uploadFile($event)" />

@@ -105,7 +105,7 @@ export class EditDetailsPageComponent implements OnInit {
 	}
 
 	protected onSubmit() {
-		console.log(this.form.controls.genresData.invalid);
+		console.log(this.form.controls.image.invalid);
 	}
 
 	/** Creates id stream. */
@@ -155,7 +155,7 @@ export class EditDetailsPageComponent implements OnInit {
 			.subscribe();
 	}
 
-	protected createGenres(params: DefaultParams): void {
+	protected createStudios(params: DefaultParams): void {
 		this.studiosService
 			.get(params)
 			.pipe(
@@ -190,7 +190,7 @@ export class EditDetailsPageComponent implements OnInit {
 			.subscribe();
 	}
 
-	protected createStudios(params: DefaultParams): void {
+	protected createGenres(params: DefaultParams): void {
 		this.genresService
 			.get(params)
 			.pipe(
@@ -210,25 +210,25 @@ export class EditDetailsPageComponent implements OnInit {
 
 	private initAnimeDetailsForm(): FormGroup<AnimeDetailControls> {
 		return this.formBuilder.group<AnimeDetailControls>({
-			synopsis: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.synopsis),
-			titleEnglish: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.titleEnglish),
+			synopsis: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.synopsis, [Validators.required]),
+			titleEnglish: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.titleEnglish, [Validators.required]),
 			aired: this.formBuilder.group({
 				start: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.aired.start),
 				end: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.aired.end),
 			}),
-			airing: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.airing),
-			rating: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.rating),
+			airing: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.airing, [Validators.required]),
+			rating: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.rating, [Validators.required]),
 			genresData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genresData, [Validators.required]),
 			image: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.image),
 			created: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.created),
 			modified: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.modified),
-			season: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.season),
-			source: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.source),
-			status: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.status),
+			season: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.season, [Validators.required]),
+			source: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.source, [Validators.required]),
+			status: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.status, [Validators.required]),
 			studiosData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.studiosData, [Validators.required]),
-			titleJapanese: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.titleJapanese),
+			titleJapanese: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.titleJapanese, [Validators.required]),
 			trailerYoutubeUrl: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.trailerYoutubeUrl),
-			type: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.type),
+			type: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.type, [Validators.required]),
 		});
 	}
 }

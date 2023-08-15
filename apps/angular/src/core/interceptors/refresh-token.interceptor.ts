@@ -56,7 +56,11 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 	 */
 	private shouldRefreshTokenForUrl(url: string): boolean {
 		return (
-			!this.apiUrlsConfig.isAuthUrl(url) && (this.apiUrlsConfig.isAnimeUrl(url) || this.apiUrlsConfig.isGenresUrl(url))
+			!this.apiUrlsConfig.isAuthUrl(url) &&
+			(this.apiUrlsConfig.isAnimeUrl(url) ||
+				this.apiUrlsConfig.isGenresUrl(url) ||
+				this.apiUrlsConfig.isImageUrl(url) ||
+				this.apiUrlsConfig.isStudioUrl(url))
 		);
 	}
 }

@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AnimesPageComponent } from './animes-page/animes-page.component';
 import { AnimeRoutingModule } from './anime-routing.module';
@@ -22,6 +23,7 @@ import { EditDetailsPageComponent } from './edit-details-page/edit-details-page.
 import { MatNativeDateModule } from '@angular/material/core';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
 import { CustomFormSelectComponent } from '@js-camp/angular/shared/components/custom-form-select/custom-form-select.component';
+import { CustomImageUploaderComponent } from '@js-camp/angular/shared/components/custom-image-uploader/custom-image-uploader.component';
 
 /** Anime Module. */
 @NgModule({
@@ -45,6 +47,8 @@ import { CustomFormSelectComponent } from '@js-camp/angular/shared/components/cu
 		MatNativeDateModule,
 		MatDatepickerModule,
 		CustomFormSelectComponent,
+		MatCheckboxModule,
+		CustomImageUploaderComponent,
 	],
 	providers: [AnimeService, GenresService],
 })

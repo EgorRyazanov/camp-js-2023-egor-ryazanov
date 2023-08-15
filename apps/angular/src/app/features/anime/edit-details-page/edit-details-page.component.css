@@ -5,12 +5,23 @@
   justify-content: space-between;
 }
 
+.form__item {
+  width: 49%;
+}
+
+.form__item_synopsis {
+  width: 100%;
+}
+
+.form__item-textarea {
+  min-height: 150px;
+}
+
 h1 {
   text-align: center;
 }
 
 mat-form-field {
-  width: 49%;
 }
 
 .animes__spinner {
