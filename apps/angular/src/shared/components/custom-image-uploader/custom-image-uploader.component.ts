@@ -1,16 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, Optional, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatChipsModule } from '@angular/material/chips';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, Optional, ViewChild, inject } from '@angular/core';
+import { FormControl, NonNullableFormBuilder } from '@angular/forms';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject, catchError, first } from 'rxjs';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { SharedModule } from '../../shared.module';
 import { BaseFormControl } from '../base-form-control/base-form-control';
 import { Dest, ImageBucket } from '@js-camp/core/models/image-bucket';
 import { ImageService } from '@js-camp/angular/core/services/image.service';
+import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 const defaultImageParams: ImageBucket = {
 	dest: Dest.AnimeImages,
@@ -19,26 +14,19 @@ const defaultImageParams: ImageBucket = {
 
 @Component({
 	selector: 'camp-custom-image-uploader',
-	standalone: true,
-	imports: [
-		CommonModule,
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatIconModule,
-		MatAutocompleteModule,
-		MatChipsModule,
-		InfiniteScrollModule,
-		SharedModule,
-	],
 	templateUrl: './custom-image-uploader.component.html',
 	styleUrls: ['./custom-image-uploader.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [{ provide: MatFormFieldControl, useExisting: CustomImageUploaderComponent }],
 })
 export class CustomImageUploaderComponent extends BaseFormControl<string> {
+	protected readonly isLoading$ = new BehaviorSubject(false);
+
 	private _params: ImageBucket = { ...defaultImageParams };
 
 	private imageService = inject(ImageService);
+
+	@ViewChild('imageInput') imageInput!: ElementRef<HTMLInputElement>;
 
 	@Input()
 	@Optional()
@@ -65,9 +53,16 @@ export class CustomImageUploaderComponent extends BaseFormControl<string> {
 
 	public override id = `custom-image-${CustomImageUploaderComponent.nextId++}`;
 
+	protected triggerInput() {
+		if (this.imageInput != null) {
+			this.imageInput.nativeElement.click();
+		}
+	}
+
 	protected uploadFile(event: Event) {
 		const element = event.currentTarget as HTMLInputElement;
 		if (element.files != null) {
+			this.isLoading$.next(true)
 			const file = element.files[0];
 			this.params = { ...this.params, filename: file.name };
 			this.imageService
@@ -80,7 +75,8 @@ export class CustomImageUploaderComponent extends BaseFormControl<string> {
 						// Puts this error because it comes in xml format.
 						this.ngControl.control?.setErrors({ uploadImage: true });
 						throw error;
-					})
+					}),
+					stopLoadingStatus(this.isLoading$)
 				)
 				.subscribe((url) => {
 					this.imageUrl.next(url);

@@ -13,6 +13,7 @@ import { AnimeDetailDto } from '@js-camp/core/dtos/anime-dto/anime-details.dto';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { AnimeDetailMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
+import { AnimeDetailFormMapper } from '@js-camp/core/mappers/anime/anime-details-form.mapper';
 
 /** Anime service. */
 @Injectable()
@@ -57,13 +58,13 @@ export class AnimeService {
 
 	public changeAnime(id: string, body: AnimeDetailForm): Observable<AnimeDetail> {
 		return this.httpService
-			.put<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id), body)
+			.put<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id), AnimeDetailFormMapper.toDto(body))
 			.pipe(map((dto) => AnimeDetailMapper.fromDto(dto)));
 	}
 
 	public createAnime(body: AnimeDetailForm): Observable<AnimeDetail> {
 		return this.httpService
-			.post<AnimeDetailDto>(this.urlService.animeUrls.animes, body)
+			.post<AnimeDetailDto>(this.urlService.animeUrls.animes, AnimeDetailFormMapper.toDto(body))
 			.pipe(map((dto) => AnimeDetailMapper.fromDto(dto)));
 	}
 }

@@ -1,11 +1,10 @@
-<div>
-	<h1>Edit</h1>
+<div class="form-container">
+	<h1 class="form-title">{{ title }}</h1>
 	<form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
-		<img [src]="" />
 		<camp-custom-form-select
 			class="form__item"
 			placeholder="Studios"
-			formControlName="studiosData"
+			formControlName="studios"
 			[items]="studios$ | async"
 			[addedItem]="addedStudio$ | async"
 			(getItems)="getStudios($event)"
@@ -15,7 +14,7 @@
 		<camp-custom-form-select
 			class="form__item"
 			placeholder="Genres"
-			formControlName="genresData"
+			formControlName="genres"
 			[items]="genres$ | async"
 			[addedItem]="addedGenre$ | async"
 			(getItems)="getGenres($event)"
@@ -68,7 +67,12 @@
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
-			<input matInput formControlName="trailerYoutubeUrl" placeholder="Youtube trailer url" />
+			<span>Youtube trailer url</span>
+			<input
+				matInput
+				formControlName="trailerYoutubeUrl"
+				placeholder="Example: https://www.youtube.com/embed/QczGoCmX-pI"
+			/>
 		</mat-form-field>
 
 		<mat-form-field class="form__item form__item_synopsis">
@@ -99,6 +103,8 @@
 			<mat-date-range-picker #picker></mat-date-range-picker>
 		</mat-form-field>
 
+		<mat-checkbox class="form__item" [formControl]="form.controls.airing">Airing</mat-checkbox>
+
 		<mat-form-field class="form__item">
 			<mat-label>Was created in...</mat-label>
 			<input matInput formControlName="created" [matDatepicker]="picker1" />
@@ -113,20 +119,16 @@
 			<mat-datepicker #picker2></mat-datepicker>
 		</mat-form-field>
 
-		<mat-checkbox [formControl]="form.controls.airing">Airing</mat-checkbox>
+		<div class="form__item form__item_image">
+			<camp-custom-image-uploader
+				[defaultImage]="form.controls.image.getRawValue()"
+				[formControl]="form.controls.image"
+			/>
+			<mat-error *ngIf="form.controls.image.hasError('uploadImage')">
+				{{ "Image" | errorMessage : "uploadImage" }}
+			</mat-error>
+		</div>
 
-		<camp-custom-image-uploader
-			[defaultImage]="form.controls.image.getRawValue()"
-			[formControl]="form.controls.image"
-		/>
-
-		<mat-error *ngIf="form.controls.image.hasError('uploadImage')">
-			{{ "Image" | errorMessage : "uploadImage" }}
-		</mat-error>
-
-		<button mat-raised-button color="primary" type="submit">Save</button>
+		<button class="form__submit" mat-raised-button color="primary" type="submit">Save</button>
 	</form>
-	<div *ngIf="isLoading$ | async" class="animes__spinner">
-		<camp-spinner />
-	</div>
 </div>

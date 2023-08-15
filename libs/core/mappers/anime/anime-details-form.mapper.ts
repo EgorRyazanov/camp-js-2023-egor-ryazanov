@@ -72,13 +72,13 @@ export namespace AnimeDetailFormMapper {
 	export function toDto(model: AnimeDetailForm): AnimeDetailFormDto {
 		return {
 			aired: {
-				start: model.aired.start?.toString() ?? null,
-				end: model.aired.end?.toString() ?? null,
+				start: model.aired.start?.toISOString() ?? null,
+				end: model.aired.end?.toISOString() ?? null,
 			},
 			airing: model.airing,
-			created: model.created?.toString() ?? null,
+			created: model.created?.toISOString() ?? null,
 			image: model.image,
-			modified: model.modified?.toString() ?? null,
+			modified: model.modified?.toISOString() ?? null,
 			rating: ANIME_RATING_TO_DTO[model.rating],
 			season: SEASON_TO_DTO[model.season],
 			source: SOURCE_TO_DTO[model.source],
@@ -88,8 +88,8 @@ export namespace AnimeDetailFormMapper {
 			title_jpn: model.titleJapanese,
 			trailer_youtube_id: model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '') ?? null,
 			type: ANIME_TYPE_TO_DTO[model.type],
-			studios: model.studiosData.map((studio) => studio.id),
-			genres: model.genresData.map((genre) => genre.id),
+			studios: model.studios.map((studio) => studio.id),
+			genres: model.genres.map((genre) => genre.id),
 		};
 	}
 }

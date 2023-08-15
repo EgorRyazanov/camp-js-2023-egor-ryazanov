@@ -14,6 +14,17 @@ import { ReadableStudios } from './directives/studios.pipe';
 import { ReadableRating } from './directives/ratings.pipe';
 import { ReadableSource } from './directives/source.pipe';
 import { ReadableObject } from './directives/readable-object.pipe';
+import { CustomImageUploaderComponent } from './components/custom-image-uploader/custom-image-uploader.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { CustomFormSelectComponent } from './components/custom-form-select/custom-form-select.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
 
 /** Shared module. */
 @NgModule({
@@ -29,8 +40,23 @@ import { ReadableObject } from './directives/readable-object.pipe';
 		ReadableRating,
 		ReadableSource,
 		ReadableObject,
+		CustomImageUploaderComponent,
+		CustomFormSelectComponent,
+		ConfirmDialogComponent,
 	],
-	imports: [CommonModule, MatProgressSpinnerModule, HttpClientModule],
+	imports: [
+		CommonModule,
+		MatProgressSpinnerModule,
+		HttpClientModule,
+		MatAutocompleteModule,
+		MatChipsModule,
+		InfiniteScrollModule,
+		ReactiveFormsModule,
+		MatIconModule,
+		MatFormFieldModule,
+		MatDialogModule,
+		MatButtonModule,
+	],
 	exports: [
 		SpinnerComponent,
 		HttpClientModule,
@@ -44,6 +70,9 @@ import { ReadableObject } from './directives/readable-object.pipe';
 		ReadableStudios,
 		ReadableRating,
 		ReadableSource,
+		CustomImageUploaderComponent,
+		CustomFormSelectComponent,
+		ConfirmDialogComponent,
 	],
 })
 export class SharedModule {}

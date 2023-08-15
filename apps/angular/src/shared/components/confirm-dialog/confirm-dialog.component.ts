@@ -1,11 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /** Confirm dialog data. */
 interface ConfirmDialogData {
-
 	/** Message. */
 	message: string;
 }
@@ -13,12 +10,10 @@ interface ConfirmDialogData {
 /** Confirm dialog. */
 @Component({
 	selector: 'camp-confirm-dialog',
-	standalone: true,
-	imports: [CommonModule, MatDialogModule, MatButtonModule],
 	templateUrl: './confirm-dialog.component.html',
 	styleUrls: ['./confirm-dialog.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {
-	public constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData) {}
+	protected readonly confirmDialogData = inject<ConfirmDialogData>(MAT_DIALOG_DATA);
 }

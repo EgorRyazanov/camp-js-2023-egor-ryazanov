@@ -22,17 +22,6 @@ const defaultParams: DefaultParams = {
 
 @Component({
 	selector: 'camp-custom-form-select',
-	standalone: true,
-	imports: [
-		CommonModule,
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatIconModule,
-		MatAutocompleteModule,
-		MatChipsModule,
-		InfiniteScrollModule,
-		SharedModule,
-	],
 	templateUrl: './custom-form-select.component.html',
 	styleUrls: ['./custom-form-select.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

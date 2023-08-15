@@ -58,10 +58,10 @@ export class AnimeDetailForm {
 	public readonly synopsis: string;
 
 	/** Studios. */
-	public readonly studiosData: readonly Studio[];
+	public readonly studios: readonly Studio[];
 
 	/** Genres. */
-	public readonly genresData: readonly Genre[];
+	public readonly genres: readonly Genre[];
 
 	public constructor(animeDetailData: AnimeDetailForm) {
 		this.aired = animeDetailData.aired;
@@ -78,7 +78,7 @@ export class AnimeDetailForm {
 		this.titleJapanese = animeDetailData.titleJapanese;
 		this.trailerYoutubeUrl = animeDetailData.trailerYoutubeUrl;
 		this.type = animeDetailData.type;
-		this.genresData = animeDetailData.genresData;
-		this.studiosData = animeDetailData.studiosData;
+		this.genres = animeDetailData.genres;
+		this.studios = animeDetailData.studios;
 	}
 }

@@ -61,37 +61,37 @@ export class AnimeDetail {
 	public readonly synopsis: string;
 
 	/** Studios IDs. */
-	public readonly studios: readonly number[];
+	public readonly studiosId: readonly number[];
 
 	/** Studios. */
-	public readonly studiosData: readonly Studio[];
+	public readonly studios: readonly Studio[];
 
 	/** Genres IDs. */
-	public readonly genres: readonly number[];
+	public readonly genresId: readonly number[];
 
 	/** Genres. */
-	public readonly genresData: readonly Genre[];
+	public readonly genres: readonly Genre[];
 
 	public constructor(animeDetailData: AnimeDetail) {
 		this.id = animeDetailData.id;
 		this.aired = animeDetailData.aired;
 		this.airing = animeDetailData.airing;
 		this.created = animeDetailData.created;
-		this.genresData = animeDetailData.genresData;
+		this.genresId = animeDetailData.genresId;
 		this.image = animeDetailData.image;
 		this.modified = animeDetailData.modified;
 		this.rating = animeDetailData.rating;
 		this.season = animeDetailData.season;
 		this.source = animeDetailData.source;
 		this.status = animeDetailData.status;
-		this.studiosData = animeDetailData.studiosData;
+		this.studios = animeDetailData.studios;
 		this.synopsis = animeDetailData.synopsis;
 		this.titleEnglish = animeDetailData.titleEnglish;
 		this.titleJapanese = animeDetailData.titleJapanese;
 		this.trailerYoutubeUrl = animeDetailData.trailerYoutubeUrl;
 		this.type = animeDetailData.type;
 		this.genres = animeDetailData.genres;
-		this.studios = animeDetailData.studios;
+		this.studiosId = animeDetailData.studiosId;
 	}
 }
 

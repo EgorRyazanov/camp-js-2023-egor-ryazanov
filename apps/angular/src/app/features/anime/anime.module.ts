@@ -19,15 +19,21 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AnimesPageComponent } from './animes-page/animes-page.component';
 import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
-import { EditDetailsPageComponent } from './edit-details-page/edit-details-page.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
-import { CustomFormSelectComponent } from '@js-camp/angular/shared/components/custom-form-select/custom-form-select.component';
-import { CustomImageUploaderComponent } from '@js-camp/angular/shared/components/custom-image-uploader/custom-image-uploader.component';
+import { AnimeFormComponent } from './manage-anime/anime-form/anime-form.component';
+import { EditAnimePageComponent } from './manage-anime/edit-anime-page/edit-anime-page.component';
+import { CreateAnimePageComponent } from './manage-anime/create-anime-page/create-anime-page.component';
 
 /** Anime Module. */
 @NgModule({
-	declarations: [AnimesPageComponent, AnimeDetailsPageComponent, EditDetailsPageComponent],
+	declarations: [
+		AnimesPageComponent,
+		AnimeDetailsPageComponent,
+		AnimeFormComponent,
+		EditAnimePageComponent,
+		CreateAnimePageComponent,
+	],
 	imports: [
 		AnimeRoutingModule,
 		CommonModule,
@@ -46,9 +52,7 @@ import { CustomImageUploaderComponent } from '@js-camp/angular/shared/components
 		SharedModule,
 		MatNativeDateModule,
 		MatDatepickerModule,
-		CustomFormSelectComponent,
 		MatCheckboxModule,
-		CustomImageUploaderComponent,
 	],
 	providers: [AnimeService, GenresService],
 })

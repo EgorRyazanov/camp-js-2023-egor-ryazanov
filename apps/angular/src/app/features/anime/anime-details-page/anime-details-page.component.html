@@ -16,8 +16,8 @@
 				<p><strong>Airing:</strong> {{ anime.airing ? "Yes" : "No" }}</p>
 				<p><strong>Date start:</strong> {{ anime.aired.start | date | empty }}</p>
 				<p><strong>Date end:</strong> {{ anime.aired.end | date | empty }}</p>
-				<p><strong>Genres:</strong> {{ anime.genresData | readableGenres | empty }}</p>
-				<p><strong>Studios:</strong> {{ anime.studiosData | readableStudios | empty }}</p>
+				<p><strong>Genres:</strong> {{ anime.genres | readableGenres | empty }}</p>
+				<p><strong>Studios:</strong> {{ anime.studios | readableStudios | empty }}</p>
 				<p><strong>Rating:</strong> {{ anime.rating | readableRating | empty }}</p>
 				<p><strong>Source:</strong> {{ anime.source | readableSource | empty }}</p>
 				<p><strong>Type:</strong> {{ anime.type | readableAnimeType | empty }}</p>

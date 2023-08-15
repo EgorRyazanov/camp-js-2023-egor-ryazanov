@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, first, map, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, first, map, of, switchMap, tap } from 'rxjs';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
-import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
@@ -13,14 +11,16 @@ import { Sources } from '@js-camp/core/models/anime/anime-source';
 import { AnimeStatuses } from '@js-camp/core/models/anime/anime-status';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { convertEnumToArray } from '@js-camp/core/utils/convert-enum-to-array';
-import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
 import { Genre } from '@js-camp/core/models/genre/genre';
 import { DefaultParams } from '@js-camp/core/models/default-params';
 import { StudiosService } from '@js-camp/angular/core/services/studios.service';
 import { Studio } from '@js-camp/core/models/studio/studio';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 type AnimeDetailControls = ControlsOf<AnimeDetailForm>;
+
+type FormAction = 'edit' | 'create';
 
 const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	aired: {
@@ -40,24 +40,45 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	titleJapanese: '',
 	trailerYoutubeUrl: null,
 	type: AnimeType.Unknown,
-	genresData: [],
-	studiosData: [],
+	genres: [],
+	studios: [],
 };
 
 @Component({
-	selector: 'camp-edit-details-page',
-	templateUrl: './edit-details-page.component.html',
-	styleUrls: ['./edit-details-page.component.css'],
+	selector: 'camp-anime-form',
+	templateUrl: './anime-form.component.html',
+	styleUrls: ['./anime-form.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditDetailsPageComponent implements OnInit {
-	private readonly genresService = inject(GenresService);
+export class AnimeFormComponent {
+	private _type: FormAction = 'create';
 
-	private readonly studiosService = inject(StudiosService);
+	private _title: string = 'Create anime';
 
-	private readonly id$: Observable<string>;
+	public get type() {
+		return this._type;
+	}
 
-	protected readonly isLoading$ = new BehaviorSubject(false);
+	@Input()
+	public set title(title: string) {
+		this._title = title;
+	}
+
+	public get title() {
+		return this._title;
+	}
+
+	@Input({ required: true })
+	public set type(type: FormAction) {
+		this._type = type;
+	}
+
+	@Input()
+	public set formValues(anime: AnimeDetail | null) {
+		if (anime != null) {
+			this.setFormValues(anime);
+		}
+	}
 
 	protected readonly statuses = convertEnumToArray(AnimeStatuses) as AnimeStatuses[];
 
@@ -68,24 +89,9 @@ export class EditDetailsPageComponent implements OnInit {
 	protected readonly types = convertEnumToArray(AnimeType) as AnimeType[];
 
 	protected readonly sources = convertEnumToArray(Sources) as Sources[];
-	/** Save video URL.  */
-	protected readonly saveVideoUrl$ = new BehaviorSubject<SafeResourceUrl | null>(null);
 
 	protected readonly form: FormGroup<AnimeDetailControls>;
-
-	/** Anime details service. */
-	private readonly animeDetailsService = inject(AnimeService);
-
-	/** Sanitizer to make URL of video safe. */
-	private readonly sanitizer = inject(DomSanitizer);
-
 	/** Router. */
-	private readonly router = inject(Router);
-
-	/** Active route. */
-	private readonly activeRoute = inject(ActivatedRoute);
-
-	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	protected genres$ = new BehaviorSubject<readonly Genre[] | null>(null);
 
@@ -95,47 +101,51 @@ export class EditDetailsPageComponent implements OnInit {
 
 	protected addedStudio$ = new BehaviorSubject<Studio | null>(null);
 
+	private readonly animeService = inject(AnimeService);
+
+	private readonly genresService = inject(GenresService);
+
+	private readonly studiosService = inject(StudiosService);
+
+	private readonly router = inject(Router);
+
+	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	/** Active route. */
+	private readonly activeRoute = inject(ActivatedRoute);
+
 	public constructor() {
 		this.form = this.initAnimeDetailsForm();
-		this.id$ = this.createIdParamStream();
-	}
-
-	ngOnInit(): void {
-		this.createAnimeStream();
 	}
 
 	protected onSubmit() {
-		console.log(this.form.controls.image.invalid);
-	}
+		if (this.form.invalid) {
+			return;
+		}
 
-	/** Creates id stream. */
-	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map((params) => params.get('id') ?? ''));
-	}
-
-	/** Creates anime stream. */
-	private createAnimeStream(): void {
-		this.id$
-			.pipe(
-				tap(() => {
-					this.isLoading$.next(true);
-				}),
-				switchMap((id) => this.animeDetailsService.getAnime(id)),
-				tap((animeDetail) => {
-					this.setFormValues(animeDetail);
-				}),
-				tap((animeDetail) => {
-					if (animeDetail.trailerYoutubeUrl != null) {
-						this.saveVideoUrl$.next(this.sanitizer.bypassSecurityTrustResourceUrl(animeDetail.trailerYoutubeUrl));
-					}
-				}),
-				stopLoadingStatus(this.isLoading$)
-			)
-			.subscribe();
-	}
-
-	private setFormValues(animeDetail: AnimeDetail): void {
-		this.form.patchValue({ ...animeDetail });
+		if (this.type === 'create') {
+			console.log(123);
+			this.animeService
+				.createAnime(this.form.getRawValue())
+				.pipe(
+					first(),
+					tap((anime) => {
+						this.router.navigate([`animes/${anime.id}`]);
+					})
+				)
+				.subscribe();
+		} else {
+			const id = this.activeRoute.snapshot.params['id'];
+			this.animeService
+				.changeAnime(id, this.form.getRawValue())
+				.pipe(
+					first(),
+					tap((anime) => {
+						this.router.navigate([`animes/${anime.id}`]);
+					})
+				)
+				.subscribe();
+		}
 	}
 
 	protected getStudios(params: DefaultParams): void {
@@ -208,6 +218,10 @@ export class EditDetailsPageComponent implements OnInit {
 			});
 	}
 
+	private setFormValues(animeDetail: AnimeDetail): void {
+		this.form.patchValue({ ...animeDetail });
+	}
+
 	private initAnimeDetailsForm(): FormGroup<AnimeDetailControls> {
 		return this.formBuilder.group<AnimeDetailControls>({
 			synopsis: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.synopsis, [Validators.required]),
@@ -218,14 +232,14 @@ export class EditDetailsPageComponent implements OnInit {
 			}),
 			airing: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.airing, [Validators.required]),
 			rating: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.rating, [Validators.required]),
-			genresData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genresData, [Validators.required]),
+			genres: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genres, [Validators.required]),
 			image: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.image),
 			created: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.created),
 			modified: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.modified),
 			season: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.season, [Validators.required]),
 			source: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.source, [Validators.required]),
 			status: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.status, [Validators.required]),
-			studiosData: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.studiosData, [Validators.required]),
+			studios: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.studios, [Validators.required]),
 			titleJapanese: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.titleJapanese, [Validators.required]),
 			trailerYoutubeUrl: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.trailerYoutubeUrl),
 			type: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.type, [Validators.required]),
