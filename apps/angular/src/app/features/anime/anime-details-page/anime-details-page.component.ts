@@ -6,6 +6,7 @@ import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
+import { ErrorDialogService } from '@js-camp/angular/core/services/error-dialog.service';
 import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from 'rxjs';
 
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
@@ -15,8 +16,6 @@ import { Season } from '@js-camp/core/models/season';
 import { Source } from '@js-camp/core/models/anime/anime-source';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
-
-import { ErrorDialogService } from '@js-camp/angular/core/services/error-dialog.service';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 

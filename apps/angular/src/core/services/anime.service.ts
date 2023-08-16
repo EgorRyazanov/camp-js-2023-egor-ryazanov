@@ -7,7 +7,6 @@ import { Observable, map } from 'rxjs';
 import { AnimeParametersMapper } from '@js-camp/core/mappers/anime/anime-params.mapper';
 import { AnimeParameters } from '@js-camp/core/models/anime/anime-params';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-
 import { AnimeDetailDto } from '@js-camp/core/dtos/anime-dto/anime-details.dto';
 import { AnimeDetailMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
@@ -15,7 +14,9 @@ import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { UrlService } from './url.service';
 
 /** Anime service. */
-@Injectable()
+@Injectable({
+	providedIn: 'root',
+})
 export class AnimeService {
 	/** HTTP service. */
 	private readonly httpService = inject(HttpClient);

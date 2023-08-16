@@ -12,12 +12,12 @@ import {
 	RoutingAnimeParamsMapper,
 } from '@js-camp/angular/core/utils/anime-routing-params.mapper';
 import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
+
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
-
-import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
