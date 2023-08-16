@@ -53,10 +53,10 @@ export class AnimesPageComponent {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Anime status. */
-	protected animeStatus = AnimeStatus;
+	protected readonly animeStatus = AnimeStatus;
 
 	/** Anime type. */
-	protected animeType = AnimeType;
+	protected readonly animeType = AnimeType;
 
 	/** Form values. */
 	protected readonly form = this.formBuilder.group({

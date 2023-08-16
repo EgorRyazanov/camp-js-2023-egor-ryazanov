@@ -53,19 +53,19 @@ export class AnimeDetailsPageComponent {
 	private readonly router = inject(Router);
 
 	/** Anime status. */
-	protected animeStatus = AnimeStatus;
+	protected readonly animeStatus = AnimeStatus;
 
 	/** Anime type. */
-	protected animeType = AnimeType;
+	protected readonly animeType = AnimeType;
 
 	/** Rating. */
-	protected rating = Rating;
+	protected readonly rating = Rating;
 
 	/** Season. */
-	protected season = Season;
+	protected readonly season = Season;
 
 	/** Source. */
-	protected source = Source;
+	protected readonly source = Source;
 
 	public constructor() {
 		this.id$ = this.createIdParamStream();
