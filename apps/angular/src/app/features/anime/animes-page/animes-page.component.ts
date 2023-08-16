@@ -16,6 +16,8 @@ import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
+import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
+
 import { AnimeService } from '../../../../core/services/anime.service';
 
 type StatusedRoutingParams = IncomeValuesStatus & { params: AnimeRoutingQueryParams; };
@@ -163,8 +165,8 @@ export class AnimesPageComponent {
 					this.setQueryParams(params);
 				}
 				this.setFormValues(params);
-				this.isLoading$.next(true);
 			}),
+			startLoadingStatus(this.isLoading$),
 			debounceTime(DEBOUNCE_TIME),
 			switchMap(({ params }) => this.getAnimePage(params)),
 			stopLoadingStatus(this.isLoading$),

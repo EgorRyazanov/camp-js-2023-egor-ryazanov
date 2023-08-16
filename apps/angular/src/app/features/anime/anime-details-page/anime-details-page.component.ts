@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
-import { BehaviorSubject, Observable, catchError, map, switchMap, tap, throwError } from 'rxjs';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
+import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from 'rxjs';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
@@ -63,7 +64,7 @@ export class AnimeDetailsPageComponent {
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
 		return this.id$.pipe(
-			tap(() => this.isLoading$.next(true)),
+			startLoadingStatus(this.isLoading$),
 			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				this.router.navigate([homeUrl]);
