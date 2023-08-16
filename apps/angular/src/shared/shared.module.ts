@@ -14,6 +14,7 @@ import { ReadableStudiosPipe } from './pipes/studios.pipe';
 import { ReadableSourcePipe } from './pipes/source.pipe';
 import { ReadableRatingPipe } from './pipes/ratings.pipe';
 import { ReadableSeasonPipe } from './pipes/seasons.pipe';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
 
 /** Shared module. */
 @NgModule({
@@ -29,6 +30,7 @@ import { ReadableSeasonPipe } from './pipes/seasons.pipe';
 		ReadableSourcePipe,
 		ReadableRatingPipe,
 		ReadableSeasonPipe,
+		VideoPlayerComponent,
 	],
 	imports: [CommonModule, MatProgressSpinnerModule, HttpClientModule],
 	exports: [
@@ -44,6 +46,7 @@ import { ReadableSeasonPipe } from './pipes/seasons.pipe';
 		ReadableSourcePipe,
 		ReadableRatingPipe,
 		ReadableSeasonPipe,
+		VideoPlayerComponent,
 	],
 })
 export class SharedModule {}

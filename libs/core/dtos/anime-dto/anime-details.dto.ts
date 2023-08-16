@@ -1,6 +1,5 @@
 import { StudioDto } from '../studios-dto/studio.dto';
 import { GenreDto } from '../genre-dto/genre.dto';
-
 import { AiredDto } from '../aired-dto';
 
 import { AnimeDtoTypes, AnimeStatusDto } from './anime.dto';

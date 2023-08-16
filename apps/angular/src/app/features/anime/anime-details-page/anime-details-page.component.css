@@ -34,11 +34,8 @@
   text-align: center;
 }
 
-.anime__video {
-  display: block;
+.details__video {
   margin: 0 auto;
-  width: 560px;
-  height: 315px;
 }
 
 .details__description {

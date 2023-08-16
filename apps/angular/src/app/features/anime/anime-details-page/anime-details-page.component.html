@@ -48,15 +48,8 @@
 			<p class="details__description-text">
 				<span class="details__description-text_bold">Modified:</span> {{ anime.modified | date | empty }}
 			</p>
+			<camp-video-player class="details__video" [videoUrl]="anime.trailerYoutubeUrl" />
 		</article>
 	</div>
-	<iframe
-		*ngIf="saveVideoUrl$ | async as url"
-		allowfullscreen
-		class="anime__video"
-		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-		title="YouTube video player"
-		[src]="url"
-	></iframe>
 </div>
 <camp-spinner *ngIf="isLoading$ | async" class="spinner" />
