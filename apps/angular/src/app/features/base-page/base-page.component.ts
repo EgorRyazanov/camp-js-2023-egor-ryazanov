@@ -1,6 +1,6 @@
 import { Component, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { Observable } from 'rxjs';
 
@@ -25,6 +25,8 @@ export class BasePageComponent {
 
 	public constructor() {
 		this.isAuthorized$ = this.userService.isAuthorized$;
+		const router = inject(ActivatedRoute);
+		console.log(router.snapshot);
 	}
 
 	/** User logouts. */

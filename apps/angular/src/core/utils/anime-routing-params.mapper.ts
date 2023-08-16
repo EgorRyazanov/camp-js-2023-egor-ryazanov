@@ -1,11 +1,9 @@
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
-import { isType } from '@js-camp/core/utils/is-type';
 
 /** Routing anime params mapper. */
 export namespace RoutingAnimeParamsMapper {
-
 	/** Default routing query parameters. */
 	export const defaultQueryParams: AnimeRoutingQueryParams = {
 		pageSize: 5,
@@ -18,30 +16,6 @@ export namespace RoutingAnimeParamsMapper {
 
 	/** Page sizes. */
 	export const pageSizes: readonly number[] = [5, 10, 25];
-
-	/**
-	 * Checks that type of value is AnimeType.
-	 * @param type Value to check.
-	 */
-	function isAnimeType(type: string): type is AnimeType {
-		return isType(type, AnimeType);
-	}
-
-	/**
-	 * Checks that type of value is OrderingDirection.
-	 * @param type Value to check.
-	 */
-	function isOrderingDirectionType(type: string): type is OrderingDirection {
-		return isType(type, OrderingDirection);
-	}
-
-	/**
-	 * Checks that type of value is OrderingField.
-	 * @param type Value to check.
-	 */
-	function isOrderingFieldType(type: string): type is AnimeOrderingField {
-		return isType(type, AnimeOrderingField);
-	}
 
 	/**
 	 * Converts unknown param to page.
@@ -89,16 +63,11 @@ export namespace RoutingAnimeParamsMapper {
 	 * @returns Type and value was changed flag.
 	 */
 	export function typeToModel(type: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
-		if (type instanceof Array) {
-			const newTypeModel = type.filter(
-				typeElement => typeof typeElement === 'string' && isAnimeType(typeElement),
-			) as AnimeType[];
-			return { isValid: newTypeModel.length === type.length, type: newTypeModel };
-		} else if (isAnimeType(type)) {
-			return { type: [type], isValid: true };
-		}
-
-		return { type: defaultQueryParams.type, isValid: false };
+		const normalizedType = type instanceof Array ? type : [type];
+		const newTypeModel = normalizedType.filter((typeElement) =>
+			Object.values(AnimeType).includes(typeElement as AnimeType)
+		);
+		return { isValid: newTypeModel.length === normalizedType.length, type: newTypeModel as AnimeType[] };
 	}
 
 	/**
@@ -107,11 +76,11 @@ export namespace RoutingAnimeParamsMapper {
 	 * @returns Field and value was changed flag.
 	 */
 	export function fieldToModel(field: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
-		if (field instanceof Array || !isOrderingFieldType(field)) {
-			return { field: AnimeOrderingField.None, isValid: false };
+		if (Object.values(AnimeOrderingField).includes(field as AnimeOrderingField)) {
+			return { field: field as AnimeOrderingField, isValid: true };
 		}
 
-		return { field, isValid: true };
+		return { field: AnimeOrderingField.None, isValid: false };
 	}
 
 	/**
@@ -120,13 +89,13 @@ export namespace RoutingAnimeParamsMapper {
 	 * @returns Direction and value was changed flag.
 	 */
 	export function directionToModel(
-		direction: Param,
+		direction: Param
 	): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
-		if (direction instanceof Array || !isOrderingDirectionType(direction)) {
-			return { direction: OrderingDirection.None, isValid: false };
+		if (Object.values(OrderingDirection).includes(direction as OrderingDirection)) {
+			return { direction: direction as OrderingDirection, isValid: true };
 		}
 
-		return { direction, isValid: true };
+		return { direction: OrderingDirection.None, isValid: false };
 	}
 
 	/**
@@ -163,7 +132,6 @@ export namespace RoutingAnimeParamsMapper {
 
 /** Converted routing query params. */
 export interface AnimeRoutingQueryParams {
-
 	/** Page size. */
 	readonly pageSize: number;
 
@@ -187,7 +155,6 @@ type Param = string[] | string;
 
 /** Routing query params that goes from search input. */
 export interface QueryParams {
-
 	/** Page size. */
 	readonly pageSize: Param;
 
@@ -209,7 +176,6 @@ export interface QueryParams {
 
 /** Income values with status about change if values is incorrect. */
 export interface IncomeValuesStatus {
-
 	/** Shows status of validity of income value. */
 	readonly isValid: boolean;
 }
