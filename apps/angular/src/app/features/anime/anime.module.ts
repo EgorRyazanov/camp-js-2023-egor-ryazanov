@@ -15,10 +15,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
+import { MatNativeDateModule } from '@angular/material/core';
+
 import { AnimesPageComponent } from './animes-page/animes-page.component';
 import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
-import { MatNativeDateModule } from '@angular/material/core';
 import { AnimeFormComponent } from './manage-anime/anime-form/anime-form.component';
 import { EditAnimePageComponent } from './manage-anime/edit-anime-page/edit-anime-page.component';
 import { CreateAnimePageComponent } from './manage-anime/create-anime-page/create-anime-page.component';

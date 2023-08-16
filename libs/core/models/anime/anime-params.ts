@@ -7,6 +7,7 @@ import { AnimeType } from './anime-type';
 
 /** Anime parameters. */
 export interface AnimeParameters extends DefaultParams {
+
 	/** Ordering. */
 	readonly ordering?: Ordering<AnimeOrderingField>;
 

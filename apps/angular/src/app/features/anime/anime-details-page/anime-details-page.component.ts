@@ -7,7 +7,7 @@ import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
 import { ErrorDialogService } from '@js-camp/angular/core/services/error-dialog.service';
-import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, concatMap, map, of, switchMap, tap, throwError } from 'rxjs';
 
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
@@ -17,9 +17,11 @@ import { Source } from '@js-camp/core/models/anime/anime-source';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
 
+import { ConfirmService } from '@js-camp/angular/core/services/confirm.service';
+
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
-const homeUrl = '';
+const homeUrl = '/animes';
 
 /** Anime details page. */
 @Component({
@@ -47,7 +49,11 @@ export class AnimeDetailsPageComponent {
 	/** Active route service. */
 	private readonly activeRoute = inject(ActivatedRoute);
 
+	/** Error dialog service. */
 	private readonly errorDialogService = inject(ErrorDialogService);
+
+	/** Confirmation service. */
+	private readonly confirmationService = inject(ConfirmService);
 
 	/** Router. */
 	private readonly router = inject(Router);
@@ -90,7 +96,7 @@ export class AnimeDetailsPageComponent {
 	 * @param studios Array of studio.
 	 */
 	protected studiosToReadable(studios: readonly Studio[]): string {
-		return studios.map((studio) => studio.name).join(', ');
+		return studios.map(studio => studio.name).join(', ');
 	}
 
 	/**
@@ -98,19 +104,45 @@ export class AnimeDetailsPageComponent {
 	 * @param genres Array of genre.
 	 */
 	protected genresToReadable(genres: readonly Genre[]): string {
-		return genres.map((genre) => genre.name).join(', ');
+		return genres.map(genre => genre.name).join(', ');
 	}
 
-	/** Creates ID stream. */
-	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map((params) => params.get('id') ?? ''));
+	/** Opens delete confirm dialog. */
+	protected openDeleteConfirmationDialog(): void {
+		this.confirmationService
+			.openDialog('Are you sure you want to delete this?')
+			.afterClosed()
+			.pipe(
+				concatMap(result => {
+					if (result) {
+						return this.id$.pipe(
+							switchMap(id => this.animeDetailsService.deleteAnime(id)),
+							tap(() => {
+								this.router.navigate([homeUrl]);
+							}),
+						);
+					}
+					return of(result);
+				}),
+			)
+			.subscribe();
+	}
+
+	/** Navigates to edit page. */
+	protected navigateToEditPage(): void {
+		this.router.navigate([`${this.router.url}/edit`]);
+	}
+
+	/** Navigates to create page. */
+	protected navigateToCreatePage(): void {
+		this.router.navigate([`${homeUrl}/create`]);
 	}
 
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
 		return this.id$.pipe(
 			startLoadingStatus(this.isLoading$),
-			switchMap((id) => this.animeDetailsService.getAnime(id)),
+			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
 					this.errorDialogService.openDialog(error.message);
@@ -118,7 +150,12 @@ export class AnimeDetailsPageComponent {
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
 			}),
-			stopLoadingStatus(this.isLoading$)
+			stopLoadingStatus(this.isLoading$),
 		);
+	}
+
+	/** Creates ID stream. */
+	private createIdParamStream(): Observable<string> {
+		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 	}
 }

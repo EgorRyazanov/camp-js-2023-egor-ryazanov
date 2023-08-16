@@ -35,9 +35,9 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 					tap(() => {
 						this.refreshSecretRequest$ = null;
 					}),
-					switchMap(() => next.handle(req))
+					switchMap(() => next.handle(req)),
 				);
-			})
+			}),
 		);
 	}
 

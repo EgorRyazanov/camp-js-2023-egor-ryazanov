@@ -2,6 +2,7 @@ import { PaginationDto } from '../pagination.dto';
 
 /** Genre DTO. */
 export interface GenreDto {
+
 	/** ID. */
 	readonly id: number;
 

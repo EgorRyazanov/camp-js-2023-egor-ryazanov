@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authorizedGuard } from '@js-camp/angular/core/guards/authorized.guard';
+
 import { BasePageComponent } from '../base-page/base-page.component';
+
 import { AnimesPageComponent } from './animes-page/animes-page.component';
 import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
 import { EditAnimePageComponent } from './manage-anime/edit-anime-page/edit-anime-page.component';
@@ -43,6 +45,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'edit',
+				title: 'Create anime',
 				component: EditAnimePageComponent,
 			},
 		],

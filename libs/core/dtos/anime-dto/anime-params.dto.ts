@@ -1,8 +1,10 @@
-import { AnimeStatusDto } from './anime.dto';
 import { DefaultParamsDto } from '../default-params';
+
+import { AnimeStatusDto } from './anime.dto';
 
 /** Anime parameters DTO. */
 export interface AnimeParametersDto extends DefaultParamsDto {
+
 	/** Ordering. */
 	readonly ordering?: string;
 

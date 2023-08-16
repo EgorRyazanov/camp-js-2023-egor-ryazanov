@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /** Confirm dialog data. */
 interface ConfirmDialogData {
+
 	/** Message. */
 	message: string;
 }
@@ -15,5 +16,6 @@ interface ConfirmDialogData {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {
+	/** Confirm dialog data. */
 	protected readonly confirmDialogData = inject<ConfirmDialogData>(MAT_DIALOG_DATA);
 }

@@ -51,3 +51,9 @@
 .details__description-text_bold {
   font-weight: bold;
 }
+
+.anime__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}

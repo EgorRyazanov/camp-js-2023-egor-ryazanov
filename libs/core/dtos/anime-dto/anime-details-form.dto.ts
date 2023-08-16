@@ -1,9 +1,11 @@
 import { AiredDto } from '../aired-dto';
+
 import { RatingDto, SeasonDto, SourceDto } from './anime-details.dto';
 import { AnimeStatusDto, AnimeTypeDto } from './anime.dto';
 
 /** Anime detail form DTO. */
 export interface AnimeDetailFormDto {
+
 	/**
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.

@@ -1,4 +1,4 @@
-import { Pagination } from "../pagintation";
+import { Pagination } from '../pagintation';
 
 /** Genre. */
 export class Genre {

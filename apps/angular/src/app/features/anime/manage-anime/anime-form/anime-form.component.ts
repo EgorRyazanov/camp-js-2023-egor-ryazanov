@@ -17,10 +17,13 @@ import { StudiosService } from '@js-camp/angular/core/services/studios.service';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
+/** Anime Details Controls. */
 type AnimeDetailControls = ControlsOf<AnimeDetailForm>;
 
+/** Form actions. */
 type FormAction = 'edit' | 'create';
 
+/** Default form params. */
 const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	aired: {
 		start: null,
@@ -43,6 +46,7 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	studios: [],
 };
 
+/** Anime general form component. */
 @Component({
 	selector: 'camp-anime-form',
 	templateUrl: './anime-form.component.html',
@@ -50,28 +54,35 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeFormComponent {
-	private _formType: FormAction = 'create';
+	/** Title. */
+	private _title = 'Create anime';
 
-	private _title: string = 'Create anime';
-
-	public get formType() {
-		return this._formType;
-	}
-
+	/** Sets title. */
 	@Input()
 	public set title(title: string) {
 		this._title = title;
 	}
 
-	public get title() {
+	/** Gets title. */
+	public get title(): string {
 		return this._title;
 	}
 
+	/** Form action type. */
+	private _formType: FormAction = 'create';
+
+	/** Gets form values. */
+	public get formType(): FormAction {
+		return this._formType;
+	}
+
+	/** Gets form values. */
 	@Input({ required: true })
 	public set formType(type: FormAction) {
 		this._formType = type;
 	}
 
+	/** Sets form values. */
 	@Input()
 	public set formValues(anime: AnimeDetail | null) {
 		if (anime != null) {
@@ -94,35 +105,49 @@ export class AnimeFormComponent {
 	/** Source. */
 	protected readonly source = Source;
 
+	/** Array of status. */
 	protected readonly statusOptions = Object.values(AnimeStatus).slice(0, -1);
 
+	/** Array of season. */
 	protected readonly seasonOptions = Object.values(Season).slice(0, -1);
 
+	/** Array of rating. */
 	protected readonly ratingOptions = Object.values(Rating).slice(0, -1);
 
+	/** Array of types. */
 	protected readonly typesOptions = Object.values(AnimeType).slice(0, -1);
 
+	/** Array of source. */
 	protected readonly sourcesOptions = Object.values(Source).slice(0, -1);
 
+	/** Form. */
 	protected readonly form: FormGroup<AnimeDetailControls>;
-	/** Router. */
 
+	/** Current pagination genres. */
 	protected readonly genres$ = new BehaviorSubject<readonly Genre[] | null>(null);
 
+	/** Added genre by user. */
 	protected readonly addedGenre$ = new BehaviorSubject<Genre | null>(null);
 
+	/** Current pagination studios. */
 	protected readonly studios$ = new BehaviorSubject<readonly Studio[] | null>(null);
 
+	/** Added studio. */
 	protected readonly addedStudio$ = new BehaviorSubject<Studio | null>(null);
 
+	/** Anime service. */
 	private readonly animeService = inject(AnimeService);
 
+	/** Genres service. */
 	private readonly genresService = inject(GenresService);
 
+	/** Studios service. */
 	private readonly studiosService = inject(StudiosService);
 
+	/** Router. */
 	private readonly router = inject(Router);
 
+	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	/** Active route. */
@@ -132,109 +157,121 @@ export class AnimeFormComponent {
 		this.form = this.initAnimeDetailsForm();
 	}
 
-	protected onSubmit() {
+	/** Handle submit. */
+	protected onSubmit(): void {
 		if (this.form.invalid) {
 			return;
 		}
-
-		if (this.formType === 'create') {
-			this.animeService
-				.createAnime(this.form.getRawValue())
-				.pipe(
-					first(),
-					tap((anime) => {
-						this.router.navigate([`animes/${anime.id}`]);
-					})
-				)
-				.subscribe();
-		} else {
-			const id = this.activeRoute.snapshot.params['id'];
-			this.animeService
-				.changeAnime(id, this.form.getRawValue())
-				.pipe(
-					first(),
-					tap((anime) => {
-						this.router.navigate([`animes/${anime.id}`]);
-					})
-				)
-				.subscribe();
-		}
+		const { id } = this.activeRoute.snapshot.params;
+		const action$ =
+			this.formType === 'create' ?
+				this.animeService.createAnime(this.form.getRawValue()) :
+				this.animeService.changeAnime(id, this.form.getRawValue());
+		action$
+			.pipe(
+				first(),
+				tap(anime => {
+					this.router.navigate([`animes/${anime.id}`]);
+				}),
+			)
+			.subscribe();
 	}
 
+	/**
+	 * Gets new studios when scrolling.
+	 * @param params Pagination params.
+	 */
 	protected getStudios(params: DefaultParams): void {
 		this.studiosService
 			.get(params)
 			.pipe(
 				first(),
-				map((pagination) => pagination?.items),
-				tap((studios) => {
+				map(pagination => pagination?.items),
+				tap(studios => {
 					if (studios.length > 0) {
 						this.studios$.next(studios);
 					} else {
 						this.studios$.next(null);
 					}
-				})
+				}),
 			)
 			.subscribe();
 	}
 
+	/**
+	 * Creates new studio.
+	 * @param params Pagination params.
+	 */
 	protected createStudios(params: DefaultParams): void {
 		this.studiosService
 			.get(params)
 			.pipe(
 				first(),
-				switchMap((studios) => {
+				switchMap(studios => {
 					if (studios.count !== 0) {
-						of(studios.items[0]);
+						return of(studios.items[0]);
 					}
 
 					return this.studiosService.create({ name: params.name, pageNumber: params.pageNumber });
-				})
+				}),
 			)
-			.subscribe((studio) => {
+			.subscribe(studio => {
 				this.addedStudio$.next(studio);
 			});
 	}
 
+	/**
+	 * Gets new genres when scrolling.
+	 * @param params Pagination params.
+	 */
 	protected getGenres(params: DefaultParams): void {
 		this.genresService
 			.get(params)
 			.pipe(
 				first(),
-				map((pagination) => pagination?.items),
-				tap((genres) => {
+				map(pagination => pagination?.items),
+				tap(genres => {
 					if (genres.length > 0) {
 						this.genres$.next(genres);
 					} else {
 						this.genres$.next(null);
 					}
-				})
+				}),
 			)
 			.subscribe();
 	}
 
+	/**
+	 * Creates new genre.
+	 * @param params Pagination params.
+	 */
 	protected createGenres(params: DefaultParams): void {
 		this.genresService
 			.get(params)
 			.pipe(
 				first(),
-				switchMap((genres) => {
+				switchMap(genres => {
 					if (genres.count !== 0) {
-						of(genres.items[0]);
+						return of(genres.items[0]);
 					}
 
 					return this.genresService.create({ name: params.name, pageNumber: params.pageNumber });
-				})
+				}),
 			)
-			.subscribe((genre) => {
+			.subscribe(genre => {
 				this.addedGenre$.next(genre);
 			});
 	}
 
+	/**
+	 * Sets form values.
+	 * @param animeDetail Form values.
+	 */
 	private setFormValues(animeDetail: AnimeDetail): void {
 		this.form.patchValue({ ...animeDetail });
 	}
 
+	/** Initialize form. */
 	private initAnimeDetailsForm(): FormGroup<AnimeDetailControls> {
 		return this.formBuilder.group<AnimeDetailControls>({
 			synopsis: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.synopsis, [Validators.required]),

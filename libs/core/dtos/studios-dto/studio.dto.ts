@@ -2,6 +2,7 @@ import { PaginationDto } from '../pagination.dto';
 
 /** Studio DTO. */
 export interface StudioDto {
+
 	/** ID. */
 	readonly id: number;
 

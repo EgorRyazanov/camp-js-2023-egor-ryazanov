@@ -2,6 +2,7 @@ import { Genre } from '../genre/genre';
 import { Rating } from '../rating';
 import { Season } from '../season';
 import { Studio } from '../studio/studio';
+
 import { Aired } from './anime-detail';
 import { Source } from './anime-source';
 import { AnimeStatus } from './anime-status';

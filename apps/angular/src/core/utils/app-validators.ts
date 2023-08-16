@@ -2,6 +2,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MIN_PASSWORD_LENGTH } from '@js-camp/angular/app/features/auth/utils/constants';
 
 export namespace AppValidators {
+
 	/**
 	 * Checks whether the current control matches another.
 	 * @param controlName Control name to check matching with.

@@ -1,4 +1,13 @@
 <div class="anime" *ngIf="anime$ | async as anime">
+	<div class="anime__actions">
+		<button mat-icon-button type="button" (click)="openDeleteConfirmationDialog()">
+			<mat-icon color="warn" aria-label="delete">delete</mat-icon>
+		</button>
+		<button mat-icon-button type="button" (click)="navigateToEditPage()">
+			<mat-icon aria-label="edit">edit</mat-icon>
+		</button>
+		<button type="button"(click)="navigateToCreatePage()"  mat-raised-button>Create anime</button>
+	</div>
 	<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
 	<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
 	<div class="anime__details details">

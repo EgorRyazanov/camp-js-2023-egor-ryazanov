@@ -2,7 +2,7 @@
 	<mat-label>{{ placeholder }}</mat-label>
 	<mat-chip-grid #chipGrid aria-label="Elements selection">
 		<mat-chip-row *ngFor="let item of value; let index = index" (removed)="remove(item)">
-			{{ item | readableObject : index }}
+			{{ toReadable(item) }}
 			<button type="button" matChipRemove [attr.aria-label]="'remove ' + item">
 				<mat-icon>cancel</mat-icon>
 			</button>
@@ -26,12 +26,8 @@
 		[infiniteScrollDistance]="2"
 		(scrolled)="onScroll(params)"
 	>
-		<li
-			class="auto-complete__item"
-			*ngFor="let element of filteredItems | async; let index = index"
-			(click)="selected(element)"
-		>
-			{{ element | readableObject : index }}
+		<li class="auto-complete__item" *ngFor="let element of filteredItems$ | async" (click)="selected(element)">
+			{{ toReadable(element) }}
 		</li>
 	</ul>
 </mat-form-field>

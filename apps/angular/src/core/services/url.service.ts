@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
 import { AppConfig } from './app.config';
-import { Studio } from '@js-camp/core/models/studio/studio';
 
 /** URL service. */
 @Injectable({
@@ -11,27 +10,30 @@ export class UrlService {
 	/** App config. */
 	private readonly appConfig = inject(AppConfig);
 
-	/** Authorization urls. */
+	/** Authorization URLs. */
 	public readonly authUrls = {
 		login: this.generateURL('/api/v1/auth/login/'),
 		register: this.generateURL('/api/v1/auth/register/'),
 		refreshToken: this.generateURL('/api/v1/auth/token/refresh/'),
 	} as const;
 
-	/** Anime urls. */
+	/** Anime URLs. */
 	public readonly animeUrls = {
 		animes: this.generateURL('/api/v1/anime/anime/'),
 		animesDetail: (id: string) => this.generateURL(`/api/v1/anime/anime/${id}/`),
 	} as const;
 
+	/** Genres URLs. */
 	public readonly genresUrls = {
 		genres: this.generateURL('/api/v1/anime/genres/'),
 	};
 
+	/** Studio URLs. */
 	public readonly studiosUrls = {
 		studios: this.generateURL('/api/v1/anime/studios/'),
 	};
 
+	/** Image URLs. */
 	public readonly imageUrls = {
 		getParams: this.generateURL('/api/v1/s3direct/get_params/'),
 	};
@@ -60,6 +62,10 @@ export class UrlService {
 		return url.startsWith(this.genresUrls.genres);
 	}
 
+	/**
+	 * Checks URL for accordance image URLs.
+	 * @param url URL to check.
+	 */
 	public isImageUrl(url: string): boolean {
 		return url.startsWith(this.imageUrls.getParams);
 	}

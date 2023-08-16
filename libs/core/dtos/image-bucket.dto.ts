@@ -1,9 +1,17 @@
+/** Image bucket DTO. */
 export interface ImageBucketDto {
-	dest: DestDto;
-	filename?: string;
-	content_type?: string;
+
+	/** Dest. */
+	readonly dest: DestDto;
+
+	/** Filename. */
+	readonly filename?: string;
+
+	/** Content type. */
+	readonly content_type?: string;
 }
 
+/** Dest DTO. */
 export enum DestDto {
 	AnimeImages = 'anime_images',
 	UsersAvatars = 'user_avatars',

@@ -1,4 +1,3 @@
-import { AiredDto } from '@js-camp/core/dtos/aired-dto';
 import { Pagination } from '../pagintation';
 
 import { AnimeStatus } from './anime-status';
