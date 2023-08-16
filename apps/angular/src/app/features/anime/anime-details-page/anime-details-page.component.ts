@@ -1,13 +1,23 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
-import { BehaviorSubject, Observable, catchError, concatMap, map, of, switchMap, tap, throwError } from 'rxjs';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
-import { ConfirmService } from '@js-camp/angular/core/services/confirm.service';
-import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
+import { ErrorDialogService } from '@js-camp/angular/core/services/error-dialog.service';
+import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from 'rxjs';
+
+import { AnimeType } from '@js-camp/core/models/anime/anime-type';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
+import { Rating } from '@js-camp/core/models/rating';
+import { Season } from '@js-camp/core/models/season';
+import { Source } from '@js-camp/core/models/anime/anime-source';
+import { Studio } from '@js-camp/core/models/studio/studio';
+import { Genre } from '@js-camp/core/models/genre/genre';
+
+import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
 const homeUrl = '';
 
@@ -17,22 +27,13 @@ const homeUrl = '';
 	templateUrl: './anime-details-page.component.html',
 	styleUrls: ['./anime-details-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	// providers: [
-	// 	{
-	// 		provide: EXAMPLE_ID_TOKEN,
-	// 		useValue: of(10),
-	// 	},
-	// ],
 })
 export class AnimeDetailsPageComponent {
 	/** ID. */
-	protected readonly id$: Observable<string>;
+	private readonly id$: Observable<string>;
 
 	/** Anime. */
 	protected readonly anime$: Observable<AnimeDetail>;
-
-	/** Save video URL.  */
-	protected readonly saveVideoUrl$ = new BehaviorSubject<SafeResourceUrl | null>(null);
 
 	/** Loading status. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
@@ -40,24 +41,33 @@ export class AnimeDetailsPageComponent {
 	/** Anime details service. */
 	private readonly animeDetailsService = inject(AnimeService);
 
-	/** Sanitizer to make URL of video safe. */
-	private readonly sanitizer = inject(DomSanitizer);
-
 	/** Dialog service. */
 	private readonly dialogService = inject(MatDialog);
 
-	/** Confirmation service. */
-	private readonly confirmationService = inject(ConfirmService);
+	/** Active route service. */
+	private readonly activeRoute = inject(ActivatedRoute);
+
+	private readonly errorDialogService = inject(ErrorDialogService);
 
 	/** Router. */
 	private readonly router = inject(Router);
 
-	/** Active route. */
-	private readonly activeRoute = inject(ActivatedRoute);
+	/** Anime status. */
+	protected readonly animeStatus = AnimeStatus;
+
+	/** Anime type. */
+	protected readonly animeType = AnimeType;
+
+	/** Rating. */
+	protected readonly rating = Rating;
+
+	/** Season. */
+	protected readonly season = Season;
+
+	/** Source. */
+	protected readonly source = Source;
 
 	public constructor() {
-		// console.log('EC', inject(ActivatedRoute).snapshot);
-		// inject(EXAMPLE_ID_TOKEN).subscribe(console.log);
 		this.id$ = this.createIdParamStream();
 		this.anime$ = this.createAnimeStream();
 	}
@@ -65,61 +75,46 @@ export class AnimeDetailsPageComponent {
 	/**
 	 * Opens image dialog.
 	 * @param imageUrl URL of image.
+	 * @param titleEnglish English title.
 	 */
-	protected openImageDialog(imageUrl: string | null): void {
+	public openDialog(imageUrl: string | null, titleEnglish: string): void {
 		if (imageUrl != null) {
 			this.dialogService.open(ImageDialogComponent, {
-				data: { imageUrl },
+				data: { imageUrl, titleEnglish },
 			});
 		}
 	}
 
-	/** Opens delete confirm dialog. */
-	protected openDeleteConfirmationDialog(): void {
-		this.confirmationService
-			.openDialog('Are you sure you want to delete this?')
-			.afterClosed()
-			.pipe(
-				concatMap((result) => {
-					if (result) {
-						return this.id$.pipe(
-							switchMap((id) => this.animeDetailsService.deleteAnime(id)),
-							tap(() => {
-								this.router.navigate([homeUrl]);
-							})
-						);
-					}
-					return of(result);
-				})
-			)
-			.subscribe();
+	/**
+	 * Makes studios readable.
+	 * @param studios Array of studio.
+	 */
+	protected studiosToReadable(studios: readonly Studio[]): string {
+		return studios.map((studio) => studio.name).join(', ');
 	}
 
-	protected navigateToEditPage() {
-		return this.router.navigate([`${this.router.url}/edit`]);
+	/**
+	 * Makes genres readable.
+	 * @param genres Array of genre.
+	 */
+	protected genresToReadable(genres: readonly Genre[]): string {
+		return genres.map((genre) => genre.name).join(', ');
 	}
 
-	/** Creates id stream. */
+	/** Creates ID stream. */
 	private createIdParamStream(): Observable<string> {
 		return this.activeRoute.paramMap.pipe(map((params) => params.get('id') ?? ''));
 	}
 
-	/**
-	 * Creates anime stream.
-	 * @param id ID of anime.
-	 */
+	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
 		return this.id$.pipe(
-			tap(() => {
-				this.isLoading$.next(true);
-			}),
+			startLoadingStatus(this.isLoading$),
 			switchMap((id) => this.animeDetailsService.getAnime(id)),
-			tap((animeDetail) => {
-				if (animeDetail.trailerYoutubeUrl != null) {
-					this.saveVideoUrl$.next(this.sanitizer.bypassSecurityTrustResourceUrl(animeDetail.trailerYoutubeUrl));
-				}
-			}),
 			catchError((error: unknown) => {
+				if (error instanceof HttpErrorResponse) {
+					this.errorDialogService.openDialog(error.message);
+				}
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
 			}),

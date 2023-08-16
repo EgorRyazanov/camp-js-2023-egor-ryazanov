@@ -10,7 +10,7 @@
 			<mat-error *ngIf="hasRequiredError('email')">
 				{{ "Email" | errorMessage : "required" }}
 			</mat-error>
-			<mat-error *ngIf="hasServerError('email') as error">
+			<mat-error *ngIf="getGeneralFieldErrors('email') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>
@@ -23,7 +23,7 @@
 			<mat-error *ngIf="hasPasswordMinLengthError">
 				{{ "Password" | errorMessage : "minlength" }}
 			</mat-error>
-			<mat-error *ngIf="hasServerError('password') as error">
+			<mat-error *ngIf="getGeneralFieldErrors('password') as error">
 				{{ error }}
 			</mat-error>
 		</mat-form-field>

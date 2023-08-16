@@ -1,9 +1,9 @@
+import { AiredDto } from '@js-camp/core/dtos/aired-dto';
 import { Pagination } from '../pagintation';
 
-import { Aired } from './anime-detail';
-
-import { AnimeStatuses } from './anime-status';
+import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
+import { Aired } from './anime-detail';
 
 /** Anime. */
 export class Anime {
@@ -16,14 +16,14 @@ export class Anime {
 	/** Japanese title. */
 	public readonly titleJapanese: string;
 
-	/** Image. */
-	public readonly image: string;
+	/** Image URL. */
+	public readonly imageUrl: string | null;
 
 	/** Type. */
 	public readonly type: AnimeType;
 
 	/** Status. */
-	public readonly status: AnimeStatuses;
+	public readonly status: AnimeStatus;
 
 	/** Aired dates. */
 	public readonly aired: Aired;
@@ -32,7 +32,7 @@ export class Anime {
 		this.id = data.id;
 		this.titleEnglish = data.titleEnglish;
 		this.titleJapanese = data.titleJapanese;
-		this.image = data.image;
+		this.imageUrl = data.imageUrl;
 		this.type = data.type;
 		this.status = data.status;
 		this.aired = data.aired;

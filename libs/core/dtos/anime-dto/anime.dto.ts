@@ -1,10 +1,9 @@
 import { PaginationDto } from '../pagination.dto';
 
-import { AiredDto } from './anime-details.dto';
+import { AiredDto } from '../aired-dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
-
 	/** ID. */
 	readonly id: number;
 
@@ -15,10 +14,10 @@ export interface AnimeDto {
 	readonly title_jpn: string;
 
 	/** Image. */
-	readonly image: string;
+	readonly image: string | null;
 
 	/** Type. */
-	readonly type: AnimeDtoTypes;
+	readonly type: AnimeTypeDto;
 
 	/** Status. */
 	readonly status: AnimeStatusDto;
@@ -30,8 +29,8 @@ export interface AnimeDto {
 /** Anime DTO with pagination fields. */
 export type AnimePaginationDto = PaginationDto<AnimeDto>;
 
-/** Anime type. */
-export enum AnimeDtoTypes {
+/** Anime type DTO. */
+export enum AnimeTypeDto {
 	Tv = 'TV',
 	Ova = 'OVA',
 	Movie = 'MOVIE',
@@ -41,7 +40,7 @@ export enum AnimeDtoTypes {
 	Unknown = 'UNKNOWN',
 }
 
-/** Status. */
+/** Status DTO. */
 export enum AnimeStatusDto {
 	Finished = 'FINISHED',
 	Airing = 'AIRING',

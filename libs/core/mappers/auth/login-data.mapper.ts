@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Login } from '../../../core/models/auth/login';
 import { LoginDto } from '../../../core/dtos/auth-dto/login.dto';
 import { ValidationErrorDto } from '../../../core/dtos/error.dto';
-
 import { EntityValidationErrors } from '../../models/app-error';
 import { MapperToDto, ValidationErrorMapper } from '../mappers';
 import { extractErrorMessages } from '../../utils/extract-error-message';

@@ -1,68 +1,68 @@
-import { Seasons } from '../../../core/models/season';
-import { Ratings } from '../../../core/models/rating';
-import { Sources } from '../../../core/models/anime/anime-source';
-import { RatingDto, SeasonsDTO, SourceDTO } from '../../../core/dtos/anime-dto/anime-details.dto';
+import { Season } from '../../../core/models/season';
+import { Rating } from '../../../core/models/rating';
+import { Source } from '../../../core/models/anime/anime-source';
+import { RatingDto, SeasonDto, SourceDto } from '../../../core/dtos/anime-dto/anime-details.dto';
 import { AnimeDetailFormDto } from '@js-camp/core/dtos/anime-dto/anime-details-form.dto';
 import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
-import { AnimeDtoTypes, AnimeStatusDto } from '@js-camp/core/dtos/anime-dto/anime.dto';
+import { AnimeTypeDto, AnimeStatusDto } from '@js-camp/core/dtos/anime-dto/anime.dto';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
-import { AnimeStatuses } from '@js-camp/core/models/anime/anime-status';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { BASE_SHARE_YOUTUBE_URL } from '@js-camp/core/utils/contansts';
 
 /** Anime Detail Form Mapper. */
 export namespace AnimeDetailFormMapper {
-	export const ANIME_RATING_TO_DTO: Readonly<Record<Ratings, RatingDto>> = {
-		[Ratings.G]: RatingDto.G,
-		[Ratings.PG]: RatingDto.PG,
-		[Ratings.PG_13]: RatingDto.PG_13,
-		[Ratings.R_17]: RatingDto.R_17,
-		[Ratings.R_PLUS]: RatingDto.R_PLUS,
-		[Ratings.R_X]: RatingDto.R_X,
-		[Ratings.Unknown]: RatingDto.Unknown,
+	export const ANIME_RATING_TO_DTO: Readonly<Record<Rating, RatingDto>> = {
+		[Rating.G]: RatingDto.G,
+		[Rating.PG]: RatingDto.PG,
+		[Rating.PG_13]: RatingDto.PG_13,
+		[Rating.R_17]: RatingDto.R_17,
+		[Rating.R_PLUS]: RatingDto.R_PLUS,
+		[Rating.R_X]: RatingDto.R_X,
+		[Rating.Unknown]: RatingDto.Unknown,
 	};
 
-	export const SEASON_TO_DTO: Readonly<Record<Seasons, SeasonsDTO>> = {
-		[Seasons.Fall]: SeasonsDTO.Fall,
-		[Seasons.NonSeasonal]: SeasonsDTO.NonSeasonal,
-		[Seasons.Spring]: SeasonsDTO.Spring,
-		[Seasons.Summer]: SeasonsDTO.Summer,
-		[Seasons.Winter]: SeasonsDTO.Winter,
+	export const SEASON_TO_DTO: Readonly<Record<Season, SeasonDto>> = {
+		[Season.Fall]: SeasonDto.Fall,
+		[Season.NonSeasonal]: SeasonDto.NonSeasonal,
+		[Season.Spring]: SeasonDto.Spring,
+		[Season.Summer]: SeasonDto.Summer,
+		[Season.Winter]: SeasonDto.Winter,
 	};
 
-	export const SOURCE_TO_DTO: Readonly<Record<Sources, SourceDTO>> = {
-		[Sources.Book]: SourceDTO.Book,
-		[Sources.CardGame]: SourceDTO.CardGame,
-		[Sources.FourKomaManga]: SourceDTO.FourKomaManga,
-		[Sources.Game]: SourceDTO.Game,
-		[Sources.LightNovel]: SourceDTO.LightNovel,
-		[Sources.Manga]: SourceDTO.Manga,
-		[Sources.MixedMedia]: SourceDTO.MixedMedia,
-		[Sources.Music]: SourceDTO.Music,
-		[Sources.Novel]: SourceDTO.Novel,
-		[Sources.Original]: SourceDTO.Original,
-		[Sources.Other]: SourceDTO.Other,
-		[Sources.PictureBook]: SourceDTO.PictureBook,
-		[Sources.WebNovel]: SourceDTO.WebNovel,
-		[Sources.WebManga]: SourceDTO.WebManga,
-		[Sources.VisialNovel]: SourceDTO.VisialNovel,
-		[Sources.Unknown]: SourceDTO.Unknown,
-		[Sources.Radio]: SourceDTO.Radio,
+	export const SOURCE_TO_DTO: Readonly<Record<Source, SourceDto>> = {
+		[Source.Book]: SourceDto.Book,
+		[Source.CardGame]: SourceDto.CardGame,
+		[Source.FourKomaManga]: SourceDto.FourKomaManga,
+		[Source.Game]: SourceDto.Game,
+		[Source.LightNovel]: SourceDto.LightNovel,
+		[Source.Manga]: SourceDto.Manga,
+		[Source.MixedMedia]: SourceDto.MixedMedia,
+		[Source.Music]: SourceDto.Music,
+		[Source.Novel]: SourceDto.Novel,
+		[Source.Original]: SourceDto.Original,
+		[Source.Other]: SourceDto.Other,
+		[Source.PictureBook]: SourceDto.PictureBook,
+		[Source.WebNovel]: SourceDto.WebNovel,
+		[Source.WebManga]: SourceDto.WebManga,
+		[Source.VisialNovel]: SourceDto.VisialNovel,
+		[Source.Unknown]: SourceDto.Unknown,
+		[Source.Radio]: SourceDto.Radio,
 	};
 
-	export const ANIME_TYPE_TO_DTO: Readonly<Record<AnimeType, AnimeDtoTypes>> = {
-		[AnimeType.Music]: AnimeDtoTypes.Music,
-		[AnimeType.Ova]: AnimeDtoTypes.Ova,
-		[AnimeType.Ona]: AnimeDtoTypes.Ona,
-		[AnimeType.Special]: AnimeDtoTypes.Special,
-		[AnimeType.Tv]: AnimeDtoTypes.Tv,
-		[AnimeType.Unknown]: AnimeDtoTypes.Unknown,
-		[AnimeType.Movie]: AnimeDtoTypes.Movie,
+	export const ANIME_TYPE_TO_DTO: Readonly<Record<AnimeType, AnimeTypeDto>> = {
+		[AnimeType.Music]: AnimeTypeDto.Music,
+		[AnimeType.Ova]: AnimeTypeDto.Ova,
+		[AnimeType.Ona]: AnimeTypeDto.Ona,
+		[AnimeType.Special]: AnimeTypeDto.Special,
+		[AnimeType.Tv]: AnimeTypeDto.Tv,
+		[AnimeType.Unknown]: AnimeTypeDto.Unknown,
+		[AnimeType.Movie]: AnimeTypeDto.Movie,
 	};
 
-	export const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatuses, AnimeStatusDto>> = {
-		[AnimeStatuses.Finished]: AnimeStatusDto.Finished,
-		[AnimeStatuses.NotYetAired]: AnimeStatusDto.NotYetAired,
-		[AnimeStatuses.Airing]: AnimeStatusDto.Airing,
+	export const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
+		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
+		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
+		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
 	};
 
 	/**
@@ -77,7 +77,7 @@ export namespace AnimeDetailFormMapper {
 			},
 			airing: model.airing,
 			created: model.created?.toISOString() ?? null,
-			image: model.image,
+			image: model.imageUrl,
 			modified: model.modified?.toISOString() ?? null,
 			rating: ANIME_RATING_TO_DTO[model.rating],
 			season: SEASON_TO_DTO[model.season],

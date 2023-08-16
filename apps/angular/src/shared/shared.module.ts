@@ -2,47 +2,38 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
-
+import { MatButtonModule } from '@angular/material/button';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { ReadableAnimeStatus } from './directives/anime-status.pipe';
-import { ReadableAnimeType } from './directives/anime-type.pipe';
-import { Empty } from './directives/empty.pipe';
-import { ErrorMessage } from './directives/error-message.pipe';
-import { ReadableGenres } from './directives/genres.pipe';
-import { ReadableSeason } from './directives/seasons.pipe';
-import { ReadableStudios } from './directives/studios.pipe';
-import { ReadableRating } from './directives/ratings.pipe';
-import { ReadableSource } from './directives/source.pipe';
-import { ReadableObject } from './directives/readable-object.pipe';
+import { EmptyPipe } from './pipes/empty.pipe';
+import { ErrorMessagePipe } from './pipes/error-message.pipe';
+import { ReadableObject } from './pipes/readable-object.pipe';
 import { CustomImageUploaderComponent } from './components/custom-image-uploader/custom-image-uploader.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { CustomFormSelectComponent } from './components/custom-form-select/custom-form-select.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { MatButtonModule } from '@angular/material/button';
+import { YesNoPipe } from './pipes/yes-no.pipe';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 /** Shared module. */
 @NgModule({
 	declarations: [
 		SpinnerComponent,
-		ReadableAnimeStatus,
-		ReadableAnimeType,
-		Empty,
-		ErrorMessage,
-		ReadableGenres,
-		ReadableSeason,
-		ReadableStudios,
-		ReadableRating,
-		ReadableSource,
-		ReadableObject,
+		EmptyPipe,
+		ErrorMessagePipe,
 		CustomImageUploaderComponent,
 		CustomFormSelectComponent,
 		ConfirmDialogComponent,
+		ReadableObject,
+		VideoPlayerComponent,
+		YesNoPipe,
+		ErrorDialogComponent,
 	],
 	imports: [
 		CommonModule,
@@ -60,19 +51,15 @@ import { MatButtonModule } from '@angular/material/button';
 	exports: [
 		SpinnerComponent,
 		HttpClientModule,
-		ReadableAnimeStatus,
-		ReadableAnimeType,
-		Empty,
+		EmptyPipe,
 		ReadableObject,
-		ErrorMessage,
-		ReadableGenres,
-		ReadableSeason,
-		ReadableStudios,
-		ReadableRating,
-		ReadableSource,
+		ErrorMessagePipe,
 		CustomImageUploaderComponent,
 		CustomFormSelectComponent,
 		ConfirmDialogComponent,
+		VideoPlayerComponent,
+		YesNoPipe,
+		ErrorDialogComponent,
 	],
 })
 export class SharedModule {}

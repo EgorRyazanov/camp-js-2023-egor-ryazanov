@@ -7,7 +7,6 @@
 
 .animes {
   background-color: var(--background-primary-color);
-  min-height: 100vh;
 }
 
 .animes__form {
@@ -34,14 +33,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* It is necessary, since the elements of the table overlap the element. */
   z-index: 100;
-  background-color: var(--background-alternative-background-color);
+  background-color: var(--background-alternative-primary-color);
 }
 
 .table__row {
   cursor: pointer;
 }
 
-tr.table__row:hover {
-  background-color: var(--background-alternative-background-color);
+/* Made like this, because css does not work without parent class. */
+.animes__table .table__row:hover {
+  background-color: var(--background-alternative-primary-color);
 }

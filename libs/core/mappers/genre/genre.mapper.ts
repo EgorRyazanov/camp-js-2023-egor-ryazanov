@@ -11,14 +11,6 @@ export namespace GenreMapper {
 	};
 
 	/**
-	 * Makes genres readable.
-	 * @param genres Array of genres.
-	 */
-	export function toReadable(genres: readonly Genre[]): string {
-		return genres.map(genre => genre.name).join(', ');
-	}
-
-	/**
 	 * Converts genre from DTO to model.
 	 * @param dto Genre DTO.
 	 */

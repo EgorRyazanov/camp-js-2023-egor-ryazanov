@@ -1,12 +1,10 @@
-import { StudioDTO } from '../studios-dto/studio.dto';
+import { StudioDto } from '../studios-dto/studio.dto';
 import { GenreDto } from '../genre-dto/genre.dto';
-import { AnimeDtoTypes, AnimeStatusDto } from './anime.dto';
 
-/** Anime detail DTO. */
-export interface AnimeDetailDto {
-	/** ID. */
-	readonly id: number;
+import { AnimeDto } from './anime.dto';
 
+/** Anime Detail DTO. */
+export interface AnimeDetailDto extends AnimeDto {
 	/**
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
@@ -19,35 +17,17 @@ export interface AnimeDetailDto {
 	 */
 	readonly modified: string;
 
-	/** English title. */
-	readonly title_eng: string;
-
-	/** Japanese title. */
-	readonly title_jpn: string;
-
-	/** Image URL. */
-	readonly image: string | null;
-
-	/** Aired dates. */
-	readonly aired: AiredDto;
-
-	/** Type. */
-	readonly type: AnimeDtoTypes;
-
-	/** Status. */
-	readonly status: AnimeStatusDto;
-
 	/** Rating. */
 	readonly rating: RatingDto;
 
 	/** Source. */
-	readonly source: SourceDTO;
+	readonly source: SourceDto;
 
 	/** Season. */
-	readonly season: SeasonsDTO;
+	readonly season: SeasonDto;
 
 	/** Youtube trialer's ID. */
-	readonly trailer_youtube_id: string | null;
+	readonly trailer_youtube_id: string;
 
 	/** Airing. */
 	readonly airing: boolean;
@@ -55,21 +35,15 @@ export interface AnimeDetailDto {
 	/** Synopsis. */
 	readonly synopsis: string;
 
-	/** Studios IDs. */
-	readonly studios: readonly number[];
-
 	/** Studios. */
-	readonly studios_data: readonly StudioDTO[];
-
-	/** Genres IDs. */
-	readonly genres: readonly number[];
+	readonly studios_data: readonly StudioDto[];
 
 	/** Genres. */
 	readonly genres_data: readonly GenreDto[];
 }
 
 /** Seasons DTO. */
-export enum SeasonsDTO {
+export enum SeasonDto {
 	Summer = 'SUMMER',
 	Winter = 'WINTER',
 	Spring = 'SPRING',
@@ -77,7 +51,8 @@ export enum SeasonsDTO {
 	NonSeasonal = 'NON_SEASONAL',
 }
 
-export enum SourceDTO {
+/** Source DTO. */
+export enum SourceDto {
 	FourKomaManga = 'FOUR_KOMA_MANGA',
 	Book = 'BOOK',
 	CardGame = 'CARD_GAME',
@@ -97,22 +72,7 @@ export enum SourceDTO {
 	Unknown = 'UNKNOWN',
 }
 
-/** Aired dates. */
-export interface AiredDto {
-	/**
-	 *  Start date.
-	 *  @example 1975-01-01T00:00:00Z.
-	 */
-	readonly start: string | null;
-
-	/**
-	 *  End date.
-	 *  @example 1975-01-01T00:00:00Z.
-	 */
-	readonly end: string | null;
-}
-
-/** Rating. */
+/** Rating DTO. */
 export enum RatingDto {
 	G = 'G',
 	PG = 'PG',

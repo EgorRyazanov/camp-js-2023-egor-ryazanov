@@ -1,5 +1,5 @@
 /** Register. */
-export class Register {
+export class Registration {
 	/** Email. */
 	public readonly email: string;
 
@@ -12,7 +12,7 @@ export class Register {
 	/** Password. */
 	public readonly password: string;
 
-	public constructor(data: Register) {
+	public constructor(data: Registration) {
 		this.email = data.email;
 		this.firstName = data.firstName;
 		this.lastName = data.lastName;

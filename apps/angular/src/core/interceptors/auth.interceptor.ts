@@ -46,6 +46,6 @@ export class AuthInterceptor implements HttpInterceptor {
 	 * @param userSecret User secret.
 	 */
 	private appendAuthorizationHeader(headers: HttpHeaders, userSecret: UserSecret): HttpHeaders {
-		return headers.set(AUTH_HEADER_KEY, `${AUTH_PREFIX} ${userSecret.access}`);
+		return headers.set(AUTH_HEADER_KEY, `${AUTH_PREFIX} ${userSecret.accessToken}`);
 	}
 }

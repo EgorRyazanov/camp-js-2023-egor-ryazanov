@@ -1,6 +1,7 @@
 import { PaginationDto } from '../pagination.dto';
 
-export interface StudioDTO {
+/** Studio DTO. */
+export interface StudioDto {
 	/** ID. */
 	readonly id: number;
 
@@ -20,4 +21,4 @@ export interface StudioDTO {
 	readonly name: string;
 }
 
-export type StudioPaginationDto = PaginationDto<StudioDTO>;
+export type StudioPaginationDto = PaginationDto<StudioDto>;

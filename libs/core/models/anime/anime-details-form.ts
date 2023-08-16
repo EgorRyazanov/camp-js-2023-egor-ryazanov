@@ -1,11 +1,11 @@
-import { Seasons } from '../season';
-import { Ratings } from '../rating';
-import { AnimeStatuses } from './anime-status';
-import { AnimeType } from './anime-type';
-import { Sources } from './anime-source';
-import { Aired } from './anime-detail';
-import { Studio } from '../studio/studio';
 import { Genre } from '../genre/genre';
+import { Rating } from '../rating';
+import { Season } from '../season';
+import { Studio } from '../studio/studio';
+import { Aired } from './anime-detail';
+import { Source } from './anime-source';
+import { AnimeStatus } from './anime-status';
+import { AnimeType } from './anime-type';
 
 /** Anime Detail. */
 export class AnimeDetailForm {
@@ -28,7 +28,7 @@ export class AnimeDetailForm {
 	public readonly titleJapanese: string;
 
 	/** Image URL. */
-	public readonly image: string | null;
+	public readonly imageUrl: string | null;
 
 	/** Aired dates. */
 	public readonly aired: Aired;
@@ -37,16 +37,16 @@ export class AnimeDetailForm {
 	public readonly type: AnimeType;
 
 	/** Status. */
-	public readonly status: AnimeStatuses;
+	public readonly status: AnimeStatus;
 
 	/** Rating. */
-	public readonly rating: Ratings;
+	public readonly rating: Rating;
 
 	/** Source. */
-	public readonly source: Sources;
+	public readonly source: Source;
 
 	/** Season. */
-	public readonly season: Seasons;
+	public readonly season: Season;
 
 	/** Youtube trialer's ID. */
 	public readonly trailerYoutubeUrl: string | null;
@@ -67,7 +67,7 @@ export class AnimeDetailForm {
 		this.aired = animeDetailData.aired;
 		this.airing = animeDetailData.airing;
 		this.created = animeDetailData.created;
-		this.image = animeDetailData.image;
+		this.imageUrl = animeDetailData.imageUrl;
 		this.modified = animeDetailData.modified;
 		this.rating = animeDetailData.rating;
 		this.season = animeDetailData.season;

@@ -1,52 +1,52 @@
-import { Seasons } from '../../../core/models/season';
-import { Ratings } from '../../../core/models/rating';
-import { Sources } from '../../../core/models/anime/anime-source';
-import { AnimeDetailDto, RatingDto, SeasonsDTO, SourceDTO } from '../../../core/dtos/anime-dto/anime-details.dto';
-import { AnimeDetail } from '../../../core/models/anime/anime-detail';
+import { Season } from '../../../core/models/season';
+import { Rating } from '../../../core/models/rating';
+import { Source } from '../../../core/models/anime/anime-source';
+import { AnimeDetailDto, RatingDto, SeasonDto, SourceDto } from '../../../core/dtos/anime-dto/anime-details.dto';
 import { GenreMapper } from '../genre/genre.mapper';
 import { StudioMapper } from '../studio/studio.mapper';
 
 import { AnimeMapper } from './anime.mapper';
 import { BASE_SHARE_YOUTUBE_URL } from '@js-camp/core/utils/contansts';
+import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 
 /** Anime Detail Mapper. */
 export namespace AnimeDetailMapper {
-	export const ANIME_RATING_FROM_DTO: Readonly<Record<RatingDto, Ratings>> = {
-		[RatingDto.G]: Ratings.G,
-		[RatingDto.PG]: Ratings.PG,
-		[RatingDto.PG_13]: Ratings.PG_13,
-		[RatingDto.R_17]: Ratings.R_17,
-		[RatingDto.R_PLUS]: Ratings.R_PLUS,
-		[RatingDto.R_X]: Ratings.R_X,
-		[RatingDto.Unknown]: Ratings.Unknown,
+	export const ANIME_RATING_FROM_DTO: Readonly<Record<RatingDto, Rating>> = {
+		[RatingDto.G]: Rating.G,
+		[RatingDto.PG]: Rating.PG,
+		[RatingDto.PG_13]: Rating.PG_13,
+		[RatingDto.R_17]: Rating.R_17,
+		[RatingDto.R_PLUS]: Rating.R_PLUS,
+		[RatingDto.R_X]: Rating.R_X,
+		[RatingDto.Unknown]: Rating.Unknown,
 	};
 
-	export const SEASON_FROM_DTO: Readonly<Record<SeasonsDTO, Seasons>> = {
-		[SeasonsDTO.Fall]: Seasons.Fall,
-		[SeasonsDTO.NonSeasonal]: Seasons.NonSeasonal,
-		[SeasonsDTO.Spring]: Seasons.Spring,
-		[SeasonsDTO.Summer]: Seasons.Summer,
-		[SeasonsDTO.Winter]: Seasons.Winter,
+	export const SEASON_FROM_DTO: Readonly<Record<SeasonDto, Season>> = {
+		[SeasonDto.Fall]: Season.Fall,
+		[SeasonDto.NonSeasonal]: Season.NonSeasonal,
+		[SeasonDto.Spring]: Season.Spring,
+		[SeasonDto.Summer]: Season.Summer,
+		[SeasonDto.Winter]: Season.Winter,
 	};
 
-	export const SOURCE_FROM_DTO: Readonly<Record<SourceDTO, Sources>> = {
-		[SourceDTO.Book]: Sources.Book,
-		[SourceDTO.CardGame]: Sources.CardGame,
-		[SourceDTO.FourKomaManga]: Sources.FourKomaManga,
-		[SourceDTO.Game]: Sources.Game,
-		[SourceDTO.LightNovel]: Sources.LightNovel,
-		[SourceDTO.Manga]: Sources.Manga,
-		[SourceDTO.MixedMedia]: Sources.MixedMedia,
-		[SourceDTO.Music]: Sources.Music,
-		[SourceDTO.Novel]: Sources.Novel,
-		[SourceDTO.Original]: Sources.Original,
-		[SourceDTO.Other]: Sources.Other,
-		[SourceDTO.PictureBook]: Sources.PictureBook,
-		[SourceDTO.WebNovel]: Sources.WebNovel,
-		[SourceDTO.WebManga]: Sources.WebManga,
-		[SourceDTO.VisialNovel]: Sources.VisialNovel,
-		[SourceDTO.Unknown]: Sources.Unknown,
-		[SourceDTO.Radio]: Sources.Radio,
+	export const SOURCE_FROM_DTO: Readonly<Record<SourceDto, Source>> = {
+		[SourceDto.Book]: Source.Book,
+		[SourceDto.CardGame]: Source.CardGame,
+		[SourceDto.FourKomaManga]: Source.FourKomaManga,
+		[SourceDto.Game]: Source.Game,
+		[SourceDto.LightNovel]: Source.LightNovel,
+		[SourceDto.Manga]: Source.Manga,
+		[SourceDto.MixedMedia]: Source.MixedMedia,
+		[SourceDto.Music]: Source.Music,
+		[SourceDto.Novel]: Source.Novel,
+		[SourceDto.Original]: Source.Original,
+		[SourceDto.Other]: Source.Other,
+		[SourceDto.PictureBook]: Source.PictureBook,
+		[SourceDto.WebNovel]: Source.WebNovel,
+		[SourceDto.WebManga]: Source.WebManga,
+		[SourceDto.VisialNovel]: Source.VisialNovel,
+		[SourceDto.Unknown]: Source.Unknown,
+		[SourceDto.Radio]: Source.Radio,
 	};
 
 	/**
@@ -55,28 +55,25 @@ export namespace AnimeDetailMapper {
 	 */
 	export function fromDto(dto: AnimeDetailDto): AnimeDetail {
 		return {
-			id: dto.id,
-			aired: {
-				start: dto.aired.start ? new Date(dto.aired.start) : null,
-				end: dto.aired.end ? new Date(dto.aired.end) : null,
-			},
+			...AnimeMapper.fromDto({
+				id: dto.id,
+				aired: dto.aired,
+				image: dto.image,
+				status: dto.status,
+				title_eng: dto.title_eng,
+				title_jpn: dto.title_jpn,
+				type: dto.type,
+			}),
 			airing: dto.airing,
 			created: new Date(dto.created),
-			genresId: dto.genres,
-			image: dto.image,
+			genres: dto.genres_data.map((genresDto) => GenreMapper.fromDto(genresDto)),
 			modified: new Date(dto.modified),
 			rating: ANIME_RATING_FROM_DTO[dto.rating],
 			season: SEASON_FROM_DTO[dto.season],
 			source: SOURCE_FROM_DTO[dto.source],
-			status: AnimeMapper.ANIME_STATUS_FROM_DTO[dto.status],
-			studiosId: dto.studios,
-			synopsis: dto.synopsis,
-			titleEnglish: dto.title_eng,
-			titleJapanese: dto.title_jpn,
-			trailerYoutubeUrl: dto.trailer_youtube_id ? `${BASE_SHARE_YOUTUBE_URL}${dto.trailer_youtube_id}` : null,
-			type: AnimeMapper.ANIME_TYPE_FROM_DTO[dto.type],
 			studios: dto.studios_data.map((studioDto) => StudioMapper.fromDto(studioDto)),
-			genres: dto.genres_data.map((genreDto) => GenreMapper.fromDto(genreDto)),
+			synopsis: dto.synopsis,
+			trailerYoutubeUrl: dto.trailer_youtube_id ? `${BASE_SHARE_YOUTUBE_URL}${dto.trailer_youtube_id}` : null,
 		};
 	}
 }

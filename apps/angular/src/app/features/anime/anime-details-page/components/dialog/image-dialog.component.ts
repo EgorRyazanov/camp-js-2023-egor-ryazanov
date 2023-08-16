@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /** Image dialog data. */
 interface ImageDialogData {
 
 	/** Image URL. */
-	imageUrl: string;
+	readonly imageUrl: string;
+
+	/** English title. */
+	readonly titleEnglish: string;
 }
 
 /** Image dialog. */
@@ -14,10 +16,9 @@ interface ImageDialogData {
 	selector: 'camp-image-dialog',
 	templateUrl: './image-dialog.component.html',
 	styleUrls: ['./image-dialog.component.css'],
-	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [MatDialogModule, MatButtonModule],
 })
 export class ImageDialogComponent {
-	public constructor(@Inject(MAT_DIALOG_DATA) public data: ImageDialogData) {}
+	/** Image dialog data. */
+	protected readonly imageDialogData = inject<ImageDialogData>(MAT_DIALOG_DATA);
 }

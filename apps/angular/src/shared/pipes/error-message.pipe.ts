@@ -5,7 +5,7 @@ import { AppValidators } from '@js-camp/angular/core/utils/app-validators';
 @Pipe({
 	name: 'errorMessage',
 })
-export class ErrorMessage implements PipeTransform {
+export class ErrorMessagePipe implements PipeTransform {
 	/**
 	 * Converts error type to message.
 	 * @param fieldName Name of control with error.

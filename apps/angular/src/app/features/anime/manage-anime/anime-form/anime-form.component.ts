@@ -5,12 +5,11 @@ import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
 import { ControlsOf } from '@js-camp/angular/core/utils/types/controls-of';
-import { Ratings } from '@js-camp/core/models/rating';
-import { Seasons } from '@js-camp/core/models/season';
-import { Sources } from '@js-camp/core/models/anime/anime-source';
-import { AnimeStatuses } from '@js-camp/core/models/anime/anime-status';
+import { Rating } from '@js-camp/core/models/rating';
+import { Season } from '@js-camp/core/models/season';
+import { Source } from '@js-camp/core/models/anime/anime-source';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
-import { convertEnumToArray } from '@js-camp/core/utils/convert-enum-to-array';
 import { GenresService } from '@js-camp/angular/core/services/genres.service';
 import { Genre } from '@js-camp/core/models/genre/genre';
 import { DefaultParams } from '@js-camp/core/models/default-params';
@@ -29,12 +28,12 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	},
 	airing: false,
 	created: null,
-	image: null,
+	imageUrl: null,
 	modified: null,
-	rating: Ratings.Unknown,
-	season: Seasons.NonSeasonal,
-	source: Sources.Unknown,
-	status: AnimeStatuses.NotYetAired,
+	rating: Rating.Unknown,
+	season: Season.NonSeasonal,
+	source: Source.Unknown,
+	status: AnimeStatus.NotYetAired,
 	synopsis: '',
 	titleEnglish: '',
 	titleJapanese: '',
@@ -51,12 +50,12 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeFormComponent {
-	private _type: FormAction = 'create';
+	private _formType: FormAction = 'create';
 
 	private _title: string = 'Create anime';
 
-	public get type() {
-		return this._type;
+	public get formType() {
+		return this._formType;
 	}
 
 	@Input()
@@ -69,8 +68,8 @@ export class AnimeFormComponent {
 	}
 
 	@Input({ required: true })
-	public set type(type: FormAction) {
-		this._type = type;
+	public set formType(type: FormAction) {
+		this._formType = type;
 	}
 
 	@Input()
@@ -80,26 +79,41 @@ export class AnimeFormComponent {
 		}
 	}
 
-	protected readonly statuses = convertEnumToArray(AnimeStatuses) as AnimeStatuses[];
+	/** Anime status. */
+	protected readonly animeStatus = AnimeStatus;
 
-	protected readonly seasons = convertEnumToArray(Seasons) as Seasons[];
+	/** Anime type. */
+	protected readonly animeType = AnimeType;
 
-	protected readonly ratings = convertEnumToArray(Ratings) as Ratings[];
+	/** Rating. */
+	protected readonly rating = Rating;
 
-	protected readonly types = convertEnumToArray(AnimeType) as AnimeType[];
+	/** Season. */
+	protected readonly season = Season;
 
-	protected readonly sources = convertEnumToArray(Sources) as Sources[];
+	/** Source. */
+	protected readonly source = Source;
+
+	protected readonly statusOptions = Object.values(AnimeStatus).slice(0, -1);
+
+	protected readonly seasonOptions = Object.values(Season).slice(0, -1);
+
+	protected readonly ratingOptions = Object.values(Rating).slice(0, -1);
+
+	protected readonly typesOptions = Object.values(AnimeType).slice(0, -1);
+
+	protected readonly sourcesOptions = Object.values(Source).slice(0, -1);
 
 	protected readonly form: FormGroup<AnimeDetailControls>;
 	/** Router. */
 
-	protected genres$ = new BehaviorSubject<readonly Genre[] | null>(null);
+	protected readonly genres$ = new BehaviorSubject<readonly Genre[] | null>(null);
 
-	protected addedGenre$ = new BehaviorSubject<Genre | null>(null);
+	protected readonly addedGenre$ = new BehaviorSubject<Genre | null>(null);
 
-	protected studios$ = new BehaviorSubject<readonly Studio[] | null>(null);
+	protected readonly studios$ = new BehaviorSubject<readonly Studio[] | null>(null);
 
-	protected addedStudio$ = new BehaviorSubject<Studio | null>(null);
+	protected readonly addedStudio$ = new BehaviorSubject<Studio | null>(null);
 
 	private readonly animeService = inject(AnimeService);
 
@@ -123,8 +137,7 @@ export class AnimeFormComponent {
 			return;
 		}
 
-		if (this.type === 'create') {
-			console.log(123);
+		if (this.formType === 'create') {
 			this.animeService
 				.createAnime(this.form.getRawValue())
 				.pipe(
@@ -233,7 +246,7 @@ export class AnimeFormComponent {
 			airing: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.airing, [Validators.required]),
 			rating: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.rating, [Validators.required]),
 			genres: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genres, [Validators.required]),
-			image: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.image),
+			imageUrl: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.imageUrl),
 			created: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.created),
 			modified: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.modified),
 			season: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.season, [Validators.required]),

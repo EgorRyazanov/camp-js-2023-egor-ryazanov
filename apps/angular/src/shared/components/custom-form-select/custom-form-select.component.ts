@@ -1,14 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, Output, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { FormControl, NonNullableFormBuilder } from '@angular/forms';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { SharedModule } from '../../shared.module';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { BaseFormControl } from '../base-form-control/base-form-control';
 import { EventEmitter } from '@angular/core';

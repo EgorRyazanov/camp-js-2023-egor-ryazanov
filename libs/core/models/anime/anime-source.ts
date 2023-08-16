@@ -1,5 +1,5 @@
 /** Anime Source. */
-export enum Sources {
+export enum Source {
 	FourKomaManga = 'FourKomaManga',
 	Book = 'Book',
 	CardGame = 'CardGame',
@@ -21,31 +21,35 @@ export enum Sources {
 
 /** Source. */
 export namespace Source {
-	const TO_TITLE_MAP: Record<Sources, string> = {
-		[Sources.Book]: 'Book',
-		[Sources.CardGame]: 'Card game',
-		[Sources.FourKomaManga]: 'Four koma manga',
-		[Sources.Game]: 'Game',
-		[Sources.LightNovel]: 'Light novel',
-		[Sources.Manga]: 'Manga',
-		[Sources.MixedMedia]: 'Mixed Media',
-		[Sources.Music]: 'Music',
-		[Sources.Novel]: 'Novel',
-		[Sources.Original]: 'Original',
-		[Sources.Other]: 'Other',
-		[Sources.PictureBook]: 'Picture book',
-		[Sources.WebNovel]: 'Web novel',
-		[Sources.WebManga]: 'Web manga',
-		[Sources.Radio]: 'Radio',
-		[Sources.Unknown]: 'Unknown',
-		[Sources.VisialNovel]: 'Visial novel',
+	const TO_TITLE_MAP: Record<Source, string> = {
+		[Source.Book]: 'Book',
+		[Source.CardGame]: 'Card game',
+		[Source.FourKomaManga]: 'Four koma manga',
+		[Source.Game]: 'Game',
+		[Source.LightNovel]: 'Light novel',
+		[Source.Manga]: 'Manga',
+		[Source.MixedMedia]: 'Mixed Media',
+		[Source.Music]: 'Music',
+		[Source.Novel]: 'Novel',
+		[Source.Original]: 'Original',
+		[Source.Other]: 'Other',
+		[Source.PictureBook]: 'Picture book',
+		[Source.WebNovel]: 'Web novel',
+		[Source.WebManga]: 'Web manga',
+		[Source.Radio]: 'Radio',
+		[Source.Unknown]: 'Unknown',
+		[Source.VisialNovel]: 'Visial novel',
 	};
 
 	/**
 	 * Makes source readable.
 	 * @param source Source.
 	 */
-	export function toReadable(source: Sources): string {
-		return TO_TITLE_MAP[source];
+	export function toReadable(source: Source | null): string | null {
+		if (source != null) {
+			return TO_TITLE_MAP[source];
+		}
+
+		return null;
 	}
 }

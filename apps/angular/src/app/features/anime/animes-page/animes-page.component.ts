@@ -12,9 +12,12 @@ import {
 	RoutingAnimeParamsMapper,
 } from '@js-camp/angular/core/utils/anime-routing-params.mapper';
 import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
+
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
+import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
@@ -48,6 +51,12 @@ export class AnimesPageComponent {
 
 	/** Status of anime. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
+
+	/** Anime status. */
+	protected animeStatus = AnimeStatus;
+
+	/** Anime type. */
+	protected animeType = AnimeType;
 
 	/** Form values. */
 	protected readonly form = this.formBuilder.group({
@@ -149,10 +158,8 @@ export class AnimesPageComponent {
 	 * @param params Changed params.
 	 */
 	private setQueryParams(params: Partial<AnimeRoutingQueryParams>): void {
-		const urlWithoutParams = this.router.url.split('?')[0];
-		this.router.navigate([urlWithoutParams], {
-			queryParams: { ...this.queryParams, ...params },
-		});
+		const urlWithoutParams = this.router.url.split('?').at(0);
+		this.router.navigate([urlWithoutParams], { queryParams: { ...this.queryParams, ...params } });
 	}
 
 	/** Stream of animes. */
@@ -165,8 +172,8 @@ export class AnimesPageComponent {
 					this.setQueryParams(params);
 				}
 				this.setFormValues(params);
-				this.isLoading$.next(true);
 			}),
+			startLoadingStatus(this.isLoading$),
 			debounceTime(DEBOUNCE_TIME),
 			switchMap(({ params }) => this.getAnimePage(params)),
 			stopLoadingStatus(this.isLoading$),

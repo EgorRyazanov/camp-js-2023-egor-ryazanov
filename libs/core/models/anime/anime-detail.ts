@@ -1,17 +1,13 @@
 import { Studio } from '../studio/studio';
 import { Genre } from '../genre/genre';
-import { Seasons } from '../season';
-import { Ratings } from '../rating';
-import { AnimeStatuses } from './anime-status';
-import { AnimeType } from './anime-type';
+import { Season } from '../season';
+import { Rating } from '../rating';
 
-import { Sources } from './anime-source';
+import { Source } from './anime-source';
+import { Anime } from './anime';
 
 /** Anime Detail. */
-export class AnimeDetail {
-	/** ID. */
-	public readonly id: number;
-
+export class AnimeDetail extends Anime {
 	/**
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
@@ -24,32 +20,14 @@ export class AnimeDetail {
 	 */
 	public readonly modified: Date;
 
-	/** English title. */
-	public readonly titleEnglish: string;
-
-	/** Japanese title. */
-	public readonly titleJapanese: string;
-
-	/** Image URL. */
-	public readonly image: string | null;
-
-	/** Aired dates. */
-	public readonly aired: Aired;
-
-	/** Type. */
-	public readonly type: AnimeType;
-
-	/** Status. */
-	public readonly status: AnimeStatuses;
-
 	/** Rating. */
-	public readonly rating: Ratings;
+	public readonly rating: Rating;
 
 	/** Source. */
-	public readonly source: Sources;
+	public readonly source: Source;
 
 	/** Season. */
-	public readonly season: Seasons;
+	public readonly season: Season;
 
 	/** Youtube trialer's URL. */
 	public readonly trailerYoutubeUrl: string | null;
@@ -60,38 +38,33 @@ export class AnimeDetail {
 	/** Synopsis. */
 	public readonly synopsis: string;
 
-	/** Studios IDs. */
-	public readonly studiosId: readonly number[];
-
 	/** Studios. */
 	public readonly studios: readonly Studio[];
-
-	/** Genres IDs. */
-	public readonly genresId: readonly number[];
 
 	/** Genres. */
 	public readonly genres: readonly Genre[];
 
 	public constructor(animeDetailData: AnimeDetail) {
-		this.id = animeDetailData.id;
-		this.aired = animeDetailData.aired;
+		super({
+			id: animeDetailData.id,
+			aired: animeDetailData.aired,
+			imageUrl: animeDetailData.imageUrl,
+			status: animeDetailData.status,
+			type: animeDetailData.type,
+			titleEnglish: animeDetailData.titleEnglish,
+			titleJapanese: animeDetailData.titleJapanese,
+		});
+
 		this.airing = animeDetailData.airing;
 		this.created = animeDetailData.created;
-		this.genresId = animeDetailData.genresId;
-		this.image = animeDetailData.image;
+		this.genres = animeDetailData.genres;
 		this.modified = animeDetailData.modified;
 		this.rating = animeDetailData.rating;
 		this.season = animeDetailData.season;
 		this.source = animeDetailData.source;
-		this.status = animeDetailData.status;
 		this.studios = animeDetailData.studios;
 		this.synopsis = animeDetailData.synopsis;
-		this.titleEnglish = animeDetailData.titleEnglish;
-		this.titleJapanese = animeDetailData.titleJapanese;
 		this.trailerYoutubeUrl = animeDetailData.trailerYoutubeUrl;
-		this.type = animeDetailData.type;
-		this.genres = animeDetailData.genres;
-		this.studiosId = animeDetailData.studiosId;
 	}
 }
 
@@ -101,11 +74,11 @@ export interface Aired {
 	 *  Start date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	start: Date | null;
+	readonly start: Date | null;
 
 	/**
 	 *  End date.
 	 *  @example 1975-01-01T00:00:00Z.
 	 */
-	end: Date | null;
+	readonly end: Date | null;
 }
