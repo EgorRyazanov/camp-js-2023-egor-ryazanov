@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /** Error dialog data. */
 interface ErrorDialogData {
+
 	/** Message. */
 	message: string;
 }
