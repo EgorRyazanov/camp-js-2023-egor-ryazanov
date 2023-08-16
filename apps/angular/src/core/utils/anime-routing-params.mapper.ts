@@ -4,6 +4,7 @@ import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
 
 /** Routing anime params mapper. */
 export namespace RoutingAnimeParamsMapper {
+
 	/** Default routing query parameters. */
 	export const defaultQueryParams: AnimeRoutingQueryParams = {
 		pageSize: 5,
@@ -64,9 +65,8 @@ export namespace RoutingAnimeParamsMapper {
 	 */
 	export function typeToModel(type: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
 		const normalizedType = type instanceof Array ? type : [type];
-		const newTypeModel = normalizedType.filter((typeElement) =>
-			Object.values(AnimeType).includes(typeElement as AnimeType)
-		);
+		const newTypeModel = normalizedType.filter(typeElement =>
+			Object.values(AnimeType).includes(typeElement as AnimeType));
 		return { isValid: newTypeModel.length === normalizedType.length, type: newTypeModel as AnimeType[] };
 	}
 
@@ -89,7 +89,7 @@ export namespace RoutingAnimeParamsMapper {
 	 * @returns Direction and value was changed flag.
 	 */
 	export function directionToModel(
-		direction: Param
+		direction: Param,
 	): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
 		if (Object.values(OrderingDirection).includes(direction as OrderingDirection)) {
 			return { direction: direction as OrderingDirection, isValid: true };
@@ -132,6 +132,7 @@ export namespace RoutingAnimeParamsMapper {
 
 /** Converted routing query params. */
 export interface AnimeRoutingQueryParams {
+
 	/** Page size. */
 	readonly pageSize: number;
 
@@ -155,6 +156,7 @@ type Param = string[] | string;
 
 /** Routing query params that goes from search input. */
 export interface QueryParams {
+
 	/** Page size. */
 	readonly pageSize: Param;
 
@@ -176,6 +178,7 @@ export interface QueryParams {
 
 /** Income values with status about change if values is incorrect. */
 export interface IncomeValuesStatus {
+
 	/** Shows status of validity of income value. */
 	readonly isValid: boolean;
 }

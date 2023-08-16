@@ -17,6 +17,6 @@ export namespace AnimeTypeMapper {
 	 * @param types Array of anime status.
 	 */
 	export function toDto(types: readonly AnimeType[]): string {
-		return types.map((typeInElement) => ANIME_TYPE_TO_DTO[typeInElement]).join(', ');
+		return types.map(typeInElement => ANIME_TYPE_TO_DTO[typeInElement]).join(', ');
 	}
 }

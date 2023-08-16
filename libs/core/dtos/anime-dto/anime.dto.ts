@@ -4,6 +4,7 @@ import { AiredDto } from '../aired-dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
+
 	/** ID. */
 	readonly id: number;
 

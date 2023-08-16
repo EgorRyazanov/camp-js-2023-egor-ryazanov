@@ -16,10 +16,12 @@ import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
-import { AnimeService } from '../../../../core/services/anime.service';
+
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 
-type StatusedRoutingParams = IncomeValuesStatus & { params: AnimeRoutingQueryParams };
+import { AnimeService } from '../../../../core/services/anime.service';
+
+type StatusedRoutingParams = IncomeValuesStatus & { params: AnimeRoutingQueryParams; };
 
 /** Anime Component. */
 @Component({
@@ -50,8 +52,10 @@ export class AnimesPageComponent {
 	/** Status of anime. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
+	/** Anime status. */
 	protected animeStatus = AnimeStatus;
 
+	/** Anime type. */
 	protected animeType = AnimeType;
 
 	/** Form values. */
@@ -162,7 +166,7 @@ export class AnimesPageComponent {
 	private createAnimesStream(): Observable<AnimePagination> {
 		return this.activeRoute.queryParams.pipe(
 			distinctUntilChanged(),
-			map((query) => this.mapQueryParamsToModel(query)),
+			map(query => this.mapQueryParamsToModel(query)),
 			tap(({ isValid, params }) => {
 				if (!isValid) {
 					this.setQueryParams(params);
@@ -175,7 +179,7 @@ export class AnimesPageComponent {
 			stopLoadingStatus(this.isLoading$),
 			tap(() => {
 				window.scroll({ top: 0, behavior: 'smooth' });
-			})
+			}),
 		);
 	}
 

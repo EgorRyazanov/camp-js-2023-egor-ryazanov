@@ -7,11 +7,16 @@ import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
 import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from 'rxjs';
-import { ImageDialogComponent } from './components/dialog/image-dialog.component';
+
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { Rating } from '@js-camp/core/models/rating';
 import { Season } from '@js-camp/core/models/season';
+import { Source } from '@js-camp/core/models/anime/anime-source';
+import { Studio } from '@js-camp/core/models/studio/studio';
+import { Genre } from '@js-camp/core/models/genre/genre';
+
+import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
 const homeUrl = '';
 
@@ -44,13 +49,20 @@ export class AnimeDetailsPageComponent {
 	/** Router. */
 	private readonly router = inject(Router);
 
+	/** Anime status. */
 	protected animeStatus = AnimeStatus;
 
+	/** Anime type. */
 	protected animeType = AnimeType;
 
+	/** Rating. */
 	protected rating = Rating;
 
+	/** Season. */
 	protected season = Season;
+
+	/** Source. */
+	protected source = Source;
 
 	public constructor() {
 		this.id$ = this.createIdParamStream();
@@ -68,16 +80,32 @@ export class AnimeDetailsPageComponent {
 		});
 	}
 
+	/**
+	 * Makes studios readable.
+	 * @param studios Array of studio.
+	 */
+	protected studiosToReadable(studios: readonly Studio[]): string {
+		return studios.join(', ');
+	}
+
+	/**
+	 * Makes genres readable.
+	 * @param genres Array of genre.
+	 */
+	protected genresToReadable(genres: readonly Genre[]): string {
+		return genres.join(', ');
+	}
+
 	/** Creates ID stream. */
 	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map((params) => params.get('id') ?? ''));
+		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 	}
 
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
 		return this.id$.pipe(
 			startLoadingStatus(this.isLoading$),
-			switchMap((id) => this.animeDetailsService.getAnime(id)),
+			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
 					alert(error.message);
@@ -85,7 +113,7 @@ export class AnimeDetailsPageComponent {
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
 			}),
-			stopLoadingStatus(this.isLoading$)
+			stopLoadingStatus(this.isLoading$),
 		);
 	}
 }

@@ -1,9 +1,9 @@
 import { Studio } from '../studio/studio';
 import { Genre } from '../genre/genre';
-import { Seasons } from '../season';
-import { Ratings } from '../rating';
+import { Season } from '../season';
+import { Rating } from '../rating';
 
-import { Sources } from './anime-source';
+import { Source } from './anime-source';
 import { Anime } from './anime';
 
 /** Anime Detail. */
@@ -21,13 +21,13 @@ export class AnimeDetail extends Anime {
 	public readonly modified: Date;
 
 	/** Rating. */
-	public readonly rating: Ratings;
+	public readonly rating: Rating;
 
 	/** Source. */
-	public readonly source: Sources;
+	public readonly source: Source;
 
 	/** Season. */
-	public readonly season: Seasons;
+	public readonly season: Season;
 
 	/** Youtube trialer's URL. */
 	public readonly trailerYoutubeUrl: string | null;

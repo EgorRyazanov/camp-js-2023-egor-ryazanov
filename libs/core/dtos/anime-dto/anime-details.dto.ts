@@ -1,9 +1,11 @@
 import { StudioDto } from '../studios-dto/studio.dto';
 import { GenreDto } from '../genre-dto/genre.dto';
+
 import { AnimeDto } from './anime.dto';
 
 /** Anime Detail DTO. */
 export interface AnimeDetailDto extends AnimeDto {
+
 	/**
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.

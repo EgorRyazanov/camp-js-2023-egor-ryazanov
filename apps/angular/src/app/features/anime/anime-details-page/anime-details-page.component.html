@@ -10,7 +10,7 @@
 		</div>
 		<article class="details__description">
 			<p class="details__description-text">
-				<span class="details__description-text_bold">Season:</span> {{ anime.season | readableSeason }}
+				<span class="details__description-text_bold">Season:</span> {{ season.toReadable(anime.season) }}
 			</p>
 			<p class="details__description-text">
 				<span class="details__description-text_bold">Synopsis:</span> {{ anime.synopsis | empty }}
@@ -25,22 +25,22 @@
 				<span class="details__description-text_bold">Date end:</span> {{ anime.aired.end | date | empty }}
 			</p>
 			<p class="details__description-text">
-				<span class="details__description-text_bold">Genres:</span> {{ anime.genresData | readableGenres | empty }}
+				<span class="details__description-text_bold">Genres:</span> {{ genresToReadable(anime.genresData) | empty }}
 			</p>
 			<p class="details__description-text">
-				<span class="details__description-text_bold">Studios:</span> {{ anime.studiosData | readableStudios | empty }}
+				<span class="details__description-text_bold">Studios:</span> {{ studiosToReadable(anime.studiosData) | empty }}
 			</p>
 			<p class="details__description-text">
 				<span class="details__description-text_bold">Rating:</span> {{ anime.rating | empty }}
 			</p>
 			<p class="details__description-text">
-				<span class="details__description-text_bold">Source:</span> {{ anime.source | readableSource | empty }}
+				<span class="details__description-text_bold">Source:</span> {{ source.toReadable(anime.source) | empty }}
 			</p>
 			<p class="details__description-text">
-				<span class="details__description-text_bold">Type:</span> {{ anime.type | readableAnimeType | empty }}
+				<span class="details__description-text_bold">Type:</span> {{ animeType.toReadable(anime.type) | empty }}
 			</p>
 			<p class="details__description-text">
-				<span class="details__description-text_bold">Status:</span> {{ anime.status | readableAnimeStatus | empty }}
+				<span class="details__description-text_bold">Status:</span> {{ animeStatus.toReadable(anime.status) | empty }}
 			</p>
 			<p class="details__description-text">
 				<span class="details__description-text_bold">Created:</span> {{ anime.created | date | empty }}

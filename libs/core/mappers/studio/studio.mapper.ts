@@ -5,14 +5,6 @@ import { Studio } from '../../../core/models/studio/studio';
 export namespace StudioMapper {
 
 	/**
-	 * Makes studios readable.
-	 * @param studios Array of studio.
-	 */
-	export function toReadable(studios: readonly Studio[]): string {
-		return studios.map(studio => studio.name).join(', ');
-	}
-
-	/**
 	 * Converts studio from DTO to model.
 	 * @param dto Studio DTO.
 	 */

@@ -7,6 +7,7 @@ export enum AnimeStatus {
 
 /** Anime status. */
 export namespace AnimeStatus {
+
 	/** Anime status map-object to title view. */
 	const TO_TITLE_MAP: Record<AnimeStatus, string> = {
 		[AnimeStatus.Finished]: 'Finished',
@@ -18,7 +19,11 @@ export namespace AnimeStatus {
 	 * Converts an anime status to readable title.
 	 * @param value Anime status.
 	 */
-	export function toReadable(value: AnimeStatus): string {
-		return TO_TITLE_MAP[value];
+	export function toReadable(value: AnimeStatus | null): string | null {
+		if (value != null) {
+			return TO_TITLE_MAP[value];
+		}
+
+		return null;
 	}
 }

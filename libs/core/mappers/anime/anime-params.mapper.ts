@@ -6,6 +6,7 @@ import { AnimeStatus } from '../../../core/models/anime/anime-status';
 import { AnimeOrderingField } from '../../../core/models/anime/anime-ordering';
 import { AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-ordering.dto';
 import { OrderingMapper } from '../ordering.mapper';
+
 import { AnimeTypeMapper } from './anime-type.mapper';
 
 /** Anime Parameters Mapper. */
