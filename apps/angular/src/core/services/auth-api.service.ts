@@ -4,10 +4,10 @@ import { Observable, map } from 'rxjs';
 import { Registration } from '@js-camp/core/models/auth/registration';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
+import { UserSecretDto } from '@js-camp/core/dtos/auth-dto/user-secret-dto';
 import { Login } from '@js-camp/core/models/auth/login';
 import { LoginDataMapper } from '@js-camp/core/mappers/auth/login-data.mapper';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/auth/register-data.mapper';
-import { UserSecretDto } from '@js-camp/core/dtos/auth-dto/user-secret-dto';
 
 import { AppErrorMapper } from '../utils/app-error.mapper';
 
