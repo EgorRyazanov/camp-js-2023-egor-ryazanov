@@ -8,6 +8,7 @@ import { RatingDto, SeasonDto, SourceDto } from '../../../core/dtos/anime-dto/an
 import { Source } from '../../../core/models/anime/anime-source';
 import { Rating } from '../../../core/models/rating';
 import { Season } from '../../../core/models/season';
+import { AiredMapper } from '../aired.mapper';
 
 /** Anime Detail Form Mapper. */
 export namespace AnimeDetailFormMapper {
@@ -71,10 +72,7 @@ export namespace AnimeDetailFormMapper {
 	 */
 	export function toDto(model: AnimeDetailForm): AnimeDetailFormDto {
 		return {
-			aired: {
-				start: model.aired.start?.toISOString() ?? null,
-				end: model.aired.end?.toISOString() ?? null,
-			},
+			aired: AiredMapper.toDto(model.aired),
 			airing: model.airing,
 			created: model.created?.toISOString() ?? null,
 			image: model.imageUrl,
@@ -86,10 +84,12 @@ export namespace AnimeDetailFormMapper {
 			synopsis: model.synopsis,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
-			trailer_youtube_id: model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '') ?? null,
+			trailer_youtube_id: model.trailerYoutubeUrl?.startsWith(BASE_SHARE_YOUTUBE_URL)
+				? model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '')
+				: null,
 			type: ANIME_TYPE_TO_DTO[model.type],
-			studios: model.studios.map(studio => studio.id),
-			genres: model.genres.map(genre => genre.id),
+			studios: model.studios.map((studio) => studio.id),
+			genres: model.genres.map((genre) => genre.id),
 		};
 	}
 }

@@ -88,9 +88,9 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 			.pipe(
 				debounceTime(DEBOUNCE_TIME),
 				distinctUntilChanged(),
-				tap(params => {
+				tap((params) => {
 					this.getItems.emit(params);
-				}),
+				})
 			)
 			.subscribe();
 
@@ -98,14 +98,14 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 			.pipe(
 				debounceTime(DEBOUNCE_TIME),
 				distinctUntilChanged(),
-				tap(search => {
+				tap((search) => {
 					this.items = [];
 					this.params$.next({
 						search,
 						pageNumber: defaultParams.pageNumber,
 						name: defaultParams.name,
 					});
-				}),
+				})
 			)
 			.subscribe();
 	}
@@ -173,7 +173,7 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 			this.value = [];
 		}
 
-		if (this.value?.includes(element)) {
+		if (!this.value?.includes(element)) {
 			this.value = this.value.concat(element);
 			this.innerControl.setValue('');
 		}

@@ -1,13 +1,12 @@
 /** Anime statuses. */
 export enum AnimeStatus {
-	Finished = 'FINISHED',
-	Airing = 'AIRING',
-	NotYetAired = 'NOT_YET_AIRED',
+	Finished = 'Finished',
+	Airing = 'Airing',
+	NotYetAired = 'NotYetAired',
 }
 
 /** Anime status. */
 export namespace AnimeStatus {
-
 	/** Anime status map-object to title view. */
 	const TO_TITLE_MAP: Record<AnimeStatus, string> = {
 		[AnimeStatus.Finished]: 'Finished',
