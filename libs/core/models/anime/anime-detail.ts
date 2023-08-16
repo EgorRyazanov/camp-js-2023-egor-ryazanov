@@ -39,10 +39,10 @@ export class AnimeDetail extends Anime {
 	public readonly synopsis: string;
 
 	/** Studios. */
-	public readonly studiosData: readonly Studio[];
+	public readonly studios: readonly Studio[];
 
 	/** Genres. */
-	public readonly genresData: readonly Genre[];
+	public readonly genres: readonly Genre[];
 
 	public constructor(animeDetailData: AnimeDetail) {
 		super({
@@ -57,12 +57,12 @@ export class AnimeDetail extends Anime {
 
 		this.airing = animeDetailData.airing;
 		this.created = animeDetailData.created;
-		this.genresData = animeDetailData.genresData;
+		this.genres = animeDetailData.genres;
 		this.modified = animeDetailData.modified;
 		this.rating = animeDetailData.rating;
 		this.season = animeDetailData.season;
 		this.source = animeDetailData.source;
-		this.studiosData = animeDetailData.studiosData;
+		this.studios = animeDetailData.studios;
 		this.synopsis = animeDetailData.synopsis;
 		this.trailerYoutubeUrl = animeDetailData.trailerYoutubeUrl;
 	}

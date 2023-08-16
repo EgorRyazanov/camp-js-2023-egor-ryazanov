@@ -88,7 +88,7 @@ export class AnimeDetailsPageComponent {
 	 * @param studios Array of studio.
 	 */
 	protected studiosToReadable(studios: readonly Studio[]): string {
-		return studios.join(', ');
+		return studios.map(studio => studio.name).join(', ');
 	}
 
 	/**
@@ -96,7 +96,7 @@ export class AnimeDetailsPageComponent {
 	 * @param genres Array of genre.
 	 */
 	protected genresToReadable(genres: readonly Genre[]): string {
-		return genres.join(', ');
+		return genres.map(genre => genre.name).join(', ');
 	}
 
 	/** Creates ID stream. */
