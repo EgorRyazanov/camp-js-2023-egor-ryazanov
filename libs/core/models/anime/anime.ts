@@ -1,8 +1,6 @@
 import { Pagination } from '../pagintation';
-
 import { Aired } from './anime-detail';
-
-import { AnimeStatuses } from './anime-status';
+import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
 
 /** Anime. */
@@ -23,7 +21,7 @@ export class Anime {
 	public readonly type: AnimeType;
 
 	/** Status. */
-	public readonly status: AnimeStatuses;
+	public readonly status: AnimeStatus;
 
 	/** Aired dates. */
 	public readonly aired: Aired;

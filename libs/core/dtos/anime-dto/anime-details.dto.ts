@@ -1,11 +1,9 @@
 import { StudioDto } from '../studios-dto/studio.dto';
 import { GenreDto } from '../genre-dto/genre.dto';
-
 import { AnimeDto } from './anime.dto';
 
 /** Anime Detail DTO. */
 export interface AnimeDetailDto extends AnimeDto {
-
 	/**
 	 * Created date.
 	 * @example 2023-07-13T08:25:29.562269Z.
@@ -25,7 +23,7 @@ export interface AnimeDetailDto extends AnimeDto {
 	readonly source: SourceDto;
 
 	/** Season. */
-	readonly season: SeasonsDto;
+	readonly season: SeasonDto;
 
 	/** Youtube trialer's ID. */
 	readonly trailer_youtube_id: string;
@@ -44,7 +42,7 @@ export interface AnimeDetailDto extends AnimeDto {
 }
 
 /** Seasons DTO. */
-export enum SeasonsDto {
+export enum SeasonDto {
 	Summer = 'SUMMER',
 	Winter = 'WINTER',
 	Spring = 'SPRING',

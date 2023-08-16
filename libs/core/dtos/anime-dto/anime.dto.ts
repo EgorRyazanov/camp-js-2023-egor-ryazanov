@@ -4,7 +4,6 @@ import { AiredDto } from '../aired-dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
-
 	/** ID. */
 	readonly id: number;
 
@@ -18,7 +17,7 @@ export interface AnimeDto {
 	readonly image: string;
 
 	/** Type. */
-	readonly type: AnimeDtoTypes;
+	readonly type: AnimeTypeDto;
 
 	/** Status. */
 	readonly status: AnimeStatusDto;
@@ -31,7 +30,7 @@ export interface AnimeDto {
 export type AnimePaginationDto = PaginationDto<AnimeDto>;
 
 /** Anime type DTO. */
-export enum AnimeDtoTypes {
+export enum AnimeTypeDto {
 	Tv = 'TV',
 	Ova = 'OVA',
 	Movie = 'MOVIE',

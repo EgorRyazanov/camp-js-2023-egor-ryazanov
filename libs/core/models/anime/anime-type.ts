@@ -10,8 +10,7 @@ export enum AnimeType {
 }
 
 /** Anime types. */
-export namespace AnimeTypes {
-
+export namespace AnimeType {
 	/** Anime types map-object to title view. */
 	const TO_TITLE_MAP: Record<AnimeType, string> = {
 		[AnimeType.Movie]: 'Movie',

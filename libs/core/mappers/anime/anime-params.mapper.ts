@@ -2,12 +2,10 @@ import { AnimeParameters } from '../../../core/models/anime/anime-params';
 import { AnimeParametersDto } from '../../../core/dtos/anime-dto/anime-params.dto';
 import { AnimeStatusDto } from '../../../core/dtos/anime-dto/anime.dto';
 import { deleteUndefinedProperties } from '../../../core/utils/delete-undefined-properties';
-import { AnimeStatuses } from '../../../core/models/anime/anime-status';
+import { AnimeStatus } from '../../../core/models/anime/anime-status';
 import { AnimeOrderingField } from '../../../core/models/anime/anime-ordering';
 import { AnimeOrderingFieldDto } from '../../../core/dtos/anime-dto/anime-ordering.dto';
-
 import { OrderingMapper } from '../ordering.mapper';
-
 import { AnimeTypeMapper } from './anime-type.mapper';
 
 /** Anime Parameters Mapper. */
@@ -20,10 +18,10 @@ export namespace AnimeParametersMapper {
 		[AnimeOrderingField.AiredStart]: AnimeOrderingFieldDto.AiredStart,
 	};
 
-	const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatuses, AnimeStatusDto>> = {
-		[AnimeStatuses.Finished]: AnimeStatusDto.Finished,
-		[AnimeStatuses.NotYetAired]: AnimeStatusDto.NotYetAired,
-		[AnimeStatuses.Airing]: AnimeStatusDto.Airing,
+	const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
+		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
+		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
+		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
 	};
 
 	/**

@@ -1,25 +1,25 @@
-import { AnimeDto, AnimeStatusDto, AnimeDtoTypes } from '../../../core/dtos/anime-dto/anime.dto';
+import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../../../core/dtos/anime-dto/anime.dto';
 import { Anime } from '../../../core/models/anime/anime';
-import { AnimeStatuses } from '../../../core/models/anime/anime-status';
+import { AnimeStatus } from '../../../core/models/anime/anime-status';
 import { AnimeType } from '../../../core/models/anime/anime-type';
 import { AiredMapper } from '../aired.mapper';
 
 /** Anime Mapper. */
 export namespace AnimeMapper {
-	export const ANIME_TYPE_FROM_DTO: Readonly<Record<AnimeDtoTypes, AnimeType>> = {
-		[AnimeDtoTypes.Music]: AnimeType.Music,
-		[AnimeDtoTypes.Ova]: AnimeType.Ova,
-		[AnimeDtoTypes.Ona]: AnimeType.Ona,
-		[AnimeDtoTypes.Special]: AnimeType.Special,
-		[AnimeDtoTypes.Tv]: AnimeType.Tv,
-		[AnimeDtoTypes.Unknown]: AnimeType.Unknown,
-		[AnimeDtoTypes.Movie]: AnimeType.Movie,
+	export const ANIME_TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
+		[AnimeTypeDto.Music]: AnimeType.Music,
+		[AnimeTypeDto.Ova]: AnimeType.Ova,
+		[AnimeTypeDto.Ona]: AnimeType.Ona,
+		[AnimeTypeDto.Special]: AnimeType.Special,
+		[AnimeTypeDto.Tv]: AnimeType.Tv,
+		[AnimeTypeDto.Unknown]: AnimeType.Unknown,
+		[AnimeTypeDto.Movie]: AnimeType.Movie,
 	};
 
-	export const ANIME_STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatuses>> = {
-		[AnimeStatusDto.Finished]: AnimeStatuses.Finished,
-		[AnimeStatusDto.NotYetAired]: AnimeStatuses.NotYetAired,
-		[AnimeStatusDto.Airing]: AnimeStatuses.Airing,
+	export const ANIME_STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
+		[AnimeStatusDto.Finished]: AnimeStatus.Finished,
+		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
+		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 	};
 
 	/**

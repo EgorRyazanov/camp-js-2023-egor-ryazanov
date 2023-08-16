@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
@@ -6,10 +7,11 @@ import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
 import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from 'rxjs';
-
-import { HttpErrorResponse } from '@angular/common/http';
-
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
+import { AnimeType } from '@js-camp/core/models/anime/anime-type';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
+import { Rating } from '@js-camp/core/models/rating';
+import { Season } from '@js-camp/core/models/season';
 
 const homeUrl = '';
 
@@ -42,6 +44,14 @@ export class AnimeDetailsPageComponent {
 	/** Router. */
 	private readonly router = inject(Router);
 
+	protected animeStatus = AnimeStatus;
+
+	protected animeType = AnimeType;
+
+	protected rating = Rating;
+
+	protected season = Season;
+
 	public constructor() {
 		this.id$ = this.createIdParamStream();
 		this.anime$ = this.createAnimeStream();
@@ -60,14 +70,14 @@ export class AnimeDetailsPageComponent {
 
 	/** Creates ID stream. */
 	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
+		return this.activeRoute.paramMap.pipe(map((params) => params.get('id') ?? ''));
 	}
 
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
 		return this.id$.pipe(
 			startLoadingStatus(this.isLoading$),
-			switchMap(id => this.animeDetailsService.getAnime(id)),
+			switchMap((id) => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
 					alert(error.message);
@@ -75,7 +85,7 @@ export class AnimeDetailsPageComponent {
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
 			}),
-			stopLoadingStatus(this.isLoading$),
+			stopLoadingStatus(this.isLoading$)
 		);
 	}
 }
