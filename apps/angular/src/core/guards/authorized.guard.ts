@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { UserService } from '../services/user.service';
 
@@ -10,10 +10,12 @@ export const authorizedGuard: CanActivateFn = () => {
 	const router = inject(Router);
 
 	return userService.isAuthorized$.pipe(
-		tap(isAuthorized => {
+		map((isAuthorized) => {
 			if (!isAuthorized) {
-				router.parseUrl('/');
+				return router.parseUrl('/auth/login');
 			}
-		}),
+
+			return isAuthorized;
+		})
 	);
 };

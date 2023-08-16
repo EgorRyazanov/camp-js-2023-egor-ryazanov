@@ -1,41 +1,62 @@
-<div class="anime">
-	<ng-container *ngIf="anime$ | async as anime">
-		<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
-		<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
-		<div class="anime__details">
-			<img
-				class="anime__details-image"
-				[alt]="anime.titleEnglish"
-				[src]="anime.imageUrl"
-				(click)="openDialog(anime.imageUrl, anime.titleEnglish)"
-			/>
-			<div>
-				<p><strong>Season:</strong> {{ anime.season | readable }}</p>
-				<p><strong>Synopsis:</strong> {{ anime.synopsis }}</p>
-				<p><strong>Airing:</strong> {{ anime.airing | yesOrNo | empty }}</p>
-				<p><strong>Date start:</strong> {{ anime.aired.start | date | empty }}</p>
-				<p><strong>Date end:</strong> {{ anime.aired.end | date | empty }}</p>
-				<p><strong>Genres:</strong> {{ anime.genresData | readable | empty }}</p>
-				<p><strong>Studios:</strong> {{ anime.studiosData | readable | empty }}</p>
-				<p><strong>Rating:</strong> {{ anime.rating | readable | empty }}</p>
-				<p><strong>Source:</strong> {{ anime.source | readable | empty }}</p>
-				<p><strong>Type:</strong> {{ anime.type | readable | empty }}</p>
-				<p><strong>Status:</strong> {{ anime.status | readable | empty }}</p>
-				<p><strong>Created:</strong> {{ anime.created | date | empty }}</p>
-				<p><strong>Modified:</strong> {{ anime.modified | date | empty }}</p>
-			</div>
-		</div>
-		<ng-container *ngIf="saveVideoUrl$ | async as url">
-			<iframe
-				allowfullscreen
-				class="anime__video"
-				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-				title="YouTube video player"
-				[src]="url"
-			></iframe>
-		</ng-container>
-	</ng-container>
+<div class="anime" *ngIf="anime$ | async as anime">
+	<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
+	<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
+	<div class="anime__details">
+		<img
+			class="anime__details-image"
+			[alt]="anime.titleEnglish"
+			[src]="anime.imageUrl"
+			(click)="openDialog(anime.imageUrl, anime.titleEnglish)"
+		/>
+		<article class="anime__description">
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Season:</span> {{ anime.season | readableSeason }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Synopsis:</span> {{ anime.synopsis | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Airing:</span> {{ anime.airing | yesOrNo | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Date start:</span> {{ anime.aired.start | date | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Date end:</span> {{ anime.aired.end | date | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Genres:</span> {{ anime.genresData | readableGenres | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Studios:</span> {{ anime.studiosData | readableStudios | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Rating:</span> {{ anime.rating | readableRating | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Source:</span> {{ anime.source | readableSource | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Type:</span> {{ anime.type | readableAnimeType | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Status:</span> {{ anime.status | readableAnimeStatus | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Created:</span> {{ anime.created | date | empty }}
+			</p>
+			<p class="anime__description-text">
+				<span class="anime__description-text_bold">Modified:</span> {{ anime.modified | date | empty }}
+			</p>
+		</article>
+	</div>
+	<iframe
+		*ngIf="saveVideoUrl$ | async as url"
+		allowfullscreen
+		class="anime__video"
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+		title="YouTube video player"
+		[src]="url"
+	></iframe>
 </div>
-<div *ngIf="isLoading$ | async" class="anime__spinner">
-	<camp-spinner />
-</div>
+<camp-spinner *ngIf="isLoading$ | async" class="spinner" />
