@@ -16,6 +16,8 @@ import { Source } from '@js-camp/core/models/anime/anime-source';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
 
+import { ErrorDialogService } from '@js-camp/angular/core/services/error-dialog.service';
+
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
 const homeUrl = '';
@@ -45,6 +47,8 @@ export class AnimeDetailsPageComponent {
 
 	/** Active route service. */
 	private readonly activeRoute = inject(ActivatedRoute);
+
+	private readonly errorDialogService = inject(ErrorDialogService);
 
 	/** Router. */
 	private readonly router = inject(Router);
@@ -108,7 +112,7 @@ export class AnimeDetailsPageComponent {
 			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
-					alert(error.message);
+					this.errorDialogService.openDialog(error.message);
 				}
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
