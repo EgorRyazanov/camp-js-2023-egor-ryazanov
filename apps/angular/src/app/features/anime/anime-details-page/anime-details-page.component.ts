@@ -17,6 +17,12 @@ const homeUrl = '';
 	templateUrl: './anime-details-page.component.html',
 	styleUrls: ['./anime-details-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	// providers: [
+	// 	{
+	// 		provide: EXAMPLE_ID_TOKEN,
+	// 		useValue: of(10),
+	// 	},
+	// ],
 })
 export class AnimeDetailsPageComponent {
 	/** ID. */
@@ -50,6 +56,8 @@ export class AnimeDetailsPageComponent {
 	private readonly activeRoute = inject(ActivatedRoute);
 
 	public constructor() {
+		// console.log('EC', inject(ActivatedRoute).snapshot);
+		// inject(EXAMPLE_ID_TOKEN).subscribe(console.log);
 		this.id$ = this.createIdParamStream();
 		this.anime$ = this.createAnimeStream();
 	}
