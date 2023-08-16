@@ -6,8 +6,6 @@ import { AnimeDetail } from '../../../core/models/anime/anime-detail';
 import { GenreMapper } from '../genre/genre.mapper';
 import { StudioMapper } from '../studio/studio.mapper';
 
-import { Airing } from '../aired.mapper';
-
 import { AnimeMapper } from './anime.mapper';
 
 /** Anime Detail Mapper. */
@@ -56,23 +54,25 @@ export namespace AnimeDetailMapper {
 	 */
 	export function fromDto(dto: AnimeDetailDto): AnimeDetail {
 		return {
-			id: dto.id,
-			aired: Airing.fromDto(dto.aired),
+			...AnimeMapper.fromDto({
+				id: dto.id,
+				aired: dto.aired,
+				image: dto.image,
+				status: dto.status,
+				title_eng: dto.title_eng,
+				title_jpn: dto.title_jpn,
+				type: dto.type,
+			}),
 			airing: dto.airing,
 			created: new Date(dto.created),
 			genresData: dto.genres_data.map(genresDto => GenreMapper.fromDto(genresDto)),
-			imageUrl: dto.image,
 			modified: new Date(dto.modified),
 			rating: ANIME_RATING_FROM_DTO[dto.rating],
 			season: SEASON_FROM_DTO[dto.season],
 			source: SOURCE_FROM_DTO[dto.source],
-			status: AnimeMapper.ANIME_STATUS_FROM_DTO[dto.status],
 			studiosData: dto.studios_data.map(studioDto => StudioMapper.fromDto(studioDto)),
 			synopsis: dto.synopsis,
-			titleEnglish: dto.title_eng,
-			titleJapanese: dto.title_jpn,
 			trailerYoutubeUrl: dto.trailer_youtube_id ? `https://www.youtube.com/embed/${dto.trailer_youtube_id}` : null,
-			type: AnimeMapper.ANIME_TYPE_FROM_DTO[dto.type],
 		};
 	}
 }

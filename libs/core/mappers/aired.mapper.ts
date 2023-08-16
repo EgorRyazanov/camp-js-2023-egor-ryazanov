@@ -2,7 +2,7 @@ import { AiredDto } from '../dtos/aired-dto';
 import { Aired } from '../models/anime/anime-detail';
 
 /** Aired. */
-export namespace Airing {
+export namespace AiredMapper {
 
 	/**
 	 * Convert aired from DTO to mode.

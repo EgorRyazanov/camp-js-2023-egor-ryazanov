@@ -7,8 +7,9 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
 import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from 'rxjs';
 
-import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
 const homeUrl = '';
 
@@ -59,14 +60,14 @@ export class AnimeDetailsPageComponent {
 
 	/** Creates ID stream. */
 	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map((params) => params.get('id') ?? ''));
+		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 	}
 
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
 		return this.id$.pipe(
 			startLoadingStatus(this.isLoading$),
-			switchMap((id) => this.animeDetailsService.getAnime(id)),
+			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
 					alert(error.message);
@@ -74,7 +75,7 @@ export class AnimeDetailsPageComponent {
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
 			}),
-			stopLoadingStatus(this.isLoading$)
+			stopLoadingStatus(this.isLoading$),
 		);
 	}
 }
