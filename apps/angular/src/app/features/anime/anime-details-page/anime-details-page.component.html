@@ -1,52 +1,52 @@
 <div class="anime" *ngIf="anime$ | async as anime">
 	<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
 	<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
-	<div class="anime__details">
-		<img
-			class="anime__details-image"
-			[alt]="anime.titleEnglish"
-			[src]="anime.imageUrl"
-			(click)="openDialog(anime.imageUrl, anime.titleEnglish)"
-		/>
-		<article class="anime__description">
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Season:</span> {{ anime.season | readableSeason }}
+	<div class="anime__details details">
+		<div class="details__image-container">
+			<img class="details-image" [alt]="anime.titleEnglish" [src]="anime.imageUrl" />
+			<button color="primary" mat-raised-button type="button" (click)="openDialog(anime.imageUrl, anime.titleEnglish)">
+				Open image
+			</button>
+		</div>
+		<article class="details__description">
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Season:</span> {{ anime.season | readableSeason }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Synopsis:</span> {{ anime.synopsis | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Synopsis:</span> {{ anime.synopsis | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Airing:</span> {{ anime.airing | yesOrNo | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Airing:</span> {{ anime.airing | yesOrNo | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Date start:</span> {{ anime.aired.start | date | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Date start:</span> {{ anime.aired.start | date | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Date end:</span> {{ anime.aired.end | date | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Date end:</span> {{ anime.aired.end | date | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Genres:</span> {{ anime.genresData | readableGenres | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Genres:</span> {{ anime.genresData | readableGenres | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Studios:</span> {{ anime.studiosData | readableStudios | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Studios:</span> {{ anime.studiosData | readableStudios | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Rating:</span> {{ anime.rating | readableRating | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Rating:</span> {{ anime.rating | readableRating | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Source:</span> {{ anime.source | readableSource | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Source:</span> {{ anime.source | readableSource | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Type:</span> {{ anime.type | readableAnimeType | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Type:</span> {{ anime.type | readableAnimeType | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Status:</span> {{ anime.status | readableAnimeStatus | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Status:</span> {{ anime.status | readableAnimeStatus | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Created:</span> {{ anime.created | date | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Created:</span> {{ anime.created | date | empty }}
 			</p>
-			<p class="anime__description-text">
-				<span class="anime__description-text_bold">Modified:</span> {{ anime.modified | date | empty }}
+			<p class="details__description-text">
+				<span class="details__description-text_bold">Modified:</span> {{ anime.modified | date | empty }}
 			</p>
 		</article>
 	</div>

@@ -18,10 +18,15 @@
   gap: var(--space-md);
 }
 
-.anime__details-image {
+.details__image-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.details-image {
   max-width: 350px;
   max-height: 350px;
-  cursor: pointer;
   outline: 1px solid var(--image-outline-color);
 }
 
@@ -36,16 +41,16 @@
   height: 315px;
 }
 
-.anime__description {
+.details__description {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
 }
 
-.anime__description-text {
+.details__description-text {
   margin: 0;
 }
 
-.anime__description-text_bold {
+.details__description-text_bold {
   font-weight: bold;
 }
