@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 import { Registration } from '@js-camp/core/models/auth/registration';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
