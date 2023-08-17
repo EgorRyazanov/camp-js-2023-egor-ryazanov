@@ -90,21 +90,6 @@ export class AnimeFormComponent {
 		}
 	}
 
-	/** Anime status. */
-	protected readonly animeStatus = AnimeStatus;
-
-	/** Anime type. */
-	protected readonly animeType = AnimeType;
-
-	/** Rating. */
-	protected readonly rating = Rating;
-
-	/** Season. */
-	protected readonly season = Season;
-
-	/** Source. */
-	protected readonly source = Source;
-
 	/** Array of status. */
 	protected readonly statusOptions = Object.values(AnimeStatus).slice(0, -1);
 
@@ -135,22 +120,16 @@ export class AnimeFormComponent {
 	/** Added studio. */
 	protected readonly addedStudio$ = new BehaviorSubject<Studio | null>(null);
 
-	/** Anime service. */
 	private readonly animeService = inject(AnimeService);
 
-	/** Genres service. */
 	private readonly genresService = inject(GenresService);
 
-	/** Studios service. */
 	private readonly studiosService = inject(StudiosService);
 
-	/** Router. */
 	private readonly router = inject(Router);
 
-	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	/** Active route. */
 	private readonly activeRoute = inject(ActivatedRoute);
 
 	public constructor() {
@@ -159,20 +138,21 @@ export class AnimeFormComponent {
 
 	/** Handle submit. */
 	protected onSubmit(): void {
+		this.form.markAllAsTouched();
 		if (this.form.invalid) {
 			return;
 		}
 		const { id } = this.activeRoute.snapshot.params;
 		const action$ =
-			this.formType === 'create'
-				? this.animeService.createAnime(this.form.getRawValue())
-				: this.animeService.changeAnime(id, this.form.getRawValue());
+			this.formType === 'create' ?
+				this.animeService.createAnime(this.form.getRawValue()) :
+				this.animeService.changeAnime(id, this.form.getRawValue());
 		action$
 			.pipe(
 				first(),
-				tap((anime) => {
+				tap(anime => {
 					this.router.navigate([`animes/${anime.id}`]);
-				})
+				}),
 			)
 			.subscribe();
 	}
@@ -186,14 +166,14 @@ export class AnimeFormComponent {
 			.get(params)
 			.pipe(
 				first(),
-				map((pagination) => pagination?.items),
-				tap((studios) => {
+				map(pagination => pagination?.items),
+				tap(studios => {
 					if (studios.length > 0) {
 						this.studios$.next(studios);
 					} else {
 						this.studios$.next(null);
 					}
-				})
+				}),
 			)
 			.subscribe();
 	}
@@ -207,15 +187,15 @@ export class AnimeFormComponent {
 			.get(params)
 			.pipe(
 				first(),
-				switchMap((studios) => {
+				switchMap(studios => {
 					if (studios.count !== 0) {
 						return of(studios.items[0]);
 					}
 
 					return this.studiosService.create({ name: params.name, pageNumber: params.pageNumber });
-				})
+				}),
 			)
-			.subscribe((studio) => {
+			.subscribe(studio => {
 				this.addedStudio$.next(studio);
 			});
 	}
@@ -229,14 +209,14 @@ export class AnimeFormComponent {
 			.get(params)
 			.pipe(
 				first(),
-				map((pagination) => pagination?.items),
-				tap((genres) => {
+				map(pagination => pagination?.items),
+				tap(genres => {
 					if (genres.length > 0) {
 						this.genres$.next(genres);
 					} else {
 						this.genres$.next(null);
 					}
-				})
+				}),
 			)
 			.subscribe();
 	}
@@ -250,15 +230,15 @@ export class AnimeFormComponent {
 			.get(params)
 			.pipe(
 				first(),
-				switchMap((genres) => {
+				switchMap(genres => {
 					if (genres.count !== 0) {
 						return of(genres.items[0]);
 					}
 
 					return this.genresService.create({ name: params.name, pageNumber: params.pageNumber });
-				})
+				}),
 			)
-			.subscribe((genre) => {
+			.subscribe(genre => {
 				this.addedGenre$.next(genre);
 			});
 	}

@@ -84,12 +84,12 @@ export namespace AnimeDetailFormMapper {
 			synopsis: model.synopsis,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
-			trailer_youtube_id: model.trailerYoutubeUrl?.startsWith(BASE_SHARE_YOUTUBE_URL)
-				? model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '')
-				: null,
+			trailer_youtube_id: model.trailerYoutubeUrl?.startsWith(BASE_SHARE_YOUTUBE_URL) ?
+				model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '') :
+				null,
 			type: ANIME_TYPE_TO_DTO[model.type],
-			studios: model.studios.map((studio) => studio.id),
-			genres: model.genres.map((genre) => genre.id),
+			studios: model.studios.map(studio => studio.id),
+			genres: model.genres.map(genre => genre.id),
 		};
 	}
 }

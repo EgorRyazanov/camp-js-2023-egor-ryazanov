@@ -1,25 +1,35 @@
 <div class="form-container">
 	<h1 class="form-title">{{ title }}</h1>
 	<form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
-		<camp-custom-form-select
-			class="form__item"
-			placeholder="Studios"
-			formControlName="studios"
-			[items]="studios$ | async"
-			[addedItem]="addedStudio$ | async"
-			(getItems)="getStudios($event)"
-			(getAddedItem)="createStudios($event)"
-		/>
+		<mat-form-field class="form__item">
+			<camp-custom-form-select
+				class="form__item"
+				placeholder="Studios"
+				formControlName="studios"
+				[items]="studios$ | async"
+				[addedItem]="addedStudio$ | async"
+				(getItems)="getStudios($event)"
+				(getAddedItem)="createStudios($event)"
+			/>
+			<mat-error *ngIf="form.controls.studios.hasError('required')">
+				{{ "Studios" | errorMessage : "required" }}
+			</mat-error>
+		</mat-form-field>
 
-		<camp-custom-form-select
-			class="form__item"
-			placeholder="Genres"
-			formControlName="genres"
-			[items]="genres$ | async"
-			[addedItem]="addedGenre$ | async"
-			(getItems)="getGenres($event)"
-			(getAddedItem)="createGenres($event)"
-		/>
+		<mat-form-field class="form__item">
+			<camp-custom-form-select
+				class="form__item"
+				placeholder="Genres"
+				formControlName="genres"
+				[items]="genres$ | async"
+				[addedItem]="addedGenre$ | async"
+				(getItems)="getGenres($event)"
+				(getAddedItem)="createGenres($event)"
+			/>
+			<mat-error *ngIf="form.controls.studios.hasError('required')">
+				{{ "Genres" | errorMessage : "required" }}
+			</mat-error>
+		</mat-form-field>
 
 		<mat-form-field class="form__item">
 			<mat-label>Status</mat-label>
@@ -83,14 +93,23 @@
 				matInput
 				placeholder="My opinion is..."
 			></textarea>
+			<mat-error *ngIf="form.controls.synopsis.hasError('required')">
+				{{ "Synopsis" | errorMessage : "required" }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
 			<input matInput formControlName="titleEnglish" placeholder="English title" />
+			<mat-error *ngIf="form.controls.titleEnglish.hasError('required')">
+				{{ "English title" | errorMessage : "required" }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
-			<input matInput formControlName="titleJapanese" placeholder="Japanese food" />
+			<input matInput formControlName="titleJapanese" placeholder="Japanese title" />
+			<mat-error *ngIf="form.controls.titleJapanese.hasError('required')">
+				{{ "Japanese title" | errorMessage : "required" }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -119,7 +138,7 @@
 			<mat-datepicker #picker2></mat-datepicker>
 		</mat-form-field>
 
-		<div class="form__item form__item_image">
+		<mat-form-field class="form__item form__item_image">
 			<camp-custom-image-uploader
 				[defaultImage]="form.controls.imageUrl.getRawValue()"
 				[formControl]="form.controls.imageUrl"
@@ -127,7 +146,7 @@
 			<mat-error *ngIf="form.controls.imageUrl.hasError('uploadImage')">
 				{{ "Image" | errorMessage : "uploadImage" }}
 			</mat-error>
-		</div>
+		</mat-form-field>
 
 		<button class="form__submit" mat-raised-button color="primary" type="submit">Save</button>
 	</form>

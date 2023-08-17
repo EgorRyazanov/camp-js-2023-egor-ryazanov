@@ -6,7 +6,7 @@ export enum Rating {
 	R_17 = 'R_17',
 	R_PLUS = 'R_PLUS',
 	R_X = 'R_X',
-	Unknown = 'UNKNOWN',
+	Unknown = 'Unknown',
 }
 
 /** Rating. */

@@ -133,7 +133,7 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, Cont
 	/** Updates error state. */
 	private updateErrorState(): void {
 		const oldState = this.errorState;
-		const newState = this.ngControl.control?.errors && (this.formGroup.submitted || this.innerControl.touched);
+		const newState = this.ngControl.invalid && (this.formGroup.submitted || this.innerControl.touched);
 		if (oldState !== newState) {
 			this.errorState = newState ?? false;
 			this.stateChanges.next();

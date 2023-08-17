@@ -3,9 +3,10 @@ import { Aired } from '../models/anime/anime-detail';
 
 /** Aired. */
 export namespace AiredMapper {
+
 	/**
-	 * Convert aired from DTO to mode.
-	 * @param dto Aired DTO.
+	 * Convert aired from model to DTO.
+	 * @param model Aired.
 	 */
 	export function toDto(model: Aired): AiredDto {
 		return {

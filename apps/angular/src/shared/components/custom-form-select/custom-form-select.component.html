@@ -1,33 +1,31 @@
-<mat-form-field class="custom-select">
-	<mat-label>{{ placeholder }}</mat-label>
-	<mat-chip-grid #chipGrid aria-label="Elements selection">
-		<mat-chip-row *ngFor="let item of value; let index = index" (removed)="remove(item)">
-			{{ toReadable(item) }}
-			<button type="button" matChipRemove [attr.aria-label]="'remove ' + item">
-				<mat-icon>cancel</mat-icon>
-			</button>
-		</mat-chip-row>
-	</mat-chip-grid>
-	<input
-		placeholder="New Element..."
-		#genresInput
-		[formControl]="innerControl"
-		[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-		[matChipInputFor]="chipGrid"
-		(focusin)="onFocusIn()"
-		(focusout)="onFocusOut()"
-		(matChipInputTokenEnd)="add($event)"
-	/>
-	<ul
-		class="auto-complete"
-		infiniteScroll
-		*ngIf="params$ | async as params"
-		[scrollWindow]="false"
-		[infiniteScrollDistance]="2"
-		(scrolled)="onScroll(params)"
-	>
-		<li class="auto-complete__item" *ngFor="let element of filteredItems$ | async" (click)="selected(element)">
-			{{ toReadable(element) }}
-		</li>
-	</ul>
-</mat-form-field>
+<mat-label>{{ placeholder }}</mat-label>
+<mat-chip-grid #chipGrid aria-label="Elements selection">
+	<mat-chip-row *ngFor="let item of value; let index = index" (removed)="remove(item)">
+		{{ toReadable(item) }}
+		<button type="button" matChipRemove [attr.aria-label]="'remove ' + item">
+			<mat-icon>cancel</mat-icon>
+		</button>
+	</mat-chip-row>
+</mat-chip-grid>
+<input
+	placeholder="New Element..."
+	#genresInput
+	[formControl]="innerControl"
+	[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+	[matChipInputFor]="chipGrid"
+	(focusin)="onFocusIn()"
+	(focusout)="onFocusOut()"
+	(matChipInputTokenEnd)="add($event)"
+/>
+<ul
+	class="auto-complete"
+	infiniteScroll
+	*ngIf="params$ | async as params"
+	[scrollWindow]="false"
+	[infiniteScrollDistance]="2"
+	(scrolled)="onScroll(params)"
+>
+	<li class="auto-complete__item" *ngFor="let element of filteredItems$ | async" (click)="selected(element)">
+		{{ toReadable(element) }}
+	</li>
+</ul>

@@ -1,12 +1,12 @@
 /** Anime type. */
 export enum AnimeType {
-	Tv = 'TV',
-	Ova = 'OVA',
-	Movie = 'MOVIE',
-	Special = 'SPECIAL',
-	Ona = 'ONA',
-	Music = 'MUSIC',
-	Unknown = 'UNKNOWN',
+	Tv = 'Tv',
+	Ova = 'Ova',
+	Movie = 'Movie',
+	Special = 'Special',
+	Ona = 'Ona',
+	Music = 'Music',
+	Unknown = 'Unknown',
 }
 
 /** Anime types. */

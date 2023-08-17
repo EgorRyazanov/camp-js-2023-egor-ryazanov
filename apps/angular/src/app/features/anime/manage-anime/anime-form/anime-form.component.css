@@ -17,11 +17,12 @@
 }
 
 .form__item_image {
-  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .form__submit {
-  width: 49%;
+  width: 52%;
   margin: 0 auto;
 }
 

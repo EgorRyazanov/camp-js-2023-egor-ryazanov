@@ -7,6 +7,7 @@ export enum AnimeStatus {
 
 /** Anime status. */
 export namespace AnimeStatus {
+
 	/** Anime status map-object to title view. */
 	const TO_TITLE_MAP: Record<AnimeStatus, string> = {
 		[AnimeStatus.Finished]: 'Finished',
