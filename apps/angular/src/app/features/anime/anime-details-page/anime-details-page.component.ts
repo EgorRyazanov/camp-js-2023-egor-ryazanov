@@ -31,33 +31,6 @@ const homeUrl = '/animes';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDetailsPageComponent {
-	/** ID. */
-	private readonly id$: Observable<string>;
-
-	/** Anime. */
-	protected readonly anime$: Observable<AnimeDetail>;
-
-	/** Loading status. */
-	protected readonly isLoading$ = new BehaviorSubject(false);
-
-	/** Anime details service. */
-	private readonly animeDetailsService = inject(AnimeService);
-
-	/** Dialog service. */
-	private readonly dialogService = inject(MatDialog);
-
-	/** Active route service. */
-	private readonly activeRoute = inject(ActivatedRoute);
-
-	/** Error dialog service. */
-	private readonly errorDialogService = inject(ErrorDialogService);
-
-	/** Confirmation service. */
-	private readonly confirmationService = inject(ConfirmService);
-
-	/** Router. */
-	private readonly router = inject(Router);
-
 	/** Anime status. */
 	protected readonly animeStatus = AnimeStatus;
 
@@ -72,6 +45,30 @@ export class AnimeDetailsPageComponent {
 
 	/** Source. */
 	protected readonly source = Source;
+
+	/** Anime. */
+	protected readonly anime$: Observable<AnimeDetail>;
+
+	/** Loading status. */
+	protected readonly isLoading$ = new BehaviorSubject(false);
+
+	/** ID. */
+	private readonly id$: Observable<string>;
+
+	private readonly animeDetailsService = inject(AnimeService);
+
+	private readonly dialogService = inject(MatDialog);
+
+	private readonly activeRoute = inject(ActivatedRoute);
+
+	/** Error dialog service. */
+	private readonly errorDialogService = inject(ErrorDialogService);
+
+	/** Confirmation service. */
+	private readonly confirmationService = inject(ConfirmService);
+
+	/** Router. */
+	private readonly router = inject(Router);
 
 	public constructor() {
 		this.id$ = this.createIdParamStream();
@@ -96,7 +93,7 @@ export class AnimeDetailsPageComponent {
 	 * @param studios Array of studio.
 	 */
 	protected studiosToReadable(studios: readonly Studio[]): string {
-		return studios.map(studio => studio.name).join(', ');
+		return studios.map((studio) => studio.name).join(', ');
 	}
 
 	/**
@@ -104,7 +101,7 @@ export class AnimeDetailsPageComponent {
 	 * @param genres Array of genre.
 	 */
 	protected genresToReadable(genres: readonly Genre[]): string {
-		return genres.map(genre => genre.name).join(', ');
+		return genres.map((genre) => genre.name).join(', ');
 	}
 
 	/** Opens delete confirm dialog. */
@@ -113,17 +110,17 @@ export class AnimeDetailsPageComponent {
 			.openDialog('Are you sure you want to delete this?')
 			.afterClosed()
 			.pipe(
-				concatMap(result => {
+				concatMap((result) => {
 					if (result) {
 						return this.id$.pipe(
-							switchMap(id => this.animeDetailsService.deleteAnime(id)),
+							switchMap((id) => this.animeDetailsService.deleteAnime(id)),
 							tap(() => {
 								this.router.navigate([homeUrl]);
-							}),
+							})
 						);
 					}
 					return of(result);
-				}),
+				})
 			)
 			.subscribe();
 	}
@@ -142,7 +139,7 @@ export class AnimeDetailsPageComponent {
 	private createAnimeStream(): Observable<AnimeDetail> {
 		return this.id$.pipe(
 			startLoadingStatus(this.isLoading$),
-			switchMap(id => this.animeDetailsService.getAnime(id)),
+			switchMap((id) => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse) {
 					this.errorDialogService.openDialog(error.message);
@@ -150,12 +147,12 @@ export class AnimeDetailsPageComponent {
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
 			}),
-			stopLoadingStatus(this.isLoading$),
+			stopLoadingStatus(this.isLoading$)
 		);
 	}
 
 	/** Creates ID stream. */
 	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
+		return this.activeRoute.paramMap.pipe(map((params) => params.get('id') ?? ''));
 	}
 }

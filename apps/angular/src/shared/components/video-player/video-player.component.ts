@@ -24,6 +24,5 @@ export class VideoPlayerComponent {
 	/** Save video URL.  */
 	protected readonly saveVideoUrl$ = new BehaviorSubject<SafeResourceUrl | null>(null);
 
-	/** Sanitizer to make URL of video safe. */
 	private readonly sanitizer = inject(DomSanitizer);
 }

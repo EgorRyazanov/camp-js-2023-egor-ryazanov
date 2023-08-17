@@ -21,10 +21,8 @@ import { UrlService } from './url.service';
 	providedIn: 'root',
 })
 export class AnimeService {
-	/** HTTP service. */
 	private readonly httpService = inject(HttpClient);
 
-	/** URL service. */
 	private readonly urlService = inject(UrlService);
 
 	/**
@@ -34,10 +32,10 @@ export class AnimeService {
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.httpService
 			.get<AnimePaginationDto>(this.urlService.animeUrls.animes, {
-			params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
-		})
+				params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
+			})
 			.pipe(
-				map(animePaginationDto => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
+				map((animePaginationDto) => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto))
 			);
 	}
 
@@ -48,7 +46,7 @@ export class AnimeService {
 	public getAnime(id: string): Observable<AnimeDetail> {
 		return this.httpService
 			.get<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id))
-			.pipe(map(dto => AnimeDetailMapper.fromDto(dto)));
+			.pipe(map((dto) => AnimeDetailMapper.fromDto(dto)));
 	}
 
 	/**
@@ -67,7 +65,7 @@ export class AnimeService {
 	public changeAnime(id: string, body: AnimeDetailForm): Observable<AnimeDetail> {
 		return this.httpService
 			.put<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id), AnimeDetailFormMapper.toDto(body))
-			.pipe(map(dto => AnimeDetailMapper.fromDto(dto)));
+			.pipe(map((dto) => AnimeDetailMapper.fromDto(dto)));
 	}
 
 	/**
@@ -77,6 +75,6 @@ export class AnimeService {
 	public createAnime(body: AnimeDetailForm): Observable<AnimeDetail> {
 		return this.httpService
 			.post<AnimeDetailDto>(this.urlService.animeUrls.animes, AnimeDetailFormMapper.toDto(body))
-			.pipe(map(dto => AnimeDetailMapper.fromDto(dto)));
+			.pipe(map((dto) => AnimeDetailMapper.fromDto(dto)));
 	}
 }

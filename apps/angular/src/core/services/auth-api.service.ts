@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { Registration } from '@js-camp/core/models/auth/registration';
-import { UserSecret } from '@js-camp/core/models/auth/user-secret';
-import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
-import { UserSecretDto } from '@js-camp/core/dtos/auth-dto/user-secret-dto';
-import { Login } from '@js-camp/core/models/auth/login';
+
 import { LoginDataMapper } from '@js-camp/core/mappers/auth/login-data.mapper';
 import { RegistrationDataMapper } from '@js-camp/core/mappers/auth/register-data.mapper';
+
+import { Observable, map } from 'rxjs';
+import { UserSecret } from '@js-camp/core/models/auth/user-secret';
+import { Registration } from '@js-camp/core/models/auth/registration';
+import { UserSecretDto } from '@js-camp/core/dtos/auth-dto/user-secret-dto';
+import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
+import { Login } from '@js-camp/core/models/auth/login';
 
 import { AppErrorMapper } from '../utils/app-error.mapper';
 
@@ -16,19 +18,14 @@ import { UrlService } from './url.service';
 /** Auth API. */
 @Injectable({ providedIn: 'root' })
 export class AuthApiService {
-	/** HTTP client. */
 	private readonly httpClient = inject(HttpClient);
 
-	/**	API URL service. */
 	private readonly apiUrlService = inject(UrlService);
 
-	/** Login mapper. */
 	private readonly loginMapper = inject(LoginDataMapper);
 
-	/** Register mapper. */
 	private readonly registrationDataMapper = inject(RegistrationDataMapper);
 
-	/** App error mapper. */
 	private readonly appErrorMapper = inject(AppErrorMapper);
 
 	/**

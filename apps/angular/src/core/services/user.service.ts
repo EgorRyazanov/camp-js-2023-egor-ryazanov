@@ -15,10 +15,8 @@ export class UserService {
 	/** Whether the current user is authorized. */
 	public readonly isAuthorized$: Observable<boolean>;
 
-	/** Auth service. */
 	private readonly authService = inject(AuthApiService);
 
-	/** User secret storage. */
 	private readonly userSecretStorage = inject(UserSecretStorageService);
 
 	public constructor() {
