@@ -27,17 +27,12 @@ export class EditAnimePageComponent {
 	private readonly animeService = inject(AnimeService);
 
 	public constructor() {
-		this.id$ = this.createIdParamStream();
+		this.id$ = this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 		this.anime$ = this.createAnimeStream();
 	}
 
 	/** Active route. */
 	private readonly activeRoute = inject(ActivatedRoute);
-
-	/** Creates id stream. */
-	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
-	}
 
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {

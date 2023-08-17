@@ -28,16 +28,12 @@ export class RegisterComponent {
 	/** Register form. */
 	protected readonly registrationForm: FormGroup<RegistrationForm>;
 
-	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	/** User service. */
 	private readonly userService = inject(UserService);
 
-	/** Destroy ref. */
 	private readonly destroyRef = inject(DestroyRef);
 
-	/** Router. */
 	private readonly router = inject(Router);
 
 	public constructor() {
