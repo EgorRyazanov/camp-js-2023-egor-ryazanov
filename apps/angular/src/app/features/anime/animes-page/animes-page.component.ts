@@ -31,25 +31,13 @@ type StatusedRoutingParams = IncomeValuesStatus & { params: AnimeRoutingQueryPar
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimesPageComponent {
-	/** Router. */
-	private readonly router = inject(Router);
-
-	/** Anime service. */
-	private readonly animeService = inject(AnimeService);
-
-	/** Form builder. */
-	private readonly formBuilder = inject(NonNullableFormBuilder);
-
-	/** Active route. */
-	private readonly activeRoute = inject(ActivatedRoute);
-
 	/** Anime page. */
 	protected readonly animePage$: Observable<AnimePagination>;
 
 	/** Page sizes. */
 	protected readonly pageSizes = RoutingAnimeParamsMapper.pageSizes;
 
-	/** Status of anime. */
+	/** Status of anime loading. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Anime status. */
@@ -57,6 +45,14 @@ export class AnimesPageComponent {
 
 	/** Anime type. */
 	protected readonly animeType = AnimeType;
+
+	private readonly router = inject(Router);
+
+	private readonly animeService = inject(AnimeService);
+
+	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	private readonly activeRoute = inject(ActivatedRoute);
 
 	/** Form values. */
 	protected readonly form = this.formBuilder.group({

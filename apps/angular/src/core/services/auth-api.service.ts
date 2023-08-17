@@ -18,19 +18,14 @@ import { UrlService } from './url.service';
 /** Auth API. */
 @Injectable({ providedIn: 'root' })
 export class AuthApiService {
-	/** HTTP client. */
 	private readonly httpClient = inject(HttpClient);
 
-	/**	API URL service. */
 	private readonly apiUrlService = inject(UrlService);
 
-	/** Login mapper. */
 	private readonly loginMapper = inject(LoginDataMapper);
 
-	/** Register mapper. */
 	private readonly registrationDataMapper = inject(RegistrationDataMapper);
 
-	/** App error mapper. */
 	private readonly appErrorMapper = inject(AppErrorMapper);
 
 	/**

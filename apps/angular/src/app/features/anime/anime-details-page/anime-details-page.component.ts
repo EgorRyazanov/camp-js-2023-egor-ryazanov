@@ -29,29 +29,6 @@ const homeUrl = '';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDetailsPageComponent {
-	/** ID. */
-	private readonly id$: Observable<string>;
-
-	/** Anime. */
-	protected readonly anime$: Observable<AnimeDetail>;
-
-	/** Loading status. */
-	protected readonly isLoading$ = new BehaviorSubject(false);
-
-	/** Anime details service. */
-	private readonly animeDetailsService = inject(AnimeService);
-
-	/** Dialog service. */
-	private readonly dialogService = inject(MatDialog);
-
-	/** Active route service. */
-	private readonly activeRoute = inject(ActivatedRoute);
-
-	private readonly errorDialogService = inject(ErrorDialogService);
-
-	/** Router. */
-	private readonly router = inject(Router);
-
 	/** Anime status. */
 	protected readonly animeStatus = AnimeStatus;
 
@@ -67,8 +44,27 @@ export class AnimeDetailsPageComponent {
 	/** Source. */
 	protected readonly source = Source;
 
+	/** Anime. */
+	protected readonly anime$: Observable<AnimeDetail>;
+
+	/** Loading status. */
+	protected readonly isLoading$ = new BehaviorSubject(false);
+
+	/** ID. */
+	private readonly id$: Observable<string>;
+
+	private readonly animeDetailsService = inject(AnimeService);
+
+	private readonly dialogService = inject(MatDialog);
+
+	private readonly activeRoute = inject(ActivatedRoute);
+
+	private readonly errorDialogService = inject(ErrorDialogService);
+
+	private readonly router = inject(Router);
+
 	public constructor() {
-		this.id$ = this.createIdParamStream();
+		this.id$ = this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 		this.anime$ = this.createAnimeStream();
 	}
 
@@ -97,11 +93,6 @@ export class AnimeDetailsPageComponent {
 	 */
 	protected genresToReadable(genres: readonly Genre[]): string {
 		return genres.map(genre => genre.name).join(', ');
-	}
-
-	/** Creates ID stream. */
-	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 	}
 
 	/** Creates anime stream. */

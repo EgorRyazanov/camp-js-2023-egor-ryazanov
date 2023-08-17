@@ -18,10 +18,8 @@ import { UrlService } from './url.service';
 	providedIn: 'root',
 })
 export class AnimeService {
-	/** HTTP service. */
 	private readonly httpService = inject(HttpClient);
 
-	/** Url service. */
 	private readonly urlService = inject(UrlService);
 
 	/**

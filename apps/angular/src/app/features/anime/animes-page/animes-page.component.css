@@ -43,7 +43,6 @@
   cursor: pointer;
 }
 
-/* Made like this, because css does not work without parent class. */
 .animes__table .table__row:hover {
   background-color: var(--background-alternative-primary-color);
 }
