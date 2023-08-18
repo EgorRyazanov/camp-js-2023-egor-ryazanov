@@ -48,7 +48,7 @@
 			<p class="details__description-text">
 				<span class="details__description-text_bold">Modified:</span> {{ anime.modified | date | empty }}
 			</p>
-			<camp-video-player class="details__video" [videoUrl]="anime.trailerYoutubeUrl" />
+			<camp-video-player *ngIf="anime.trailerYoutubeUrl as url" class="details__video" [videoUrl]="url" />
 		</article>
 	</div>
 </div>

@@ -11,6 +11,8 @@ import { AnimeDetailDto } from '@js-camp/core/dtos/anime-dto/anime-details.dto';
 import { AnimeDetailMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 
+import { AppErrorMapper } from '../utils/app-error.mapper';
+
 import { UrlService } from './url.service';
 
 /** Anime service. */
@@ -21,6 +23,8 @@ export class AnimeService {
 	private readonly httpService = inject(HttpClient);
 
 	private readonly urlService = inject(UrlService);
+
+	private readonly appErrorMapper = inject(AppErrorMapper);
 
 	/**
 	 * Get anime from server.
@@ -33,6 +37,7 @@ export class AnimeService {
 		})
 			.pipe(
 				map(animePaginationDto => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
+				this.appErrorMapper.catchHttpErrorToAppError(),
 			);
 	}
 
@@ -41,8 +46,9 @@ export class AnimeService {
 	 * @param id ID of anime.
 	 */
 	public getAnime(id: string): Observable<AnimeDetail> {
-		return this.httpService
-			.get<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id))
-			.pipe(map(dto => AnimeDetailMapper.fromDto(dto)));
+		return this.httpService.get<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id)).pipe(
+			map(dto => AnimeDetailMapper.fromDto(dto)),
+			this.appErrorMapper.catchHttpErrorToAppError(),
+		);
 	}
 }

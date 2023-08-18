@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
@@ -16,6 +15,8 @@ import { Season } from '@js-camp/core/models/season';
 import { Source } from '@js-camp/core/models/anime/anime-source';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
+
+import { AppError } from '@js-camp/core/models/app-error';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
@@ -101,7 +102,7 @@ export class AnimeDetailsPageComponent {
 			startLoadingStatus(this.isLoading$),
 			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
-				if (error instanceof HttpErrorResponse) {
+				if (error instanceof AppError) {
 					this.errorDialogService.openDialog(error.message);
 				}
 				this.router.navigate([homeUrl]);
