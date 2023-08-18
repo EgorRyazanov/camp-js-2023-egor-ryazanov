@@ -7,14 +7,14 @@ import { ErrorDialogComponent } from '@js-camp/angular/shared/components/error-d
 	providedIn: 'root',
 })
 export class ErrorDialogService {
-	private readonly errorDialog = inject(MatDialog);
+	private readonly dialogService = inject(MatDialog);
 
 	/**
 	 * Opens confirmation dialog.
 	 * @param message Message.
 	 */
 	public openDialog(message: string): MatDialogRef<ErrorDialogComponent, boolean> {
-		return this.errorDialog.open(ErrorDialogComponent, {
+		return this.dialogService.open(ErrorDialogComponent, {
 			data: {
 				message,
 			},
