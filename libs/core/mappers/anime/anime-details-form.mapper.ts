@@ -1,3 +1,8 @@
+import { Injectable } from '@angular/core';
+
+import { ValidationErrorDto } from '../../../core/dtos/error.dto';
+import { EntityValidationErrors } from '../../../core/models/app-error';
+import { extractErrorMessages } from '../../../core/utils/extract-error-message';
 import { AnimeDetailFormDto } from '../../dtos/anime-dto/anime-details-form.dto';
 import { AnimeDetailForm } from '../../models/anime/anime-details-form';
 import { AnimeTypeDto, AnimeStatusDto } from '../../dtos/anime-dto/anime.dto';
@@ -10,12 +15,8 @@ import { Rating } from '../../../core/models/rating';
 import { Season } from '../../../core/models/season';
 import { AiredMapper } from '../aired.mapper';
 import { MapperToDto, ValidationErrorMapper } from '../mappers';
-import { Injectable } from '@angular/core';
-import { ValidationErrorDto } from '@js-camp/core/dtos/error.dto';
-import { EntityValidationErrors } from '@js-camp/core/models/app-error';
-import { extractErrorMessages } from '@js-camp/core/utils/extract-error-message';
 
-/** Login DTO fields. */
+/** Anime data DTO fields. */
 enum AnimeDataDtoFields {
 	Image = 'image',
 	TrailerYoutubeId = 'trailer_youtube_id',
@@ -23,13 +24,13 @@ enum AnimeDataDtoFields {
 	TitleJapanese = 'title_jpn',
 	Type = 'type',
 	Status = 'status',
-	Source = 'source',
+	AnimeSource = 'source',
 	Airing = 'airing',
 	AiredNonFieldErrors = 'aired.non_field_errors',
 	AiredStart = 'aired.start',
 	AiredEnd = 'aired.end',
-	Rating = 'rating',
-	Season = 'season',
+	AnimeRating = 'rating',
+	AnimeSeason = 'season',
 	Synopsis = 'synopsis',
 	Studios = 'studios',
 	Genres = 'genres',
@@ -40,11 +41,10 @@ enum AnimeDataDtoFields {
 	providedIn: 'root',
 })
 export class AnimeDetailFormMapper
-	implements MapperToDto<AnimeDetailFormDto, AnimeDetailForm>, ValidationErrorMapper<AnimeDetailForm>
-{
+implements MapperToDto<AnimeDetailFormDto, AnimeDetailForm>, ValidationErrorMapper<AnimeDetailForm> {
 	/** @inheritdoc */
 	public validationErrorFromDto(
-		errorsDto: ValidationErrorDto[] | null | undefined
+		errorsDto: ValidationErrorDto[] | null | undefined,
 	): EntityValidationErrors<AnimeDetailForm> {
 		const titleEnglish = extractErrorMessages(errorsDto, AnimeDataDtoFields.TitleEnglish);
 		const nonFieldErrors = extractErrorMessages(errorsDto, null);
@@ -52,17 +52,17 @@ export class AnimeDetailFormMapper
 		const airedStart = extractErrorMessages(errorsDto, AnimeDataDtoFields.AiredStart);
 		const airedEnd = extractErrorMessages(errorsDto, AnimeDataDtoFields.AiredEnd);
 		return {
-			titleJapanese: extractErrorMessages(errorsDto, AnimeDataDtoFields.Image),
-			image: extractErrorMessages(errorsDto, AnimeDataDtoFields.Image),
+			titleJapanese: extractErrorMessages(errorsDto, AnimeDataDtoFields.TitleJapanese),
+			imageFile: extractErrorMessages(errorsDto, AnimeDataDtoFields.Image),
 			trailerYoutubeUrl: extractErrorMessages(errorsDto, AnimeDataDtoFields.TrailerYoutubeId),
 			titleEnglish: nonFieldErrors ? nonFieldErrors : titleEnglish,
 			type: extractErrorMessages(errorsDto, AnimeDataDtoFields.Type),
 			status: extractErrorMessages(errorsDto, AnimeDataDtoFields.Status),
-			source: extractErrorMessages(errorsDto, AnimeDataDtoFields.Source),
-			airing: extractErrorMessages(errorsDto, AnimeDataDtoFields.Airing),
-			aired: airedNonFields ? airedNonFields : airedStart ? airedStart : airedEnd,
-			rating: extractErrorMessages(errorsDto, AnimeDataDtoFields.Rating),
-			season: extractErrorMessages(errorsDto, AnimeDataDtoFields.Season),
+			source: extractErrorMessages(errorsDto, AnimeDataDtoFields.AnimeSource),
+			airing: extractErrorMessages(errorsDto, AnimeDataDtoFields.Airing) ?? airedNonFields,
+			aired: airedStart ?? airedEnd,
+			rating: extractErrorMessages(errorsDto, AnimeDataDtoFields.AnimeRating),
+			season: extractErrorMessages(errorsDto, AnimeDataDtoFields.AnimeSeason),
 			synopsis: extractErrorMessages(errorsDto, AnimeDataDtoFields.Synopsis),
 			studios: extractErrorMessages(errorsDto, AnimeDataDtoFields.Studios),
 			genres: extractErrorMessages(errorsDto, AnimeDataDtoFields.Genres),
@@ -132,7 +132,7 @@ export class AnimeDetailFormMapper
 			aired: AiredMapper.toDto(model.aired),
 			airing: model.airing,
 			created: model.created?.toISOString() ?? null,
-			image: model.image.url,
+			image: model.imageUrl,
 			modified: model.modified?.toISOString() ?? null,
 			rating: this.ANIME_RATING_TO_DTO[model.rating],
 			season: this.SEASON_TO_DTO[model.season],
@@ -141,12 +141,12 @@ export class AnimeDetailFormMapper
 			synopsis: model.synopsis,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
-			trailer_youtube_id: model.trailerYoutubeUrl?.startsWith(BASE_SHARE_YOUTUBE_URL)
-				? model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '')
-				: null,
+			trailer_youtube_id: model.trailerYoutubeUrl?.startsWith(BASE_SHARE_YOUTUBE_URL) ?
+				model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '') :
+				null,
 			type: this.ANIME_TYPE_TO_DTO[model.type],
-			studios: model.studios.map((studio) => studio.id),
-			genres: model.genres.map((genre) => genre.id),
+			studios: model.studios.map(studio => studio.id),
+			genres: model.genres.map(genre => genre.id),
 		};
 	}
 }

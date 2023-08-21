@@ -61,11 +61,11 @@ export class AnimeDetailForm {
 	/** Genres. */
 	public readonly genres: readonly Genre[];
 
-	/** Image. */
-	public readonly image: {
-		url: string | null;
-		file: File | null;
-	};
+	/** Image file. */
+	public readonly imageFile: File | null;
+
+	/** Image URL. */
+	public readonly imageUrl: string | null;
 
 	public constructor(animeDetailData: AnimeDetailForm) {
 		this.aired = animeDetailData.aired;
@@ -83,6 +83,7 @@ export class AnimeDetailForm {
 		this.type = animeDetailData.type;
 		this.genres = animeDetailData.genres;
 		this.studios = animeDetailData.studios;
-		this.image = animeDetailData.image;
+		this.imageUrl = animeDetailData.imageUrl;
+		this.imageFile = animeDetailData.imageFile;
 	}
 }

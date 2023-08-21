@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { MatInputModule } from '@angular/material/input';
+
 import { CustomFormSelectComponent } from './components/custom-form-select/custom-form-select.component';
 import { CustomImageUploaderComponent } from './components/custom-image-uploader/custom-image-uploader.component';
 import { ErrorMessagePipe } from './pipes/error-message.pipe';
@@ -46,6 +48,7 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
 		MatFormFieldModule,
 		MatDialogModule,
 		MatButtonModule,
+		MatInputModule,
 	],
 	exports: [
 		SpinnerComponent,

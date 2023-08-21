@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
 import { MatNativeDateModule } from '@angular/material/core';
 
 import { AnimesPageComponent } from './animes-page/animes-page.component';

@@ -8,8 +8,10 @@ import { DefaultParamsMapper } from '@js-camp/core/mappers/default-params.mapper
 import { StudioDto, StudioPaginationDto } from '@js-camp/core/dtos/studios-dto/studio.dto';
 import { StudioMapper } from '@js-camp/core/mappers/studio/studio.mapper';
 import { Studio } from '@js-camp/core/models/studio/studio';
-import { UrlService } from './url.service';
+
 import { AppErrorMapper } from '../utils/app-error.mapper';
+
+import { UrlService } from './url.service';
 
 /** Studios service. */
 @Injectable({
@@ -29,13 +31,12 @@ export class StudiosService {
 	public get(parameters: DefaultParams): Observable<Pagination<Studio>> {
 		return this.httpService
 			.get<StudioPaginationDto>(this.urlService.studiosUrls.studios, {
-				params: new HttpParams({ fromObject: { ...DefaultParamsMapper.toDto(parameters) } }),
-			})
+			params: new HttpParams({ fromObject: { ...DefaultParamsMapper.toDto(parameters) } }),
+		})
 			.pipe(
-				map((studioPaginationDto) =>
-					PaginationMapper.fromDto<StudioDto, Studio>(studioPaginationDto, StudioMapper.fromDto)
-				),
-				this.appErrorMapper.catchHttpErrorToAppError()
+				map(studioPaginationDto =>
+					PaginationMapper.fromDto<StudioDto, Studio>(studioPaginationDto, StudioMapper.fromDto)),
+				this.appErrorMapper.catchHttpErrorToAppError(),
 			);
 	}
 
@@ -45,8 +46,8 @@ export class StudiosService {
 	 */
 	public create(parameters: DefaultParams): Observable<Studio> {
 		return this.httpService.post<StudioDto>(this.urlService.studiosUrls.studios, { name: parameters.name }).pipe(
-			map((studioDto) => StudioMapper.fromDto(studioDto)),
-			this.appErrorMapper.catchHttpErrorToAppError()
+			map(studioDto => StudioMapper.fromDto(studioDto)),
+			this.appErrorMapper.catchHttpErrorToAppError(),
 		);
 	}
 }

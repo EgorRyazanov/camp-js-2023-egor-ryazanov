@@ -12,11 +12,13 @@ import { AnimeDetailMapper } from '@js-camp/core/mappers/anime/anime-details.map
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
 import { AnimeDetailFormMapper } from '@js-camp/core/mappers/anime/anime-details-form.mapper';
+import { Dest } from '@js-camp/core/models/image-bucket';
+
 import { AppErrorMapper } from '../utils/app-error.mapper';
+import { catchImageError } from '../utils/catch-image-error';
+
 import { UrlService } from './url.service';
 import { ImageService } from './image.service';
-import { Dest, ImageBucket } from '@js-camp/core/models/image-bucket';
-import { catchImageError } from '../utils/catch-image-error';
 
 /** Anime service. */
 @Injectable({
@@ -40,11 +42,11 @@ export class AnimeService {
 	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
 		return this.httpService
 			.get<AnimePaginationDto>(this.urlService.animeUrls.animes, {
-				params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
-			})
+			params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),
+		})
 			.pipe(
-				map((animePaginationDto) => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
-				this.appErrorMapper.catchHttpErrorToAppError()
+				map(animePaginationDto => PaginationMapper.fromDto<AnimeDto, Anime>(animePaginationDto, AnimeMapper.fromDto)),
+				this.appErrorMapper.catchHttpErrorToAppError(),
 			);
 	}
 
@@ -54,8 +56,8 @@ export class AnimeService {
 	 */
 	public getAnime(id: string): Observable<AnimeDetail> {
 		return this.httpService.get<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id)).pipe(
-			map((dto) => AnimeDetailMapper.fromDto(dto)),
-			this.appErrorMapper.catchHttpErrorToAppError()
+			map(dto => AnimeDetailMapper.fromDto(dto)),
+			this.appErrorMapper.catchHttpErrorToAppError(),
 		);
 	}
 
@@ -73,15 +75,14 @@ export class AnimeService {
 	 * @param body Anime details form.
 	 */
 	public changeAnime(id: string, body: AnimeDetailForm): Observable<AnimeDetail> {
-		return this.uploadImage(body.image.file).pipe(
-			switchMap((imageUrl) =>
+		return this.uploadImage(body.imageFile).pipe(
+			switchMap(imageUrl =>
 				this.httpService.put<AnimeDetailDto>(
 					this.urlService.animeUrls.animesDetail(id),
-					this.animeDetailFormMapper.toDto({ ...body, image: { file: null, url: imageUrl } })
-				)
-			),
-			map((dto) => AnimeDetailMapper.fromDto(dto)),
-			this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.animeDetailFormMapper)
+					this.animeDetailFormMapper.toDto({ ...body, imageUrl }),
+				)),
+			map(dto => AnimeDetailMapper.fromDto(dto)),
+			this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.animeDetailFormMapper),
 		);
 	}
 
@@ -90,18 +91,21 @@ export class AnimeService {
 	 * @param body Anime details.
 	 */
 	public createAnime(body: AnimeDetailForm): Observable<AnimeDetail> {
-		return this.uploadImage(body.image.file).pipe(
-			switchMap((imageUrl) =>
+		return this.uploadImage(body.imageFile).pipe(
+			switchMap(imageUrl =>
 				this.httpService.post<AnimeDetailDto>(
 					this.urlService.animeUrls.animes,
-					this.animeDetailFormMapper.toDto({ ...body, image: { file: null, url: imageUrl } })
-				)
-			),
-			map((dto) => AnimeDetailMapper.fromDto(dto)),
-			this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.animeDetailFormMapper)
+					this.animeDetailFormMapper.toDto({ ...body, imageUrl }),
+				)),
+			map(dto => AnimeDetailMapper.fromDto(dto)),
+			this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.animeDetailFormMapper),
 		);
 	}
 
+	/**
+	 * Uploads image.
+	 * @param file Image file.
+	 */
 	public uploadImage(file: File | null): Observable<string | null> {
 		if (file == null) {
 			return of(null);

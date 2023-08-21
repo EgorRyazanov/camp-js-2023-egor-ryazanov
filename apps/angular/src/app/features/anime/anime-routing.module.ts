@@ -45,7 +45,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'edit',
-				title: 'Create anime',
+				title: 'Edit anime',
 				component: EditAnimePageComponent,
 			},
 		],

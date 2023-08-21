@@ -26,7 +26,7 @@ export class AppErrorMapper {
 	 */
 	private fromDtoWithValidationSupport<TEntity extends Record<string, unknown>>(
 		httpError: HttpErrorResponse,
-		mapper: ValidationErrorMapper<TEntity>
+		mapper: ValidationErrorMapper<TEntity>,
 	): AppError | AppValidationError<TEntity> {
 		if (httpError?.error?.errors == null) {
 			return this.fromDto(httpError);
@@ -47,7 +47,7 @@ export class AppErrorMapper {
 	 * @param mapper Mapper for backend-provided validation data into domain validation data.
 	 */
 	public catchHttpErrorToAppErrorWithValidationSupport<T, TEntity extends Record<string, unknown>>(
-		mapper: ValidationErrorMapper<TEntity>
+		mapper: ValidationErrorMapper<TEntity>,
 	): MonoTypeOperatorFunction<T> {
 		return catchHttpErrorResponse((error: HttpErrorResponse) => {
 			const appError = this.fromDtoWithValidationSupport<TEntity>(error, mapper);

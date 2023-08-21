@@ -2,34 +2,43 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, OperatorFunction, throwError } from 'rxjs';
 import { xml2js } from 'xml-js';
 
-/** Catches image XML errors. */
+interface ErrorText {
+
+	/** Error. */
+	['Error']: {
+
+		/** Message. */
+		['Message']: {
+
+			/** Text of error message. */
+			['_text']: string;
+		};
+	};
+}
+
+/** Catches image XML errors and converts it to default HttpErrorResponse. */
 export function catchImageError<T>(): OperatorFunction<T, T> {
 	return catchError((error: unknown) => {
 		if (error instanceof HttpErrorResponse) {
-			const erorrResponse = xml2js(error.error, { compact: true });
-			if ('Error' in erorrResponse) {
-				const error = erorrResponse['Error'];
-				if ('Message' in error) {
-					const detail = error['Message'];
-					if ('_text' in detail) {
-						return throwError(
-							() =>
-								new HttpErrorResponse({
-									...error,
-									message: error.message,
-									error: {
-										errors: [
-											{
-												attr: 'image',
-												detail: detail['_text'],
-											},
-										],
-									},
-								})
-						);
-					}
-				}
-			}
+			const erorrResponse = xml2js(error.error, { compact: true }) as ErrorText;
+			return throwError(
+				() =>
+					new HttpErrorResponse({
+						status: error.status,
+						statusText: error.statusText,
+						headers: error.headers,
+						url: error.url ?? '',
+						error: {
+							errors: [
+								{
+									attr: 'image',
+									code: 'invalid',
+									detail: erorrResponse.Error.Message._text,
+								},
+							],
+						},
+					}),
+			);
 		}
 
 		return throwError(() => error);

@@ -14,6 +14,9 @@
 			<mat-error *ngIf="form.controls.studios.hasError('required')">
 				{{ "Studios" | errorMessage : "required" }}
 			</mat-error>
+			<mat-error *ngIf="form.controls.studios.hasError('invalid')">
+				{{ form.controls.studios.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -29,6 +32,9 @@
 			<mat-error *ngIf="form.controls.studios.hasError('required')">
 				{{ "Genres" | errorMessage : "required" }}
 			</mat-error>
+			<mat-error *ngIf="form.controls.genres.hasError('invalid')">
+				{{ form.controls.genres.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -38,6 +44,9 @@
 					{{ status }}
 				</mat-option>
 			</mat-select>
+			<mat-error *ngIf="form.controls.status.hasError('invalid')">
+				{{ form.controls.status.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -47,6 +56,9 @@
 					{{ season }}
 				</mat-option>
 			</mat-select>
+			<mat-error *ngIf="form.controls.season.hasError('invalid')">
+				{{ form.controls.type.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -56,6 +68,9 @@
 					{{ rating }}
 				</mat-option>
 			</mat-select>
+			<mat-error *ngIf="form.controls.rating.hasError('invalid')">
+				{{ form.controls.rating.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -65,6 +80,9 @@
 					{{ source }}
 				</mat-option>
 			</mat-select>
+			<mat-error *ngIf="form.controls.type.hasError('invalid')">
+				{{ form.controls.type.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -74,6 +92,9 @@
 					{{ type }}
 				</mat-option>
 			</mat-select>
+			<mat-error *ngIf="form.controls.type.hasError('invalid')">
+				{{ form.controls.type.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -83,6 +104,9 @@
 				formControlName="trailerYoutubeUrl"
 				placeholder="Example: https://www.youtube.com/embed/QczGoCmX-pI"
 			/>
+			<mat-error *ngIf="form.controls.trailerYoutubeUrl.hasError('invalid')">
+				{{ form.controls.trailerYoutubeUrl.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item form__item_synopsis">
@@ -96,6 +120,9 @@
 			<mat-error *ngIf="form.controls.synopsis.hasError('required')">
 				{{ "Synopsis" | errorMessage : "required" }}
 			</mat-error>
+			<mat-error *ngIf="form.controls.synopsis.hasError('invalid')">
+				{{ form.controls.synopsis.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -103,12 +130,18 @@
 			<mat-error *ngIf="form.controls.titleEnglish.hasError('required')">
 				{{ "English title" | errorMessage : "required" }}
 			</mat-error>
+			<mat-error *ngIf="form.controls.titleEnglish.hasError('invalid')">
+				{{ form.controls.titleEnglish.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
 			<input matInput formControlName="titleJapanese" placeholder="Japanese title" />
 			<mat-error *ngIf="form.controls.titleJapanese.hasError('required')">
 				{{ "Japanese title" | errorMessage : "required" }}
+			</mat-error>
+			<mat-error *ngIf="form.controls.titleJapanese.hasError('invalid')">
+				{{ form.controls.titleJapanese.getError("invalid") }}
 			</mat-error>
 		</mat-form-field>
 
@@ -120,6 +153,9 @@
 			</mat-date-range-input>
 			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 			<mat-date-range-picker #picker></mat-date-range-picker>
+			<mat-error *ngIf="form.controls.aired.hasError('invalid')">
+				{{ form.controls.aired.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-checkbox class="form__item" [formControl]="form.controls.airing">Airing</mat-checkbox>
@@ -129,6 +165,9 @@
 			<input matInput formControlName="created" [matDatepicker]="picker1" />
 			<mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
 			<mat-datepicker #picker1></mat-datepicker>
+			<mat-error *ngIf="form.controls.created.hasError('invalid')">
+				{{ form.controls.created.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item">
@@ -136,18 +175,21 @@
 			<input matInput formControlName="modified" [matDatepicker]="picker2" />
 			<mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
 			<mat-datepicker #picker2></mat-datepicker>
+			<mat-error *ngIf="form.controls.modified.hasError('invalid')">
+				{{ form.controls.modified.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="form__item form__item_image">
 			<camp-custom-image-uploader
-				[defaultImage]="form.controls.image.controls.url.getRawValue()"
-				[formControl]="form.controls.image.controls.file"
+				[defaultImage]="form.controls.imageUrl.getRawValue()"
+				[formControl]="form.controls.imageFile"
 			/>
+			<mat-error>
+				{{ form.controls.imageFile.getError("invalid") }}
+			</mat-error>
 		</mat-form-field>
-		<mat-error>
-			{{ form.controls.image.getError("invalid") }}
-		</mat-error>
-
 		<button class="form__submit" mat-raised-button color="primary" type="submit">Save</button>
 	</form>
+	<camp-spinner *ngIf="isLoading$ | async" class="form-spinner" />
 </div>

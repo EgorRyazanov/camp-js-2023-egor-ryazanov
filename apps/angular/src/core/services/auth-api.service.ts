@@ -8,7 +8,9 @@ import { Registration } from '@js-camp/core/models/auth/registration';
 import { UserSecretDto } from '@js-camp/core/dtos/auth-dto/user-secret-dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Login } from '@js-camp/core/models/auth/login';
+
 import { AppErrorMapper } from '../utils/app-error.mapper';
+
 import { UrlService } from './url.service';
 
 /** Auth API. */
@@ -32,8 +34,8 @@ export class AuthApiService {
 		return this.httpClient
 			.post<UserSecretDto>(this.apiUrlService.authUrls.register, this.registrationDataMapper.toDto(registerData))
 			.pipe(
-				map((secretDto) => UserSecretMapper.fromDto(secretDto)),
-				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.registrationDataMapper)
+				map(secretDto => UserSecretMapper.fromDto(secretDto)),
+				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.registrationDataMapper),
 			);
 	}
 
@@ -45,8 +47,8 @@ export class AuthApiService {
 		return this.httpClient
 			.post<UserSecretDto>(this.apiUrlService.authUrls.login, this.loginMapper.toDto(loginData))
 			.pipe(
-				map((secretDto) => UserSecretMapper.fromDto(secretDto)),
-				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.loginMapper)
+				map(secretDto => UserSecretMapper.fromDto(secretDto)),
+				this.appErrorMapper.catchHttpErrorToAppErrorWithValidationSupport(this.loginMapper),
 			);
 	}
 
@@ -57,6 +59,6 @@ export class AuthApiService {
 	public refreshSecret(secret: UserSecret): Observable<UserSecret> {
 		return this.httpClient
 			.post<UserSecretDto>(this.apiUrlService.authUrls.refreshToken, UserSecretMapper.toDto(secret))
-			.pipe(map((secretDto) => UserSecretMapper.fromDto(secretDto)));
+			.pipe(map(secretDto => UserSecretMapper.fromDto(secretDto)));
 	}
 }
