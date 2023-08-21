@@ -3,7 +3,8 @@ import { Rating } from '../rating';
 import { Season } from '../season';
 import { Studio } from '../studio/studio';
 
-import { Aired } from './anime-detail';
+import { Aired } from '../aired';
+
 import { Source } from './anime-source';
 import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
