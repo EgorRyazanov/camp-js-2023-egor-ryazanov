@@ -10,7 +10,7 @@ export enum AnimeType {
 }
 
 /** Anime types. */
-export namespace AnimeTypes {
+export namespace AnimeType {
 
 	/** Anime types map-object to title view. */
 	const TO_TITLE_MAP: Record<AnimeType, string> = {
@@ -27,7 +27,7 @@ export namespace AnimeTypes {
 	 * Converts an anime types to readable title.
 	 * @param value Anime types.
 	 */
-	export function toReadable(value: AnimeType): string {
+	export function toReadable(value: AnimeType): string | null {
 		return TO_TITLE_MAP[value];
 	}
 }

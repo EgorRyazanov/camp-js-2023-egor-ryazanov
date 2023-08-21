@@ -1,4 +1,4 @@
-/** Status. */
+/** Anime statuses. */
 export enum AnimeStatus {
 	Finished = 'FINISHED',
 	Airing = 'AIRING',
@@ -19,7 +19,7 @@ export namespace AnimeStatus {
 	 * Converts an anime status to readable title.
 	 * @param value Anime status.
 	 */
-	export function toReadable(value: AnimeStatus): string {
+	export function toReadable(value: AnimeStatus): string | null {
 		return TO_TITLE_MAP[value];
 	}
 }

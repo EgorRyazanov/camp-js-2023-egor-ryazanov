@@ -19,39 +19,6 @@ export namespace RoutingAnimeParamsMapper {
 	export const pageSizes: readonly number[] = [5, 10, 25];
 
 	/**
-	 * Checks that value contains in enum.
-	 * @param value Value to check.
-	 * @param validatingEnum Inspector.
-	 */
-	function isType<T extends string>(value: T, validatingEnum: Record<string, string | number>): boolean {
-		return Object.values(validatingEnum).includes(value);
-	}
-
-	/**
-	 * Checks that type of value is AnimeType.
-	 * @param type Value to check.
-	 */
-	function isAnimeType(type: string): type is AnimeType {
-		return isType(type, AnimeType);
-	}
-
-	/**
-	 * Checks that type of value is OrderingDirection.
-	 * @param type Value to check.
-	 */
-	function isOrderingDirectionType(type: string): type is OrderingDirection {
-		return isType(type, OrderingDirection);
-	}
-
-	/**
-	 * Checks that type of value is OrderingField.
-	 * @param type Value to check.
-	 */
-	function isOrderingFieldType(type: string): type is AnimeOrderingField {
-		return isType(type, AnimeOrderingField);
-	}
-
-	/**
 	 * Converts unknown param to page.
 	 * @param page Unknown.
 	 * @returns Page and value was changed flag.
@@ -97,16 +64,10 @@ export namespace RoutingAnimeParamsMapper {
 	 * @returns Type and value was changed flag.
 	 */
 	export function typeToModel(type: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'type'>> {
-		if (type instanceof Array) {
-			const newTypeModel = type.filter(
-				typeElement => typeof typeElement === 'string' && isAnimeType(typeElement),
-			) as AnimeType[];
-			return { isValid: newTypeModel.length === type.length, type: newTypeModel };
-		} else if (isAnimeType(type)) {
-			return { type: [type], isValid: true };
-		}
-
-		return { type: defaultQueryParams.type, isValid: false };
+		const normalizedType = type instanceof Array ? type : [type];
+		const newTypeModel = normalizedType.filter(typeElement =>
+			Object.values(AnimeType).includes(typeElement as AnimeType));
+		return { isValid: newTypeModel.length === normalizedType.length, type: newTypeModel as AnimeType[] };
 	}
 
 	/**
@@ -115,11 +76,11 @@ export namespace RoutingAnimeParamsMapper {
 	 * @returns Field and value was changed flag.
 	 */
 	export function fieldToModel(field: Param): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'field'>> {
-		if (field instanceof Array || !isOrderingFieldType(field)) {
-			return { field: AnimeOrderingField.None, isValid: false };
+		if (Object.values(AnimeOrderingField).includes(field as AnimeOrderingField)) {
+			return { field: field as AnimeOrderingField, isValid: true };
 		}
 
-		return { field, isValid: true };
+		return { field: AnimeOrderingField.None, isValid: false };
 	}
 
 	/**
@@ -130,11 +91,11 @@ export namespace RoutingAnimeParamsMapper {
 	export function directionToModel(
 		direction: Param,
 	): IncomeStatusedQueryParams<Pick<AnimeRoutingQueryParams, 'direction'>> {
-		if (direction instanceof Array || !isOrderingDirectionType(direction)) {
-			return { direction: OrderingDirection.None, isValid: false };
+		if (Object.values(OrderingDirection).includes(direction as OrderingDirection)) {
+			return { direction: direction as OrderingDirection, isValid: true };
 		}
 
-		return { direction, isValid: true };
+		return { direction: OrderingDirection.None, isValid: false };
 	}
 
 	/**

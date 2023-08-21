@@ -7,7 +7,6 @@
 
 .animes {
   background-color: var(--background-primary-color);
-  height: 100vh;
 }
 
 .animes__form {
@@ -37,5 +36,13 @@
 
   /* It is necessary, since the elements of the table overlap the element. */
   z-index: 100;
-  background-color: var(--spinner-background-color);
+  background-color: var(--background-alternative-primary-color);
+}
+
+.table__row {
+  cursor: pointer;
+}
+
+.animes__table .table__row:hover {
+  background-color: var(--background-alternative-primary-color);
 }

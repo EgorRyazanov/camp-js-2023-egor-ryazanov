@@ -3,16 +3,29 @@ import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { MatButtonModule } from '@angular/material/button';
+
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { ReadableAnimeStatus } from './directives/anime-status.pipe';
-import { ReadableAnimeType } from './directives/anime-type.pipe';
-import { Empty } from './directives/empty.pipe';
-import { ErrorMessage } from './directives/error-message.pipe';
+import { EmptyPipe } from './pipes/empty.pipe';
+import { ErrorMessagePipe } from './pipes/error-message.pipe';
+import { YesNoPipe } from './pipes/yes-no.pipe';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 /** Shared module. */
 @NgModule({
-	declarations: [SpinnerComponent, ReadableAnimeStatus, ReadableAnimeType, Empty, ErrorMessage],
-	imports: [CommonModule, MatProgressSpinnerModule, HttpClientModule],
-	exports: [SpinnerComponent, HttpClientModule, ReadableAnimeStatus, ReadableAnimeType, Empty, ErrorMessage],
+	declarations: [SpinnerComponent, EmptyPipe, ErrorMessagePipe, YesNoPipe, VideoPlayerComponent, ErrorDialogComponent],
+	imports: [CommonModule, MatProgressSpinnerModule, HttpClientModule, MatDialogModule, MatButtonModule],
+	exports: [
+		SpinnerComponent,
+		HttpClientModule,
+		EmptyPipe,
+		ErrorMessagePipe,
+		YesNoPipe,
+		VideoPlayerComponent,
+		ErrorDialogComponent,
+	],
 })
 export class SharedModule {}

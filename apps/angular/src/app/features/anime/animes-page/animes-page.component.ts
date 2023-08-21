@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Anime, AnimePagination } from '@js-camp/core/models/anime/anime';
 import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
@@ -12,9 +12,12 @@ import {
 	RoutingAnimeParamsMapper,
 } from '@js-camp/angular/core/utils/anime-routing-params.mapper';
 import { AnimeOrderingField } from '@js-camp/core/models/anime/anime-ordering';
+
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { OrderingDirection } from '@js-camp/core/models/ordering-direction';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
+import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
@@ -25,28 +28,31 @@ type StatusedRoutingParams = IncomeValuesStatus & { params: AnimeRoutingQueryPar
 	selector: 'camp-anime-page',
 	templateUrl: './animes-page.component.html',
 	styleUrls: ['./animes-page.component.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimesPageComponent {
-	/** Router. */
-	private readonly router = inject(Router);
-
-	/** Anime service. */
-	private readonly animeService = inject(AnimeService);
-
-	/** Form builder. */
-	private readonly formBuilder = inject(NonNullableFormBuilder);
-
-	/** Active route. */
-	private readonly activeRoute = inject(ActivatedRoute);
-
 	/** Anime page. */
 	protected readonly animePage$: Observable<AnimePagination>;
 
 	/** Page sizes. */
 	protected readonly pageSizes = RoutingAnimeParamsMapper.pageSizes;
 
-	/** Status of anime. */
+	/** Status of anime loading. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
+
+	/** Anime status. */
+	protected readonly animeStatus = AnimeStatus;
+
+	/** Anime type. */
+	protected readonly animeType = AnimeType;
+
+	private readonly router = inject(Router);
+
+	private readonly animeService = inject(AnimeService);
+
+	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	private readonly activeRoute = inject(ActivatedRoute);
 
 	/** Form values. */
 	protected readonly form = this.formBuilder.group({
@@ -122,8 +128,16 @@ export class AnimesPageComponent {
 		});
 	}
 
+	/**
+	 * Navigates to details by anime id.
+	 * @param anime Anime.
+	 */
+	protected navigateToDetails(anime: Anime): void {
+		this.router.navigate(['animes/', anime.id]);
+	}
+
 	/** Current query params. */
-	public get queryParams(): AnimeRoutingQueryParams {
+	protected get queryParams(): AnimeRoutingQueryParams {
 		const query = this.activeRoute.snapshot.queryParams;
 		return {
 			search: query['search'],
@@ -154,8 +168,8 @@ export class AnimesPageComponent {
 					this.setQueryParams(params);
 				}
 				this.setFormValues(params);
-				this.isLoading$.next(true);
 			}),
+			startLoadingStatus(this.isLoading$),
 			debounceTime(DEBOUNCE_TIME),
 			switchMap(({ params }) => this.getAnimePage(params)),
 			stopLoadingStatus(this.isLoading$),

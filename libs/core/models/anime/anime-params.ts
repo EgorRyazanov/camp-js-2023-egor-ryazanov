@@ -1,6 +1,5 @@
 import { Ordering } from '../../../core/mappers/ordering.mapper';
 
-import { Rating } from './anime';
 import { AnimeOrderingField } from './anime-ordering';
 import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
@@ -17,14 +16,8 @@ export interface AnimeParameters {
 	/** Ordering. */
 	readonly ordering?: Ordering<AnimeOrderingField>;
 
-	/** Rating. */
-	readonly rating?: Rating;
-
 	/** Search. */
 	readonly search?: string;
-
-	/** Source. */
-	readonly source?: string;
 
 	/** Status. */
 	readonly status?: AnimeStatus;
@@ -34,9 +27,6 @@ export interface AnimeParameters {
 
 	/** Japanese title. */
 	readonly titleJapanese?: string;
-
-	/** Type. */
-	readonly type?: AnimeType;
 
 	/** Type in. */
 	readonly typeIn?: readonly AnimeType[];

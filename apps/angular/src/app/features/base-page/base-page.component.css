@@ -6,6 +6,16 @@
   align-items: center;
 }
 
+.header__title-link,
+.header__title-link:visited {
+  text-decoration: none;
+  color: var(--primary-contrast-color);
+}
+
+.header__title-link:hover {
+  color: var(--font-hover-color);
+}
+
 .header__title {
   margin: 0;
 }

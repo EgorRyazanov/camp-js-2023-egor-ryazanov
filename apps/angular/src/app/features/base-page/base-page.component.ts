@@ -1,5 +1,6 @@
 import { Component, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { Observable } from 'rxjs';
 
@@ -19,13 +20,20 @@ export class BasePageComponent {
 	/** Destroy ref. */
 	private readonly destroyRef = inject(DestroyRef);
 
+	/** Router. */
+	private readonly router = inject(Router);
+
 	public constructor() {
 		this.isAuthorized$ = this.userService.isAuthorized$;
 	}
 
 	/** User logouts. */
 	protected handleLogout(): void {
-		this.userService.logout().pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe();
+		this.userService
+			.logout()
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+				this.router.navigate(['auth/login']);
+			});
 	}
 }

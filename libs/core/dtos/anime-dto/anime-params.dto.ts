@@ -1,4 +1,4 @@
-import { AnimeDtoTypes, AnimeStatusDto, RatingDto } from './anime.dto';
+import { AnimeStatusDto } from './anime.dto';
 
 /** Anime parameters DTO. */
 export interface AnimeParametersDto {
@@ -12,29 +12,11 @@ export interface AnimeParametersDto {
 	/** Ordering. */
 	readonly ordering?: string;
 
-	/** Rating. */
-	readonly rating?: RatingDto;
-
-	/** Rating in. */
-	readonly rating__in?: RatingDto;
-
 	/** Search. */
 	readonly search?: string;
 
-	/** Source. */
-	readonly source?: string;
-
 	/** Status. */
 	readonly status?: AnimeStatusDto;
-
-	/** English title. */
-	readonly title_eng?: string;
-
-	/** Japanese title. */
-	readonly title_jpn?: string;
-
-	/** Type. */
-	readonly type?: AnimeDtoTypes;
 
 	/** Type in. */
 	readonly type__in?: string;

@@ -20,6 +20,7 @@ export class UrlService {
 	/** Anime urls. */
 	public readonly animeUrls = {
 		animes: this.generateURL('/api/v1/anime/anime/'),
+		animesDetail: (id: string) => this.generateURL(`/api/v1/anime/anime/${id}/`),
 	} as const;
 
 	/**
@@ -35,7 +36,7 @@ export class UrlService {
 	 * @param url URL to check.
 	 */
 	public isAnimeUrl(url: string): boolean {
-		return Object.values(this.animeUrls).includes(url);
+		return url.startsWith(this.animeUrls.animes);
 	}
 
 	/**

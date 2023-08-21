@@ -4,12 +4,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
 	name: 'empty',
 })
-export class Empty implements PipeTransform {
+export class EmptyPipe implements PipeTransform {
 	/**
 	 * Returns default message if value is empty.
 	 * @param value Any value.
 	 */
-	public transform(value: unknown): string | unknown {
+	public transform<T = unknown>(value: T): string | T {
 		if (value === '' || value == null) {
 			return 'Unknown';
 		}

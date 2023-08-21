@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ type LoginForm = ControlsOf<Login>;
 	selector: 'camp-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['../auth.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
 	/** Loading status. */
@@ -25,9 +26,6 @@ export class LoginComponent {
 
 	/** Login form. */
 	protected readonly loginForm: FormGroup<LoginForm>;
-
-	/** Common global form errors. */
-	protected readonly commonErrors$ = new BehaviorSubject('');
 
 	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
