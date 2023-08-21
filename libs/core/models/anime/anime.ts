@@ -1,6 +1,7 @@
 import { Pagination } from '../pagintation';
 
-import { Aired } from './anime-detail';
+import { Aired } from '../aired';
+
 import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
 

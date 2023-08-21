@@ -1,5 +1,5 @@
 import { AiredDto } from '../dtos/aired-dto';
-import { Aired } from '../models/anime/anime-detail';
+import { Aired } from '../models/aired';
 
 /** Aired. */
 export namespace AiredMapper {
