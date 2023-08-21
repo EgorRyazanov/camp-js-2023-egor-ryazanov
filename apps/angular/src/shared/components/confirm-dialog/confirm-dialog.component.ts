@@ -12,7 +12,6 @@ interface ConfirmDialogData {
 @Component({
 	selector: 'camp-confirm-dialog',
 	templateUrl: './confirm-dialog.component.html',
-	styleUrls: ['./confirm-dialog.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {
