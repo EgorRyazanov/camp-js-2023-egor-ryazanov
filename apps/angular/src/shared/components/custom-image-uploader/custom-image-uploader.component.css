@@ -12,11 +12,6 @@
   z-index: -1;
 }
 
-.image {
-  max-height: 200px;
-  object-fit: cover;
-}
-
 .image-button-container {
   display: flex;
   align-items: center;

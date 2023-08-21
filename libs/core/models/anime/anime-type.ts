@@ -27,11 +27,7 @@ export namespace AnimeType {
 	 * Converts an anime types to readable title.
 	 * @param value Anime types.
 	 */
-	export function toReadable(value: AnimeType | null): string | null {
-		if (value != null) {
-			return TO_TITLE_MAP[value];
-		}
-
-		return null;
+	export function toReadable(value: AnimeType): string | null {
+		return TO_TITLE_MAP[value];
 	}
 }

@@ -15,10 +15,8 @@ export class VideoPlayerComponent {
 	 * @param url Video URL.
 	 */
 	@Input({ required: true })
-	public set videoUrl(url: string | null) {
-		if (url != null) {
-			this.saveVideoUrl$.next(this.sanitizer.bypassSecurityTrustResourceUrl(url));
-		}
+	public set videoUrl(url: string) {
+		this.saveVideoUrl$.next(this.sanitizer.bypassSecurityTrustResourceUrl(url));
 	}
 
 	/** Save video URL.  */

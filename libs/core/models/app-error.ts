@@ -3,9 +3,8 @@
  * Describes validation items for target entity.
  */
 export type EntityValidationErrors<T> = {
-
 	/** Error message for certain entity property. */
-	[P in keyof T]?: PropValidationMessage<T[P]> | string;
+	[P in keyof T]?: PropValidationMessage<T[P]> | unknown | string;
 } & {
 	nonFieldErrors?: string;
 };
@@ -17,8 +16,8 @@ export type EntityValidationErrors<T> = {
 export type PropValidationMessage<T> = T extends unknown[]
 	? string
 	: T extends object
-		? EntityValidationErrors<T>
-		: string;
+	? EntityValidationErrors<T>
+	: string;
 
 /** App error. */
 export class AppError extends Error {

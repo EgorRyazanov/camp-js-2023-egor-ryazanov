@@ -19,11 +19,7 @@ export namespace AnimeStatus {
 	 * Converts an anime status to readable title.
 	 * @param value Anime status.
 	 */
-	export function toReadable(value: AnimeStatus | null): string | null {
-		if (value != null) {
-			return TO_TITLE_MAP[value];
-		}
-
-		return null;
+	export function toReadable(value: AnimeStatus): string | null {
+		return TO_TITLE_MAP[value];
 	}
 }

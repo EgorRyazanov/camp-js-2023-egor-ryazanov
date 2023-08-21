@@ -7,10 +7,10 @@ import { ValidationErrorDto } from '../dtos/error.dto';
  */
 export function extractErrorMessages(
 	errorsDto: ValidationErrorDto[] | null | undefined,
-	attribute: string | null,
+	attribute: string | null
 ): string | undefined {
 	return errorsDto
-		?.filter(errorDto => errorDto.attr === attribute)
-		.map(errorDto => errorDto.detail)
+		?.filter((errorDto) => errorDto.attr === attribute)
+		.map((errorDto) => errorDto.detail)
 		.join(' ');
 }

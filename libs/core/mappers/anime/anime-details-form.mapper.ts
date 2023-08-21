@@ -9,10 +9,67 @@ import { Source } from '../../../core/models/anime/anime-source';
 import { Rating } from '../../../core/models/rating';
 import { Season } from '../../../core/models/season';
 import { AiredMapper } from '../aired.mapper';
+import { MapperToDto, ValidationErrorMapper } from '../mappers';
+import { Injectable } from '@angular/core';
+import { ValidationErrorDto } from '@js-camp/core/dtos/error.dto';
+import { EntityValidationErrors } from '@js-camp/core/models/app-error';
+import { extractErrorMessages } from '@js-camp/core/utils/extract-error-message';
+
+/** Login DTO fields. */
+enum AnimeDataDtoFields {
+	Image = 'image',
+	TrailerYoutubeId = 'trailer_youtube_id',
+	TitleEnglish = 'title_eng',
+	TitleJapanese = 'title_jpn',
+	Type = 'type',
+	Status = 'status',
+	Source = 'source',
+	Airing = 'airing',
+	AiredNonFieldErrors = 'aired.non_field_errors',
+	AiredStart = 'aired.start',
+	AiredEnd = 'aired.end',
+	Rating = 'rating',
+	Season = 'season',
+	Synopsis = 'synopsis',
+	Studios = 'studios',
+	Genres = 'genres',
+}
 
 /** Anime Detail Form Mapper. */
-export namespace AnimeDetailFormMapper {
-	export const ANIME_RATING_TO_DTO: Readonly<Record<Rating, RatingDto>> = {
+@Injectable({
+	providedIn: 'root',
+})
+export class AnimeDetailFormMapper
+	implements MapperToDto<AnimeDetailFormDto, AnimeDetailForm>, ValidationErrorMapper<AnimeDetailForm>
+{
+	/** @inheritdoc */
+	public validationErrorFromDto(
+		errorsDto: ValidationErrorDto[] | null | undefined
+	): EntityValidationErrors<AnimeDetailForm> {
+		const titleEnglish = extractErrorMessages(errorsDto, AnimeDataDtoFields.TitleEnglish);
+		const nonFieldErrors = extractErrorMessages(errorsDto, null);
+		const airedNonFields = extractErrorMessages(errorsDto, AnimeDataDtoFields.AiredNonFieldErrors);
+		const airedStart = extractErrorMessages(errorsDto, AnimeDataDtoFields.AiredStart);
+		const airedEnd = extractErrorMessages(errorsDto, AnimeDataDtoFields.AiredEnd);
+		return {
+			titleJapanese: extractErrorMessages(errorsDto, AnimeDataDtoFields.Image),
+			image: extractErrorMessages(errorsDto, AnimeDataDtoFields.Image),
+			trailerYoutubeUrl: extractErrorMessages(errorsDto, AnimeDataDtoFields.TrailerYoutubeId),
+			titleEnglish: nonFieldErrors ? nonFieldErrors : titleEnglish,
+			type: extractErrorMessages(errorsDto, AnimeDataDtoFields.Type),
+			status: extractErrorMessages(errorsDto, AnimeDataDtoFields.Status),
+			source: extractErrorMessages(errorsDto, AnimeDataDtoFields.Source),
+			airing: extractErrorMessages(errorsDto, AnimeDataDtoFields.Airing),
+			aired: airedNonFields ? airedNonFields : airedStart ? airedStart : airedEnd,
+			rating: extractErrorMessages(errorsDto, AnimeDataDtoFields.Rating),
+			season: extractErrorMessages(errorsDto, AnimeDataDtoFields.Season),
+			synopsis: extractErrorMessages(errorsDto, AnimeDataDtoFields.Synopsis),
+			studios: extractErrorMessages(errorsDto, AnimeDataDtoFields.Studios),
+			genres: extractErrorMessages(errorsDto, AnimeDataDtoFields.Genres),
+		};
+	}
+
+	private readonly ANIME_RATING_TO_DTO: Readonly<Record<Rating, RatingDto>> = {
 		[Rating.G]: RatingDto.G,
 		[Rating.PG]: RatingDto.PG,
 		[Rating.PG_13]: RatingDto.PG_13,
@@ -22,7 +79,7 @@ export namespace AnimeDetailFormMapper {
 		[Rating.Unknown]: RatingDto.Unknown,
 	};
 
-	export const SEASON_TO_DTO: Readonly<Record<Season, SeasonDto>> = {
+	private readonly SEASON_TO_DTO: Readonly<Record<Season, SeasonDto>> = {
 		[Season.Fall]: SeasonDto.Fall,
 		[Season.NonSeasonal]: SeasonDto.NonSeasonal,
 		[Season.Spring]: SeasonDto.Spring,
@@ -30,7 +87,7 @@ export namespace AnimeDetailFormMapper {
 		[Season.Winter]: SeasonDto.Winter,
 	};
 
-	export const SOURCE_TO_DTO: Readonly<Record<Source, SourceDto>> = {
+	private readonly SOURCE_TO_DTO: Readonly<Record<Source, SourceDto>> = {
 		[Source.Book]: SourceDto.Book,
 		[Source.CardGame]: SourceDto.CardGame,
 		[Source.FourKomaManga]: SourceDto.FourKomaManga,
@@ -50,7 +107,7 @@ export namespace AnimeDetailFormMapper {
 		[Source.Radio]: SourceDto.Radio,
 	};
 
-	export const ANIME_TYPE_TO_DTO: Readonly<Record<AnimeType, AnimeTypeDto>> = {
+	private readonly ANIME_TYPE_TO_DTO: Readonly<Record<AnimeType, AnimeTypeDto>> = {
 		[AnimeType.Music]: AnimeTypeDto.Music,
 		[AnimeType.Ova]: AnimeTypeDto.Ova,
 		[AnimeType.Ona]: AnimeTypeDto.Ona,
@@ -60,7 +117,7 @@ export namespace AnimeDetailFormMapper {
 		[AnimeType.Movie]: AnimeTypeDto.Movie,
 	};
 
-	export const ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
+	private readonly ANIME_STATUS_TO_DTO: Readonly<Record<AnimeStatus, AnimeStatusDto>> = {
 		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
 		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
 		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
@@ -70,26 +127,26 @@ export namespace AnimeDetailFormMapper {
 	 * Converts Anime details form to DTO from model.
 	 * @param model Anime detail form model.
 	 */
-	export function toDto(model: AnimeDetailForm): AnimeDetailFormDto {
+	public toDto(model: AnimeDetailForm): AnimeDetailFormDto {
 		return {
 			aired: AiredMapper.toDto(model.aired),
 			airing: model.airing,
 			created: model.created?.toISOString() ?? null,
-			image: model.imageUrl,
+			image: model.image.url,
 			modified: model.modified?.toISOString() ?? null,
-			rating: ANIME_RATING_TO_DTO[model.rating],
-			season: SEASON_TO_DTO[model.season],
-			source: SOURCE_TO_DTO[model.source],
-			status: ANIME_STATUS_TO_DTO[model.status],
+			rating: this.ANIME_RATING_TO_DTO[model.rating],
+			season: this.SEASON_TO_DTO[model.season],
+			source: this.SOURCE_TO_DTO[model.source],
+			status: this.ANIME_STATUS_TO_DTO[model.status],
 			synopsis: model.synopsis,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
-			trailer_youtube_id: model.trailerYoutubeUrl?.startsWith(BASE_SHARE_YOUTUBE_URL) ?
-				model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '') :
-				null,
-			type: ANIME_TYPE_TO_DTO[model.type],
-			studios: model.studios.map(studio => studio.id),
-			genres: model.genres.map(genre => genre.id),
+			trailer_youtube_id: model.trailerYoutubeUrl?.startsWith(BASE_SHARE_YOUTUBE_URL)
+				? model.trailerYoutubeUrl?.replace(BASE_SHARE_YOUTUBE_URL, '')
+				: null,
+			type: this.ANIME_TYPE_TO_DTO[model.type],
+			studios: model.studios.map((studio) => studio.id),
+			genres: model.genres.map((genre) => genre.id),
 		};
 	}
 }

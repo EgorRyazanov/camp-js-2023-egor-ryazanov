@@ -11,17 +11,18 @@ import { DefaultParams } from '@js-camp/core/models/default-params';
 import { DefaultParamsMapper } from '@js-camp/core/mappers/default-params.mapper';
 
 import { UrlService } from './url.service';
+import { AppErrorMapper } from '../utils/app-error.mapper';
 
 /** Genres service. */
 @Injectable({
 	providedIn: 'root',
 })
 export class GenresService {
-	/** HTTP service. */
 	private readonly httpService = inject(HttpClient);
 
-	/** URL service. */
 	private readonly urlService = inject(UrlService);
+
+	private readonly appErrorMapper = inject(AppErrorMapper);
 
 	/**
 	 * Get genres.
@@ -30,10 +31,11 @@ export class GenresService {
 	public get(parameters: DefaultParams): Observable<Pagination<Genre>> {
 		return this.httpService
 			.get<GenrePaginationDto>(this.urlService.genresUrls.genres, {
-			params: new HttpParams({ fromObject: { ...DefaultParamsMapper.toDto(parameters) } }),
-		})
+				params: new HttpParams({ fromObject: { ...DefaultParamsMapper.toDto(parameters) } }),
+			})
 			.pipe(
-				map(genrePaginationDto => PaginationMapper.fromDto<GenreDto, Genre>(genrePaginationDto, GenreMapper.fromDto)),
+				map((genrePaginationDto) => PaginationMapper.fromDto<GenreDto, Genre>(genrePaginationDto, GenreMapper.fromDto)),
+				this.appErrorMapper.catchHttpErrorToAppError()
 			);
 	}
 
@@ -44,6 +46,9 @@ export class GenresService {
 	public create(parameters: DefaultParams): Observable<Genre> {
 		return this.httpService
 			.post<GenreDto>(this.urlService.genresUrls.genres, { name: parameters.name, type: GenreTypes.Genres })
-			.pipe(map(genreDto => GenreMapper.fromDto(genreDto)));
+			.pipe(
+				map((genreDto) => GenreMapper.fromDto(genreDto)),
+				this.appErrorMapper.catchHttpErrorToAppError()
+			);
 	}
 }

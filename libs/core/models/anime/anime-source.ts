@@ -45,11 +45,7 @@ export namespace Source {
 	 * Makes source readable.
 	 * @param source Source.
 	 */
-	export function toReadable(source: Source | null): string | null {
-		if (source != null) {
-			return TO_TITLE_MAP[source];
-		}
-
-		return null;
+	export function toReadable(source: Source): string | null {
+		return TO_TITLE_MAP[source];
 	}
 }

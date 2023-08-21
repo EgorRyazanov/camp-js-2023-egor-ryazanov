@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, Optional, ViewChild, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { BehaviorSubject, catchError, first } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Dest, ImageBucket } from '@js-camp/core/models/image-bucket';
-import { ImageService } from '@js-camp/angular/core/services/image.service';
-import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 
 import { BaseFormControl } from '../base-form-control/base-form-control';
 
@@ -22,15 +20,12 @@ const defaultImageParams: ImageBucket = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [{ provide: MatFormFieldControl, useExisting: CustomImageUploaderComponent }],
 })
-export class CustomImageUploaderComponent extends BaseFormControl<string> {
+export class CustomImageUploaderComponent extends BaseFormControl<File> {
 	/** Loading status. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Params. */
 	private _params: ImageBucket = { ...defaultImageParams };
-
-	/** Image service. */
-	private imageService = inject(ImageService);
 
 	/** Image ref. */
 	@ViewChild('imageInput') protected imageInput!: ElementRef<HTMLInputElement>;
@@ -79,27 +74,8 @@ export class CustomImageUploaderComponent extends BaseFormControl<string> {
 	protected uploadFile(event: Event): void {
 		const element = event.currentTarget as HTMLInputElement;
 		if (element.files != null) {
-			this.isLoading$.next(true);
-			const file = element.files[0];
-			this.params = { ...this.params, filename: file.name };
-			this.imageService
-				.create(this.params, file)
-				.pipe(
-					first(),
-					catchError((error: unknown) => {
-						this.innerControl.setValue(null);
-						this.imageUrl$.next(null);
-
-						// Puts this error because it comes in xml format.
-						this.ngControl.control?.setErrors({ uploadImage: true });
-						throw error;
-					}),
-					stopLoadingStatus(this.isLoading$),
-				)
-				.subscribe(url => {
-					this.imageUrl$.next(url);
-					this.value = url;
-				});
+			this.value = element.files[0];
+			this.imageUrl$.next(element.files[0].name);
 		}
 	}
 }

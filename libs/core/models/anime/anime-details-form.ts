@@ -28,9 +28,6 @@ export class AnimeDetailForm {
 	/** Japanese title. */
 	public readonly titleJapanese: string;
 
-	/** Image URL. */
-	public readonly imageUrl: string | null;
-
 	/** Aired dates. */
 	public readonly aired: Aired;
 
@@ -64,11 +61,16 @@ export class AnimeDetailForm {
 	/** Genres. */
 	public readonly genres: readonly Genre[];
 
+	/** Image. */
+	public readonly image: {
+		url: string | null;
+		file: File | null;
+	};
+
 	public constructor(animeDetailData: AnimeDetailForm) {
 		this.aired = animeDetailData.aired;
 		this.airing = animeDetailData.airing;
 		this.created = animeDetailData.created;
-		this.imageUrl = animeDetailData.imageUrl;
 		this.modified = animeDetailData.modified;
 		this.rating = animeDetailData.rating;
 		this.season = animeDetailData.season;
@@ -81,5 +83,6 @@ export class AnimeDetailForm {
 		this.type = animeDetailData.type;
 		this.genres = animeDetailData.genres;
 		this.studios = animeDetailData.studios;
+		this.image = animeDetailData.image;
 	}
 }

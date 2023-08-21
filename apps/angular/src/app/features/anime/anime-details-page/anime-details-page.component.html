@@ -6,14 +6,14 @@
 		<button mat-icon-button type="button" (click)="navigateToEditPage()">
 			<mat-icon aria-label="edit">edit</mat-icon>
 		</button>
-		<button type="button"(click)="navigateToCreatePage()"  mat-raised-button>Create anime</button>
+		<button type="button" (click)="navigateToCreatePage()" mat-raised-button>Create anime</button>
 	</div>
 	<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
 	<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>
 	<div class="anime__details details">
-		<div class="details__image-container">
+		<div *ngIf="anime.imageUrl as imageUrl" class="details__image-container">
 			<img class="details-image" [alt]="anime.titleEnglish" [src]="anime.imageUrl" />
-			<button color="primary" mat-raised-button type="button" (click)="openDialog(anime.imageUrl, anime.titleEnglish)">
+			<button color="primary" mat-raised-button type="button" (click)="openDialog(imageUrl, anime.titleEnglish)">
 				Open image
 			</button>
 		</div>
@@ -57,7 +57,7 @@
 			<p class="details__description-text">
 				<span class="details__description-text_bold">Modified:</span> {{ anime.modified | date | empty }}
 			</p>
-			<camp-video-player class="details__video" [videoUrl]="anime.trailerYoutubeUrl" />
+			<camp-video-player *ngIf="anime.trailerYoutubeUrl as url" class="details__video" [videoUrl]="url" />
 		</article>
 	</div>
 </div>

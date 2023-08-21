@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, ControlValueAccessor, OnDestroy, DoCheck {
 	/** @inheritdoc */
 	@Optional()
-	private readonly formGroup = inject(FormGroupDirective);
+	protected readonly formGroup = inject(FormGroupDirective);
 
 	/** Value. */
 	private _value: T | null = null;

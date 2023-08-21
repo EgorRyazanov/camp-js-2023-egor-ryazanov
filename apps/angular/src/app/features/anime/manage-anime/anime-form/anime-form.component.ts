@@ -16,6 +16,7 @@ import { DefaultParams } from '@js-camp/core/models/default-params';
 import { StudiosService } from '@js-camp/angular/core/services/studios.service';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { catchFormErrors } from '@js-camp/angular/core/utils/catch-form-error';
 
 /** Anime Details Controls. */
 type AnimeDetailControls = ControlsOf<AnimeDetailForm>;
@@ -31,7 +32,10 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	},
 	airing: false,
 	created: null,
-	imageUrl: null,
+	image: {
+		url: null,
+		file: null,
+	},
 	modified: null,
 	rating: Rating.Unknown,
 	season: Season.NonSeasonal,
@@ -51,7 +55,6 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 	selector: 'camp-anime-form',
 	templateUrl: './anime-form.component.html',
 	styleUrls: ['./anime-form.component.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeFormComponent {
 	/** Title. */
@@ -144,17 +147,22 @@ export class AnimeFormComponent {
 		}
 		const { id } = this.activeRoute.snapshot.params;
 		const action$ =
-			this.formType === 'create' ?
-				this.animeService.createAnime(this.form.getRawValue()) :
-				this.animeService.changeAnime(id, this.form.getRawValue());
+			this.formType === 'create'
+				? this.animeService.createAnime(this.form.getRawValue())
+				: this.animeService.changeAnime(id, this.form.getRawValue());
 		action$
 			.pipe(
 				first(),
-				tap(anime => {
+				tap((anime) => {
 					this.router.navigate([`animes/${anime.id}`]);
 				}),
+				catchFormErrors(this.form)
 			)
-			.subscribe();
+			.subscribe({
+				error: () => {
+					console.log(this.form.controls.image.getError('invalid'));
+				},
+			});
 	}
 
 	/**
@@ -166,14 +174,14 @@ export class AnimeFormComponent {
 			.get(params)
 			.pipe(
 				first(),
-				map(pagination => pagination?.items),
-				tap(studios => {
+				map((pagination) => pagination?.items),
+				tap((studios) => {
 					if (studios.length > 0) {
 						this.studios$.next(studios);
 					} else {
 						this.studios$.next(null);
 					}
-				}),
+				})
 			)
 			.subscribe();
 	}
@@ -187,15 +195,15 @@ export class AnimeFormComponent {
 			.get(params)
 			.pipe(
 				first(),
-				switchMap(studios => {
+				switchMap((studios) => {
 					if (studios.count !== 0) {
 						return of(studios.items[0]);
 					}
 
 					return this.studiosService.create({ name: params.name, pageNumber: params.pageNumber });
-				}),
+				})
 			)
-			.subscribe(studio => {
+			.subscribe((studio) => {
 				this.addedStudio$.next(studio);
 			});
 	}
@@ -209,14 +217,14 @@ export class AnimeFormComponent {
 			.get(params)
 			.pipe(
 				first(),
-				map(pagination => pagination?.items),
-				tap(genres => {
+				map((pagination) => pagination?.items),
+				tap((genres) => {
 					if (genres.length > 0) {
 						this.genres$.next(genres);
 					} else {
 						this.genres$.next(null);
 					}
-				}),
+				})
 			)
 			.subscribe();
 	}
@@ -230,15 +238,15 @@ export class AnimeFormComponent {
 			.get(params)
 			.pipe(
 				first(),
-				switchMap(genres => {
+				switchMap((genres) => {
 					if (genres.count !== 0) {
 						return of(genres.items[0]);
 					}
 
 					return this.genresService.create({ name: params.name, pageNumber: params.pageNumber });
-				}),
+				})
 			)
-			.subscribe(genre => {
+			.subscribe((genre) => {
 				this.addedGenre$.next(genre);
 			});
 	}
@@ -248,7 +256,10 @@ export class AnimeFormComponent {
 	 * @param animeDetail Form values.
 	 */
 	private setFormValues(animeDetail: AnimeDetail): void {
-		this.form.patchValue({ ...animeDetail });
+		this.form.patchValue({
+			...animeDetail,
+			image: { url: animeDetail.imageUrl, file: DEFAULT_ANIME_DETAILS_FORM.image.file },
+		});
 	}
 
 	/** Initialize form. */
@@ -260,10 +271,13 @@ export class AnimeFormComponent {
 				start: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.aired.start),
 				end: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.aired.end),
 			}),
+			image: this.formBuilder.group({
+				file: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.image.file),
+				url: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.image.url),
+			}),
 			airing: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.airing, [Validators.required]),
 			rating: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.rating, [Validators.required]),
 			genres: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genres, [Validators.required]),
-			imageUrl: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.imageUrl),
 			created: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.created),
 			modified: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.modified),
 			season: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.season, [Validators.required]),

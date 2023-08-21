@@ -21,11 +21,7 @@ export namespace Season {
 	 * Makes season readable.
 	 * @param season Season.
 	 */
-	export function toReadable(season: Season | null): string | null {
-		if (season != null) {
-			return TO_TITLE_MAP[season];
-		}
-
-		return null;
+	export function toReadable(season: Season): string | null {
+		return TO_TITLE_MAP[season];
 	}
 }

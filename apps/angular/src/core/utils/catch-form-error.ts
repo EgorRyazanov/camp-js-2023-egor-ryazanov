@@ -15,7 +15,7 @@ export function catchFormErrors<T>(form: FormGroup): OperatorFunction<T, T> {
 				}
 
 				return throwError(() => errors);
-			}),
+			})
 		);
 }
 
@@ -26,7 +26,7 @@ export function catchFormErrors<T>(form: FormGroup): OperatorFunction<T, T> {
  */
 function fillFormWithError<T>(form: FormGroup, errors: EntityValidationErrors<T>): void {
 	const controlKeys = Object.keys(form.controls) as (keyof T)[];
-	controlKeys.forEach(key => {
+	controlKeys.forEach((key) => {
 		const error = errors[key];
 		const control = form.controls[key as string];
 		if (error && control) {

@@ -1,5 +1,5 @@
 <div class="image-container">
-	<img class="image" *ngIf="imageUrl$ | async as imageUrl" [src]="imageUrl" alt="new or editted image" />
+	<p *ngIf="imageUrl$ | async as imageUrl">{{ imageUrl }}</p>
 	<camp-spinner class="image-spinner" *ngIf="isLoading$ | async" />
 	<div class="image-button-container">
 		<button (click)="triggerInput()" mat-icon-button type="button"><mat-icon>insert_photo</mat-icon></button>

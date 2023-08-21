@@ -140,13 +140,13 @@
 
 		<mat-form-field class="form__item form__item_image">
 			<camp-custom-image-uploader
-				[defaultImage]="form.controls.imageUrl.getRawValue()"
-				[formControl]="form.controls.imageUrl"
+				[defaultImage]="form.controls.image.controls.url.getRawValue()"
+				[formControl]="form.controls.image.controls.file"
 			/>
-			<mat-error *ngIf="form.controls.imageUrl.hasError('uploadImage')">
-				{{ "Image" | errorMessage : "uploadImage" }}
-			</mat-error>
 		</mat-form-field>
+		<mat-error>
+			{{ form.controls.image.getError("invalid") }}
+		</mat-error>
 
 		<button class="form__submit" mat-raised-button color="primary" type="submit">Save</button>
 	</form>
