@@ -55,7 +55,7 @@ implements MapperToDto<AnimeDetailFormDto, AnimeDetailForm>, ValidationErrorMapp
 			titleJapanese: extractErrorMessages(errorsDto, AnimeDataDtoFields.TitleJapanese),
 			imageFile: extractErrorMessages(errorsDto, AnimeDataDtoFields.Image),
 			trailerYoutubeUrl: extractErrorMessages(errorsDto, AnimeDataDtoFields.TrailerYoutubeId),
-			titleEnglish: nonFieldErrors ? nonFieldErrors : titleEnglish,
+			titleEnglish: nonFieldErrors ?? titleEnglish,
 			type: extractErrorMessages(errorsDto, AnimeDataDtoFields.Type),
 			status: extractErrorMessages(errorsDto, AnimeDataDtoFields.Status),
 			source: extractErrorMessages(errorsDto, AnimeDataDtoFields.AnimeSource),
