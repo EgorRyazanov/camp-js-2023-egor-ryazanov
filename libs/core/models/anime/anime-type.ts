@@ -1,3 +1,5 @@
+import { enumToArray } from '../../../core/utils/enum-to-array';
+
 /** Anime type. */
 export enum AnimeType {
 	Tv = 'Tv',
@@ -22,6 +24,11 @@ export namespace AnimeType {
 		[AnimeType.Tv]: 'Tv',
 		[AnimeType.Unknown]: 'Unknown',
 	};
+
+	/** Converts anime type enum to array. */
+	export function toArray(): AnimeType[] {
+		return enumToArray(AnimeType);
+	}
 
 	/**
 	 * Converts an anime types to readable title.

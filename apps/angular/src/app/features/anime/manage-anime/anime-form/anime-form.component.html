@@ -40,8 +40,8 @@
 		<mat-form-field class="form__item">
 			<mat-label>Status</mat-label>
 			<mat-select formControlName="status">
-				<mat-option *ngFor="let status of statusOptions" [value]="status">
-					{{ status }}
+				<mat-option *ngFor="let statusOption of statusOptions" [value]="statusOption">
+					{{ animeStatus.toReadable(statusOption) }}
 				</mat-option>
 			</mat-select>
 			<mat-error *ngIf="form.controls.status.hasError('invalid')">
@@ -52,8 +52,8 @@
 		<mat-form-field class="form__item">
 			<mat-label>Seasons</mat-label>
 			<mat-select formControlName="season">
-				<mat-option *ngFor="let season of seasonOptions" [value]="season">
-					{{ season }}
+				<mat-option *ngFor="let seasonOption of seasonOptions" [value]="seasonOption">
+					{{ season.toReadable(seasonOption) }}
 				</mat-option>
 			</mat-select>
 			<mat-error *ngIf="form.controls.season.hasError('invalid')">
@@ -64,8 +64,8 @@
 		<mat-form-field class="form__item">
 			<mat-label>Ratings</mat-label>
 			<mat-select formControlName="rating">
-				<mat-option *ngFor="let rating of ratingOptions" [value]="rating">
-					{{ rating }}
+				<mat-option *ngFor="let ratingOption of ratingOptions" [value]="ratingOption">
+					{{ rating.toReadable(ratingOption) }}
 				</mat-option>
 			</mat-select>
 			<mat-error *ngIf="form.controls.rating.hasError('invalid')">
@@ -76,8 +76,8 @@
 		<mat-form-field class="form__item">
 			<mat-label>Source</mat-label>
 			<mat-select formControlName="source">
-				<mat-option *ngFor="let source of sourcesOptions" [value]="source">
-					{{ source }}
+				<mat-option *ngFor="let sourceOption of sourcesOptions" [value]="sourceOption">
+					{{ source.toReadable(sourceOption) }}
 				</mat-option>
 			</mat-select>
 			<mat-error *ngIf="form.controls.type.hasError('invalid')">
@@ -88,8 +88,8 @@
 		<mat-form-field class="form__item">
 			<mat-label>Types</mat-label>
 			<mat-select formControlName="type">
-				<mat-option *ngFor="let type of typesOptions" [value]="type">
-					{{ type }}
+				<mat-option *ngFor="let typeOption of typesOptions" [value]="typeOption">
+					{{ animeType.toReadable(typeOption) }}
 				</mat-option>
 			</mat-select>
 			<mat-error *ngIf="form.controls.type.hasError('invalid')">

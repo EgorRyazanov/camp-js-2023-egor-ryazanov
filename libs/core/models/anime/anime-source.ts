@@ -1,3 +1,5 @@
+import { enumToArray } from '../../../core/utils/enum-to-array';
+
 /** Anime Source. */
 export enum Source {
 	FourKomaManga = 'FourKomaManga',
@@ -40,6 +42,11 @@ export namespace Source {
 		[Source.Unknown]: 'Unknown',
 		[Source.VisialNovel]: 'Visial novel',
 	};
+
+	/** Converts source enum to array. */
+	export function toArray(): Source[] {
+		return enumToArray(Source);
+	}
 
 	/**
 	 * Makes source readable.

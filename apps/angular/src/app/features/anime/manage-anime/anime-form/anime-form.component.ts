@@ -96,20 +96,35 @@ export class AnimeFormComponent {
 		}
 	}
 
+	/** Anime status. */
+	protected readonly animeStatus = AnimeStatus;
+
+	/** Anime type. */
+	protected readonly animeType = AnimeType;
+
+	/** Rating. */
+	protected readonly rating = Rating;
+
+	/** Season. */
+	protected readonly season = Season;
+
+	/** Source. */
+	protected readonly source = Source;
+
 	/** Array of status. */
-	protected readonly statusOptions = Object.values(AnimeStatus).slice(0, -1);
+	protected readonly statusOptions = AnimeStatus.toArray();
 
 	/** Array of season. */
-	protected readonly seasonOptions = Object.values(Season).slice(0, -1);
+	protected readonly seasonOptions = Season.toArray();
 
 	/** Array of rating. */
-	protected readonly ratingOptions = Object.values(Rating).slice(0, -1);
+	protected readonly ratingOptions = Rating.toArray();
 
 	/** Array of types. */
-	protected readonly typesOptions = Object.values(AnimeType).slice(0, -1);
+	protected readonly typesOptions = AnimeType.toArray();
 
 	/** Array of source. */
-	protected readonly sourcesOptions = Object.values(Source).slice(0, -1);
+	protected readonly sourcesOptions = Source.toArray();
 
 	/** Form. */
 	protected readonly form: FormGroup<AnimeDetailControls>;
