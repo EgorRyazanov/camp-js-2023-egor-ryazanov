@@ -15,7 +15,7 @@ export namespace DefaultParamsMapper {
 		return deleteUndefinedProperties({
 			search: model.search,
 			limit: model?.pageSize ?? defaultPageSize,
-			offset: model.pageNumber * (model?.pageSize ?? defaultPageSize),
+			offset: model.pageNumber ? model.pageNumber * (model?.pageSize ?? defaultPageSize) : undefined,
 			name: model.name,
 		});
 	}

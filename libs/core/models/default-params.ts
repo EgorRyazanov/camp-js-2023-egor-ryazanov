@@ -5,7 +5,7 @@ export interface DefaultParams {
 	readonly pageSize?: number;
 
 	/** Page number. */
-	readonly pageNumber: number;
+	readonly pageNumber?: number;
 
 	/** Search. */
 	readonly search?: string;

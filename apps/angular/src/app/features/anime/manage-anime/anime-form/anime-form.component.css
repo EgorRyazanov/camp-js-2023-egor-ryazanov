@@ -2,13 +2,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  gap: var(--space-md);
 }
 
 .form__item {
-  width: 49%;
-}
-
-.form__item_synopsis {
   width: 100%;
 }
 
@@ -22,7 +19,7 @@
 }
 
 .form__submit {
-  width: 52%;
+  width: 50%;
   margin: 0 auto;
 }
 

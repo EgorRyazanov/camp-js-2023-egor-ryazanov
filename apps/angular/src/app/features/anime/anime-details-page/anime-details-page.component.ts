@@ -5,7 +5,6 @@ import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
-import { ErrorDialogService } from '@js-camp/angular/core/services/error-dialog.service';
 import { BehaviorSubject, Observable, catchError, concatMap, map, of, switchMap, tap, throwError } from 'rxjs';
 
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
@@ -15,7 +14,7 @@ import { Season } from '@js-camp/core/models/season';
 import { Source } from '@js-camp/core/models/anime/anime-source';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
-import { ConfirmService } from '@js-camp/angular/core/services/confirm.service';
+import { DialogService } from '@js-camp/angular/core/services/dialog.service';
 import { AppError } from '@js-camp/core/models/app-error';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
@@ -60,13 +59,9 @@ export class AnimeDetailsPageComponent {
 
 	private readonly activeRoute = inject(ActivatedRoute);
 
-	/** Error dialog service. */
-	private readonly errorDialogService = inject(ErrorDialogService);
+	/** Custom dialog service. */
+	private readonly customDialogService = inject(DialogService);
 
-	/** Confirmation service. */
-	private readonly confirmationService = inject(ConfirmService);
-
-	/** Router. */
 	private readonly router = inject(Router);
 
 	public constructor() {
@@ -103,8 +98,8 @@ export class AnimeDetailsPageComponent {
 
 	/** Opens delete confirm dialog. */
 	protected openDeleteConfirmationDialog(): void {
-		this.confirmationService
-			.openDialog('Are you sure you want to delete this?')
+		this.customDialogService
+			.openConfirmDialog('Are you sure you want to delete this?')
 			.afterClosed()
 			.pipe(
 				concatMap(result => {
@@ -139,7 +134,7 @@ export class AnimeDetailsPageComponent {
 			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof AppError) {
-					this.errorDialogService.openDialog(error.message);
+					this.customDialogService.openErrorDialog(error.message);
 				}
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);

@@ -61,32 +61,12 @@ export class AnimeFormComponent {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Title. */
-	private _title = 'Create anime';
-
-	/** Sets title. */
 	@Input()
-	public set title(title: string) {
-		this._title = title;
-	}
-
-	/** Gets title. */
-	public get title(): string {
-		return this._title;
-	}
+	public title = 'Create anime';
 
 	/** Form action type. */
-	private _formType: FormAction = 'create';
-
-	/** Gets form values. */
-	public get formType(): FormAction {
-		return this._formType;
-	}
-
-	/** Gets form values. */
 	@Input({ required: true })
-	public set formType(type: FormAction) {
-		this._formType = type;
-	}
+	public formType: FormAction = 'create';
 
 	/** Sets form values. */
 	@Input()
@@ -222,7 +202,7 @@ export class AnimeFormComponent {
 						return of(studios.items[0]);
 					}
 
-					return this.studiosService.create({ name: params.name, pageNumber: params.pageNumber });
+					return this.studiosService.create({ name: params.name });
 				}),
 			)
 			.subscribe(studio => {

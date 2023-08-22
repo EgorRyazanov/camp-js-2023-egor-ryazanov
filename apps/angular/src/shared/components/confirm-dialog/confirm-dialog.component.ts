@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 interface ConfirmDialogData {
 
 	/** Message. */
-	message: string;
+	readonly message: string;
 }
 
 /** Confirm dialog. */

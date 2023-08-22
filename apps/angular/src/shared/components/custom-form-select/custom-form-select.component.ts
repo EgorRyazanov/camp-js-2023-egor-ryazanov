@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, inject, EventEmitter } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	Input,
+	OnInit,
+	Output,
+	inject,
+	EventEmitter,
+	DestroyRef,
+} from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -6,6 +15,8 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { DefaultParams } from '@js-camp/core/models/default-params';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BaseFormControl } from '../base-form-control/base-form-control';
 
@@ -82,6 +93,8 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 		this.filteredItems$.next(this._items);
 	}
 
+	private readonly destroyRef = inject(DestroyRef);
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		this.params$
@@ -91,6 +104,7 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 				tap(params => {
 					this.getItems.emit(params);
 				}),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe();
 
@@ -106,6 +120,7 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 						name: defaultParams.name,
 					});
 				}),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe();
 	}
@@ -115,7 +130,9 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 	 * @param params Parametes.
 	 */
 	protected onScroll(params: DefaultParams): void {
-		this.params$.next({ ...params, pageNumber: params.pageNumber + 1 });
+		if (params.pageNumber) {
+			this.params$.next({ ...params, pageNumber: params.pageNumber + 1 });
+		}
 	}
 
 	/**
