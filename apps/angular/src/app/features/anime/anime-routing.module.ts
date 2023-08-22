@@ -6,8 +6,8 @@ import { BasePageComponent } from '../base-page/base-page.component';
 
 import { AnimesPageComponent } from './animes-page/animes-page.component';
 import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
-import { EditAnimePageComponent } from './manage-anime/edit-anime-page/edit-anime-page.component';
-import { CreateAnimePageComponent } from './manage-anime/create-anime-page/create-anime-page.component';
+import { AnimeCreatePageComponent } from './manage-anime/anime-create-page/anime-create-page.component';
+import { AnimeEditPageComponent } from './manage-anime/anime-edit-page/anime-edit-page.component';
 
 const routes: Routes = [
 	{
@@ -29,7 +29,7 @@ const routes: Routes = [
 		children: [
 			{
 				path: '',
-				component: CreateAnimePageComponent,
+				component: AnimeCreatePageComponent,
 			},
 		],
 	},
@@ -46,7 +46,7 @@ const routes: Routes = [
 			{
 				path: 'edit',
 				title: 'Edit anime',
-				component: EditAnimePageComponent,
+				component: AnimeEditPageComponent,
 			},
 		],
 	},

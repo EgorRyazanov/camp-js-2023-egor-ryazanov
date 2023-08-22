@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /** Create anime page. */
 @Component({
-	selector: 'camp-create-anime-page',
-	templateUrl: './create-anime-page.component.html',
+	selector: 'camp-anime-create-page',
+	templateUrl: './anime-create-page.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateAnimePageComponent {}
+export class AnimeCreatePageComponent {}

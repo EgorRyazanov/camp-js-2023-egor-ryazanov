@@ -20,9 +20,9 @@ import { AnimesPageComponent } from './animes-page/animes-page.component';
 import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
 import { AnimeFormComponent } from './manage-anime/anime-form/anime-form.component';
-import { EditAnimePageComponent } from './manage-anime/edit-anime-page/edit-anime-page.component';
-import { CreateAnimePageComponent } from './manage-anime/create-anime-page/create-anime-page.component';
 import { ImageDialogComponent } from './anime-details-page/components/dialog/image-dialog.component';
+import { AnimeEditPageComponent } from './manage-anime/anime-edit-page/anime-edit-page.component';
+import { AnimeCreatePageComponent } from './manage-anime/anime-create-page/anime-create-page.component';
 
 /** Anime Module. */
 @NgModule({
@@ -30,8 +30,8 @@ import { ImageDialogComponent } from './anime-details-page/components/dialog/ima
 		AnimesPageComponent,
 		AnimeDetailsPageComponent,
 		AnimeFormComponent,
-		EditAnimePageComponent,
-		CreateAnimePageComponent,
+		AnimeEditPageComponent,
+		AnimeCreatePageComponent,
 		ImageDialogComponent,
 	],
 	imports: [

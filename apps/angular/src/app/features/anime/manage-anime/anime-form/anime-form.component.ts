@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, first, map, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, map, of, switchMap, tap } from 'rxjs';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AnimeDetailForm } from '@js-camp/core/models/anime/anime-details-form';
@@ -32,10 +32,8 @@ const DEFAULT_ANIME_DETAILS_FORM: AnimeDetailForm = {
 		end: null,
 	},
 	airing: false,
-	created: null,
 	imageUrl: null,
 	imageFile: null,
-	modified: null,
 	rating: Rating.Unknown,
 	season: Season.NonSeasonal,
 	source: Source.Unknown,
@@ -110,13 +108,13 @@ export class AnimeFormComponent {
 	protected readonly form: FormGroup<AnimeDetailControls>;
 
 	/** Current pagination genres. */
-	protected readonly genres$ = new BehaviorSubject<readonly Genre[] | null>(null);
+	protected readonly genres$ = new BehaviorSubject<Genre[] | null>(null);
 
 	/** Added genre by user. */
 	protected readonly addedGenre$ = new BehaviorSubject<Genre | null>(null);
 
 	/** Current pagination studios. */
-	protected readonly studios$ = new BehaviorSubject<readonly Studio[] | null>(null);
+	protected readonly studios$ = new BehaviorSubject<Studio[] | null>(null);
 
 	/** Added studio. */
 	protected readonly addedStudio$ = new BehaviorSubject<Studio | null>(null);
@@ -153,7 +151,6 @@ export class AnimeFormComponent {
 				this.animeService.changeAnime(id, this.form.getRawValue());
 		action$
 			.pipe(
-				first(),
 				tap(anime => {
 					this.router.navigate([`animes/${anime.id}`]);
 				}),
@@ -175,11 +172,10 @@ export class AnimeFormComponent {
 		this.studiosService
 			.get(params)
 			.pipe(
-				first(),
 				map(pagination => pagination?.items),
 				tap(studios => {
 					if (studios.length > 0) {
-						this.studios$.next(studios);
+						this.studios$.next([...studios]);
 					} else {
 						this.studios$.next(null);
 					}
@@ -196,7 +192,6 @@ export class AnimeFormComponent {
 		this.studiosService
 			.get(params)
 			.pipe(
-				first(),
 				switchMap(studios => {
 					if (studios.count !== 0) {
 						return of(studios.items[0]);
@@ -218,11 +213,10 @@ export class AnimeFormComponent {
 		this.genresService
 			.get(params)
 			.pipe(
-				first(),
 				map(pagination => pagination?.items),
 				tap(genres => {
 					if (genres.length > 0) {
-						this.genres$.next(genres);
+						this.genres$.next([...genres]);
 					} else {
 						this.genres$.next(null);
 					}
@@ -239,7 +233,6 @@ export class AnimeFormComponent {
 		this.genresService
 			.get(params)
 			.pipe(
-				first(),
 				switchMap(genres => {
 					if (genres.count !== 0) {
 						return of(genres.items[0]);
@@ -278,8 +271,6 @@ export class AnimeFormComponent {
 			airing: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.airing, [Validators.required]),
 			rating: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.rating, [Validators.required]),
 			genres: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.genres, [Validators.required]),
-			created: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.created),
-			modified: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.modified),
 			season: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.season, [Validators.required]),
 			source: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.source, [Validators.required]),
 			status: this.formBuilder.control(DEFAULT_ANIME_DETAILS_FORM.status, [Validators.required]),

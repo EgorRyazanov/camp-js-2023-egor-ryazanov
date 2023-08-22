@@ -6,18 +6,6 @@ import { AnimeStatusDto, AnimeTypeDto } from './anime.dto';
 /** Anime detail form DTO. */
 export interface AnimeDetailFormDto {
 
-	/**
-	 * Created date.
-	 * @example 2023-07-13T08:25:29.562269Z.
-	 */
-	readonly created: string | null;
-
-	/**
-	 * Modified date.
-	 * @example 2023-07-13T08:25:29.562276Z.
-	 */
-	readonly modified: string | null;
-
 	/** English title. */
 	readonly title_eng: string;
 

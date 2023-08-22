@@ -8,12 +8,12 @@ import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 
 /** Edit anime page. */
 @Component({
-	selector: 'camp-edit-anime-page',
-	templateUrl: './edit-anime-page.component.html',
-	styleUrls: ['./edit-anime-page.component.css'],
+	selector: 'camp-anime-edit-page',
+	templateUrl: './anime-edit-page.component.html',
+	styleUrls: ['./anime-edit-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditAnimePageComponent {
+export class AnimeEditPageComponent {
 	/** Loading status. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 

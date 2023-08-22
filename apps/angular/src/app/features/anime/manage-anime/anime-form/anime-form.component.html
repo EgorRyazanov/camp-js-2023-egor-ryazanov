@@ -160,26 +160,6 @@
 
 		<mat-checkbox class="form__item" [formControl]="form.controls.airing">Airing</mat-checkbox>
 
-		<mat-form-field class="form__item">
-			<mat-label>Was created in...</mat-label>
-			<input matInput formControlName="created" [matDatepicker]="picker1" />
-			<mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-			<mat-datepicker #picker1></mat-datepicker>
-			<mat-error *ngIf="form.controls.created.hasError('invalid')">
-				{{ form.controls.created.getError("invalid") }}
-			</mat-error>
-		</mat-form-field>
-
-		<mat-form-field class="form__item">
-			<mat-label>Was moodified in...</mat-label>
-			<input matInput formControlName="modified" [matDatepicker]="picker2" />
-			<mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-			<mat-datepicker #picker2></mat-datepicker>
-			<mat-error *ngIf="form.controls.modified.hasError('invalid')">
-				{{ form.controls.modified.getError("invalid") }}
-			</mat-error>
-		</mat-form-field>
-
 		<mat-form-field class="form__item form__item_image">
 			<camp-custom-image-uploader
 				[defaultImage]="form.controls.imageUrl.getRawValue()"

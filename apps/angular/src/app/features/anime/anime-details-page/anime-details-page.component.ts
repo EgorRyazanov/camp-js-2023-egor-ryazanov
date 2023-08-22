@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
-import { BehaviorSubject, Observable, catchError, concatMap, map, of, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, concatMap, filter, map, switchMap, tap, throwError } from 'rxjs';
 
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
@@ -16,6 +16,8 @@ import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
 import { DialogService } from '@js-camp/angular/core/services/dialog.service';
 import { AppError } from '@js-camp/core/models/app-error';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
@@ -53,16 +55,18 @@ export class AnimeDetailsPageComponent {
 	/** ID. */
 	private readonly id$: Observable<string>;
 
+	/** Custom dialog service. */
+	private readonly customDialogService = inject(DialogService);
+
 	private readonly animeDetailsService = inject(AnimeService);
 
 	private readonly dialogService = inject(MatDialog);
 
 	private readonly activeRoute = inject(ActivatedRoute);
 
-	/** Custom dialog service. */
-	private readonly customDialogService = inject(DialogService);
-
 	private readonly router = inject(Router);
+
+	private readonly destroyRef = inject(DestroyRef);
 
 	public constructor() {
 		this.id$ = this.createIdParamStream();
@@ -102,17 +106,14 @@ export class AnimeDetailsPageComponent {
 			.openConfirmDialog('Are you sure you want to delete this?')
 			.afterClosed()
 			.pipe(
-				concatMap(result => {
-					if (result) {
-						return this.id$.pipe(
-							switchMap(id => this.animeDetailsService.deleteAnime(id)),
-							tap(() => {
-								this.router.navigate([homeUrl]);
-							}),
-						);
-					}
-					return of(result);
-				}),
+				filter(result => result === true),
+				concatMap(() => this.id$.pipe(
+					switchMap(id => this.animeDetailsService.deleteAnime(id)),
+					tap(() => {
+						this.router.navigate([homeUrl]);
+					}),
+				)),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe();
 	}
@@ -140,6 +141,7 @@ export class AnimeDetailsPageComponent {
 				return throwError(() => error);
 			}),
 			stopLoadingStatus(this.isLoading$),
+			takeUntilDestroyed(this.destroyRef),
 		);
 	}
 

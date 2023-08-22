@@ -131,9 +131,7 @@ implements MapperToDto<AnimeDetailFormDto, AnimeDetailForm>, ValidationErrorMapp
 		return {
 			aired: AiredMapper.toDto(model.aired),
 			airing: model.airing,
-			created: model.created?.toISOString() ?? null,
 			image: model.imageUrl,
-			modified: model.modified?.toISOString() ?? null,
 			rating: this.ANIME_RATING_TO_DTO[model.rating],
 			season: this.SEASON_TO_DTO[model.season],
 			source: this.SOURCE_TO_DTO[model.source],
