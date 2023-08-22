@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 interface ErrorDialogData {
 
 	/** Message. */
-	message: string;
+	readonly message: string;
 }
 
 /** Error dialog. */
