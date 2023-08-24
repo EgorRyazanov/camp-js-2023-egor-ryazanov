@@ -238,7 +238,7 @@ export class AnimeFormComponent {
 						return of(genres.items[0]);
 					}
 
-					return this.genresService.create({ name: params.name, pageNumber: params.pageNumber });
+					return this.genresService.create({ name: params.name });
 				}),
 			)
 			.subscribe(genre => {
