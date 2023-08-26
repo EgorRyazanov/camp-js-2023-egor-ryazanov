@@ -2,13 +2,13 @@
 export interface ImageBucket {
 
 	/** Dest. */
-	dest: Dest;
+	readonly dest: Dest;
 
 	/** Filename. */
-	filename?: string;
+	readonly filename?: string;
 
 	/** Content type. */
-	contentType?: string;
+	readonly contentType?: string;
 }
 
 /** Dest. */
