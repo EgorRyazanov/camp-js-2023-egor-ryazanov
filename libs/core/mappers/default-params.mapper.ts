@@ -3,7 +3,7 @@ import { deleteUndefinedProperties } from '../utils/delete-undefined-properties'
 import { DefaultParams } from '../models/default-params';
 import { DefaultParamsDto } from '../dtos/default-params';
 
-//* * Default params mapper. */
+/** Default params mapper. */
 export namespace DefaultParamsMapper {
 	const defaultPageSize = 5;
 
