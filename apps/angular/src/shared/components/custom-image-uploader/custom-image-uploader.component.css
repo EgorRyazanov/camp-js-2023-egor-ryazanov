@@ -9,6 +9,8 @@
   position: absolute;
   inset: 0;
   opacity: 0;
+
+  /* This is necessary to hide the component under the parent. */
   z-index: -1;
 }
 

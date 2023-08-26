@@ -46,6 +46,10 @@ export class UrlService {
 		return Object.values(this.authUrls).includes(url);
 	}
 
+	/**
+	 * Checks URL for accordance app URLs.
+	 * @param url URL to check.
+	 */
 	public isAppUrl(url: string): boolean {
 		return url.startsWith('/api/v1/anime');
 	}
@@ -57,6 +61,7 @@ export class UrlService {
 	public isImageUrl(url: string): boolean {
 		return url.startsWith(this.imageUrls.getParams);
 	}
+
 
 	/**
 	 * Generates URI.
