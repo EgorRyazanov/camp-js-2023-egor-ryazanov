@@ -8,7 +8,7 @@
 				formControlName="studios"
 				[items]="studios$ | async"
 				[addedItem]="addedStudio$ | async"
-				(getItems)="getStudios($event)"
+				(paramsChange)="getStudios($event)"
 				(getAddedItem)="createStudios($event)"
 			/>
 			<mat-error *ngIf="form.controls.studios.hasError('required')">
@@ -26,7 +26,7 @@
 				formControlName="genres"
 				[items]="genres$ | async"
 				[addedItem]="addedGenre$ | async"
-				(getItems)="getGenres($event)"
+				(paramsChange)="getGenres($event)"
 				(getAddedItem)="createGenres($event)"
 			/>
 			<mat-error *ngIf="form.controls.studios.hasError('required')">

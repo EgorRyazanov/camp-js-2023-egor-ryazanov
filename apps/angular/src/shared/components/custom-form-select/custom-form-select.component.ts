@@ -15,7 +15,6 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DEBOUNCE_TIME } from '@js-camp/angular/core/utils/constants';
 import { DefaultParams } from '@js-camp/core/models/default-params';
-
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BaseFormControl } from '../base-form-control/base-form-control';
@@ -72,25 +71,25 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 
 	/** Trigger to get items. */
 	@Output()
-	public getItems = new EventEmitter<DefaultParams>();
+	public paramsChange = new EventEmitter<DefaultParams>();
 
 	/** Items. */
 	private _items: T[] = [];
 
 	/** Gets items. */
 	@Input({ required: true })
-	public get items(): T[] {
-		return this._items;
+	public get items(): readonly T[] {
+		/* eslint-disable-next-line rxjs/no-subject-value*/
+		return this.filteredItems$.value;
 	}
 
 	/** Sets items. */
 	public set items(newItems: readonly T[] | null) {
 		if (newItems != null && newItems.length > 0) {
-			this._items = [...this.items, ...newItems];
+			this.filteredItems$.next([...this.items, ...newItems]);
 		} else if (newItems != null && newItems.length === 0) {
-			this._items = [];
+			this.filteredItems$.next([]);
 		}
-		this.filteredItems$.next(this._items);
 	}
 
 	private readonly destroyRef = inject(DestroyRef);
@@ -102,7 +101,7 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 				debounceTime(DEBOUNCE_TIME),
 				distinctUntilChanged(),
 				tap(params => {
-					this.getItems.emit(params);
+					this.paramsChange.emit(params);
 				}),
 				takeUntilDestroyed(this.destroyRef),
 			)
@@ -130,8 +129,18 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 	 * @param params Parametes.
 	 */
 	protected onScroll(params: DefaultParams): void {
-		if (params.pageNumber) {
+		if (params.pageNumber != null) {
 			this.params$.next({ ...params, pageNumber: params.pageNumber + 1 });
+		}
+	}
+
+	/** @inheritdoc */
+	public override onContainerClick(event: MouseEvent): void {
+		if ((event.target as Element).tagName.toLowerCase() !== 'input') {
+			const input = this._elementRef.nativeElement.querySelector('input');
+			if (input) {
+				input.focus();
+			}
 		}
 	}
 

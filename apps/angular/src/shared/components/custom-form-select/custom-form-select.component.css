@@ -1,15 +1,15 @@
-.auto-complete {
+.autocomplete {
   max-height: 110px;
   overflow-y: auto;
   list-style: none;
   padding: 0;
 }
 
-.auto-complete__item {
+.autocomplete__item {
   cursor: pointer;
 }
 
-.auto-complete__item:hover {
+.autocomplete__item:hover {
   color: var(--primary-color);
 }
 

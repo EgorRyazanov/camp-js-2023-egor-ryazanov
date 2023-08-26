@@ -18,7 +18,7 @@
 	(matChipInputTokenEnd)="add($event)"
 />
 <ul
-	class="auto-complete"
+	class="autocomplete"
 	infiniteScroll
 	*ngIf="params$ | async as params"
 	[scrollWindow]="false"
@@ -26,7 +26,7 @@
 	(scrolled)="onScroll(params)"
 >
 	<li
-		class="auto-complete__item"
+		class="autocomplete__item"
 		*ngFor="let element of filteredItems$ | async; trackBy: trackByAutoCompliteElements"
 		(click)="selected(element)"
 	>

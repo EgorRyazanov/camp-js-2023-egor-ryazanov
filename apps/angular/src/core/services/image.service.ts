@@ -5,7 +5,8 @@ import { Observable, map, switchMap } from 'rxjs';
 import { ImageBucket } from '@js-camp/core/models/image-bucket';
 import { ImageBucketMapper } from '@js-camp/core/mappers/image-bucket.mapper';
 import { S3InstructionsDto } from '@js-camp/core/dtos/s3-instuctions';
-import { xml2js } from 'xml-js';
+
+import { XmlImageMapper } from '@js-camp/core/mappers/xml-image.mapper';
 
 import { UrlService } from './url.service';
 
@@ -14,10 +15,8 @@ import { UrlService } from './url.service';
 	providedIn: 'root',
 })
 export class ImageService {
-	/** HTTP service. */
 	private readonly httpService = inject(HttpClient);
 
-	/** URL service. */
 	private readonly urlService = inject(UrlService);
 
 	/**
@@ -31,20 +30,7 @@ export class ImageService {
 			.pipe(
 				map(instructions => this.getImageFormData(instructions, file)),
 				switchMap(({ url, formData }) => this.httpService.post(url, formData, { responseType: 'text' })),
-				map((xml: string) => xml2js(xml, { compact: true })),
-				map(xmlResponse => {
-					if ('PostResponse' in xmlResponse) {
-						const postRespone = xmlResponse['PostResponse'];
-						if ('Location' in postRespone) {
-							const location = postRespone.Location;
-							if ('_text' in location) {
-								return location._text;
-							}
-						}
-					}
-
-					return null;
-				}),
+				map((xml: string) => XmlImageMapper.fromDto(xml)),
 			);
 	}
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
@@ -6,6 +6,7 @@ import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
 import { BehaviorSubject, Observable, catchError, concatMap, filter, map, switchMap, tap, throwError } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
@@ -14,10 +15,8 @@ import { Season } from '@js-camp/core/models/season';
 import { Source } from '@js-camp/core/models/anime/anime-source';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
-import { DialogService } from '@js-camp/angular/core/services/dialog.service';
+import { AppDialogService } from '@js-camp/angular/core/services/dialog.service';
 import { AppError } from '@js-camp/core/models/app-error';
-
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
@@ -56,7 +55,7 @@ export class AnimeDetailsPageComponent {
 	private readonly id$: Observable<string>;
 
 	/** Custom dialog service. */
-	private readonly customDialogService = inject(DialogService);
+	private readonly appDialogService = inject(AppDialogService);
 
 	private readonly animeDetailsService = inject(AnimeService);
 
@@ -65,8 +64,6 @@ export class AnimeDetailsPageComponent {
 	private readonly activeRoute = inject(ActivatedRoute);
 
 	private readonly router = inject(Router);
-
-	private readonly destroyRef = inject(DestroyRef);
 
 	public constructor() {
 		this.id$ = this.createIdParamStream();
@@ -102,7 +99,7 @@ export class AnimeDetailsPageComponent {
 
 	/** Opens delete confirm dialog. */
 	protected openDeleteConfirmationDialog(): void {
-		this.customDialogService
+		this.appDialogService
 			.openConfirmDialog('Are you sure you want to delete this?')
 			.afterClosed()
 			.pipe(
@@ -110,22 +107,12 @@ export class AnimeDetailsPageComponent {
 				concatMap(() => this.id$.pipe(
 					switchMap(id => this.animeDetailsService.deleteAnime(id)),
 					tap(() => {
-						this.router.navigate([homeUrl]);
+						this.router.navigateByUrl(homeUrl);
 					}),
 				)),
-				takeUntilDestroyed(this.destroyRef),
+				takeUntilDestroyed(),
 			)
 			.subscribe();
-	}
-
-	/** Navigates to edit page. */
-	protected navigateToEditPage(): void {
-		this.router.navigate([`${this.router.url}/edit`]);
-	}
-
-	/** Navigates to create page. */
-	protected navigateToCreatePage(): void {
-		this.router.navigate([`${homeUrl}/create`]);
 	}
 
 	/** Creates anime stream. */
@@ -135,13 +122,13 @@ export class AnimeDetailsPageComponent {
 			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof AppError) {
-					this.customDialogService.openErrorDialog(error.message);
+					this.appDialogService.openErrorDialog(error.message);
 				}
 				this.router.navigate([homeUrl]);
 				return throwError(() => error);
 			}),
 			stopLoadingStatus(this.isLoading$),
-			takeUntilDestroyed(this.destroyRef),
+			takeUntilDestroyed(),
 		);
 	}
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, Optional, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject } from 'rxjs';
@@ -32,7 +32,6 @@ export class CustomImageUploaderComponent extends BaseFormControl<File> {
 
 	/** Sets params. */
 	@Input()
-	@Optional()
 	public set params(params: ImageBucket) {
 		this._params = { ...this._params, ...params };
 	}
@@ -64,6 +63,16 @@ export class CustomImageUploaderComponent extends BaseFormControl<File> {
 	protected triggerInput(): void {
 		if (this.imageInput != null) {
 			this.imageInput.nativeElement.click();
+		}
+	}
+
+	/** @inheritdoc */
+	public override onContainerClick(event: MouseEvent): void {
+		if ((event.target as Element).tagName.toLowerCase() !== 'input') {
+			const input = this._elementRef.nativeElement.querySelector('input');
+			if (input) {
+				input.focus();
+			}
 		}
 	}
 

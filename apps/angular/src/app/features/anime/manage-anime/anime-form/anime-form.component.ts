@@ -152,7 +152,7 @@ export class AnimeFormComponent {
 		action$
 			.pipe(
 				tap(anime => {
-					this.router.navigate([`animes/${anime.id}`]);
+					this.router.navigate(['animes', `${anime.id}`]);
 				}),
 				stopLoadingStatus(this.isLoading$),
 				catchFormErrors(this.form),

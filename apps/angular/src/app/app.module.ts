@@ -5,7 +5,6 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { ErrorInterceptor } from '../core/interceptors/error.interceptor';

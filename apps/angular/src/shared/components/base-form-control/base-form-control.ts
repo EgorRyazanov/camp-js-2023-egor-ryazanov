@@ -1,4 +1,4 @@
-import { Directive, DoCheck, ElementRef, HostBinding, Input, OnDestroy, Optional, inject } from '@angular/core';
+import { Directive, DoCheck, ElementRef, HostBinding, Input, OnDestroy, inject } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
@@ -7,8 +7,7 @@ import { Subject } from 'rxjs';
 @Directive()
 export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, ControlValueAccessor, OnDestroy, DoCheck {
 	/** @inheritdoc */
-	@Optional()
-	protected readonly formGroup = inject(FormGroupDirective);
+	protected readonly formGroup = inject(FormGroupDirective, { optional: true });
 
 	/** Value. */
 	private _value: T | null = null;
@@ -125,7 +124,7 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, Cont
 
 	/** @inheritdoc */
 	public ngDoCheck(): void {
-		if (this.ngControl) {
+		if (this.ngControl != null) {
 			this.updateErrorState();
 		}
 	}
@@ -133,7 +132,7 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, Cont
 	/** Updates error state. */
 	private updateErrorState(): void {
 		const oldState = this.errorState;
-		const newState = this.ngControl.invalid && (this.formGroup.submitted || this.innerControl.touched);
+		const newState = this.ngControl.invalid && this.innerControl.touched;
 		if (oldState !== newState) {
 			this.errorState = newState ?? false;
 			this.stateChanges.next();
@@ -167,14 +166,7 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, Cont
 	protected readonly _elementRef = inject(ElementRef<HTMLElement>);
 
 	/** @inheritdoc */
-	public onContainerClick(event: MouseEvent): void {
-		if ((event.target as Element).tagName.toLowerCase() !== 'input') {
-			const input = this._elementRef.nativeElement.querySelector('input');
-			if (input) {
-				input.focus();
-			}
-		}
-	}
+	public abstract onContainerClick(event: MouseEvent): void;
 
 	/** @inheritdoc */
 	public get empty(): boolean {
