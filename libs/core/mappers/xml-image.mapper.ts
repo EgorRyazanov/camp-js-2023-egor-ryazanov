@@ -4,13 +4,13 @@ import { xml2js } from 'xml-js';
 interface XmlResponse {
 
 	/** Post response. */
-	['PostResponse']: {
+	readonly ['PostResponse']: {
 
 		/** Location. */
-		['Location']: {
+		readonly ['Location']: {
 
 			/** Text. */
-			['_text']: string;
+			readonly ['_text']: string;
 		};
 	};
 }

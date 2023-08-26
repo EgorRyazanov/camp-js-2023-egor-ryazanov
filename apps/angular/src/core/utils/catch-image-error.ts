@@ -5,13 +5,13 @@ import { xml2js } from 'xml-js';
 interface ErrorText {
 
 	/** Error. */
-	['Error']: {
+	readonly ['Error']: {
 
 		/** Message. */
-		['Message']: {
+		readonly ['Message']: {
 
 			/** Text of error message. */
-			['_text']: string;
+			readonly ['_text']: string;
 		};
 	};
 }
