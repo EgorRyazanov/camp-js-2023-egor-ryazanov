@@ -99,15 +99,7 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, Cont
 	protected abstract innerControl: FormControl;
 
 	/** @inheritdoc */
-	public readonly ngControl = inject(NgControl, {
-		self: true,
-	});
-
-	public constructor() {
-		if (this.ngControl != null) {
-			this.ngControl.valueAccessor = this;
-		}
-	}
+	public readonly ngControl = inject(NgControl);
 
 	/** @inheritdoc */
 	public get errorState(): boolean {
@@ -124,9 +116,7 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, Cont
 
 	/** @inheritdoc */
 	public ngDoCheck(): void {
-		if (this.ngControl != null) {
-			this.updateErrorState();
-		}
+		this.updateErrorState();
 	}
 
 	/** Updates error state. */
