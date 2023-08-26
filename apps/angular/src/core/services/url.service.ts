@@ -46,20 +46,8 @@ export class UrlService {
 		return Object.values(this.authUrls).includes(url);
 	}
 
-	/**
-	 * Checks URL for accordance anime URLs.
-	 * @param url URL to check.
-	 */
-	public isAnimeUrl(url: string): boolean {
-		return url.startsWith(this.animeUrls.animes);
-	}
-
-	/**
-	 * Checks URL for accordance genres URLs.
-	 * @param url URL to check.
-	 */
-	public isGenresUrl(url: string): boolean {
-		return url.startsWith(this.genresUrls.genres);
+	public isAppUrl(url: string): boolean {
+		return url.startsWith('/api/v1/anime');
 	}
 
 	/**
@@ -68,14 +56,6 @@ export class UrlService {
 	 */
 	public isImageUrl(url: string): boolean {
 		return url.startsWith(this.imageUrls.getParams);
-	}
-
-	/**
-	 * Checks URL for accordance studio URLs.
-	 * @param url URL to check.
-	 */
-	public isStudioUrl(url: string): boolean {
-		return url.startsWith(this.studiosUrls.studios);
 	}
 
 	/**

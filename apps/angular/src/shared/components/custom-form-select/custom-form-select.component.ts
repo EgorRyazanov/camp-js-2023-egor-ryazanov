@@ -73,20 +73,12 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 	@Output()
 	public paramsChange = new EventEmitter<DefaultParams>();
 
-	/** Items. */
-	private _items: T[] = [];
-
-	/** Gets items. */
-	@Input({ required: true })
-	public get items(): readonly T[] {
-		/* eslint-disable-next-line rxjs/no-subject-value*/
-		return this.filteredItems$.value;
-	}
-
 	/** Sets items. */
+	@Input({ required: true })
 	public set items(newItems: readonly T[] | null) {
 		if (newItems != null && newItems.length > 0) {
-			this.filteredItems$.next([...this.items, ...newItems]);
+			/* eslint-disable-next-line rxjs/no-subject-value*/
+			this.filteredItems$.next([...this.filteredItems$.value, ...newItems]);
 		} else if (newItems != null && newItems.length === 0) {
 			this.filteredItems$.next([]);
 		}
