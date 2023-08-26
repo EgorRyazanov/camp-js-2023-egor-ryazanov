@@ -5,7 +5,7 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime/anime.mapper';
 import { Anime, AnimePagination } from '@js-camp/core/models/anime/anime';
 import { Observable, first, map, of, switchMap } from 'rxjs';
 import { AnimeParametersMapper } from '@js-camp/core/mappers/anime/anime-params.mapper';
-import { AnimeParameters } from '@js-camp/core/models/anime/anime-params';
+import { AnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { AnimeDetailDto } from '@js-camp/core/dtos/anime-dto/anime-details.dto';
 import { AnimeDetailMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
@@ -39,7 +39,7 @@ export class AnimeService {
 	 * Get anime from server.
 	 * @param parameters Parameters of current request.
 	 */
-	public getAnimes(parameters: AnimeParameters): Observable<AnimePagination> {
+	public getAnimes(parameters: AnimeParams): Observable<AnimePagination> {
 		return this.httpService
 			.get<AnimePaginationDto>(this.urlService.animeUrls.animes, {
 			params: new HttpParams({ fromObject: { ...AnimeParametersMapper.toDto(parameters) } }),

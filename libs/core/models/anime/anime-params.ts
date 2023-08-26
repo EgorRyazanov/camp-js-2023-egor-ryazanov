@@ -6,7 +6,7 @@ import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
 
 /** Anime parameters. */
-export interface AnimeParameters extends DefaultParams {
+export interface AnimeParams extends DefaultParams {
 
 	/** Ordering. */
 	readonly ordering?: Ordering<AnimeOrderingField>;
