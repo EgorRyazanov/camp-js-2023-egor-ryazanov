@@ -1,4 +1,4 @@
-import { Directive, DoCheck, ElementRef, HostBinding, Input, OnDestroy, inject } from '@angular/core';
+import { Directive, DoCheck, ElementRef, HostBinding, Input, OnDestroy, SkipSelf, inject } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
@@ -100,6 +100,12 @@ export abstract class BaseFormControl<T> implements MatFormFieldControl<T>, Cont
 
 	/** @inheritdoc */
 	public readonly ngControl = inject(NgControl);
+
+	public constructor() {
+		if (this.ngControl != null) {
+			this.ngControl.valueAccessor = this;
+		}
+	}
 
 	/** @inheritdoc */
 	public get errorState(): boolean {
