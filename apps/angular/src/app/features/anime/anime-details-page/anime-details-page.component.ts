@@ -52,7 +52,7 @@ export class AnimeDetailsPageComponent {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** ID. */
-	private readonly id$: Observable<string>;
+	private readonly id$: Observable<number>;
 
 	/** Custom dialog service. */
 	private readonly appDialogService = inject(AppDialogService);
@@ -66,7 +66,14 @@ export class AnimeDetailsPageComponent {
 	private readonly router = inject(Router);
 
 	public constructor() {
-		this.id$ = this.createIdParamStream();
+		this.id$ = this.activeRoute.paramMap.pipe(map(params => {
+			const id = Number(params.get('id'));
+			if (Number.isNaN(id)) {
+				this.router.navigateByUrl(homeUrl);
+			}
+
+			return id;
+		}));
 		this.anime$ = this.createAnimeStream();
 	}
 
@@ -130,10 +137,5 @@ export class AnimeDetailsPageComponent {
 			stopLoadingStatus(this.isLoading$),
 			takeUntilDestroyed(),
 		);
-	}
-
-	/** Creates ID stream. */
-	private createIdParamStream(): Observable<string> {
-		return this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 	}
 }

@@ -54,7 +54,7 @@ export class AnimeService {
 	 * Gets anime by ID.
 	 * @param id ID of anime.
 	 */
-	public getAnime(id: string): Observable<AnimeDetail> {
+	public getAnime(id: number): Observable<AnimeDetail> {
 		return this.httpService.get<AnimeDetailDto>(this.urlService.animeUrls.animesDetail(id)).pipe(
 			map(dto => AnimeDetailMapper.fromDto(dto)),
 			this.appErrorMapper.catchHttpErrorToAppError(),
@@ -65,7 +65,7 @@ export class AnimeService {
 	 * Gets anime by ID.
 	 * @param id ID of anime.
 	 */
-	public deleteAnime(id: string): Observable<void> {
+	public deleteAnime(id: number): Observable<void> {
 		return this.httpService.delete<void>(this.urlService.animeUrls.animesDetail(id));
 	}
 
@@ -74,7 +74,7 @@ export class AnimeService {
 	 * @param id ID.
 	 * @param body Anime details form.
 	 */
-	public changeAnime(id: string, body: AnimeDetailForm): Observable<AnimeDetail> {
+	public changeAnime(id: number, body: AnimeDetailForm): Observable<AnimeDetail> {
 		return this.uploadImage(body.imageFile).pipe(
 			switchMap(imageUrl =>
 				this.httpService.put<AnimeDetailDto>(
