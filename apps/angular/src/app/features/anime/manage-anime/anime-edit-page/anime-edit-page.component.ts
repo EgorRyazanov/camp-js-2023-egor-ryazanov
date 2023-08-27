@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { AppDialogService } from '@js-camp/angular/core/services/dialog.service';
 import { ParamsService } from '@js-camp/angular/core/services/params.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { AppError } from '@js-camp/core/models/app-error';
+import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 
 const homeUrl = '/animes';
 
@@ -26,7 +28,11 @@ export class AnimeEditPageComponent {
 
 	private readonly animeService = inject(AnimeService);
 
+	private readonly router = inject(Router);
+
 	private readonly paramsService = inject(ParamsService);
+
+	private readonly appDialogService = inject(AppDialogService);
 
 	public constructor() {
 		this.anime$ = this.createAnimeStream();
@@ -34,10 +40,17 @@ export class AnimeEditPageComponent {
 
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
-		return this.paramsService.getId(homeUrl).pipe(
+		return this.paramsService.id$.pipe(
 			startLoadingStatus(this.isLoading$),
 			switchMap(id => this.animeService.getAnime(id)),
 			stopLoadingStatus(this.isLoading$),
+			catchError((error: unknown) => {
+				if (error instanceof AppError) {
+					this.appDialogService.openErrorDialog(error.message);
+				}
+				this.router.navigateByUrl(homeUrl);
+				throw error;
+			}),
 		);
 	}
 }

@@ -121,14 +121,14 @@ export class AnimeDetailsPageComponent {
 
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
-		return this.paramsService.getId(homeUrl).pipe(
+		return this.paramsService.id$.pipe(
 			startLoadingStatus(this.isLoading$),
 			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof AppError) {
 					this.appDialogService.openErrorDialog(error.message);
 				}
-				this.router.navigate([homeUrl]);
+				this.router.navigateByUrl(homeUrl);
 				return throwError(() => error);
 			}),
 			stopLoadingStatus(this.isLoading$),
