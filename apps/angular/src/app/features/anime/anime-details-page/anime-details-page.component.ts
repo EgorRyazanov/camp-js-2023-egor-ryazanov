@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
-import { BehaviorSubject, Observable, catchError, concatMap, filter, map, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, switchMap, tap, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
@@ -18,6 +18,10 @@ import { Genre } from '@js-camp/core/models/genre/genre';
 import { AppDialogService } from '@js-camp/angular/core/services/dialog.service';
 import { AppError } from '@js-camp/core/models/app-error';
 
+import { Anime } from '@js-camp/core/models/anime/anime';
+
+import { ParamsService } from '@js-camp/angular/core/services/params.service';
+
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
 const homeUrl = '/animes';
@@ -28,6 +32,7 @@ const homeUrl = '/animes';
 	templateUrl: './anime-details-page.component.html',
 	styleUrls: ['./anime-details-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	providers: [ParamsService],
 })
 export class AnimeDetailsPageComponent {
 	/** Anime status. */
@@ -51,9 +56,6 @@ export class AnimeDetailsPageComponent {
 	/** Loading status. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
-	/** ID. */
-	private readonly id$: Observable<number>;
-
 	/** Custom dialog service. */
 	private readonly appDialogService = inject(AppDialogService);
 
@@ -61,19 +63,13 @@ export class AnimeDetailsPageComponent {
 
 	private readonly dialogService = inject(MatDialog);
 
-	private readonly activeRoute = inject(ActivatedRoute);
-
 	private readonly router = inject(Router);
 
-	public constructor() {
-		this.id$ = this.activeRoute.paramMap.pipe(map(params => {
-			const id = Number(params.get('id'));
-			if (Number.isNaN(id)) {
-				this.router.navigateByUrl(homeUrl);
-			}
+	private readonly destroyRef = inject(DestroyRef);
 
-			return id;
-		}));
+	private readonly paramsService = inject(ParamsService);
+
+	public constructor() {
 		this.anime$ = this.createAnimeStream();
 	}
 
@@ -104,27 +100,28 @@ export class AnimeDetailsPageComponent {
 		return genres.map(genre => genre.name).join(', ');
 	}
 
-	/** Opens delete confirm dialog. */
-	protected openDeleteConfirmationDialog(): void {
+	/**
+	 * Opens delete confirm dialog.
+	 * @param id ID of anime to delete.
+	 */
+	protected openDeleteConfirmationDialog(id: Anime['id']): void {
 		this.appDialogService
 			.openConfirmDialog('Are you sure you want to delete this?')
 			.afterClosed()
 			.pipe(
 				filter(result => result === true),
-				concatMap(() => this.id$.pipe(
-					switchMap(id => this.animeDetailsService.deleteAnime(id)),
-					tap(() => {
-						this.router.navigateByUrl(homeUrl);
-					}),
-				)),
-				takeUntilDestroyed(),
+				switchMap(() => this.animeDetailsService.deleteAnime(id)),
+				tap(() => {
+					this.router.navigateByUrl(homeUrl);
+				}),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe();
 	}
 
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
-		return this.id$.pipe(
+		return this.paramsService.getId(homeUrl).pipe(
 			startLoadingStatus(this.isLoading$),
 			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
@@ -135,7 +132,7 @@ export class AnimeDetailsPageComponent {
 				return throwError(() => error);
 			}),
 			stopLoadingStatus(this.isLoading$),
-			takeUntilDestroyed(),
+			takeUntilDestroyed(this.destroyRef),
 		);
 	}
 }

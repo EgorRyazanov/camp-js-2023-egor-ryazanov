@@ -1,12 +1,12 @@
 <div class="anime" *ngIf="anime$ | async as anime">
 	<div class="anime__actions">
-		<button mat-icon-button type="button" (click)="openDeleteConfirmationDialog()">
+		<button mat-icon-button type="button" (click)="openDeleteConfirmationDialog(anime.id)">
 			<mat-icon color="warn" aria-label="delete">delete</mat-icon>
 		</button>
-		<a routerLink="edit" mat-icon-button title="Anime edit page" type="button">
+		<a routerLink="edit" mat-icon-button title="Anime edit page">
 			<mat-icon aria-label="edit">edit</mat-icon>
 		</a>
-		<a [routerLink]="['../create']" title="Anime create page" type="button" mat-raised-button>Create anime</a>
+		<a [routerLink]="['../create']" title="Anime create page" mat-raised-button>Create anime</a>
 	</div>
 	<h2 class="anime__title">{{ anime.titleEnglish | empty }}</h2>
 	<h2 class="anime__title">{{ anime.titleJapanese | empty }}</h2>

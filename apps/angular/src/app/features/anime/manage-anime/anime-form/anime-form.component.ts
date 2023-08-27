@@ -151,13 +151,13 @@ export class AnimeFormComponent {
 				this.animeService.changeAnime(id, this.form.getRawValue());
 		action$
 			.pipe(
-				tap(anime => {
-					this.router.navigate(['animes', `${anime.id}`]);
-				}),
 				stopLoadingStatus(this.isLoading$),
 				catchFormErrors(this.form),
 			)
 			.subscribe({
+				next: anime => {
+					this.router.navigate(['animes', `${anime.id}`]);
+				},
 				error: () => {
 					this.cdr.markForCheck();
 				},

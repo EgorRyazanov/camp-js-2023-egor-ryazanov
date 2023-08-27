@@ -7,6 +7,8 @@ import {
 	inject,
 	EventEmitter,
 	DestroyRef,
+	ViewChild,
+	ElementRef,
 } from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
@@ -54,11 +56,15 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 	public override id = `custom-input-${CustomFormSelectComponent.nextId++}`;
 
 	/** Filtered items. */
-	protected filteredItems$ = new BehaviorSubject<readonly T[]>([]);
+	protected readonly filteredItems$ = new BehaviorSubject<readonly T[]>([]);
+
+	/** Inner input. */
+	@ViewChild('innerInput', { static: true })
+	protected readonly innerInput?: ElementRef<HTMLInputElement>;
 
 	/** Trigger to add item. */
 	@Output()
-	public getAddedItem = new EventEmitter<DefaultParams>();
+	public itemAdd = new EventEmitter<DefaultParams>();
 
 	/** Added item by user. */
 	@Input({ required: true })
@@ -88,32 +94,8 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.params$
-			.pipe(
-				debounceTime(DEBOUNCE_TIME),
-				distinctUntilChanged(),
-				tap(params => {
-					this.paramsChange.emit(params);
-				}),
-				takeUntilDestroyed(this.destroyRef),
-			)
-			.subscribe();
-
-		this.innerControl.valueChanges
-			.pipe(
-				debounceTime(DEBOUNCE_TIME),
-				distinctUntilChanged(),
-				tap(search => {
-					this.items = [];
-					this.params$.next({
-						search,
-						pageNumber: defaultParams.pageNumber,
-						name: defaultParams.name,
-					});
-				}),
-				takeUntilDestroyed(this.destroyRef),
-			)
-			.subscribe();
+		this.subcribeToParamsChanges();
+		this.subcribeToInnerControlChanges();
 	}
 
 	/**
@@ -129,10 +111,7 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 	/** @inheritdoc */
 	public override onContainerClick(event: MouseEvent): void {
 		if ((event.target as Element).tagName.toLowerCase() !== 'input') {
-			const input = this._elementRef.nativeElement.querySelector('input');
-			if (input) {
-				input.focus();
-			}
+			this.innerInput?.nativeElement?.focus();
 		}
 	}
 
@@ -147,7 +126,7 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 			return;
 		}
 
-		this.getAddedItem.emit({ name: value, pageNumber: defaultParams.pageNumber });
+		this.itemAdd.emit({ name: value, pageNumber: defaultParams.pageNumber });
 	}
 
 	/**
@@ -213,5 +192,38 @@ export class CustomFormSelectComponent<T extends object> extends BaseFormControl
 			this.value = this.value.concat(element);
 			this.innerControl.setValue('');
 		}
+	}
+
+	/** Subscribes to params changes. */
+	private subcribeToParamsChanges(): void {
+		this.params$
+			.pipe(
+				debounceTime(DEBOUNCE_TIME),
+				distinctUntilChanged(),
+				tap(params => {
+					this.paramsChange.emit(params);
+				}),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe();
+	}
+
+	/** Subcribes to inner control changes. */
+	private subcribeToInnerControlChanges(): void {
+		this.innerControl.valueChanges
+			.pipe(
+				debounceTime(DEBOUNCE_TIME),
+				distinctUntilChanged(),
+				tap(search => {
+					this.items = [];
+					this.params$.next({
+						search,
+						pageNumber: defaultParams.pageNumber,
+						name: defaultParams.name,
+					});
+				}),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe();
 	}
 }

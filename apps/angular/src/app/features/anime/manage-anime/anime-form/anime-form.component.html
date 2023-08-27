@@ -9,7 +9,7 @@
 				[items]="studios$ | async"
 				[addedItem]="addedStudio$ | async"
 				(paramsChange)="getStudios($event)"
-				(getAddedItem)="createStudios($event)"
+				(itemAdd)="createStudios($event)"
 			/>
 			<mat-error *ngIf="form.controls.studios.hasError('required')">
 				{{ "Studios" | errorMessage : "required" }}
@@ -27,7 +27,7 @@
 				[items]="genres$ | async"
 				[addedItem]="addedGenre$ | async"
 				(paramsChange)="getGenres($event)"
-				(getAddedItem)="createGenres($event)"
+				(itemAdd)="createGenres($event)"
 			/>
 			<mat-error *ngIf="form.controls.studios.hasError('required')">
 				{{ "Genres" | errorMessage : "required" }}

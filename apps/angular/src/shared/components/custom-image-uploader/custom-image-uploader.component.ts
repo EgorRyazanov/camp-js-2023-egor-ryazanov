@@ -69,10 +69,7 @@ export class CustomImageUploaderComponent extends BaseFormControl<File> {
 	/** @inheritdoc */
 	public override onContainerClick(event: MouseEvent): void {
 		if ((event.target as Element).tagName.toLowerCase() !== 'input') {
-			const input = this._elementRef.nativeElement.querySelector('input');
-			if (input) {
-				input.focus();
-			}
+			this.imageInput?.nativeElement?.click();
 		}
 	}
 

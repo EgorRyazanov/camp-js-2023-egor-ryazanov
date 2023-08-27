@@ -39,7 +39,7 @@ export class ImageService {
 	 * @param instructions Image intructions.
 	 * @param file Image.
 	 */
-	private getImageFormData(instructions: S3InstructionsDto, file: File): { url: string; formData: FormData; } {
+	private getImageFormData(instructions: S3InstructionsDto, file: File): Readonly<{ url: string; formData: FormData; }> {
 		const formData = new FormData();
 		Object.keys(instructions).forEach(instructionsKey => {
 			if (instructionsKey !== 'form_action') {
