@@ -24,24 +24,17 @@ export class AnimeEditPageComponent {
 	/** Anime. */
 	protected readonly anime$: Observable<AnimeDetail>;
 
-	/** ID. */
-	private readonly id$: Observable<number>;
-
 	private readonly animeService = inject(AnimeService);
 
 	private readonly paramsService = inject(ParamsService);
 
 	public constructor() {
-		this.id$ = this.paramsService.getId(homeUrl);
 		this.anime$ = this.createAnimeStream();
 	}
 
-	/** Active route. */
-	private readonly activeRoute = inject(ActivatedRoute);
-
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
-		return this.id$.pipe(
+		return this.paramsService.getId(homeUrl).pipe(
 			startLoadingStatus(this.isLoading$),
 			switchMap(id => this.animeService.getAnime(id)),
 			stopLoadingStatus(this.isLoading$),
