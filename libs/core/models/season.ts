@@ -1,3 +1,5 @@
+import { enumToArray } from '../utils/enum-to-array';
+
 /** Seasons. */
 export enum Season {
 	Summer = 'Summer',
@@ -16,6 +18,11 @@ export namespace Season {
 		[Season.Summer]: 'Summer',
 		[Season.Winter]: 'Winter',
 	};
+
+	/** Converts season enum to array. */
+	export function toArray(): Season[] {
+		return enumToArray(Season);
+	}
 
 	/**
 	 * Makes season readable.

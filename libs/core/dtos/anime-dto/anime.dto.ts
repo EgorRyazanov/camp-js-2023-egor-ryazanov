@@ -15,7 +15,7 @@ export interface AnimeDto {
 	readonly title_jpn: string;
 
 	/** Image. */
-	readonly image: string;
+	readonly image: string | null;
 
 	/** Type. */
 	readonly type: AnimeTypeDto;

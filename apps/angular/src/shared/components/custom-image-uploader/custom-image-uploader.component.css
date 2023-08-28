@@ -1,0 +1,25 @@
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.image-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+
+  /* This is necessary to hide the component under the parent. */
+  z-index: -1;
+}
+
+.image-button-container {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm);
+}
+
+.image-spinner {
+  align-self: center;
+}

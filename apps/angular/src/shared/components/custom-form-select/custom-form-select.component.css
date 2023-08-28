@@ -1,0 +1,18 @@
+.autocomplete {
+  max-height: 110px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+}
+
+.autocomplete__item {
+  cursor: pointer;
+}
+
+.autocomplete__item:hover {
+  color: var(--primary-color);
+}
+
+.custom-select {
+  width: 100%;
+}

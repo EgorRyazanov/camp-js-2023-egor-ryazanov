@@ -39,6 +39,7 @@
 }
 
 .details__description {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -50,4 +51,10 @@
 
 .details__description-text_bold {
   font-weight: bold;
+}
+
+.anime__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
 }

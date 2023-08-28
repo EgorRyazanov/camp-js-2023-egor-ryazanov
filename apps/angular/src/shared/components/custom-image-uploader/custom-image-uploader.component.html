@@ -1,0 +1,16 @@
+<div class="image-container">
+	<p *ngIf="imageUrl$ | async as imageUrl">{{ imageUrl }}</p>
+	<camp-spinner class="image-spinner" *ngIf="isLoading$ | async" />
+	<div class="image-button-container">
+		<button mat-icon-button type="button" (click)="triggerInput()"><mat-icon>insert_photo</mat-icon></button>
+		<span>Add image</span>
+	</div>
+	<input
+		#imageInput
+		class="image-input"
+		accept="image/*"
+		type="file"
+		[formControl]="innerControl"
+		(change)="uploadFile($event)"
+	/>
+</div>

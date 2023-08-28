@@ -2,10 +2,10 @@
  * Entity validation errors type.
  * Describes validation items for target entity.
  */
-export type EntityValidationErrors<T> = {
+export type EntityValidationErrors<T, R = unknown> = {
 
 	/** Error message for certain entity property. */
-	[P in keyof T]?: PropValidationMessage<T[P]> | string;
+	[P in keyof T]?: PropValidationMessage<T[P]> | string | R;
 } & {
 	nonFieldErrors?: string;
 };

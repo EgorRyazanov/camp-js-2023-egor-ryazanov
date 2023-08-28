@@ -27,6 +27,7 @@ export namespace AppValidators {
 			email: 'Email is incorrect',
 			minlength: `${fieldName} should contain minimum ${MIN_PASSWORD_LENGTH} symbols`,
 			matchError: `${fieldName} do not match`,
+			uploadImage: `Upload was failed.`,
 		};
 		return ERROR_TYPE_TO_MESSAGE[errorType];
 	}

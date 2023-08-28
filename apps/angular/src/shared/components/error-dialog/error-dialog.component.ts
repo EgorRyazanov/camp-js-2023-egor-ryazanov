@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /** Error dialog data. */
-interface ErrorDialogData {
+export interface ErrorDialogData {
 
 	/** Message. */
-	message: string;
+	readonly message: string;
 }
 
 /** Error dialog. */

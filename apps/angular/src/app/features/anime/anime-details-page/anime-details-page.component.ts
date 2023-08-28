@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AnimeDetail } from '@js-camp/core/models/anime/anime-detail';
 import { stopLoadingStatus } from '@js-camp/angular/core/utils/loader-stopper';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { startLoadingStatus } from '@js-camp/angular/core/utils/loader-starter';
-import { ErrorDialogService } from '@js-camp/angular/core/services/error-dialog.service';
-import { BehaviorSubject, Observable, catchError, map, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, switchMap, tap, throwError } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
@@ -15,12 +15,16 @@ import { Season } from '@js-camp/core/models/season';
 import { Source } from '@js-camp/core/models/anime/anime-source';
 import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
-
+import { AppDialogService } from '@js-camp/angular/core/services/dialog.service';
 import { AppError } from '@js-camp/core/models/app-error';
+
+import { Anime } from '@js-camp/core/models/anime/anime';
+
+import { ParamsService } from '@js-camp/angular/core/services/params.service';
 
 import { ImageDialogComponent } from './components/dialog/image-dialog.component';
 
-const homeUrl = '';
+const homeUrl = '/animes';
 
 /** Anime details page. */
 @Component({
@@ -28,6 +32,7 @@ const homeUrl = '';
 	templateUrl: './anime-details-page.component.html',
 	styleUrls: ['./anime-details-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	providers: [ParamsService],
 })
 export class AnimeDetailsPageComponent {
 	/** Anime status. */
@@ -51,21 +56,20 @@ export class AnimeDetailsPageComponent {
 	/** Loading status. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
-	/** ID. */
-	private readonly id$: Observable<string>;
+	/** Custom dialog service. */
+	private readonly appDialogService = inject(AppDialogService);
 
 	private readonly animeDetailsService = inject(AnimeService);
 
 	private readonly dialogService = inject(MatDialog);
 
-	private readonly activeRoute = inject(ActivatedRoute);
-
-	private readonly errorDialogService = inject(ErrorDialogService);
-
 	private readonly router = inject(Router);
 
+	private readonly destroyRef = inject(DestroyRef);
+
+	private readonly paramsService = inject(ParamsService);
+
 	public constructor() {
-		this.id$ = this.activeRoute.paramMap.pipe(map(params => params.get('id') ?? ''));
 		this.anime$ = this.createAnimeStream();
 	}
 
@@ -96,19 +100,39 @@ export class AnimeDetailsPageComponent {
 		return genres.map(genre => genre.name).join(', ');
 	}
 
+	/**
+	 * Opens delete confirm dialog.
+	 * @param id ID of anime to delete.
+	 */
+	protected openDeleteConfirmationDialog(id: Anime['id']): void {
+		this.appDialogService
+			.openConfirmDialog('Are you sure you want to delete this?')
+			.afterClosed()
+			.pipe(
+				filter(result => result === true),
+				switchMap(() => this.animeDetailsService.deleteAnime(id)),
+				tap(() => {
+					this.router.navigateByUrl(homeUrl);
+				}),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe();
+	}
+
 	/** Creates anime stream. */
 	private createAnimeStream(): Observable<AnimeDetail> {
-		return this.id$.pipe(
+		return this.paramsService.id$.pipe(
 			startLoadingStatus(this.isLoading$),
 			switchMap(id => this.animeDetailsService.getAnime(id)),
 			catchError((error: unknown) => {
 				if (error instanceof AppError) {
-					this.errorDialogService.openDialog(error.message);
+					this.appDialogService.openErrorDialog(error.message);
 				}
-				this.router.navigate([homeUrl]);
+				this.router.navigateByUrl(homeUrl);
 				return throwError(() => error);
 			}),
 			stopLoadingStatus(this.isLoading$),
+			takeUntilDestroyed(this.destroyRef),
 		);
 	}
 }

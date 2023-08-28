@@ -5,6 +5,17 @@ import { Aired } from '../models/aired';
 export namespace AiredMapper {
 
 	/**
+	 * Convert aired from model to DTO.
+	 * @param model Aired.
+	 */
+	export function toDto(model: Aired): AiredDto {
+		return {
+			start: model.start?.toISOString() ?? null,
+			end: model.end?.toISOString() ?? null,
+		};
+	}
+
+	/**
 	 * Convert aired from DTO to mode.
 	 * @param dto Aired DTO.
 	 */

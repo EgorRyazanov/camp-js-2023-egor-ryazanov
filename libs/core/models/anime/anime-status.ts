@@ -1,8 +1,10 @@
+import { enumToArray } from '../../../core/utils/enum-to-array';
+
 /** Anime statuses. */
 export enum AnimeStatus {
-	Finished = 'FINISHED',
-	Airing = 'AIRING',
-	NotYetAired = 'NOT_YET_AIRED',
+	Finished = 'Finished',
+	Airing = 'Airing',
+	NotYetAired = 'NotYetAired',
 }
 
 /** Anime status. */
@@ -14,6 +16,11 @@ export namespace AnimeStatus {
 		[AnimeStatus.Airing]: 'Airing',
 		[AnimeStatus.NotYetAired]: 'Not yet aired',
 	};
+
+	/** Converts anime sstatus enum to array. */
+	export function toArray(): AnimeStatus[] {
+		return enumToArray(AnimeStatus);
+	}
 
 	/**
 	 * Converts an anime status to readable title.

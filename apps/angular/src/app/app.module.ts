@@ -5,6 +5,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { ErrorInterceptor } from '../core/interceptors/error.interceptor';
 import { ApiKeyInterceptor } from '../core/interceptors/api-key.interceptor';
@@ -20,7 +21,15 @@ import { BasePageComponent } from './features/base-page/base-page.component';
 /** App module. */
 @NgModule({
 	declarations: [AppComponent, ErrorPageComponent, BasePageComponent],
-	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule, MatIconModule, MatButtonModule],
+	imports: [
+		BrowserModule,
+		SharedModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		MatIconModule,
+		MatButtonModule,
+		MatDialogModule,
+	],
 	providers: [
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true },

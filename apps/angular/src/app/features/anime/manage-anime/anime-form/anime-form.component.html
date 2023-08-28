@@ -1,0 +1,175 @@
+<div class="form-container">
+	<h1 class="form-title">{{ title }}</h1>
+	<form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
+		<mat-form-field class="form__item">
+			<camp-custom-form-select
+				class="form__item"
+				placeholder="Studios"
+				formControlName="studios"
+				[items]="studios$ | async"
+				[addedItem]="addedStudio$ | async"
+				(paramsChange)="getStudios($event)"
+				(itemAdd)="createStudios($event)"
+			/>
+			<mat-error *ngIf="form.controls.studios.hasError('required')">
+				{{ "Studios" | errorMessage : "required" }}
+			</mat-error>
+			<mat-error *ngIf="form.controls.studios.hasError('invalid')">
+				{{ form.controls.studios.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<camp-custom-form-select
+				class="form__item"
+				placeholder="Genres"
+				formControlName="genres"
+				[items]="genres$ | async"
+				[addedItem]="addedGenre$ | async"
+				(paramsChange)="getGenres($event)"
+				(itemAdd)="createGenres($event)"
+			/>
+			<mat-error *ngIf="form.controls.studios.hasError('required')">
+				{{ "Genres" | errorMessage : "required" }}
+			</mat-error>
+			<mat-error *ngIf="form.controls.genres.hasError('invalid')">
+				{{ form.controls.genres.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Status</mat-label>
+			<mat-select formControlName="status">
+				<mat-option *ngFor="let statusOption of statusOptions" [value]="statusOption">
+					{{ animeStatus.toReadable(statusOption) }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.status.hasError('invalid')">
+				{{ form.controls.status.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Seasons</mat-label>
+			<mat-select formControlName="season">
+				<mat-option *ngFor="let seasonOption of seasonOptions" [value]="seasonOption">
+					{{ season.toReadable(seasonOption) }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.season.hasError('invalid')">
+				{{ form.controls.type.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Ratings</mat-label>
+			<mat-select formControlName="rating">
+				<mat-option *ngFor="let ratingOption of ratingOptions" [value]="ratingOption">
+					{{ rating.toReadable(ratingOption) }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.rating.hasError('invalid')">
+				{{ form.controls.rating.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Source</mat-label>
+			<mat-select formControlName="source">
+				<mat-option *ngFor="let sourceOption of sourcesOptions" [value]="sourceOption">
+					{{ source.toReadable(sourceOption) }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.type.hasError('invalid')">
+				{{ form.controls.type.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Types</mat-label>
+			<mat-select formControlName="type">
+				<mat-option *ngFor="let typeOption of typesOptions" [value]="typeOption">
+					{{ animeType.toReadable(typeOption) }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.type.hasError('invalid')">
+				{{ form.controls.type.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<span>Youtube trailer url</span>
+			<input
+				matInput
+				formControlName="trailerYoutubeUrl"
+				placeholder="Example: https://www.youtube.com/embed/QczGoCmX-pI"
+			/>
+			<mat-error *ngIf="form.controls.trailerYoutubeUrl.hasError('invalid')">
+				{{ form.controls.trailerYoutubeUrl.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Synopsis</mat-label>
+			<textarea
+				class="form__item-textarea"
+				formControlName="synopsis"
+				matInput
+				placeholder="My opinion is..."
+			></textarea>
+			<mat-error *ngIf="form.controls.synopsis.hasError('required')">
+				{{ "Synopsis" | errorMessage : "required" }}
+			</mat-error>
+			<mat-error *ngIf="form.controls.synopsis.hasError('invalid')">
+				{{ form.controls.synopsis.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<input matInput formControlName="titleEnglish" placeholder="English title" />
+			<mat-error *ngIf="form.controls.titleEnglish.hasError('required')">
+				{{ "English title" | errorMessage : "required" }}
+			</mat-error>
+			<mat-error *ngIf="form.controls.titleEnglish.hasError('invalid')">
+				{{ form.controls.titleEnglish.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<input matInput formControlName="titleJapanese" placeholder="Japanese title" />
+			<mat-error *ngIf="form.controls.titleJapanese.hasError('required')">
+				{{ "Japanese title" | errorMessage : "required" }}
+			</mat-error>
+			<mat-error *ngIf="form.controls.titleJapanese.hasError('invalid')">
+				{{ form.controls.titleJapanese.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="form__item">
+			<mat-label>Enter an aired dates</mat-label>
+			<mat-date-range-input [formGroup]="form.controls.aired" [rangePicker]="picker">
+				<input matStartDate [formControl]="form.controls.aired.controls.start" placeholder="Start date" />
+				<input matEndDate [formControl]="form.controls.aired.controls.end" placeholder="End date" />
+			</mat-date-range-input>
+			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-date-range-picker #picker></mat-date-range-picker>
+			<mat-error *ngIf="form.controls.aired.hasError('invalid')">
+				{{ form.controls.aired.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+
+		<mat-checkbox class="form__item" [formControl]="form.controls.airing">Airing</mat-checkbox>
+
+		<mat-form-field class="form__item form__item_image">
+			<camp-custom-image-uploader
+				[defaultImage]="form.controls.imageUrl.getRawValue()"
+				[formControl]="form.controls.imageFile"
+			/>
+			<mat-error>
+				{{ form.controls.imageFile.getError("invalid") }}
+			</mat-error>
+		</mat-form-field>
+		<button class="form__submit" mat-raised-button color="primary" type="submit">Save</button>
+	</form>
+	<camp-spinner *ngIf="isLoading$ | async" class="form-spinner" />
+</div>

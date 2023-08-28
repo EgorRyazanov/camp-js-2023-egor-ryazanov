@@ -7,9 +7,7 @@ import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 import { AuthApiService } from './auth-api.service';
 import { UserSecretStorageService } from './user-secret-storage.service';
 
-/**
- * Stateful service for storing/managing information about the current user.
- */
+/** Stateful service for storing/managing information about the current user. */
 @Injectable({
 	providedIn: 'root',
 })

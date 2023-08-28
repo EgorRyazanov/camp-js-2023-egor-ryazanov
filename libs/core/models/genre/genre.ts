@@ -1,3 +1,5 @@
+import { Pagination } from '../pagintation';
+
 /** Genre. */
 export class Genre {
 	/** ID. */
@@ -29,6 +31,9 @@ export class Genre {
 		this.type = genreData.type;
 	}
 }
+
+/** Genre pagination. */
+export type GenrePagination = Pagination<Genre>;
 
 /** Genre types. */
 export enum GenreTypes {

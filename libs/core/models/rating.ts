@@ -1,3 +1,5 @@
+import { enumToArray } from '../utils/enum-to-array';
+
 /** Rating. */
 export enum Rating {
 	G = 'G',
@@ -6,7 +8,7 @@ export enum Rating {
 	R_17 = 'R_17',
 	R_PLUS = 'R_PLUS',
 	R_X = 'R_X',
-	Unknown = 'UNKNOWN',
+	Unknown = 'Unknown',
 }
 
 /** Rating. */
@@ -20,6 +22,11 @@ export namespace Rating {
 		[Rating.R_X]: 'R-X',
 		[Rating.Unknown]: 'Unknown',
 	};
+
+	/** Converts rating enum to array. */
+	export function toArray(): Rating[] {
+		return enumToArray(Rating);
+	}
 
 	/**
 	 * Makes rating readable.

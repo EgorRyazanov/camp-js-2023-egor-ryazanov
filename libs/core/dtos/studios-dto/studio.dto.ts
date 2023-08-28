@@ -1,3 +1,5 @@
+import { PaginationDto } from '../pagination.dto';
+
 /** Studio DTO. */
 export interface StudioDto {
 
@@ -19,3 +21,5 @@ export interface StudioDto {
 	/** Name. */
 	readonly name: string;
 }
+
+export type StudioPaginationDto = PaginationDto<StudioDto>;

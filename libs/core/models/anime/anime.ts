@@ -17,7 +17,7 @@ export class Anime {
 	public readonly titleJapanese: string;
 
 	/** Image URL. */
-	public readonly imageUrl: string;
+	public readonly imageUrl: string | null;
 
 	/** Type. */
 	public readonly type: AnimeType;

@@ -1,8 +1,9 @@
+import { BASE_SHARE_YOUTUBE_URL } from '../../utils/contansts';
+import { AnimeDetail } from '../../models/anime/anime-detail';
 import { Season } from '../../../core/models/season';
 import { Rating } from '../../../core/models/rating';
 import { Source } from '../../../core/models/anime/anime-source';
 import { AnimeDetailDto, RatingDto, SeasonDto, SourceDto } from '../../../core/dtos/anime-dto/anime-details.dto';
-import { AnimeDetail } from '../../../core/models/anime/anime-detail';
 import { GenreMapper } from '../genre/genre.mapper';
 import { StudioMapper } from '../studio/studio.mapper';
 
@@ -72,7 +73,7 @@ export namespace AnimeDetailMapper {
 			source: SOURCE_FROM_DTO[dto.source],
 			studios: dto.studios_data.map(studioDto => StudioMapper.fromDto(studioDto)),
 			synopsis: dto.synopsis,
-			trailerYoutubeUrl: dto.trailer_youtube_id ? `https://www.youtube.com/embed/${dto.trailer_youtube_id}` : null,
+			trailerYoutubeUrl: dto.trailer_youtube_id ? `${BASE_SHARE_YOUTUBE_URL}${dto.trailer_youtube_id}` : null,
 		};
 	}
 }

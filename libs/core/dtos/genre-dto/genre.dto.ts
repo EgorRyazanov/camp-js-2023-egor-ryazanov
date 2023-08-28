@@ -1,3 +1,5 @@
+import { PaginationDto } from '../pagination.dto';
+
 /** Genre DTO. */
 export interface GenreDto {
 
@@ -22,6 +24,8 @@ export interface GenreDto {
 	/** Type. */
 	readonly type: GenreTypesDto;
 }
+
+export type GenrePaginationDto = PaginationDto<GenreDto>;
 
 /** Genre types DTO. */
 export enum GenreTypesDto {

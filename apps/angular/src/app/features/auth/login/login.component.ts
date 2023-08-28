@@ -27,16 +27,12 @@ export class LoginComponent {
 	/** Login form. */
 	protected readonly loginForm: FormGroup<LoginForm>;
 
-	/** Form builder. */
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	/** User service. */
 	private readonly userService = inject(UserService);
 
-	/** Destroy ref. */
 	private readonly destroyRef = inject(DestroyRef);
 
-	/** Router. */
 	private readonly router = inject(Router);
 
 	public constructor() {
